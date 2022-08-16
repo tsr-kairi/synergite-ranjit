@@ -23,7 +23,6 @@ const useStyles = createStyles((theme) => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
-    // alignItems: 'center',
     minHeight: 900,
     width: `40%`,
     backgroundColor: theme.colors.blue[9],
@@ -34,9 +33,9 @@ const useStyles = createStyles((theme) => ({
 
   formInner: {
     width: '100%',
-    // maxWidth: `90%`,
     margin: '0 auto',
     padding: 80,
+    // backgroundColor: 'rgba(103, 169, 241, 0.17)',
     backgroundColor: theme.colors.white,
     marginTop: '140px',
   },
@@ -55,6 +54,12 @@ const useStyles = createStyles((theme) => ({
     ':hover': {
       backgroundColor: theme.colors.accent[8],
       transition: 'all 0.6s ease-in-out',
+    },
+  },
+  emailInput: {
+    // backgroundColor: theme.colors.blue[9],
+    '::-ms-input-placeholder': {
+      backgroundColor: theme.colors.blue[9],
     },
   },
 }))
@@ -77,6 +82,7 @@ export function Login() {
           </Title>
 
           <TextInput
+            className={classes.emailInput}
             label="Email address"
             placeholder="randome@gmail.com"
             size="md"
@@ -87,7 +93,7 @@ export function Login() {
             mt="md"
             size="md"
           />
-          <Checkbox label="Keep me logged in" mt="xl" size="md" />
+          <Checkbox label="Keep me logged in" mt="xl" size="sm" />
           <Button className={classes.btn} fullWidth mt="xl" size="md">
             Login
           </Button>

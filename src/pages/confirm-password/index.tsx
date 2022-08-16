@@ -2,6 +2,8 @@ import {
   Paper,
   createStyles,
   TextInput,
+  PasswordInput,
+  Checkbox,
   Button,
   Title,
   Text,
@@ -22,7 +24,6 @@ const useStyles = createStyles((theme) => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
-    // alignItems: 'center',
     minHeight: 900,
     width: `40%`,
     backgroundColor: theme.colors.blue[9],
@@ -33,11 +34,11 @@ const useStyles = createStyles((theme) => ({
 
   formInner: {
     width: '100%',
-    // maxWidth: `90%`,
     margin: '0 auto',
     padding: 80,
+    // backgroundColor: 'rgba(103, 169, 241, 0.17)',
     backgroundColor: theme.colors.white,
-    marginTop: '190px',
+    marginTop: '155px',
   },
 
   title: {
@@ -56,6 +57,12 @@ const useStyles = createStyles((theme) => ({
       transition: 'all 0.6s ease-in-out',
     },
   },
+  emailInput: {
+    // backgroundColor: theme.colors.blue[9],
+    '::-ms-input-placeholder': {
+      backgroundColor: theme.colors.blue[9],
+    },
+  },
 }))
 
 export function Login() {
@@ -66,21 +73,24 @@ export function Login() {
         <Image src={SynergiteLogo} alt="SynergiteLogo" width={200} />
         <Paper className={classes.formInner} radius={10}>
           <Title
-            order={1}
+            order={6}
             className={classes.title}
             align="left"
             mt="md"
-            mb={10}
+            mb={50}
           >
-            Forgot your Password
+            Confirm Your Password
           </Title>
-          <Text align="left" mb={40}>
-            Please enter your email to get a reset link.
-          </Text>
-
-          <TextInput
-            label="Email address"
-            placeholder="randome@gmail.com"
+          <PasswordInput
+            label="Password"
+            placeholder="★★★★★★★★"
+            mt="md"
+            size="md"
+          />
+          <PasswordInput
+            label="Confirm Password"
+            placeholder="★★★★★★★★"
+            mt="md"
             size="md"
             mb={10}
           />
@@ -94,7 +104,7 @@ export function Login() {
               Back to login page
             </Anchor>
             <Button className={classes.btn} mt="xl" size="md">
-              Reset Password
+              Confirm
             </Button>
           </Group>
         </Paper>
@@ -102,7 +112,7 @@ export function Login() {
 
       <Paper className={classes.loginImg} radius={0}>
         <Image
-          src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg?w=826&t=st=1660660363~exp=1660660963~hmac=a28395f313fa9a6cdea1d4136512a85c35e1c45ba624ff177be76e735b858dd8"
+          src="https://img.freepik.com/free-vector/login-concept-illustration_114360-757.jpg?w=826&t=st=1660660487~exp=1660661087~hmac=25452a9c404715893a9a1fcb9a5cfc8056a60a06dae96319cdd8cca781672bbb"
           alt="Login_Img"
         />
       </Paper>
