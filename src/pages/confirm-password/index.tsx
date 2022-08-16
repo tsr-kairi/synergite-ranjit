@@ -1,12 +1,9 @@
 import {
   Paper,
   createStyles,
-  TextInput,
   PasswordInput,
-  Checkbox,
   Button,
   Title,
-  Text,
   Anchor,
   Image,
   Group,
