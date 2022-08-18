@@ -7,9 +7,10 @@ import {
   Anchor,
   Image,
   Group,
+  MantineProvider,
 } from '@mantine/core'
 
-import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
+import Logo from '@/components/logo'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -40,8 +41,12 @@ const useStyles = createStyles((theme) => ({
 
   title: {
     color: theme.black,
-    // fontFamily: `Greycliff CF`,
-    fontSize: '1rem',
+    fontFamily: theme.fontFamily,
+    fontSize: '1.4rem',
+  },
+  password: {
+    color: theme.colors.accent[9],
+    fontWeight: 700,
   },
   loginImg: {
     width: '60%',
@@ -67,7 +72,7 @@ export function Login() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
-        <Image src={SynergiteLogo} alt="SynergiteLogo" width={200} />
+        <Logo />
         <Paper className={classes.formInner} radius={10}>
           <Title
             order={6}
@@ -76,7 +81,7 @@ export function Login() {
             mt="md"
             mb={50}
           >
-            Confirm Your Password
+            Confirm your <span className={classes.password}>Password</span>
           </Title>
           <PasswordInput
             label="Password"
@@ -91,18 +96,28 @@ export function Login() {
             size="md"
             mb={10}
           />
-          <Group grow>
+          <Group grow mt={20} position="apart">
             <Anchor<'a'>
               href="#login"
               weight={700}
               onClick={(event) => event.preventDefault()}
-              mt={20}
+              // mt={20}
             >
               Back to login page
             </Anchor>
-            <Button className={classes.btn} mt="xl" size="md">
-              Confirm
-            </Button>
+            <MantineProvider
+              theme={{
+                defaultGradient: {
+                  from: 'orange',
+                  to: 'red',
+                  deg: 45,
+                },
+              }}
+            >
+              <Button variant="gradient" size="md">
+                Confirm
+              </Button>
+            </MantineProvider>
           </Group>
         </Paper>
       </Paper>
@@ -111,6 +126,8 @@ export function Login() {
         <Image
           src="https://img.freepik.com/free-vector/login-concept-illustration_114360-757.jpg?w=826&t=st=1660660487~exp=1660661087~hmac=25452a9c404715893a9a1fcb9a5cfc8056a60a06dae96319cdd8cca781672bbb"
           alt="Login_Img"
+          height="100vh"
+          width="100%"
         />
       </Paper>
     </div>

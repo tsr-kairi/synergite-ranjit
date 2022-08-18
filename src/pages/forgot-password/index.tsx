@@ -8,9 +8,10 @@ import {
   Anchor,
   Image,
   Group,
+  MantineProvider,
 } from '@mantine/core'
 
-import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
+import Logo from '@/components/logo'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -42,8 +43,12 @@ const useStyles = createStyles((theme) => ({
 
   title: {
     color: theme.black,
-    // fontFamily: `Greycliff CF`,
-    fontSize: '1rem',
+    fontFamily: theme.fontFamily,
+    fontSize: '1.4rem',
+  },
+  password: {
+    color: theme.colors.accent[9],
+    fontWeight: 700,
   },
   loginImg: {
     width: '60%',
@@ -63,7 +68,7 @@ export function Login() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
-        <Image src={SynergiteLogo} alt="SynergiteLogo" width={200} />
+        <Logo />
         <Paper className={classes.formInner} radius={10}>
           <Title
             order={1}
@@ -72,9 +77,9 @@ export function Login() {
             mt="md"
             mb={10}
           >
-            Forgot your Password
+            Forgot your <span className={classes.password}>Password</span>
           </Title>
-          <Text align="left" mb={40}>
+          <Text align="left" mb={40} color={'grey'}>
             Please enter your email to get a reset link.
           </Text>
 
@@ -84,18 +89,28 @@ export function Login() {
             size="md"
             mb={10}
           />
-          <Group grow>
+          <Group grow mt={20} position="apart">
             <Anchor<'a'>
               href="#login"
               weight={700}
               onClick={(event) => event.preventDefault()}
-              mt={20}
+              // mt={20}
             >
               Back to login page
             </Anchor>
-            <Button className={classes.btn} mt="xl" size="md">
-              Reset Password
-            </Button>
+            <MantineProvider
+              theme={{
+                defaultGradient: {
+                  from: 'orange',
+                  to: 'red',
+                  deg: 45,
+                },
+              }}
+            >
+              <Button variant="gradient" size="md">
+                Reset Password
+              </Button>
+            </MantineProvider>
           </Group>
         </Paper>
       </Paper>
@@ -104,6 +119,8 @@ export function Login() {
         <Image
           src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg?w=826&t=st=1660660363~exp=1660660963~hmac=a28395f313fa9a6cdea1d4136512a85c35e1c45ba624ff177be76e735b858dd8"
           alt="Login_Img"
+          height="100vh"
+          width="100%"
         />
       </Paper>
     </div>
