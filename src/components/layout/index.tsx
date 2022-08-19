@@ -1,13 +1,9 @@
-import HeaderBar from '@/components/headerBar/HeaderBar'
-import NavBar from '@/components/navBar/NavBar'
+import NavBar from '@/components/layout/navBar/NavBar'
 import { AppShell } from '@mantine/core'
-import { ReactNode } from 'react'
+import { Outlet } from 'react-router-dom'
+import HeaderBar from './HeaderBar'
 
-interface AppShellMainProps {
-  children: ReactNode
-}
-
-const AppShellMain = ({ children }: AppShellMainProps) => {
+const AppShellMain = () => {
   return (
     <AppShell
       navbar={<NavBar />}
@@ -21,7 +17,7 @@ const AppShellMain = ({ children }: AppShellMainProps) => {
         />
       }
     >
-      {children}
+      <Outlet />
     </AppShell>
   )
 }

@@ -7,8 +7,10 @@ import {
   Text,
   UnstyledButton,
   createStyles,
+  Anchor,
 } from '@mantine/core'
 import { TablerIcon, IconChevronLeft, IconChevronRight } from '@tabler/icons'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -57,7 +59,19 @@ const useStyles = createStyles((theme) => ({
   icoTheme: {
     backgroundColor: 'rgba(103, 169, 241, 0.44)',
   },
+  anchor: {
+    color: theme.colors.grey[0],
+    fontWeight: 500,
+    fontSize: theme.fontSizes.md,
 
+    '&:hover': {
+      backgroundColor:
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark[7]
+          : theme.colors.gray[0],
+      textDecoration: 'none',
+    },
+  },
   chevron: {
     transition: 'transform 200ms ease',
   },
@@ -81,43 +95,48 @@ export default function LinksGroup({
   const [opened, setOpened] = useState(initiallyOpened || false)
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
   const items = (hasLinks ? links : []).map((link) => (
-    <Text<'a'>
-      component="a"
+    <Text
+      component={Link}
+      to={link.link}
       className={classes.link}
-      href={link.link}
       key={link.label}
-      onClick={(event) => event.preventDefault()}
     >
       {link.label}
     </Text>
   ))
-
   return (
     <>
       <UnstyledButton
         onClick={() => setOpened((o) => !o)}
         className={classes.control}
       >
-        <Group position="apart" spacing={0}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeIcon className={classes.icoTheme} size={30}>
-              <Icon size={20} />
-            </ThemeIcon>
-            <Box ml="md">{label}</Box>
-          </Box>
-          {hasLinks && (
-            <ChevronIcon
-              className={classes.chevron}
-              size={14}
-              stroke={1.5}
-              style={{
-                transform: opened
-                  ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)`
-                  : 'none',
-              }}
-            />
-          )}
-        </Group>
+        <Anchor
+          className={classes.anchor}
+          component={Link}
+          to={hasLinks ? links[0].link : '/'}
+        >
+          <Group position="apart" spacing={0}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <ThemeIcon className={classes.icoTheme} size={30}>
+                <Icon size={20} />
+              </ThemeIcon>
+              <Box ml="md">{label}</Box>
+            </Box>
+
+            {hasLinks && (
+              <ChevronIcon
+                className={classes.chevron}
+                size={14}
+                stroke={1.5}
+                style={{
+                  transform: opened
+                    ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)`
+                    : 'none',
+                }}
+              />
+            )}
+          </Group>
+        </Anchor>
       </UnstyledButton>
       {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
     </>

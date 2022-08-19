@@ -1,13 +1,7 @@
-import AppShellMain from '@/components/layout'
 import { Text } from '@mantine/core'
-import React from 'react'
 
 export const DashBoard = () => {
-  return (
-    <AppShellMain>
-      <Text>Dashboard</Text>
-    </AppShellMain>
-  )
+  return <Text>Dashboard</Text>
 }
 
 export default DashBoard

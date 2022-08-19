@@ -13,7 +13,7 @@ import {
   Group,
 } from '@mantine/core'
 
-import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
+// import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
 import Logo from '@/components/logo'
 
 const useStyles = createStyles((theme) => ({

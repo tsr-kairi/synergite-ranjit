@@ -57,7 +57,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-interface ClientTableProps {
+interface VendorTableProps {
   data: IRowData[]
 }
 
@@ -121,7 +121,7 @@ function sortData(
   )
 }
 
-export function ClientTable({ data }: ClientTableProps) {
+export function VendorTable({ data }: VendorTableProps) {
   console.log(data)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
@@ -203,7 +203,7 @@ export function ClientTable({ data }: ClientTableProps) {
   return (
     <ScrollArea>
       <div className={classes.searchHead}>
-        <Text size={'xl'}>Clients Table</Text>
+        <Text size={'xl'}>Vendors Table</Text>
         <TextInput
           placeholder="Search by any field"
           icon={<IconSearch size={14} stroke={1.5} />}

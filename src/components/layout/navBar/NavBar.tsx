@@ -10,18 +10,19 @@ import {
 import LinksGroup from './NavBarLinksGroup'
 
 const mockdata = [
-  { label: 'Dashboard', icon: IconLayoutDashboard },
+  { label: 'Dashboard', icon: IconLayoutDashboard, link: '/dashboard' },
   {
     label: 'Account',
     icon: IconWallet,
     initiallyOpened: false,
     links: [
-      { label: 'Clients', link: '/' },
-      { label: 'Vendors', link: '/' },
+      { label: 'Clients', link: '/client' },
+      { label: 'Vendors', link: '/vendor' },
     ],
   },
   {
     label: 'Employees',
+    link: '/employee',
     icon: IconUsers,
     links: [
       { label: 'First', link: '/' },
@@ -39,6 +40,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.blue[9],
     height: '100vh',
     borderTop: `1px solid ${theme.colors.blue[6]}`,
+    // display: 'none',
   },
 
   links: {
