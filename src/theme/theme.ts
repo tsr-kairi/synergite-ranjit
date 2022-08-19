@@ -58,10 +58,21 @@ const theme: MantineThemeOverride = {
     xl: '5px 5px 3px rgba(0, 0, 0, .25)',
   },
 
+  fontFamily: '"Open Sans", sans-serif',
+  fontFamilyMonospace: `"Rubik Distressed", cursive`,
+
   headings: {
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: '"Open Sans", sans-serif',
+    // fontFamily: `"Rubik Distressed", cursive`,
+    fontWeight: '700',
     sizes: {
-      h1: { fontSize: 30 },
+      // See heading options below
+      h1: { fontWeight: 100, fontSize: 32, lineHeight: 1.4 },
+      h2: { fontWeight: 100, fontSize: 28, lineHeight: 1.4 },
+      h3: { fontWeight: 100, fontSize: 24, lineHeight: 1.4 },
+      h4: { fontWeight: 100, fontSize: 20, lineHeight: 1.4 },
+      h5: { fontWeight: 100, fontSize: 16, lineHeight: 1.4 },
+      h6: { fontWeight: 100, fontSize: 14, lineHeight: 1.4 },
     },
   },
 }
