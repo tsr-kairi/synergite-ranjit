@@ -4357,7 +4357,7 @@ express-urlrewrite@^1.4.0:
     debug "*"
     path-to-regexp "^1.0.3"
 
-express@^4.17.1:
+express@^4.16.4, express@^4.17.1:
   version "4.18.1"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.1.tgz#7797de8b9c72c857b9cd0e14a5eea80666267caf"
   integrity sha512-zZBcOX9TfehHQhtupq57OF8lFZ3UZi08Y97dwFCkD8p9d/d2Y3M+ykKcwaMDEL+4qyUolgBDX6AblpR3fL212Q==
@@ -8977,6 +8977,13 @@ send@0.18.0:
     on-finished "2.4.1"
     range-parser "~1.2.1"
     statuses "2.0.1"
+
+serve-json@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/serve-json/-/serve-json-1.0.4.tgz#e8f341af02d1f7860e3ad88e50de93add4d5cd11"
+  integrity sha512-7qHlEIWcqqaDBJ9IzWSbRNoApEQ3NOLT9ByMiZGRmfGPfbwvTG58T4pZMGYoHwYPG40bP7H3+qjPiMzIr0Yp0A==
+  dependencies:
+    express "^4.16.4"
 
 serve-static@1.15.0:
   version "1.15.0"
