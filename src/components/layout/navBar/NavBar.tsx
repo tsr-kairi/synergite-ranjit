@@ -40,7 +40,10 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.blue[9],
     height: '100vh',
     borderTop: `1px solid ${theme.colors.blue[6]}`,
-    // display: 'none',
+
+    [theme.fn.smallerThan('md')]: {
+      display: 'none',
+    },
   },
 
   links: {

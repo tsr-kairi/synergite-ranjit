@@ -16,13 +16,10 @@ import { useDisclosure } from '@mantine/hooks'
 import {
   IconLogout,
   IconSettings,
-  IconTrash,
-  IconSwitchHorizontal,
   IconChevronDown,
   IconClock,
 } from '@tabler/icons'
 import Logo from '../logo'
-// import Logo from '../logo'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -42,8 +39,8 @@ const useStyles = createStyles((theme) => ({
     transition: 'background-color 100ms ease',
 
     '&:hover': {
-      backgroundColor: theme.colors.blue[0],
-      color: theme.colors.grey[9],
+      backgroundColor: theme.colors.blue[8],
+      color: theme.colors.grey[0],
     },
 
     [theme.fn.smallerThan('xs')]: {
@@ -62,27 +59,21 @@ const useStyles = createStyles((theme) => ({
   },
 
   leftSide: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '17.2%',
+    width: '300px',
     paddingLeft: '20px',
   },
   rightSide: {
     display: 'flex',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%',
-    paddingRight: '20px',
-    paddingLeft: '50px',
+    paddingRight: '25px',
+    paddingLeft: '25px',
 
-    [theme.fn.smallerThan('xl')]: {
+    [theme.fn.smallerThan('sm')]: {
       display: 'flex',
       alignItems: 'flex-end',
-      justifyContent: 'flex-end',
-      width: '0%',
-      paddingRight: '20px',
-      paddingLeft: '0px',
+      justifyContent: 'right',
     },
   },
 
@@ -93,22 +84,46 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
     borderRadius: theme.radius.sm,
     transition: 'background-color 100ms ease',
-    backgroundColor: theme.colors.blue[7],
+    backgroundColor: theme.colors.blue[8],
     cursor: 'pointer',
     '&:hover': {
       backgroundColor: theme.colors.blue[8],
     },
   },
+  accSet: {
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
+  logout: {
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
 }))
 
-interface HeaderBarProps {
+interface IHeaderBarProps {
   user: { name: string; image: string }
 }
 
-export default function HeaderBar({ user }: HeaderBarProps) {
+interface INewDateOptProps {
+  month: string
+  day: string
+  year: string
+}
+
+export default function HeaderBar({ user }: IHeaderBarProps) {
   const { classes, cx } = useStyles()
   const [opened, { toggle }] = useDisclosure(false)
   const [userMenuOpened, setUserMenuOpened] = useState(false)
+
+  // date&time
+  const newDateOpt: INewDateOptProps = {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }
+  const date = new Date()
 
   return (
     <Header className={classes.header} height={80}>
@@ -118,11 +133,10 @@ export default function HeaderBar({ user }: HeaderBarProps) {
       <Box className={classes.rightSide}>
         <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
           <Group spacing={7} className={classes.dateTime}>
-            <div>18 AUG 2022</div>
+            <div>{date.toLocaleDateString('en-US', newDateOpt)}</div>
             <IconClock size={18} stroke={2} />
           </Group>
         </MediaQuery>
-        {/* 3rd */}
         <div>
           <Group>
             <Burger
@@ -162,26 +176,17 @@ export default function HeaderBar({ user }: HeaderBarProps) {
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Label>Settings</Menu.Label>
-                <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>
+                <Menu.Item
+                  icon={<IconSettings size={14} stroke={1.5} />}
+                  className={classes.accSet}
+                >
                   Account settings
                 </Menu.Item>
                 <Menu.Item
-                  icon={<IconSwitchHorizontal size={14} stroke={1.5} />}
+                  icon={<IconLogout size={14} stroke={1.5} />}
+                  className={classes.logout}
                 >
-                  Change account
-                </Menu.Item>
-                <Menu.Item icon={<IconLogout size={14} stroke={1.5} />}>
                   Logout
-                </Menu.Item>
-
-                <Menu.Divider />
-
-                <Menu.Label>Danger zone</Menu.Label>
-                <Menu.Item
-                  color="red"
-                  icon={<IconTrash size={14} stroke={1.5} />}
-                >
-                  Delete account
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
