@@ -106,24 +106,18 @@ interface IHeaderBarProps {
   user: { name: string; image: string }
 }
 
-interface INewDateOptProps {
-  month: string
-  day: string
-  year: string
-}
+// interface INewDateOptProps {
+//   month: string
+//   day: string
+//   year: string
+// }
 
 export default function HeaderBar({ user }: IHeaderBarProps) {
   const { classes, cx } = useStyles()
   const [opened, { toggle }] = useDisclosure(false)
   const [userMenuOpened, setUserMenuOpened] = useState(false)
 
-  // date&time
-  const newDateOpt: INewDateOptProps = {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  }
-  const date = new Date()
+  const currentDay = new Date().toLocaleDateString('en-US')
 
   return (
     <Header className={classes.header} height={80}>
@@ -133,7 +127,7 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
       <Box className={classes.rightSide}>
         <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
           <Group spacing={7} className={classes.dateTime}>
-            <div>{date.toLocaleDateString('en-US', newDateOpt)}</div>
+            <div>{currentDay}</div>
             <IconClock size={18} stroke={2} />
           </Group>
         </MediaQuery>

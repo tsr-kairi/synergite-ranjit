@@ -10,7 +10,7 @@ import {
   TextInput,
   Avatar,
   Button,
-  Pagination,
+  // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -92,6 +92,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
   action: {
+    cursor: 'pointer',
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
     },
@@ -173,8 +174,6 @@ function sortData(
 
 export function ClientTable({ data }: ClientTableProps) {
   console.log(data)
-  const [activePage, setPage] = useState(data.slice(0, 10))
-  console.log(activePage)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof IRowData | null>(null)
@@ -323,10 +322,10 @@ export function ClientTable({ data }: ClientTableProps) {
           )}
         </tbody>
       </Table>
-      <div className={classes.tableBottom}>
+      {/* <div className={classes.tableBottom}>
         <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-        <Pagination total={5} size="sm" page={activePage} onChange={setPage} />
-      </div>
+        <Pagination total={5} size="sm" />
+      </div> */}
     </ScrollArea>
   )
 }
