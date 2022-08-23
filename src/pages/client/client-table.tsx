@@ -325,7 +325,7 @@ export function ClientTable({ data }: ClientTableProps) {
             <tr>
               <td colSpan={Object.keys(data[0]).length}>
                 <Text weight={500} align="center">
-                  Nothing found
+                  No records found
                 </Text>
               </td>
             </tr>

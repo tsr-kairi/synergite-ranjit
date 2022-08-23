@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 // Validation
-const zTutorial = z.object({
+const zClientData = z.object({
   id: z.any().optional(),
   avatar: z.string(),
   name: z.string(),
@@ -14,20 +14,9 @@ const zTutorial = z.object({
 })
 
 // Type Definition
-type IRowClientData = z.infer<typeof zTutorial>
+type IRowClientData = z.infer<typeof zClientData>
 
 export type { IRowClientData }
-
-// export interface IRowClientData {
-//   id: number
-//   avatar?: string
-//   name: string
-//   email: string
-//   city: string
-//   state: string
-//   edit?: string
-//   delete?: string
-// }
 
 export interface IRowVendorData {
   id: number

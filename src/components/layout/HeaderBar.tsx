@@ -61,6 +61,7 @@ const useStyles = createStyles((theme) => ({
   leftSide: {
     width: '300px',
     paddingLeft: '20px',
+    // backgroundColor: theme.colors.blue[9],
   },
   rightSide: {
     display: 'flex',
@@ -121,7 +122,7 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
 
   return (
     <Header className={classes.header} height={80}>
-      <Box className={classes.leftSide}>
+      <Box className={classes.leftSide} height={80}>
         <Logo />
       </Box>
       <Box className={classes.rightSide}>
