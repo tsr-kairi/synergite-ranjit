@@ -1,12 +1,11 @@
 import { IRowClientData } from '@/types'
 import apiClient from './base'
-// useEffect(() => { }, []);
+
 const findAll = async () => {
-  const response = await apiClient.get<IRowClientData[]>('/clients')
-  return response.data
+  return await apiClient.get<IRowClientData[]>('/clients')
 }
 
-const findById = async (id: any) => {
+const findById = async (id: number) => {
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   const response = await apiClient.get<IRowClientData>(`/clients/${id}`)
   return response.data
@@ -36,23 +35,24 @@ const create = async (data: IRowClientData) => {
 //   return response.data
 // }
 
-const deleteById = async (id: any) => {
-  const response = await apiClient.delete<any>(`/clients/${id}`)
-  return response.data
-}
+// const deleteById = async (id: number) => {
+//   const response = await apiClient.delete<any>(`/clients/${id}`)
+//   return response.data
+// }
 
-const deleteAll = async () => {
-  const response = await apiClient.delete<any>('/clients')
-  return response.data
-}
+// const deleteAll = async () => {
+//   const response = await apiClient.delete<any>('/clients')
+//   return response.data
+// }
 
 const ClientService = {
   findAll,
   findById,
   findByTitle,
   create,
-  deleteById,
-  deleteAll,
+  // deleteById,
+  // deleteAll,
+  // getAllClients,
 }
 
 export default ClientService

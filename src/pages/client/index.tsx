@@ -9,9 +9,14 @@ export const Client = () => {
   const [clientData, setClientData] = useState<IRowClientData[]>(
     [] as IRowClientData[]
   )
-  const { data, isError, error, isLoading } = useQuery(
+  const { isError, error, isLoading } = useQuery(
     'clientAll',
-    ClientService.findAll
+    ClientService.findAll,
+    {
+      onSuccess: (data) => {
+        setClientData(data?.data)
+      },
+    }
   )
 
   if (isError) {
@@ -24,10 +29,6 @@ export const Client = () => {
         <Loader variant="dots" />
       </div>
     )
-  }
-
-  if (data?.length) {
-    setClientData(data)
   }
 
   return <ClientTable data={clientData} />

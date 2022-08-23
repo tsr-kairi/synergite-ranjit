@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 // Validation
 const zClientData = z.object({
-  id: z.any().optional(),
+  id: z.number(),
   avatar: z.string(),
   name: z.string(),
   email: z.string().email(),
@@ -10,7 +10,6 @@ const zClientData = z.object({
   state: z.string(),
   edit: z.string(),
   delete: z.string(),
-  published: z.boolean().default(false),
 })
 
 // Type Definition

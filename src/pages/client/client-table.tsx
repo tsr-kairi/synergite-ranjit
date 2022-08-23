@@ -182,7 +182,6 @@ function sortData(
 export function ClientTable({ data }: ClientTableProps) {
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
-  console.log(data)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof IRowClientData | null>(null)
