@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { ClientTable } from './client-table'
 import axios from 'axios'
-import { IRowData } from '@/types'
+import { IRowClientData } from '@/types'
+import { Loader } from '@mantine/core'
 
 export const Client = () => {
-  const [clientData, setClientData] = useState<IRowData[]>([] as IRowData[])
+  const [clientData, setClientData] = useState<IRowClientData[]>(
+    [] as IRowClientData[]
+  )
   useEffect(() => {
     axios
-      .get<IRowData[]>('http://localhost:4000/clientTableData')
+      .get<IRowClientData[]>('http://localhost:4000/clientTableData')
       .then((res) => {
         setClientData(res.data)
       })
@@ -17,7 +20,11 @@ export const Client = () => {
   }, [])
 
   if (!clientData.length) {
-    return <div>Loading...</div>
+    return (
+      <div>
+        <Loader variant="dots" />
+      </div>
+    )
   }
 
   return <ClientTable data={clientData} />
