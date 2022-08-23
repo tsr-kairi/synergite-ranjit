@@ -37,7 +37,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "6",
-    "serve-json": "^1.0.4"
+    "serve-json": "^1.0.4",
+    "zod": "^3.18.0"
   },
   "devDependencies": {
     "-": "^0.0.1",
