@@ -10,7 +10,7 @@ import {
   TextInput,
   Avatar,
   Button,
-  Space,
+  // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -21,6 +21,7 @@ import {
   IconEdit,
   IconTrash,
   IconPlus,
+  IconFilter,
 } from '@tabler/icons'
 import { IRowData } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
@@ -35,10 +36,14 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
 
     '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
+
+  companyDetails: {
+    border: 'none',
+    '&:hover': {
+      backgroundColor: theme.colors.blue[1],
     },
   },
 
@@ -47,13 +52,59 @@ const useStyles = createStyles((theme) => ({
     height: 21,
     borderRadius: 21,
   },
-  searchHead: {
+  tableHead: {
     width: '100%',
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
+    padding: '10px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: theme.spacing.md,
+    marginBottom: '0 !important',
+    gap: '30px',
+  },
+
+  tableBottom: {
+    width: '100%',
+    padding: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  searchField: {
+    flex: 1,
+  },
+  text: {
+    color: theme.colors.blue[9],
+  },
+  filterIcon: {
+    color: theme.colors.blue[8],
+  },
+  editIcon: {
+    color: theme.colors.blue[5],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
+  },
+  deleteIcon: {
+    color: '#FF7676',
+    '&:hover': {
+      color: '#FF1414',
+    },
+  },
+  action: {
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
+  childTable: {
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    borderRadius: '10px',
+    width: '100%',
+    maxWidth: '98.3%',
+    margin: '10px',
+    borderCollapse: 'collapse',
+    border: 'none',
   },
 }))
 
@@ -142,7 +193,7 @@ export function ClientTable({ data }: ClientTableProps) {
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
-  // data Delete handler
+  // client data Delete handler
   const openModalForDelete = () => {
     console.log('openModalForDelete')
 
@@ -169,9 +220,8 @@ export function ClientTable({ data }: ClientTableProps) {
       },
     })
   }
-
   const rows = sortedData.map((row) => (
-    <tr key={row.name}>
+    <tr key={row.name} className={classes.companyDetails}>
       <td>
         <Group spacing="sm">
           <Avatar size={26} src={row.avatar} radius={26} />
@@ -185,44 +235,45 @@ export function ClientTable({ data }: ClientTableProps) {
       <td>{row.state}</td>
       <td>
         <Group spacing="sm">
-          <Button>
-            <IconEdit />
-          </Button>
-          <Button
-            radius={'xs'}
-            size="xs"
-            color={'red'}
+          <IconEdit className={classes.editIcon} cursor="pointer" />
+          <IconTrash
+            className={classes.deleteIcon}
+            cursor="pointer"
             onClick={() => openModalForDelete()}
-          >
-            <IconTrash />
-          </Button>
+          />
         </Group>
       </td>
     </tr>
   ))
   return (
     <ScrollArea>
-      <div className={classes.searchHead}>
-        <Text size={'xl'}>Clients Table</Text>
+      <div className={classes.tableHead}>
+        <Group spacing="sm">
+          <Text size={'xl'} weight="600" className={classes.text}>
+            Clients Table
+          </Text>
+          <IconFilter className={classes.filterIcon} />
+        </Group>
         <TextInput
           placeholder="Search by any field"
           icon={<IconSearch size={14} stroke={1.5} />}
           value={search}
           onChange={handleSearchChange}
           radius="xl"
+          className={classes.searchField}
         />
-        <Group spacing="sm">
-          <Button>
-            <IconPlus />
-            <Space w="xs" />
-            Add New
-          </Button>
-        </Group>
+        <Button>
+          <Group spacing="sm" align="center">
+            <IconPlus color="white" />
+            <Text weight={400}>Add New</Text>
+          </Group>
+        </Button>
       </div>
       <Table
         horizontalSpacing="md"
         verticalSpacing="xs"
-        sx={{ tableLayout: 'fixed', minWidth: 700 }}
+        className={classes.childTable}
+        // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
       >
         <thead>
           <tr>
@@ -254,7 +305,7 @@ export function ClientTable({ data }: ClientTableProps) {
             >
               State
             </Th>
-            <th>Action</th>
+            <th className={classes.action}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -271,6 +322,10 @@ export function ClientTable({ data }: ClientTableProps) {
           )}
         </tbody>
       </Table>
+      {/* <div className={classes.tableBottom}>
+        <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
+        <Pagination total={5} size="sm" />
+      </div> */}
     </ScrollArea>
   )
 }

@@ -1,5 +1,5 @@
 export interface IRowData {
-  id: number | string
+  id: number
   avatar: string
   name: string
   email: string
@@ -10,7 +10,7 @@ export interface IRowData {
 }
 
 export interface IRowVendorData {
-  id: number | string
+  id: number
   avatar: string
   name: string
   email: string

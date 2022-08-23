@@ -10,7 +10,7 @@ import {
 import LinksGroup from './NavBarLinksGroup'
 
 const mockdata = [
-  { label: 'Dashboard', icon: IconLayoutDashboard, link: '/dashboard' },
+  { label: 'Dashboard', icon: IconLayoutDashboard },
   {
     label: 'Account',
     icon: IconWallet,
@@ -22,12 +22,11 @@ const mockdata = [
   },
   {
     label: 'Employees',
-    link: '/employee',
     icon: IconUsers,
+    initiallyOpened: false,
     links: [
-      { label: 'First', link: '/' },
-      { label: 'Second', link: '/' },
-      { label: 'Third', link: '/' },
+      { label: 'Active Employee', link: '/active-employee' },
+      { label: 'All Employee', link: '/all-employee' },
     ],
   },
   { label: 'Activities', icon: IconActivity },
@@ -40,7 +39,10 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.blue[9],
     height: '100vh',
     borderTop: `1px solid ${theme.colors.blue[6]}`,
-    // display: 'none',
+
+    [theme.fn.smallerThan('md')]: {
+      display: 'none',
+    },
   },
 
   links: {
