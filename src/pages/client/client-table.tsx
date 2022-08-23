@@ -10,6 +10,8 @@ import {
   TextInput,
   Avatar,
   Button,
+  Drawer,
+  Pagination,
   // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -23,8 +25,9 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { IRowData } from '@/types'
+import { IRowClientData } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
+import AddNew from '@/components/form/addNew'
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -109,7 +112,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface ClientTableProps {
-  data: IRowData[]
+  data: IRowClientData[]
 }
 
 interface ThProps {
@@ -142,7 +145,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
   )
 }
 
-function filterData(data: IRowData[], search: string) {
+function filterData(data: IRowClientData[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -150,8 +153,12 @@ function filterData(data: IRowData[], search: string) {
 }
 
 function sortData(
-  data: IRowData[],
-  payload: { sortBy: keyof IRowData | null; reversed: boolean; search: string }
+  data: IRowClientData[],
+  payload: {
+    sortBy: keyof IRowClientData | null
+    reversed: boolean
+    search: string
+  }
 ) {
   const { sortBy } = payload
 
@@ -173,13 +180,15 @@ function sortData(
 }
 
 export function ClientTable({ data }: ClientTableProps) {
+  /* Add New - Client state*/
+  const [opened, setOpened] = useState(false)
   console.log(data)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof IRowData | null>(null)
+  const [sortBy, setSortBy] = useState<keyof IRowClientData | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const setSorting = (field: keyof IRowData) => {
+  const setSorting = (field: keyof IRowClientData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -262,7 +271,8 @@ export function ClientTable({ data }: ClientTableProps) {
           radius="xl"
           className={classes.searchField}
         />
-        <Button>
+        {/* Add New - Client Button*/}
+        <Button onClick={() => setOpened(true)}>
           <Group spacing="sm" align="center">
             <IconPlus color="white" />
             <Text weight={400}>Add New</Text>
@@ -322,10 +332,21 @@ export function ClientTable({ data }: ClientTableProps) {
           )}
         </tbody>
       </Table>
-      {/* <div className={classes.tableBottom}>
+      {/* Add New - Client Form Drawer*/}
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Add New Client"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <AddNew />
+      </Drawer>
+      <div className={classes.tableBottom}>
         <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
         <Pagination total={5} size="sm" />
-      </div> */}
+      </div>
     </ScrollArea>
   )
 }

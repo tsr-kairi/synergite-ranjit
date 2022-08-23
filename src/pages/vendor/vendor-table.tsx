@@ -23,7 +23,7 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { IRowData } from '@/types'
+import { IRowVendorData } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 
 const useStyles = createStyles((theme) => ({
@@ -108,7 +108,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface VendorTableProps {
-  data: IRowData[]
+  data: IRowVendorData[]
 }
 
 interface ThProps {
@@ -141,7 +141,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
   )
 }
 
-function filterData(data: IRowData[], search: string) {
+function filterData(data: IRowVendorData[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -149,8 +149,12 @@ function filterData(data: IRowData[], search: string) {
 }
 
 function sortData(
-  data: IRowData[],
-  payload: { sortBy: keyof IRowData | null; reversed: boolean; search: string }
+  data: IRowVendorData[],
+  payload: {
+    sortBy: keyof IRowVendorData | null
+    reversed: boolean
+    search: string
+  }
 ) {
   const { sortBy } = payload
 
@@ -173,14 +177,14 @@ function sortData(
 
 export function VendorTable({ data }: VendorTableProps) {
   console.log(data)
-  const [activePage, setPage] = useState(data.slice(0, 10))
-  console.log(activePage)
+  // const [activePage, setPage] = useState(data.slice(0, 10))
+  // console.log(activePage)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof IRowData | null>(null)
+  const [sortBy, setSortBy] = useState<keyof IRowVendorData | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const setSorting = (field: keyof IRowData) => {
+  const setSorting = (field: keyof IRowVendorData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -325,7 +329,7 @@ export function VendorTable({ data }: VendorTableProps) {
       </Table>
       <div className={classes.tableBottom}>
         <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-        <Pagination total={5} size="sm" page={activePage} onChange={setPage} />
+        <Pagination total={5} size="sm" />
       </div>
     </ScrollArea>
   )

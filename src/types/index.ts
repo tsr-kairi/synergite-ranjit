@@ -1,12 +1,12 @@
-export interface IRowData {
+export interface IRowClientData {
   id: number
-  avatar: string
+  avatar?: string
   name: string
   email: string
   city: string
   state: string
-  edit: string
-  delete: string
+  edit?: string
+  delete?: string
 }
 
 export interface IRowVendorData {

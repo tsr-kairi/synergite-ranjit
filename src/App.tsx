@@ -9,12 +9,14 @@ import AppShellMain from './components/layout'
 import DashBoard from './pages/dashboard'
 import Client from './pages/client'
 import Vendor from './pages/vendor'
+import AddNew from './components/form/addNew'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/addNew" element={<AddNew />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/confirm-password" element={<ConfirmPassword />} />
         <Route path="/server-error" element={<ServerError />} />
