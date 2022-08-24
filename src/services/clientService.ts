@@ -1,24 +1,22 @@
-import { IRowClientData } from '@/types'
+import { TClientDetails, TClientList } from '@/types'
 import apiClient from './base'
 
 const findAll = async () => {
-  return await apiClient.get<IRowClientData[]>('/clients')
+  return await apiClient.get<TClientList[]>('/clients')
 }
 
 const findById = async (id: number) => {
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  const response = await apiClient.get<IRowClientData>(`/clients/${id}`)
-  return response.data
+  return await apiClient.get<TClientDetails>(`/clients/${id}`)
+  // return response.data
 }
 
 const findByTitle = async (title: string) => {
-  const response = await apiClient.get<IRowClientData[]>(
-    `/clients?title=${title}`
-  )
+  const response = await apiClient.get<TClientList[]>(`/clients?title=${title}`)
   return response.data
 }
 
-const create = async (data: IRowClientData) => {
+const create = async (data: TClientList) => {
   const response = await apiClient.post<unknown>('/clients', data)
   return response.data
 }

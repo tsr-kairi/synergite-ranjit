@@ -25,7 +25,7 @@ const mockdata = [
     icon: IconUsers,
     initiallyOpened: false,
     links: [
-      { label: 'Active Employee', link: '/active-employee' },
+      { label: 'Active Employee', link: '/client-details' },
       { label: 'All Employee', link: '/all-employee' },
     ],
   },
