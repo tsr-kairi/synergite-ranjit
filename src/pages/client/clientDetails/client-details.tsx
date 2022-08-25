@@ -5,18 +5,27 @@ import { Loader } from '@mantine/core'
 import ClientService from '@/services/clientService'
 import { useQuery } from 'react-query'
 import { ClientAccounts } from './client-accounts'
+import ClientPersonalDetails from './client-personal-details'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
     display: 'flex',
-    // backgroundColor: theme.colors.blue[6],
     paddingLeft: '20px',
     paddingRight: '20px',
     gap: '20px',
+    width: '100%',
     // placeItems: 'center',
-    // '&:hover': {
-    //   backgroundColor: theme.colors.blue[6],
-    // },
+  },
+  clientProProfile: {
+    display: 'flex',
+    height: '88.5vh',
+    width: '30%',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    borderRadius: '10px',
+    padding: '20px',
+  },
+  clientContactJobs: {
+    flex: 1,
   },
 }))
 export default function ClientDetails() {
@@ -51,26 +60,11 @@ export default function ClientDetails() {
   return (
     <>
       <div className={classes.clientDetails}>
-        <div>
-          <Paper>
-            <h3>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia
-              accusantium exercitationem corrupti mollitia ex amet, quidem unde
-              possimus quod eaque?
-            </h3>
-          </Paper>
+        <div className={classes.clientProProfile}>
+          <ClientPersonalDetails />
         </div>
-        <div>
-          <div>
-            <ClientAccounts data={clientData} />
-          </div>
-          <Paper>
-            <h1>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia
-              accusantium exercitationem corrupti mollitia ex amet, quidem unde
-              possimus quod eaque?
-            </h1>
-          </Paper>
+        <div className={classes.clientContactJobs}>
+          <ClientAccounts data={clientData} />
         </div>
       </div>
     </>

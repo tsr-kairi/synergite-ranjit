@@ -57,6 +57,7 @@ const useStyles = createStyles((theme) => ({
   tableHead: {
     width: '100%',
     padding: '10px',
+    paddingTop: '0px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -254,12 +255,9 @@ export function ClientAccounts({ data }: ClientAccountsProps) {
   return (
     <ScrollArea>
       <div className={classes.tableHead}>
-        <Group spacing="sm">
-          <Text size={'xl'} weight="600" className={classes.text}>
-            Contacts
-          </Text>
-          <IconAddressBook className={classes.contactIcon} />
-        </Group>
+        <Text size={'xl'} weight="600" className={classes.text}>
+          Contacts
+        </Text>
         <TextInput
           placeholder="Search by any field"
           icon={<IconSearch size={14} stroke={1.5} />}
