@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { ClientTable } from './client-table'
-import { IRowClientData } from '@/types'
+import { TClientList } from '@/types'
 import { Loader } from '@mantine/core'
 import ClientService from '@/services/clientService'
 import { useQuery } from 'react-query'
 
 export const Client = () => {
-  const [clientData, setClientData] = useState<IRowClientData[]>(
-    [] as IRowClientData[]
+  const [clientData, setClientData] = useState<TClientList[]>(
+    [] as TClientList[]
   )
   const { isError, error, isLoading } = useQuery(
     'clientAll',

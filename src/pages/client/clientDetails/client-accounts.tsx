@@ -8,10 +8,9 @@ import {
   Text,
   Center,
   TextInput,
-  Avatar,
-  Button,
   Drawer,
   Pagination,
+  Button,
   // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -23,12 +22,11 @@ import {
   IconEdit,
   IconTrash,
   IconPlus,
-  IconFilter,
+  IconAddressBook,
 } from '@tabler/icons'
 import { TClientList } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
-import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -59,6 +57,7 @@ const useStyles = createStyles((theme) => ({
   tableHead: {
     width: '100%',
     padding: '10px',
+    paddingTop: '0px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -80,7 +79,7 @@ const useStyles = createStyles((theme) => ({
   text: {
     color: theme.colors.blue[9],
   },
-  filterIcon: {
+  contactIcon: {
     color: theme.colors.blue[8],
   },
   editIcon: {
@@ -112,7 +111,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-interface ClientTableProps {
+interface ClientAccountsProps {
   data: TClientList[]
 }
 
@@ -180,7 +179,7 @@ function sortData(
   )
 }
 
-export function ClientTable({ data }: ClientTableProps) {
+export function ClientAccounts({ data }: ClientAccountsProps) {
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
@@ -198,11 +197,10 @@ export function ClientTable({ data }: ClientTableProps) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget
     setSearch(value)
-    setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
-    )
+    // setSortedData()
+    sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
   }
-  // client data Delete handler
+  //   client data Delete handler
   const openModalForDelete = () => {
     console.log('openModalForDelete')
 
@@ -218,11 +216,11 @@ export function ClientTable({ data }: ClientTableProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         // void axios
-        //   .delete(`http://localhost:4000/clientTableData/${ClientTable.id}`)
+        //   .delete(`http://localhost:4000/clientTableData/${ClientAccounts.id}`)
         //   .then(() => {
         //     showNotification({
-        //       title: 'ClientTable deleted!',
-        //       message: `${ClientTable.name.toUpperCase()} deleted Successfully!`,
+        //       title: 'ClientAccounts deleted!',
+        //       message: `${ClientAccounts.name.toUpperCase()} deleted Successfully!`,
         //     })
         //   })
         console.log('delete')
@@ -232,14 +230,12 @@ export function ClientTable({ data }: ClientTableProps) {
   const rows = sortedData.map((row) => (
     <tr key={row.name} className={classes.companyDetails}>
       <td>
-        <Link to={`/client-details/${row.id}`}>
-          <Group spacing="sm">
-            <Avatar size={26} src={row.avatar} radius={26} />
-            <Text size="sm" weight={500}>
-              {row.name}
-            </Text>
-          </Group>
-        </Link>
+        <Group spacing="sm">
+          {/* <Avatar size={26} src={row.avatar} radius={26} /> */}
+          <Text size="sm" weight={500}>
+            {row.name}
+          </Text>
+        </Group>
       </td>
       <td>{row.email}</td>
       <td>{row.city}</td>
@@ -259,12 +255,9 @@ export function ClientTable({ data }: ClientTableProps) {
   return (
     <ScrollArea>
       <div className={classes.tableHead}>
-        <Group spacing="sm">
-          <Text size={'xl'} weight="600" className={classes.text}>
-            Clients Table
-          </Text>
-          <IconFilter className={classes.filterIcon} />
-        </Group>
+        <Text size={'xl'} weight="600" className={classes.text}>
+          Contacts
+        </Text>
         <TextInput
           placeholder="Search by any field"
           icon={<IconSearch size={14} stroke={1.5} />}
@@ -308,14 +301,14 @@ export function ClientTable({ data }: ClientTableProps) {
               reversed={reverseSortDirection}
               onSort={() => setSorting('city')}
             >
-              City
+              Phone
             </Th>
             <Th
               sorted={sortBy === 'state'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('state')}
             >
-              State
+              Country
             </Th>
             <th className={classes.action}>Action</th>
           </tr>

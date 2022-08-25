@@ -56,6 +56,12 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
+  linkActive: {
+    '&, &:hover': {
+      backgroundColor: theme.colors.blue[8],
+    },
+  },
+
   icoTheme: {
     backgroundColor: 'rgba(103, 169, 241, 0.44)',
   },
@@ -90,15 +96,21 @@ export default function LinksGroup({
   initiallyOpened,
   links,
 }: LinksGroupProps) {
-  const { classes, theme } = useStyles()
+  const { classes, theme, cx } = useStyles()
   const hasLinks = Array.isArray(links)
   const [opened, setOpened] = useState(initiallyOpened || false)
+  const [active, setActive] = useState('Dashboard')
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
   const items = (hasLinks ? links : []).map((link) => (
     <Text
       component={Link}
       to={link.link}
-      className={classes.link}
+      className={cx(classes.link, {
+        [classes.linkActive]: link.label === active,
+      })}
+      onClick={() => {
+        setActive(link.label)
+      }}
       key={link.label}
     >
       {link.label}

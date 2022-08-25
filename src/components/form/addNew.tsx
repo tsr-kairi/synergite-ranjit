@@ -1,14 +1,6 @@
-import {
-  TextInput,
-  Button,
-  Group,
-  createStyles,
-  Paper,
-  Anchor,
-  Checkbox,
-} from '@mantine/core'
+import { TextInput, Button, Group, createStyles, Paper } from '@mantine/core'
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
   },

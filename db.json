@@ -7,8 +7,22 @@
       "city": "Little - Rippin",
       "email": "Elouise.Prohaska@yahoo.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 2,
@@ -17,8 +31,22 @@
       "city": "Greenfelder - Krajcik",
       "email": "Kadin_Trantow87@yahoo.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 3,
@@ -27,8 +55,22 @@
       "city": "Kohler and Sons",
       "email": "Marina3@hotmail.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 4,
@@ -37,8 +79,22 @@
       "city": "Crona, Aufderhar and Senger",
       "email": "Antonina.Pouros@yahoo.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 5,
@@ -47,8 +103,22 @@
       "city": "Gottlieb LLC",
       "email": "Abagail29@hotmail.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 6,
@@ -56,9 +126,7 @@
       "name": "Viola Bernhard",
       "city": "Funk, Rohan and Kreiger",
       "email": "Jamie23@hotmail.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 7,
@@ -67,8 +135,22 @@
       "city": "Botsford - Corwin",
       "email": "Genesis42@yahoo.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 8,
@@ -77,8 +159,22 @@
       "city": "Okuneva, Farrell and Kilback",
       "email": "Idella.Stehr28@yahoo.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 9,
@@ -87,8 +183,22 @@
       "city": "Kirlin and Sons",
       "email": "Hildegard17@hotmail.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     },
     {
       "id": 10,
@@ -97,8 +207,22 @@
       "city": "Parisian - Lemke",
       "email": "Hillard.Barrows1@hotmail.com",
       "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "contacts": [
+        {
+          "name": "Jone Doe",
+          "email": "jonedoe.outlook@gmail.com",
+          "phone": "+1 3895 403 645",
+          "country": "America"
+        }
+      ],
+      "jobs": [
+        {
+          "name": "Jone Doe",
+          "location": "jonedoe.outlook@gmail.com",
+          "category": "+1 3895 403 645",
+          "status": "Progress"
+        }
+      ]
     }
   ],
   "vendorTableData": [
@@ -108,9 +232,7 @@
       "name": "Athena Weissnat",
       "city": "Little - Rippin",
       "email": "Elouise.Prohaska@yahoo.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 2,
@@ -118,9 +240,7 @@
       "name": "Deangelo Runolfsson",
       "city": "Greenfelder - Krajcik",
       "email": "Kadin_Trantow87@yahoo.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 3,
@@ -128,9 +248,7 @@
       "name": "Danny Carter",
       "city": "Kohler and Sons",
       "email": "Marina3@hotmail.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 4,
@@ -138,9 +256,7 @@
       "name": "Trace Tremblay PhD",
       "city": "Crona, Aufderhar and Senger",
       "email": "Antonina.Pouros@yahoo.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 5,
@@ -148,9 +264,7 @@
       "name": "Derek Dibbert",
       "city": "Gottlieb LLC",
       "email": "Abagail29@hotmail.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 6,
@@ -158,9 +272,7 @@
       "name": "Viola Bernhard",
       "city": "Funk, Rohan and Kreiger",
       "email": "Jamie23@hotmail.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 7,
@@ -168,9 +280,7 @@
       "name": "Austin Jacobi",
       "city": "Botsford - Corwin",
       "email": "Genesis42@yahoo.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 8,
@@ -178,9 +288,7 @@
       "name": "Hershel Mosciski",
       "city": "Okuneva, Farrell and Kilback",
       "email": "Idella.Stehr28@yahoo.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 9,
@@ -188,9 +296,7 @@
       "name": "Mylene Ebert",
       "city": "Kirlin and Sons",
       "email": "Hildegard17@hotmail.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 10,
@@ -198,9 +304,7 @@
       "name": "Lou Trantow",
       "city": "Parisian - Lemke",
       "email": "Hillard.Barrows1@hotmail.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     },
     {
       "id": 11,
@@ -208,9 +312,7 @@
       "name": "Lou Trantow",
       "city": "Parisian - Lemke",
       "email": "Hillard.Barrows1@hotmail.com",
-      "state": "Misouri",
-      "edit": "/edit",
-      "delete": "/delete"
+      "state": "Misouri"
     }
   ]
 }
