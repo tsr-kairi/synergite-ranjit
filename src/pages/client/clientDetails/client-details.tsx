@@ -1,11 +1,12 @@
 import { createStyles, Paper } from '@mantine/core'
 import { useState } from 'react'
-import { TClientList } from '@/types'
+import { TClientDetails } from '@/types'
 import { Loader } from '@mantine/core'
 import ClientService from '@/services/clientService'
 import { useQuery } from 'react-query'
 import { ClientAccounts } from './client-accounts'
 import ClientPersonalDetails from './client-personal-details'
+import { useParams } from 'react-router-dom'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
@@ -31,13 +32,15 @@ const useStyles = createStyles(() => ({
 export default function ClientDetails() {
   const { classes } = useStyles()
 
-  const [clientData, setClientData] = useState<TClientList[]>(
-    [] as TClientList[]
+  const [clientData, setClientData] = useState<TClientDetails>(
+    {} as TClientDetails
   )
+
+  const { clientId } = useParams()
+
   const { isError, error, isLoading } = useQuery(
-    'clientAll',
-    ClientService.findAll,
-    // () => ClientService.findById,
+    ['clientSingle', clientId],
+    (clientId) => ClientService.findById(Number(clientId)),
     {
       onSuccess: (data) => {
         setClientData(data?.data)

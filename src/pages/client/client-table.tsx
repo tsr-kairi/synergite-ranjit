@@ -28,6 +28,7 @@ import {
 import { TClientList } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -231,12 +232,14 @@ export function ClientTable({ data }: ClientTableProps) {
   const rows = sortedData.map((row) => (
     <tr key={row.name} className={classes.companyDetails}>
       <td>
-        <Group spacing="sm">
-          <Avatar size={26} src={row.avatar} radius={26} />
-          <Text size="sm" weight={500}>
-            {row.name}
-          </Text>
-        </Group>
+        <Link to={`/client-details/${row.id}`}>
+          <Group spacing="sm">
+            <Avatar size={26} src={row.avatar} radius={26} />
+            <Text size="sm" weight={500}>
+              {row.name}
+            </Text>
+          </Group>
+        </Link>
       </td>
       <td>{row.email}</td>
       <td>{row.city}</td>

@@ -1,5 +1,6 @@
 import { Avatar, Text, createStyles, Group, Box } from '@mantine/core'
 import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
+
 const useStyles = createStyles((theme) => ({
   ClientUserCard: {
     display: 'flex',
@@ -45,6 +46,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }))
+
 export default function ClientPersonalDetails() {
   const { classes } = useStyles()
   return (
