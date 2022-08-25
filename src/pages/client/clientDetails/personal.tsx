@@ -47,7 +47,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function ClientPersonalDetails() {
+export default function Personal() {
   const { classes } = useStyles()
   return (
     <div className={classes.clientInnerProfile}>
