@@ -8,11 +8,9 @@ import {
   Text,
   Center,
   TextInput,
-  Avatar,
-  Button,
   Drawer,
   Pagination,
-  Tooltip,
+  Button,
   // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -24,12 +22,10 @@ import {
   IconEdit,
   IconTrash,
   IconPlus,
-  IconFilter,
 } from '@tabler/icons'
 import { TClientList } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
-import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -60,6 +56,7 @@ const useStyles = createStyles((theme) => ({
   tableHead: {
     width: '100%',
     padding: '10px',
+    paddingTop: '0px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -81,7 +78,7 @@ const useStyles = createStyles((theme) => ({
   text: {
     color: theme.colors.blue[9],
   },
-  filterIcon: {
+  contactIcon: {
     color: theme.colors.blue[8],
   },
   editIcon: {
@@ -103,23 +100,18 @@ const useStyles = createStyles((theme) => ({
     },
   },
   childTable: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
     backgroundColor: 'white',
     borderRadius: '10px',
     width: '100%',
-    maxWidth: '98.8%',
+    maxWidth: '98.3%',
     margin: '10px',
-  },
-  userLink: {
-    textDecoration: 'none',
-    color: theme.colors.grey[9],
-    '&:hover': {
-      color: theme.colors.blue[9],
-    },
+    borderCollapse: 'collapse',
+    border: 'none',
   },
 }))
 
-interface ClientTableProps {
+interface ContactsProps {
   data: TClientList[]
 }
 
@@ -187,9 +179,8 @@ function sortData(
   )
 }
 
-export function ClientTable({ data }: ClientTableProps) {
+export function Contacts({ data }: ContactsProps) {
   /* Add New - Client state*/
-
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
@@ -206,11 +197,10 @@ export function ClientTable({ data }: ClientTableProps) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget
     setSearch(value)
-    setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
-    )
+    // setSortedData()
+    sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
   }
-  // client data Delete handler
+  //   client data Delete handler
   const openModalForDelete = () => {
     console.log('openModalForDelete')
 
@@ -226,67 +216,48 @@ export function ClientTable({ data }: ClientTableProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         // void axios
-        //   .delete(`http://localhost:4000/clientTableData/${ClientTable.id}`)
+        //   .delete(`http://localhost:4000/clientTableData/${Contacts.id}`)
         //   .then(() => {
         //     showNotification({
-        //       title: 'ClientTable deleted!',
-        //       message: `${ClientTable.name.toUpperCase()} deleted Successfully!`,
+        //       title: 'Contacts deleted!',
+        //       message: `${Contacts.name.toUpperCase()} deleted Successfully!`,
         //     })
         //   })
         console.log('delete')
       },
     })
   }
-
-  let rows = data
-
-  if (sortedData?.length) {
-    rows = sortedData?.map((row) => (
-      <tr key={row.id} className={classes.companyDetails}>
-        <td>
-          <Link to={`/client-details/${row.id}`} className={classes.userLink}>
-            <Tooltip
-              label="Click to view"
-              color="blue"
-              withArrow
-              transition="pop-top-right"
-              transitionDuration={300}
-            >
-              <Group spacing="sm">
-                <Avatar size={26} src={row.profile_image} radius={26} />
-                <Text size="sm" weight={500}>
-                  {row.first_name} {row.last_name}
-                </Text>
-              </Group>
-            </Tooltip>
-          </Link>
-        </td>
-        <td>{row.email}</td>
-        <td>{row.city}</td>
-        <td>{row.state}</td>
-        <td>
-          <Group spacing="sm">
-            <IconEdit className={classes.editIcon} cursor="pointer" />
-            <IconTrash
-              className={classes.deleteIcon}
-              cursor="pointer"
-              onClick={() => openModalForDelete()}
-            />
-          </Group>
-        </td>
-      </tr>
-    ))
-  }
-
+  const rows = sortedData.map((row) => (
+    <tr key={row.name} className={classes.companyDetails}>
+      <td>
+        <Group spacing="sm">
+          {/* <Avatar size={26} src={row.avatar} radius={26} /> */}
+          <Text size="sm" weight={500}>
+            {row.name}
+          </Text>
+        </Group>
+      </td>
+      <td>{row.email}</td>
+      <td>{row.city}</td>
+      <td>{row.state}</td>
+      <td>
+        <Group spacing="sm">
+          <IconEdit className={classes.editIcon} cursor="pointer" />
+          <IconTrash
+            className={classes.deleteIcon}
+            cursor="pointer"
+            onClick={() => openModalForDelete()}
+          />
+        </Group>
+      </td>
+    </tr>
+  ))
   return (
     <ScrollArea>
       <div className={classes.tableHead}>
-        <Group spacing="sm">
-          <Text size={'xl'} weight="600" className={classes.text}>
-            Clients Table
-          </Text>
-          <IconFilter className={classes.filterIcon} />
-        </Group>
+        <Text size={'xl'} weight="600" className={classes.text}>
+          Contacts
+        </Text>
         <TextInput
           placeholder="Search by any field"
           icon={<IconSearch size={14} stroke={1.5} />}
@@ -312,9 +283,9 @@ export function ClientTable({ data }: ClientTableProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'first_name'}
+              sorted={sortBy === 'name'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('first_name')}
+              onSort={() => setSorting('name')}
             >
               Name
             </Th>
@@ -330,14 +301,14 @@ export function ClientTable({ data }: ClientTableProps) {
               reversed={reverseSortDirection}
               onSort={() => setSorting('city')}
             >
-              City
+              Phone
             </Th>
             <Th
               sorted={sortBy === 'state'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('state')}
             >
-              State
+              Country
             </Th>
             <th className={classes.action}>Action</th>
           </tr>

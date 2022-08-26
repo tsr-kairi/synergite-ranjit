@@ -22,7 +22,6 @@ import {
   IconEdit,
   IconTrash,
   IconPlus,
-  IconAddressBook,
 } from '@tabler/icons'
 import { TClientList } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
@@ -111,7 +110,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-interface ClientAccountsProps {
+interface ContactsProps {
   data: TClientList[]
 }
 
@@ -179,7 +178,7 @@ function sortData(
   )
 }
 
-export function ClientAccounts({ data }: ClientAccountsProps) {
+export function Jobs({ data }: ContactsProps) {
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
@@ -216,11 +215,11 @@ export function ClientAccounts({ data }: ClientAccountsProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         // void axios
-        //   .delete(`http://localhost:4000/clientTableData/${ClientAccounts.id}`)
+        //   .delete(`http://localhost:4000/clientTableData/${Contacts.id}`)
         //   .then(() => {
         //     showNotification({
-        //       title: 'ClientAccounts deleted!',
-        //       message: `${ClientAccounts.name.toUpperCase()} deleted Successfully!`,
+        //       title: 'Contacts deleted!',
+        //       message: `${Contacts.name.toUpperCase()} deleted Successfully!`,
         //     })
         //   })
         console.log('delete')

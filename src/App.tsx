@@ -9,7 +9,7 @@ import AppShellMain from './components/layout'
 import DashBoard from './pages/dashboard'
 import Client from './pages/client'
 import Vendor from './pages/vendor'
-import ClientDetails from './pages/client/clientDetails/client-details'
+import ClientDetails from './pages/client/clientDetails'
 
 function App() {
   return (
