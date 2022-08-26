@@ -100,7 +100,8 @@ const useStyles = createStyles((theme) => ({
     },
   },
   childTable: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
+    backgroundColor: 'white',
     borderRadius: '10px',
     width: '100%',
     maxWidth: '98.3%',

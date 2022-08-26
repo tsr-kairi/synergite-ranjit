@@ -14,6 +14,7 @@ export const Client = () => {
     ClientService.findAll,
     {
       onSuccess: (data) => {
+        // console.log(data)
         setClientData(data?.data)
       },
     }

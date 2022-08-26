@@ -18,17 +18,18 @@ import {
   IconSettings,
   IconChevronDown,
   IconClock,
+  IconChevronRight,
 } from '@tabler/icons'
 import Logo from '../logo'
 
 const useStyles = createStyles((theme) => ({
   header: {
     display: 'flex',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
     height: '90px',
-    backgroundColor: theme.colors.blue[9],
+    backgroundColor: theme.colors.grey[0],
     border: 'none',
   },
 
@@ -39,7 +40,7 @@ const useStyles = createStyles((theme) => ({
     transition: 'background-color 100ms ease',
 
     '&:hover': {
-      backgroundColor: theme.colors.blue[8],
+      backgroundColor: theme.colors.blue[0],
       color: theme.colors.grey[0],
     },
 
@@ -59,9 +60,11 @@ const useStyles = createStyles((theme) => ({
   },
 
   leftSide: {
-    width: '300px',
+    display: 'flex',
+    alignItems: 'center',
+    width: '299px',
     paddingLeft: '20px',
-    // backgroundColor: theme.colors.blue[9],
+    backgroundColor: theme.colors.blue[9],
   },
   rightSide: {
     display: 'flex',
@@ -82,7 +85,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     color: theme.colors.grey[0],
-    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
+    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     borderRadius: theme.radius.sm,
     transition: 'background-color 100ms ease',
     backgroundColor: theme.colors.blue[8],
@@ -122,7 +125,7 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
 
   return (
     <Header className={classes.header} height={80}>
-      <Box className={classes.leftSide} height={80}>
+      <Box className={classes.leftSide}>
         <Logo />
       </Box>
       <Box className={classes.rightSide}>
@@ -160,12 +163,18 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
                       src={user.image}
                       alt={user.name}
                       radius="xl"
-                      size={24}
+                      size={28}
                     />
-                    <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
+                    <Text
+                      weight={600}
+                      size="md"
+                      sx={{ lineHeight: 1 }}
+                      mr={3}
+                      color="blue"
+                    >
                       {user.name}
                     </Text>
-                    <IconChevronDown size={12} stroke={1.5} />
+                    <IconChevronRight size={12} stroke={1.5} color="blue" />
                   </Group>
                 </UnstyledButton>
               </Menu.Target>

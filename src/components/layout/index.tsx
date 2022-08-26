@@ -1,9 +1,16 @@
 import NavBar from '@/components/layout/navBar/NavBar'
-import { AppShell } from '@mantine/core'
+import { AppShell, createStyles } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
 import HeaderBar from './HeaderBar'
+const useStyles = createStyles((theme) => ({
+  outletStyle: {
+    backgroundColor: theme.colors.grey[0],
+  },
+}))
 
 const AppShellMain = () => {
+  const { classes } = useStyles()
+
   return (
     <AppShell
       navbar={<NavBar />}
@@ -16,8 +23,11 @@ const AppShellMain = () => {
           }}
         />
       }
+      className={classes.outletStyle}
     >
+      {/* <div className={classes.outletStyle}> */}
       <Outlet />
+      {/* </div> */}
     </AppShell>
   )
 }

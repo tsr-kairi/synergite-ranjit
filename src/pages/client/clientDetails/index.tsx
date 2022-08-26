@@ -9,6 +9,7 @@ import Personal from './personal'
 import { Jobs } from './jobs'
 
 import { useParams } from 'react-router-dom'
+import Client from '..'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
@@ -45,6 +46,7 @@ export default function ClientDetails() {
     (clientId) => ClientService.findById(Number(clientId)),
     {
       onSuccess: (data) => {
+        console.log(data)
         setClientData(data?.data)
       },
     }

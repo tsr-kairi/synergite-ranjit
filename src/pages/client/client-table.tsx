@@ -12,6 +12,7 @@ import {
   Button,
   Drawer,
   Pagination,
+  Tooltip,
   // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -102,13 +103,19 @@ const useStyles = createStyles((theme) => ({
     },
   },
   childTable: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
+    backgroundColor: 'white',
     borderRadius: '10px',
     width: '100%',
-    maxWidth: '98.3%',
+    maxWidth: '98.8%',
     margin: '10px',
-    borderCollapse: 'collapse',
-    border: 'none',
+  },
+  userLink: {
+    textDecoration: 'none',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
   },
 }))
 
@@ -182,6 +189,7 @@ function sortData(
 
 export function ClientTable({ data }: ClientTableProps) {
   /* Add New - Client state*/
+
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
@@ -229,33 +237,47 @@ export function ClientTable({ data }: ClientTableProps) {
       },
     })
   }
-  const rows = sortedData.map((row) => (
-    <tr key={row.name} className={classes.companyDetails}>
-      <td>
-        <Link to={`/client-details/${row.id}`}>
+
+  let rows = data
+
+  if (sortedData?.length) {
+    rows = sortedData?.map((row) => (
+      <tr key={row.id} className={classes.companyDetails}>
+        <td>
+          <Link to={`/client-details/${row.id}`} className={classes.userLink}>
+            <Tooltip
+              label="Click to view"
+              color="blue"
+              withArrow
+              transition="pop-top-right"
+              transitionDuration={300}
+            >
+              <Group spacing="sm">
+                <Avatar size={26} src={row.profile_image} radius={26} />
+                <Text size="sm" weight={500}>
+                  {row.first_name} {row.last_name}
+                </Text>
+              </Group>
+            </Tooltip>
+          </Link>
+        </td>
+        <td>{row.email}</td>
+        <td>{row.city}</td>
+        <td>{row.state}</td>
+        <td>
           <Group spacing="sm">
-            <Avatar size={26} src={row.avatar} radius={26} />
-            <Text size="sm" weight={500}>
-              {row.name}
-            </Text>
+            <IconEdit className={classes.editIcon} cursor="pointer" />
+            <IconTrash
+              className={classes.deleteIcon}
+              cursor="pointer"
+              onClick={() => openModalForDelete()}
+            />
           </Group>
-        </Link>
-      </td>
-      <td>{row.email}</td>
-      <td>{row.city}</td>
-      <td>{row.state}</td>
-      <td>
-        <Group spacing="sm">
-          <IconEdit className={classes.editIcon} cursor="pointer" />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete()}
-          />
-        </Group>
-      </td>
-    </tr>
-  ))
+        </td>
+      </tr>
+    ))
+  }
+
   return (
     <ScrollArea>
       <div className={classes.tableHead}>
@@ -290,9 +312,9 @@ export function ClientTable({ data }: ClientTableProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'name'}
+              sorted={sortBy === 'first_name'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('name')}
+              onSort={() => setSorting('first_name')}
             >
               Name
             </Th>

@@ -30,7 +30,7 @@ const mockdata = [
     ],
   },
   { label: 'Activities', icon: IconActivity },
-  { label: 'Contracts', icon: IconFileAnalytics },
+  { label: 'Contacts', icon: IconFileAnalytics },
   { label: 'Settings', icon: IconSettings },
 ]
 
