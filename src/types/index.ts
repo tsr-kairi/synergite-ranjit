@@ -11,11 +11,8 @@ const zClient = z.object({
   phone: z.string(),
   city: z.string(),
   state: z.string(),
-  status: z.string(), 
   date_created: z.string(),
-  date_updated: z.string(),
-  user_created: z.string(),
-  user_updated: z.string(),
+  date_updated: z.string().optional(),
   uuid: z.string(),
 })
 
@@ -57,7 +54,7 @@ const zClientDetails = zClient.extend({
 })
 
 type TClientDetails = z.infer<typeof zClientDetails>
-type TClientList = z.infer<typeof zClient>
+type TClient = z.infer<typeof zClient>
 type TJobs = z.infer<typeof zJobs>
 type TContacts = z.infer<typeof zContacts>
 
@@ -73,4 +70,8 @@ export interface IRowVendorData {
   delete: string
 }
 
-export type { TClientList, TClientDetails, TContacts, TJobs }
+interface TClientFindAll {
+  data: TClient[]
+}
+
+export type { TClient, TClientDetails, TContacts, TJobs, TClientFindAll }

@@ -26,11 +26,12 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TClientList } from '@/types'
+import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
 import { Link } from 'react-router-dom'
 
+// Style for the Page
 const useStyles = createStyles((theme) => ({
   th: {
     padding: '0 !important',
@@ -119,10 +120,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-interface ClientTableProps {
-  data: TClientList[]
-}
-
+// Table Heading Props
 interface ThProps {
   children: React.ReactNode
   reversed: boolean
@@ -130,6 +128,7 @@ interface ThProps {
   onSort(): void
 }
 
+// Table Heading Component
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles()
   const Icon = sorted
@@ -153,17 +152,19 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
   )
 }
 
-function filterData(data: TClientList[], search: string) {
+// Utility Function - filterData
+function filterData(data: TClient[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
   )
 }
 
+// Utility Function - sortData
 function sortData(
-  data: TClientList[],
+  data: TClient[],
   payload: {
-    sortBy: keyof TClientList | null
+    sortBy: keyof TClient | null
     reversed: boolean
     search: string
   }
@@ -187,16 +188,22 @@ function sortData(
   )
 }
 
-export function ClientTable({ data }: ClientTableProps) {
-  /* Add New - Client state*/
+interface IClientTableProps {
+  data: TClient[]
+}
+
+// Exporting Default ClientTable Component
+export function ClientTable({ data }: IClientTableProps) {
+  console.log(data)
 
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TClientList | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TClient | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const setSorting = (field: keyof TClientList) => {
+
+  const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -210,6 +217,7 @@ export function ClientTable({ data }: ClientTableProps) {
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
+
   // client data Delete handler
   const openModalForDelete = () => {
     console.log('openModalForDelete')
@@ -238,124 +246,140 @@ export function ClientTable({ data }: ClientTableProps) {
     })
   }
 
-  let rows = data
+  // if (!sortedData.length) {
+  //   return <h1>Loading</h1>
+  // }
 
-  if (sortedData?.length) {
-    rows = sortedData?.map((row) => (
-      <tr key={row.id} className={classes.companyDetails}>
-        <td>
-          <Link to={`/client-details/${row.id}`} className={classes.userLink}>
-            <Tooltip
-              label="Click to view"
-              color="blue"
-              withArrow
-              transition="pop-top-right"
-              transitionDuration={300}
-            >
-              <Group spacing="sm">
-                <Avatar size={26} src={row.profile_image} radius={26} />
-                <Text size="sm" weight={500}>
-                  {row.first_name} {row.last_name}
-                </Text>
-              </Group>
-            </Tooltip>
-          </Link>
-        </td>
-        <td>{row.email}</td>
-        <td>{row.city}</td>
-        <td>{row.state}</td>
-        <td>
-          <Group spacing="sm">
-            <IconEdit className={classes.editIcon} cursor="pointer" />
-            <IconTrash
-              className={classes.deleteIcon}
-              cursor="pointer"
-              onClick={() => openModalForDelete()}
-            />
-          </Group>
-        </td>
-      </tr>
-    ))
-  }
-
-  return (
-    <ScrollArea>
-      <div className={classes.tableHead}>
+  // Create Rows
+  const rows = sortedData?.map((row) => (
+    <tr key={row.id} className={classes.companyDetails}>
+      <td>
+        <Link to={`/client-details/${row.id}`} className={classes.userLink}>
+          <Tooltip
+            label="Click to view"
+            color="blue"
+            withArrow
+            transition="pop-top-right"
+            transitionDuration={300}
+          >
+            <Group spacing="sm">
+              <Avatar
+                size={26}
+                src={`https://gokv9osl.directus.app/assets/${row.profile_image}/${row.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+                radius={26}
+              />
+              <Text size="sm" weight={500}>
+                {row.first_name} {row.last_name}
+              </Text>
+            </Group>
+          </Tooltip>
+        </Link>
+      </td>
+      <td>{row.email}</td>
+      <td>{row.city}</td>
+      <td>{row.state}</td>
+      <td>
         <Group spacing="sm">
-          <Text size={'xl'} weight="600" className={classes.text}>
-            Clients Table
-          </Text>
-          <IconFilter className={classes.filterIcon} />
+          <IconEdit className={classes.editIcon} cursor="pointer" />
+          <IconTrash
+            className={classes.deleteIcon}
+            cursor="pointer"
+            onClick={() => openModalForDelete()}
+          />
         </Group>
-        <TextInput
-          placeholder="Search by any field"
-          icon={<IconSearch size={14} stroke={1.5} />}
-          value={search}
-          onChange={handleSearchChange}
-          radius="xl"
-          className={classes.searchField}
-        />
-        {/* Add New - Client Button*/}
-        <Button onClick={() => setOpened(true)}>
-          <Group spacing="sm" align="center">
-            <IconPlus color="white" />
-            <Text weight={400}>Add New</Text>
+      </td>
+    </tr>
+  ))
+
+  // Returning the Scroll Area of Table
+  return (
+    <>
+      <ScrollArea>
+        <div className={classes.tableHead}>
+          <Group spacing="sm">
+            <Text size={'xl'} weight="600" className={classes.text}>
+              Clients Table
+            </Text>
+            <IconFilter className={classes.filterIcon} />
           </Group>
-        </Button>
-      </div>
-      <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        className={classes.childTable}
-        // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
-      >
-        <thead>
-          <tr>
-            <Th
-              sorted={sortBy === 'first_name'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('first_name')}
-            >
-              Name
-            </Th>
-            <Th
-              sorted={sortBy === 'email'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('email')}
-            >
-              Email
-            </Th>
-            <Th
-              sorted={sortBy === 'city'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('city')}
-            >
-              City
-            </Th>
-            <Th
-              sorted={sortBy === 'state'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('state')}
-            >
-              State
-            </Th>
-            <th className={classes.action}>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.length > 0 ? (
-            rows
-          ) : (
+          <TextInput
+            placeholder="Search by any field"
+            icon={<IconSearch size={14} stroke={1.5} />}
+            value={search}
+            onChange={handleSearchChange}
+            radius="xl"
+            className={classes.searchField}
+          />
+          {/* Add New - Client Button*/}
+          <Button onClick={() => setOpened(true)}>
+            <Group spacing="sm" align="center">
+              <IconPlus color="white" />
+              <Text weight={400}>Add New</Text>
+            </Group>
+          </Button>
+        </div>
+
+        <Table
+          horizontalSpacing="md"
+          verticalSpacing="xs"
+          className={classes.childTable}
+          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
+        >
+          <thead>
             <tr>
-              <td colSpan={Object.keys(data[0]).length}>
-                <Text weight={500} align="center">
-                  No records found
-                </Text>
-              </td>
+              <Th
+                sorted={sortBy === 'first_name'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('first_name')}
+              >
+                Name
+              </Th>
+              <Th
+                sorted={sortBy === 'email'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('email')}
+              >
+                Email
+              </Th>
+              <Th
+                sorted={sortBy === 'city'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('city')}
+              >
+                City
+              </Th>
+              <Th
+                sorted={sortBy === 'state'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('state')}
+              >
+                State
+              </Th>
+              <th className={classes.action}>Action</th>
             </tr>
-          )}
-        </tbody>
-      </Table>
+          </thead>
+
+          <tbody>
+            {rows.length > 0 ? (
+              rows
+            ) : (
+              <tr>
+                <td colSpan={Object.keys(data[0]).length}>
+                  <Text weight={500} align="center">
+                    No records found
+                  </Text>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+
+        <div className={classes.tableBottom}>
+          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
+          <Pagination total={5} size="sm" />
+        </div>
+      </ScrollArea>
+
       {/* Add New - Client Form Drawer*/}
       <Drawer
         opened={opened}
@@ -367,10 +391,6 @@ export function ClientTable({ data }: ClientTableProps) {
       >
         <AddNew />
       </Drawer>
-      <div className={classes.tableBottom}>
-        <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-        <Pagination total={5} size="sm" />
-      </div>
-    </ScrollArea>
+    </>
   )
 }

@@ -1,27 +1,18 @@
-import { useState } from 'react'
 import { ClientTable } from './client-table'
-import { TClientList } from '@/types'
+import { TClient, TClientFindAll } from '@/types'
 import { Loader } from '@mantine/core'
 import ClientService from '@/services/clientService'
 import { useQuery } from 'react-query'
 
 export const Client = () => {
-  const [clientData, setClientData] = useState<TClientList[]>(
-    [] as TClientList[]
-  )
-  const { isError, error, isLoading } = useQuery(
+  const { data, isError, error, isLoading } = useQuery<TClientFindAll, Error>(
     'clientAll',
-    ClientService.findAll,
-    {
-      onSuccess: (data) => {
-        // console.log(data)
-        setClientData(data?.data)
-      },
-    }
+    async () => await ClientService.findAll()
   )
 
   if (isError) {
     console.log(error)
+    return <h1>An Error Occurred</h1>
   }
 
   if (isLoading) {
@@ -32,7 +23,11 @@ export const Client = () => {
     )
   }
 
-  return <ClientTable data={clientData} />
+  if (data?.data.length) {
+    return <ClientTable data={data.data} />
+  } else {
+    return <h1>Loading...</h1>
+  }
 }
 
 export default Client
