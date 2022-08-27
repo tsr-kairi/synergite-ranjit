@@ -1,10 +1,11 @@
 import { createStyles } from '@mantine/core'
-import { TContactsFindById } from '@/types'
+import { TClientFindById } from '@/types'
 import { Loader } from '@mantine/core'
 import ClientService from '@/services/clientService'
 import { useQuery } from 'react-query'
 import Personal from './personal'
-import { Contacts } from './contacts'
+// import { Contacts } from './contacts'
+import { useParams } from 'react-router-dom'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
@@ -29,11 +30,19 @@ const useStyles = createStyles(() => ({
 }))
 
 export const ClientDetails = () => {
+  const { clientId } = useParams()
   const { classes } = useStyles()
-  const { data, isError, error, isLoading } = useQuery<
-    TContactsFindById,
-    Error
-  >('clientAll', async () => await ClientService.findById())
+  console.log(clientId)
+
+  const {
+    data: clientData,
+    isError,
+    error,
+    isLoading,
+  } = useQuery<TClientFindById, Error>(
+    'clientAll',
+    async () => await ClientService.findById(Number(clientId))
+  )
 
   if (isError) {
     console.log(error)
@@ -48,27 +57,19 @@ export const ClientDetails = () => {
     )
   }
 
-  if (data?.data.length) {
-    return (
-      <>
-        <div className={classes.clientDetails}>
-          <div className={classes.clientProProfile}>
-            <Personal />
-          </div>
-          <div className={classes.clientContactJobs}>
-            <Contacts data={data} />
-            {/* <Jobs data={clientData.jobs} /> */}
-          </div>
+  return (
+    <>
+      <div className={classes.clientDetails}>
+        <div className={classes.clientProProfile}>
+          <Personal data={clientData?.data} />
         </div>
-      </>
-    )
-  } else {
-    return (
-      <div>
-        <Loader variant="dots" />
+        <div className={classes.clientContactJobs}>
+          {/* <Contacts data={data} /> */}
+          {/* <Jobs data={clientData.jobs} /> */}
+        </div>
       </div>
-    )
-  }
+    </>
+  )
 }
 
 export default ClientDetails

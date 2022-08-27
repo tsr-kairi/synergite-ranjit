@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={<DashBoard />} />
           <Route path="/client" element={<Client />} />
           <Route path="/vendor" element={<Vendor />} />
-          <Route path="/client-details" element={<ClientDetails />} />
+          <Route path="/client-details/:clientId" element={<ClientDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

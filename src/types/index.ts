@@ -75,9 +75,18 @@ interface TClientFindAll {
   data: TClient[]
 }
 
-interface TContactsFindById {
+interface TContactsFindAll {
   data: TContacts[]
 }
+
+interface TJobsFindAll {
+  data: TJobs[]
+}
+
+interface TClientFindById {
+  data: TClient
+}
+
 
 export type {
   TClient,
@@ -85,6 +94,8 @@ export type {
   TContacts,
   TJobs,
   TClientFindAll,
-  TContactsFindById,
+  TContactsFindAll,
   TVendor,
+  TJobsFindAll,
+  TClientFindById,
 }
