@@ -1,15 +1,11 @@
 import { createStyles } from '@mantine/core'
-import { useState } from 'react'
-import { TClientDetails } from '@/types'
+import { TClientFindById } from '@/types'
 import { Loader } from '@mantine/core'
 import ClientService from '@/services/clientService'
 import { useQuery } from 'react-query'
-import { Contacts } from './contacts'
 import Personal from './personal'
-import { Jobs } from './jobs'
-
+// import { Contacts } from './contacts'
 import { useParams } from 'react-router-dom'
-import Client from '..'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
@@ -32,28 +28,25 @@ const useStyles = createStyles(() => ({
     flex: 1,
   },
 }))
-export default function ClientDetails() {
-  const { classes } = useStyles()
 
-  const [clientData, setClientData] = useState<TClientDetails>(
-    {} as TClientDetails
-  )
-
+export const ClientDetails = () => {
   const { clientId } = useParams()
+  const { classes } = useStyles()
+  console.log(clientId)
 
-  const { isError, error, isLoading } = useQuery(
-    ['clientSingle', clientId],
-    (clientId) => ClientService.findById(Number(clientId)),
-    {
-      onSuccess: (data) => {
-        console.log(data)
-        setClientData(data?.data)
-      },
-    }
+  const {
+    data: clientData,
+    isError,
+    error,
+    isLoading,
+  } = useQuery<TClientFindById, Error>(
+    'clientAll',
+    async () => await ClientService.findById(Number(clientId))
   )
 
   if (isError) {
     console.log(error)
+    return <h1>An Error Occurred</h1>
   }
 
   if (isLoading) {
@@ -68,13 +61,15 @@ export default function ClientDetails() {
     <>
       <div className={classes.clientDetails}>
         <div className={classes.clientProProfile}>
-          <Personal />
+          <Personal data={clientData?.data} />
         </div>
         <div className={classes.clientContactJobs}>
-          <Contacts data={clientData.contacts} />
-          <Jobs data={clientData.jobs} />
+          {/* <Contacts data={data} /> */}
+          {/* <Jobs data={clientData.jobs} /> */}
         </div>
       </div>
     </>
   )
 }
+
+export default ClientDetails

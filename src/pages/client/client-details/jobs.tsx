@@ -11,6 +11,7 @@ import {
   Drawer,
   Pagination,
   Button,
+  Avatar,
   // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -23,10 +24,11 @@ import {
   IconTrash,
   IconPlus,
 } from '@tabler/icons'
-import { TClientList } from '@/types'
+import { TContacts } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
 
+// Style for the Page
 const useStyles = createStyles((theme) => ({
   th: {
     padding: '0 !important',
@@ -111,10 +113,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-interface ContactsProps {
-  data: TClientList[]
-}
-
+// Table Heading Props
 interface ThProps {
   children: React.ReactNode
   reversed: boolean
@@ -122,6 +121,7 @@ interface ThProps {
   onSort(): void
 }
 
+// Table Heading Component
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles()
   const Icon = sorted
@@ -145,17 +145,19 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
   )
 }
 
-function filterData(data: TClientList[], search: string) {
+// Utility Function - filter Data
+function filterData(data: TContacts[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
   )
 }
 
+// Utility Function - short Data
 function sortData(
-  data: TClientList[],
+  data: TContacts[],
   payload: {
-    sortBy: keyof TClientList | null
+    sortBy: keyof TContacts | null
     reversed: boolean
     search: string
   }
@@ -169,7 +171,6 @@ function sortData(
   return filterData(
     [...data].sort((a, b) => {
       if (payload.reversed) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
         return String(b[sortBy]).localeCompare(String(a[sortBy]))
       }
 
@@ -179,15 +180,21 @@ function sortData(
   )
 }
 
+interface ContactsProps {
+  data: TContacts[]
+}
+
+// Exporting Default ClientTable Component
+
 export function Contacts({ data }: ContactsProps) {
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TClientList | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TContacts | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const setSorting = (field: keyof TClientList) => {
+  const setSorting = (field: keyof TContacts) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -228,18 +235,24 @@ export function Contacts({ data }: ContactsProps) {
     })
   }
   const rows = sortedData.map((row) => (
-    <tr key={row.name} className={classes.companyDetails}>
+    <tr key={row.id} className={classes.companyDetails}>
       <td>
         <Group spacing="sm">
-          {/* <Avatar size={26} src={row.avatar} radius={26} /> */}
+          <Avatar
+            size={26}
+            src={`https://gokv9osl.directus.app/assets/${row.profile_image}/${row.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+            radius={26}
+          />
           <Text size="sm" weight={500}>
-            {row.name}
+            {row.first_name} {row.last_name}
           </Text>
         </Group>
       </td>
       <td>{row.email}</td>
+      <td>{row.phone}</td>
       <td>{row.city}</td>
-      <td>{row.state}</td>
+      <td>{row.country}</td>
+      {/* <td>{row.country}</td> */}
       <td>
         <Group spacing="sm">
           <IconEdit className={classes.editIcon} cursor="pointer" />
@@ -283,9 +296,9 @@ export function Contacts({ data }: ContactsProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'name'}
+              sorted={sortBy === 'first_name'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('name')}
+              onSort={() => setSorting('last_name')}
             >
               Name
             </Th>
@@ -297,16 +310,23 @@ export function Contacts({ data }: ContactsProps) {
               Email
             </Th>
             <Th
-              sorted={sortBy === 'city'}
+              sorted={sortBy === 'phone'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('city')}
+              onSort={() => setSorting('phone')}
             >
               Phone
             </Th>
             <Th
-              sorted={sortBy === 'state'}
+              sorted={sortBy === 'city'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('state')}
+              onSort={() => setSorting('city')}
+            >
+              City
+            </Th>
+            <Th
+              sorted={sortBy === 'country'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('country')}
             >
               Country
             </Th>

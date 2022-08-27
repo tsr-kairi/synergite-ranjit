@@ -1,5 +1,5 @@
 import { ClientTable } from './client-table'
-import { TClient, TClientFindAll } from '@/types'
+import { TClientFindAll } from '@/types'
 import { Loader } from '@mantine/core'
 import ClientService from '@/services/clientService'
 import { useQuery } from 'react-query'

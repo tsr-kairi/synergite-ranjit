@@ -1,3 +1,4 @@
+import {TClient } from '@/types'
 import { Avatar, Text, createStyles, Group, Box } from '@mantine/core'
 import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
 
@@ -47,7 +48,12 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function Personal() {
+interface PersonalProps {
+  data: TClient
+}
+export default function Personal({ data }: PersonalProps) {
+  console.log(data)
+
   const { classes } = useStyles()
   return (
     <div className={classes.clientInnerProfile}>
@@ -67,16 +73,17 @@ export default function Personal() {
       <div className={classes.ClientUserCard}>
         <div className={classes.UserCardInner}>
           <Avatar
-            src="https://static.foxbusiness.com/foxbusiness.com/content/uploads/2022/04/thumbnail_elon-musk-twitter-.jpg"
+            src={`https://gokv9osl.directus.app/assets/${data.profile_image}/${data.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
             size={120}
             radius={120}
             mx="auto"
           />
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            Elon Musk
+            {data.first_name}
+            {data.last_name}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            elon.musk@yahoo.com
+            {data.email}
           </Text>
         </div>
       </div>
@@ -98,7 +105,8 @@ export default function Personal() {
             Name :
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            Elon Musk
+            {data.first_name}
+            {data.last_name}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -106,7 +114,15 @@ export default function Personal() {
             Email :
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            elon.musk@yahoo.com
+            {data.email}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            Phone :
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data.phone}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -114,7 +130,7 @@ export default function Personal() {
             City :
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            Amsterdam
+            {data.city}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -122,15 +138,12 @@ export default function Personal() {
             State :
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            New York
+            {data.state}
           </Text>
         </Group>
-        <Group spacing="xl">
+        {/* <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
             Country :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            USA
           </Text>
         </Group>
         <Group spacing="xl">
@@ -188,7 +201,7 @@ export default function Personal() {
           <Text size="sm" color="#686969" weight={400}>
             +1 6583 383 823
           </Text>
-        </Group>
+        </Group> */}
       </div>
     </div>
   )
