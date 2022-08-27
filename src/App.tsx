@@ -9,7 +9,7 @@ import AppShellMain from './components/layout'
 import DashBoard from './pages/dashboard'
 import Client from './pages/client'
 import Vendor from './pages/vendor'
-import ClientDetails from './pages/client/clientDetails'
+import { ClientDetails } from './pages/client/client-details'
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={<DashBoard />} />
           <Route path="/client" element={<Client />} />
           <Route path="/vendor" element={<Vendor />} />
-          <Route path="/client-details/:clientId" element={<ClientDetails />} />
+          <Route path="/client-details" element={<ClientDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

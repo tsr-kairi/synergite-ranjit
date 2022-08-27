@@ -1,4 +1,4 @@
-import { TClient, TClientFindAll } from '@/types'
+import { TClientFindAll, TContactsFindById } from '@/types'
 import apiClient from './base'
 
 const findAll = async () => {
@@ -6,11 +6,11 @@ const findAll = async () => {
   return response.data
 }
 
-// const findById = async (id: number) => {
-//   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-//   return await apiClient.get<TClientDetails>(`/clients/${id}`)
-//   // return response.data
-// }
+const findById = async (id: number) => {
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  return await apiClient.get<TContactsFindById>(`/clients/${id}`)
+  // return response.data
+}
 
 // const findByTitle = async (title: string) => {
 //   const response = await apiClient.get<TClientList[]>(`/clients?title=${title}`)
@@ -46,6 +46,7 @@ const findAll = async () => {
 
 const ClientService = {
   findAll,
+  findById,
   // deleteById,
   // deleteAll,
   // getAllClients,
