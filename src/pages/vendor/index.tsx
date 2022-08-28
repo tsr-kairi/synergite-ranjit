@@ -1,25 +1,21 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { IRowVendorData } from '@/types'
-import { VendorTable } from './vendor-table'
+import { TVendorFindAll } from '@/types'
 import { Loader } from '@mantine/core'
+import { useQuery } from 'react-query'
+import VendorTable from './vendor-table'
+import VendorService from '@/services/vendorService'
 
 export const Vendor = () => {
-  const [vendorData, setVendorData] = useState<IRowVendorData[]>(
-    [] as IRowVendorData[]
+  const { data, isError, error, isLoading } = useQuery<TVendorFindAll, Error>(
+    'vendorAll',
+    async () => await VendorService.findAllVendor()
   )
-  useEffect(() => {
-    axios
-      .get<IRowVendorData[]>('http://localhost:4000/vendorTableData')
-      .then((res) => {
-        setVendorData(res.data)
-      })
-      .catch((err) => {
-        console.log('err', err)
-      })
-  }, [])
 
-  if (!vendorData.length) {
+  if (isError) {
+    console.log(error)
+    return <h1>An Error Occurred</h1>
+  }
+
+  if (isLoading) {
     return (
       <div>
         <Loader variant="dots" />
@@ -27,7 +23,11 @@ export const Vendor = () => {
     )
   }
 
-  return <VendorTable data={vendorData} />
+  if (data?.data.length) {
+    return <VendorTable data={data.data} />
+  } else {
+    return <h1>Loading...</h1>
+  }
 }
 
 export default Vendor

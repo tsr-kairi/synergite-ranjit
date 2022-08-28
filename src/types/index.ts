@@ -4,7 +4,7 @@ import { z } from 'zod'
 // Validation
 const zClient = z.object({
   id: z.number(),
-  profile_image: z.string().url(),
+  profile_image: z.string(),
   first_name: z.string(),
   last_name: z.string(),
   email: z.string().email(),
@@ -75,6 +75,10 @@ interface TClientFindAll {
   data: TClient[]
 }
 
+interface TVendorFindAll {
+  data: TVendor[]
+}
+
 interface TContactsFindAll {
   data: TContacts[]
 }
@@ -87,7 +91,6 @@ interface TClientFindById {
   data: TClient
 }
 
-
 export type {
   TClient,
   TClientDetails,
@@ -96,6 +99,7 @@ export type {
   TClientFindAll,
   TContactsFindAll,
   TVendor,
+  TVendorFindAll,
   TJobsFindAll,
   TClientFindById,
 }

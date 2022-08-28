@@ -1,11 +1,7 @@
 import { createStyles } from '@mantine/core'
-import { TClientFindById } from '@/types'
-import { Loader } from '@mantine/core'
-import ClientService from '@/services/clientService'
-import { useQuery } from 'react-query'
+import Contacts from './contacts'
+import Jobs from './jobs'
 import Personal from './personal'
-// import { Contacts } from './contacts'
-import { useParams } from 'react-router-dom'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
@@ -25,47 +21,31 @@ const useStyles = createStyles(() => ({
     padding: '20px',
   },
   clientContactJobs: {
+    height: '88.5vh',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '50px',
     flex: 1,
+  },
+  contacts: {
+    height: '40vh',
   },
 }))
 
 export const ClientDetails = () => {
-  const { clientId } = useParams()
   const { classes } = useStyles()
-  console.log(clientId)
-
-  const {
-    data: clientData,
-    isError,
-    error,
-    isLoading,
-  } = useQuery<TClientFindById, Error>(
-    'clientAll',
-    async () => await ClientService.findById(Number(clientId))
-  )
-
-  if (isError) {
-    console.log(error)
-    return <h1>An Error Occurred</h1>
-  }
-
-  if (isLoading) {
-    return (
-      <div>
-        <Loader variant="dots" />
-      </div>
-    )
-  }
 
   return (
     <>
       <div className={classes.clientDetails}>
         <div className={classes.clientProProfile}>
-          <Personal data={clientData?.data} />
+          <Personal />
         </div>
         <div className={classes.clientContactJobs}>
-          {/* <Contacts data={data} /> */}
-          {/* <Jobs data={clientData.jobs} /> */}
+          <div className={classes.contacts}>
+            <Contacts />
+          </div>
+          <Jobs />
         </div>
       </div>
     </>
