@@ -11,6 +11,7 @@ import {
   Header,
   MediaQuery,
   Box,
+  Divider,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
@@ -18,6 +19,8 @@ import {
   IconSettings,
   IconClock,
   IconChevronRight,
+  IconLogin,
+  IconRoute,
 } from '@tabler/icons'
 import Logo from '../logo'
 import { Link } from 'react-router-dom'
@@ -197,6 +200,28 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
                   className={classes.logout}
                 >
                   Logout
+                </Menu.Item>
+                <Divider my="sm" />
+                <Menu.Item
+                  icon={<IconRoute size={14} stroke={1.5} />}
+                  className={classes.logout}
+                >
+                  Page Route Link Below
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to={'/login'}>Login</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to={'/forgot-password'}>Forgot Password</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to={'/confirm-password'}>Confirm Password</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to={'/not-found'}>404 Not Found</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to={'/server-error'}>500 Server Error</Link>
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
