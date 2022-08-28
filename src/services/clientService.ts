@@ -3,11 +3,7 @@ import {
   IFindJobsByClientId,
   TClientFindAll,
   TClientFindById,
-  TContacts,
-  TJobs,
 } from '@/types'
-import { useQuery } from 'react-query'
-import { Interface } from 'readline'
 import apiClient from './base'
 
 // for client

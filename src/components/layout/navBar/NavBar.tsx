@@ -35,14 +35,15 @@ const mockdata = [
 ]
 
 const useStyles = createStyles((theme) => ({
+  mainNav: {
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
+  },
   navbar: {
     backgroundColor: theme.colors.blue[9],
     height: '100vh',
     borderTop: `1px solid ${theme.colors.blue[6]}`,
-
-    [theme.fn.smallerThan('md')]: {
-      display: 'none',
-    },
   },
 
   links: {
@@ -63,7 +64,12 @@ export default function NavBar() {
   ))
 
   return (
-    <Navbar hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }} hidden={!open}>
+    <Navbar
+      hiddenBreakpoint="sm"
+      width={{ sm: 200, lg: 300 }}
+      hidden={!open}
+      className={classes.mainNav}
+    >
       <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
         {/* Main Navbar */}
         <Navbar.Section grow className={classes.links} component={ScrollArea}>

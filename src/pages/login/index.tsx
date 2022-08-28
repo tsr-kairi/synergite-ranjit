@@ -6,14 +6,12 @@ import {
   Checkbox,
   Button,
   Title,
-  Text,
   Anchor,
   Image,
   MantineProvider,
   Group,
 } from '@mantine/core'
 
-// import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
 import Logo from '@/components/logo'
 import { Link } from 'react-router-dom'
 
@@ -23,6 +21,10 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     width: '100%',
     overflow: 'hidden',
+
+    [theme.fn.smallerThan('xs')]: {
+      flexDirection: 'column',
+    },
   },
   form: {
     display: 'flex',
@@ -30,8 +32,10 @@ const useStyles = createStyles((theme) => ({
     minHeight: 900,
     width: `40%`,
     backgroundColor: theme.colors.blue[9],
-    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      maxWidth: '100%',
+
+    [theme.fn.smallerThan('xs')]: {
+      width: '100%',
+      padding: '20px',
     },
   },
 
@@ -39,9 +43,13 @@ const useStyles = createStyles((theme) => ({
     width: '100%',
     margin: '0 auto',
     padding: 80,
-    // backgroundColor: 'rgba(103, 169, 241, 0.17)',
     backgroundColor: theme.colors.white,
     marginTop: '140px',
+
+    [theme.fn.smallerThan('xs')]: {
+      padding: 30,
+      marginTop: '70px',
+    },
   },
 
   title: {
@@ -55,7 +63,14 @@ const useStyles = createStyles((theme) => ({
   },
   loginImg: {
     width: '60%',
+    maxWidth: '50%',
     height: '100vh',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
   },
   btn: {
     backgroundColor: theme.colors.accent[9],
@@ -65,10 +80,13 @@ const useStyles = createStyles((theme) => ({
     },
   },
   emailInput: {
-    // backgroundColor: theme.colors.blue[9],
     '::-ms-input-placeholder': {
       backgroundColor: theme.colors.blue[9],
     },
+  },
+  backPage: {
+    textDecoration: 'none',
+    color: theme.colors.blue[9],
   },
 }))
 
@@ -77,7 +95,11 @@ export function Login() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
-        <Logo />
+        <Link to={'/'}>
+          <a href="/" rel="noopener noreferrer">
+            <Logo />
+          </a>
+        </Link>
         <Paper className={classes.formInner} radius={10}>
           <Title
             order={6}
@@ -112,7 +134,9 @@ export function Login() {
               onClick={(event) => event.preventDefault()}
               align="right"
             >
-              <Link to={'/forgot-password'}>Forgot Password</Link>
+              <Link className={classes.backPage} to={'/forgot-password'}>
+                Forgot Password
+              </Link>
             </Anchor>
           </Group>
           <MantineProvider
@@ -129,28 +153,17 @@ export function Login() {
               login
             </Button>
           </MantineProvider>
-
-          {/* <Text align="center" mt="md">
-            Don&apos;t have an account?{' '}
-            <Anchor<'a'>
-              href="#"
-              weight={700}
-              onClick={(event) => event.preventDefault()}
-            >
-              Register
-            </Anchor>
-          </Text> */}
         </Paper>
       </Paper>
 
-      <Paper className={classes.loginImg} radius={0}>
+      <div className={classes.loginImg}>
         <Image
           src="https://www.allen.ac.in/apps2223/assets/images/login.jpg"
           alt="Login_Img"
           height="100vh"
           width="100%"
         />
-      </Paper>
+      </div>
     </div>
   )
 }

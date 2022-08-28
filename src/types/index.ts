@@ -75,7 +75,7 @@ interface TClientFindAll {
   data: TClient[]
 }
 
-interface TVendorFindAll {
+interface IVendorFindAll {
   data: TVendor[]
 }
 
@@ -107,7 +107,7 @@ export type {
   TClientFindAll,
   TContactsFindAll,
   TVendor,
-  TVendorFindAll,
+  IVendorFindAll,
   TJobsFindAll,
   TClientFindById,
   IFindContactsByClientId,

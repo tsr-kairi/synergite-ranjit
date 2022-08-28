@@ -355,7 +355,7 @@ export default function ContactsTable({ data }: ContactProps) {
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add New Client"
+        title="Add New Contact"
         padding="xl"
         size="xl"
         position="right"

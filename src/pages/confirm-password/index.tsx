@@ -11,6 +11,7 @@ import {
 } from '@mantine/core'
 
 import Logo from '@/components/logo'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -50,7 +51,14 @@ const useStyles = createStyles((theme) => ({
   },
   loginImg: {
     width: '60%',
+    maxWidth: '50%',
     height: '100vh',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
   },
   btn: {
     backgroundColor: theme.colors.accent[9],
@@ -65,6 +73,10 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colors.blue[9],
     },
   },
+  backPage: {
+    textDecoration: 'none',
+    color: theme.colors.blue[9],
+  },
 }))
 
 export function Login() {
@@ -72,7 +84,11 @@ export function Login() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
-        <Logo />
+        <Link to={'/'}>
+          <a href="/" rel="noopener noreferrer">
+            <Logo />
+          </a>
+        </Link>
         <Paper className={classes.formInner} radius={10}>
           <Title
             order={6}
@@ -101,9 +117,10 @@ export function Login() {
               href="#login"
               weight={700}
               onClick={(event) => event.preventDefault()}
-              // mt={20}
             >
-              Back to login page
+              <Link className={classes.backPage} to={'/login'}>
+                Back to login page
+              </Link>
             </Anchor>
             <MantineProvider
               theme={{

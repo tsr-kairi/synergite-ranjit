@@ -53,7 +53,14 @@ const useStyles = createStyles((theme) => ({
   },
   loginImg: {
     width: '60%',
+    maxWidth: '50%',
     height: '100vh',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
   },
   btn: {
     backgroundColor: theme.colors.accent[9],
@@ -62,6 +69,10 @@ const useStyles = createStyles((theme) => ({
       transition: 'all 0.6s ease-in-out',
     },
   },
+  backPage: {
+    textDecoration: 'none',
+    color: theme.colors.blue[9],
+  },
 }))
 
 export function ForgotPassword() {
@@ -69,7 +80,11 @@ export function ForgotPassword() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
-        <Logo />
+        <Link to={'/'}>
+          <a href="/" rel="noopener noreferrer">
+            <Logo />
+          </a>
+        </Link>
         <Paper className={classes.formInner} radius={10}>
           <Title
             order={1}
@@ -97,7 +112,9 @@ export function ForgotPassword() {
               onClick={(event) => event.preventDefault()}
               // mt={20}
             >
-              <Link to={'/login'}>Back to login page</Link>
+              <Link className={classes.backPage} to={'/login'}>
+                Back to login page
+              </Link>
             </Anchor>
             <MantineProvider
               theme={{
