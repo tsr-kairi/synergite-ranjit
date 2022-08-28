@@ -20,16 +20,21 @@ import {
   IconChevronRight,
 } from '@tabler/icons'
 import Logo from '../logo'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   header: {
     display: 'flex',
-    // alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
     height: '90px',
-    backgroundColor: theme.colors.grey[0],
+    backgroundColor: 'transparent',
     border: 'none',
+
+    [theme.fn.smallerThan('xs')]: {
+      backgroundColor: theme.colors.blue[9],
+      alignItems: 'center',
+    },
   },
 
   user: {
@@ -64,6 +69,10 @@ const useStyles = createStyles((theme) => ({
     width: '299px',
     paddingLeft: '20px',
     backgroundColor: theme.colors.blue[9],
+
+    [theme.fn.smallerThan('xs')]: {
+      backgroundColor: 'transparent',
+    },
   },
   rightSide: {
     display: 'flex',
@@ -109,12 +118,6 @@ interface IHeaderBarProps {
   user: { name: string; image: string }
 }
 
-// interface INewDateOptProps {
-//   month: string
-//   day: string
-//   year: string
-// }
-
 export default function HeaderBar({ user }: IHeaderBarProps) {
   const { classes, cx } = useStyles()
   const [opened, { toggle }] = useDisclosure(false)
@@ -125,7 +128,11 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
   return (
     <Header className={classes.header} height={80}>
       <Box className={classes.leftSide}>
-        <Logo />
+        <Link to={'/'}>
+          <a href="/" rel="noopener noreferrer">
+            <Logo />
+          </a>
+        </Link>
       </Box>
       <Box className={classes.rightSide}>
         <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>

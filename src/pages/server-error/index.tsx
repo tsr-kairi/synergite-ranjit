@@ -10,6 +10,7 @@ import {
 } from '@mantine/core'
 import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
 import serverError from '@/assets/images/serverError.svg'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   main: {
@@ -67,7 +68,11 @@ export default function ServerError() {
 
   return (
     <div className={classes.main}>
-      <Image src={SynergiteLogo} alt="SynergiteLogo" width={200} />
+      <Link to={'/'}>
+        <a href="/" rel="noopener noreferrer">
+          <Image src={SynergiteLogo} alt="SynergiteLogo" width={200} />
+        </a>
+      </Link>
       <div className={classes.root}>
         <Container>
           <Image
@@ -95,9 +100,11 @@ export default function ServerError() {
                 },
               }}
             >
-              <Button variant="gradient" size="md">
-                Refresh the page
-              </Button>
+              <Link to={'/'}>
+                <Button variant="gradient" size="md">
+                  Refresh the page
+                </Button>
+              </Link>
             </MantineProvider>
           </Group>
         </Container>

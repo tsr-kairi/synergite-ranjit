@@ -330,7 +330,7 @@ export default function JobsTable({ data }: JobsProps) {
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add New Client"
+        title="Add New Job"
         padding="xl"
         size="xl"
         position="right"
