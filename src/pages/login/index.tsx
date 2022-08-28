@@ -15,6 +15,7 @@ import {
 
 // import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
 import Logo from '@/components/logo'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -104,13 +105,14 @@ export function Login() {
 
           <Group grow mt={20} position="center">
             <Checkbox label="Keep me logged in" size="sm" />
+
             <Anchor<'a'>
               href="#login"
               weight={700}
               onClick={(event) => event.preventDefault()}
               align="right"
             >
-              Forgot Password
+              <Link to={'/forgot-password'}>Forgot Password</Link>
             </Anchor>
           </Group>
           <MantineProvider
@@ -128,7 +130,7 @@ export function Login() {
             </Button>
           </MantineProvider>
 
-          <Text align="center" mt="md">
+          {/* <Text align="center" mt="md">
             Don&apos;t have an account?{' '}
             <Anchor<'a'>
               href="#"
@@ -137,7 +139,7 @@ export function Login() {
             >
               Register
             </Anchor>
-          </Text>
+          </Text> */}
         </Paper>
       </Paper>
 

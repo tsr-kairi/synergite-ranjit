@@ -1,5 +1,5 @@
 import ClientService from '@/services/clientService'
-import { TJobs } from '@/types'
+import { IFindJobsByClientId, TJobs } from '@/types'
 import { Loader } from '@mantine/core'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
@@ -10,13 +10,14 @@ const Jobs = () => {
   const { clientId } = useParams()
   const [jobData, setJobData] = useState<TJobs[]>([] as TJobs[])
 
-  const { isError, error, isLoading } = useQuery<TJobs[], Error>(
+  const { isError, error, isLoading } = useQuery<IFindJobsByClientId, Error>(
     ['jobList', clientId],
     async () => await ClientService.findJobsByClientId(Number(clientId)),
     {
       onSuccess: (data) => {
-        setJobData(data)
+        setJobData(data.data)
       },
+      enabled: !!clientId,
     }
   )
 

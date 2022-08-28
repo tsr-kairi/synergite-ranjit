@@ -328,7 +328,6 @@ export default function ContactsTable({ data }: ContactProps) {
                 <td>{row?.phone}</td>
                 <td>{row?.city}</td>
                 <td>{row?.country}</td>
-                {/* <td>{row.country}</td> */}
                 <td>
                   <Group spacing="sm">
                     <IconEdit className={classes.editIcon} cursor="pointer" />

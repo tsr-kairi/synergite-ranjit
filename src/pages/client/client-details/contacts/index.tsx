@@ -1,5 +1,5 @@
 import ClientService from '@/services/clientService'
-import { TContacts } from '@/types'
+import { IFindContactsByClientId, TContacts } from '@/types'
 import { Loader } from '@mantine/core'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
@@ -12,13 +12,17 @@ const Contacts = () => {
     [] as TContacts[]
   )
 
-  const { isError, error, isLoading } = useQuery<TContacts[], Error>(
+  const { isError, error, isLoading } = useQuery<
+    IFindContactsByClientId,
+    Error
+  >(
     ['contactList', clientId],
     async () => await ClientService.findContactsByClientId(Number(clientId)),
     {
       onSuccess: (data) => {
-        setContactsData(data)
+        setContactsData(data.data)
       },
+      enabled: !!clientId,
     }
   )
 
@@ -34,8 +38,6 @@ const Contacts = () => {
       </div>
     )
   }
-
-  console.log({ contactsData })
 
   return <ContactsTable data={contactsData} />
 }

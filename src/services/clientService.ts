@@ -1,4 +1,13 @@
-import { TClientFindAll, TClientFindById, TContacts, TJobs } from '@/types'
+import {
+  IFindContactsByClientId,
+  IFindJobsByClientId,
+  TClientFindAll,
+  TClientFindById,
+  TContacts,
+  TJobs,
+} from '@/types'
+import { useQuery } from 'react-query'
+import { Interface } from 'readline'
 import apiClient from './base'
 
 // for client
@@ -12,20 +21,20 @@ const findById = async (id: number) => {
   return response.data
 }
 
-const findContactsByClientId = async (id: number): Promise<TContacts[]> => {
-  const response = await apiClient.get<TContacts[]>(
+const findContactsByClientId = async (
+  id: number
+): Promise<IFindContactsByClientId> => {
+  const { data } = await apiClient.get<IFindContactsByClientId>(
     `/contacts?filter[clients][_eq]=${id}`
   )
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return response.data.data
+  return data
 }
 
-const findJobsByClientId = async (id: number): Promise<TJobs[]> => {
-  const response = await apiClient.get<TJobs[]>(
+const findJobsByClientId = async (id: number): Promise<IFindJobsByClientId> => {
+  const { data } = await apiClient.get<IFindJobsByClientId>(
     `/jobs?filter[clients][_eq]=${id}`
   )
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return response.data.data
+  return data
 }
 
 // const findByTitle = async (title: string) => {

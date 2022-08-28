@@ -91,6 +91,14 @@ interface TClientFindById {
   data: TClient
 }
 
+interface IFindContactsByClientId {
+  data: TContacts[]
+}
+
+interface IFindJobsByClientId {
+  data: TJobs[]
+}
+
 export type {
   TClient,
   TClientDetails,
@@ -102,4 +110,6 @@ export type {
   TVendorFindAll,
   TJobsFindAll,
   TClientFindById,
+  IFindContactsByClientId,
+  IFindJobsByClientId,
 }

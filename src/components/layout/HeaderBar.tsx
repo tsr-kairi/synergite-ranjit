@@ -16,7 +16,6 @@ import { useDisclosure } from '@mantine/hooks'
 import {
   IconLogout,
   IconSettings,
-  IconChevronDown,
   IconClock,
   IconChevronRight,
 } from '@tabler/icons'

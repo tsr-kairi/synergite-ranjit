@@ -12,6 +12,7 @@ import {
 } from '@mantine/core'
 
 import Logo from '@/components/logo'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -63,7 +64,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export function Login() {
+export function ForgotPassword() {
   const { classes } = useStyles()
   return (
     <div className={classes.wrapper}>
@@ -96,7 +97,7 @@ export function Login() {
               onClick={(event) => event.preventDefault()}
               // mt={20}
             >
-              Back to login page
+              <Link to={'/login'}>Back to login page</Link>
             </Anchor>
             <MantineProvider
               theme={{
@@ -127,4 +128,4 @@ export function Login() {
   )
 }
 
-export default Login
+export default ForgotPassword
