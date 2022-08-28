@@ -9,9 +9,7 @@ import {
   Center,
   TextInput,
   Drawer,
-  Pagination,
   Button,
-  Avatar,
   // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -24,7 +22,7 @@ import {
   IconTrash,
   IconPlus,
 } from '@tabler/icons'
-import { TContacts } from '@/types'
+import { TJobs } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
 
@@ -146,7 +144,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filter Data
-function filterData(data: TContacts[], search: string) {
+function filterData(data: TJobs[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -155,9 +153,9 @@ function filterData(data: TContacts[], search: string) {
 
 // Utility Function - short Data
 function sortData(
-  data: TContacts[],
+  data: TJobs[],
   payload: {
-    sortBy: keyof TContacts | null
+    sortBy: keyof TJobs | null
     reversed: boolean
     search: string
   }
@@ -180,21 +178,22 @@ function sortData(
   )
 }
 
-interface ContactsProps {
-  data: TContacts[]
+interface JobsProps {
+  data: TJobs[]
 }
 
 // Exporting Default ClientTable Component
 
-export function Contacts({ data }: ContactsProps) {
+export default function JobsTable({ data }: JobsProps) {
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TContacts | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TJobs | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const setSorting = (field: keyof TContacts) => {
+
+  const setSorting = (field: keyof TJobs) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -234,42 +233,12 @@ export function Contacts({ data }: ContactsProps) {
       },
     })
   }
-  const rows = sortedData.map((row) => (
-    <tr key={row.id} className={classes.companyDetails}>
-      <td>
-        <Group spacing="sm">
-          <Avatar
-            size={26}
-            src={`https://gokv9osl.directus.app/assets/${row.profile_image}/${row.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-            radius={26}
-          />
-          <Text size="sm" weight={500}>
-            {row.first_name} {row.last_name}
-          </Text>
-        </Group>
-      </td>
-      <td>{row.email}</td>
-      <td>{row.phone}</td>
-      <td>{row.city}</td>
-      <td>{row.country}</td>
-      {/* <td>{row.country}</td> */}
-      <td>
-        <Group spacing="sm">
-          <IconEdit className={classes.editIcon} cursor="pointer" />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete()}
-          />
-        </Group>
-      </td>
-    </tr>
-  ))
+
   return (
     <ScrollArea>
       <div className={classes.tableHead}>
         <Text size={'xl'} weight="600" className={classes.text}>
-          Contacts
+          Jobs
         </Text>
         <TextInput
           placeholder="Search by any field"
@@ -296,51 +265,72 @@ export function Contacts({ data }: ContactsProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'first_name'}
+              sorted={sortBy === 'job_name'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('last_name')}
+              onSort={() => setSorting('job_name')}
             >
-              Name
+              Job Name
             </Th>
             <Th
-              sorted={sortBy === 'email'}
+              sorted={sortBy === 'location'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('email')}
+              onSort={() => setSorting('location')}
             >
-              Email
+              Location
             </Th>
             <Th
-              sorted={sortBy === 'phone'}
+              sorted={sortBy === 'category'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('phone')}
+              onSort={() => setSorting('category')}
             >
-              Phone
+              Category
             </Th>
             <Th
-              sorted={sortBy === 'city'}
+              sorted={sortBy === 'job_status'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('city')}
+              onSort={() => setSorting('job_status')}
             >
-              City
-            </Th>
-            <Th
-              sorted={sortBy === 'country'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('country')}
-            >
-              Country
+              Job Status
             </Th>
             <th className={classes.action}>Action</th>
           </tr>
         </thead>
         <tbody>
-          {rows.length > 0 ? (
-            rows
+          {data.length > 0 ? (
+            sortedData.map((row) => (
+              <tr key={row.id} className={classes.companyDetails}>
+                <td>
+                  <Group spacing="sm">
+                    {/* <Avatar
+            size={26}
+            src={`https://gokv9osl.directus.app/assets/${row.profile_image}/${row.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+            radius={26}
+          /> */}
+                    <Text size="sm" weight={500}>
+                      {row?.job_name}
+                    </Text>
+                  </Group>
+                </td>
+                <td>{row?.location}</td>
+                <td>{row?.category}</td>
+                <td>{row?.job_status}</td>
+                <td>
+                  <Group spacing="sm">
+                    <IconEdit className={classes.editIcon} cursor="pointer" />
+                    <IconTrash
+                      className={classes.deleteIcon}
+                      cursor="pointer"
+                      onClick={() => openModalForDelete()}
+                    />
+                  </Group>
+                </td>
+              </tr>
+            ))
           ) : (
             <tr>
-              <td colSpan={Object.keys(data[0]).length}>
+              <td colSpan={4}>
                 <Text weight={500} align="center">
-                  No records found
+                  No jobs available
                 </Text>
               </td>
             </tr>
@@ -358,10 +348,6 @@ export function Contacts({ data }: ContactsProps) {
       >
         <AddNew />
       </Drawer>
-      <div className={classes.tableBottom}>
-        <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-        <Pagination total={5} size="sm" />
-      </div>
     </ScrollArea>
   )
 }

@@ -251,9 +251,9 @@ export function ClientTable({ data }: IClientTableProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row.id} className={classes.companyDetails}>
+    <tr key={row?.id} className={classes.companyDetails}>
       <td>
-        <Link to={`/client-details/${row.id}`} className={classes.userLink}>
+        <Link to={`/client-details/${row?.id}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
             color="blue"
@@ -264,19 +264,20 @@ export function ClientTable({ data }: IClientTableProps) {
             <Group spacing="sm">
               <Avatar
                 size={26}
-                src={`https://gokv9osl.directus.app/assets/${row.profile_image}/${row.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
                 radius={26}
               />
               <Text size="sm" weight={500}>
-                {row.first_name} {row.last_name}
+                {row?.first_name} {row?.last_name}
               </Text>
             </Group>
           </Tooltip>
         </Link>
       </td>
-      <td>{row.email}</td>
-      <td>{row.city}</td>
-      <td>{row.state}</td>
+      <td>{row?.email}</td>
+      <td>{row?.phone}</td>
+      <td>{row?.city}</td>
+      <td>{row?.state}</td>
       <td>
         <Group spacing="sm">
           <IconEdit className={classes.editIcon} cursor="pointer" />
@@ -339,6 +340,13 @@ export function ClientTable({ data }: IClientTableProps) {
                 onSort={() => setSorting('email')}
               >
                 Email
+              </Th>
+              <Th
+                sorted={sortBy === 'phone'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('phone')}
+              >
+                Phone
               </Th>
               <Th
                 sorted={sortBy === 'city'}

@@ -9,7 +9,6 @@ import {
   Center,
   TextInput,
   Drawer,
-  Pagination,
   Button,
   Avatar,
   // Pagination,
@@ -180,16 +179,18 @@ function sortData(
   )
 }
 
-interface ContactsProps {
+interface ContactProps {
   data: TContacts[]
 }
 
 // Exporting Default ClientTable Component
 
-export function Contacts({ data }: ContactsProps) {
-  /* Add New - Client state*/
+export default function ContactsTable({ data }: ContactProps) {
+  console.log('contacts', data)
+
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
+
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TContacts | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
@@ -205,7 +206,11 @@ export function Contacts({ data }: ContactsProps) {
     const { value } = event.currentTarget
     setSearch(value)
     // setSortedData()
-    sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+    sortData(data, {
+      sortBy,
+      reversed: reverseSortDirection,
+      search: value,
+    })
   }
   //   client data Delete handler
   const openModalForDelete = () => {
@@ -234,37 +239,7 @@ export function Contacts({ data }: ContactsProps) {
       },
     })
   }
-  const rows = sortedData.map((row) => (
-    <tr key={row.id} className={classes.companyDetails}>
-      <td>
-        <Group spacing="sm">
-          <Avatar
-            size={26}
-            src={`https://gokv9osl.directus.app/assets/${row.profile_image}/${row.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-            radius={26}
-          />
-          <Text size="sm" weight={500}>
-            {row.first_name} {row.last_name}
-          </Text>
-        </Group>
-      </td>
-      <td>{row.email}</td>
-      <td>{row.phone}</td>
-      <td>{row.city}</td>
-      <td>{row.country}</td>
-      {/* <td>{row.country}</td> */}
-      <td>
-        <Group spacing="sm">
-          <IconEdit className={classes.editIcon} cursor="pointer" />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete()}
-          />
-        </Group>
-      </td>
-    </tr>
-  ))
+
   return (
     <ScrollArea>
       <div className={classes.tableHead}>
@@ -334,13 +309,43 @@ export function Contacts({ data }: ContactsProps) {
           </tr>
         </thead>
         <tbody>
-          {rows.length > 0 ? (
-            rows
+          {data.length > 0 ? (
+            sortedData.map((row) => (
+              <tr key={row?.id} className={classes.companyDetails}>
+                <td>
+                  <Group spacing="sm">
+                    <Avatar
+                      size={26}
+                      src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+                      radius={26}
+                    />
+                    <Text size="sm" weight={500}>
+                      {row?.first_name} {row?.last_name}
+                    </Text>
+                  </Group>
+                </td>
+                <td>{row?.email}</td>
+                <td>{row?.phone}</td>
+                <td>{row?.city}</td>
+                <td>{row?.country}</td>
+                {/* <td>{row.country}</td> */}
+                <td>
+                  <Group spacing="sm">
+                    <IconEdit className={classes.editIcon} cursor="pointer" />
+                    <IconTrash
+                      className={classes.deleteIcon}
+                      cursor="pointer"
+                      onClick={() => openModalForDelete()}
+                    />
+                  </Group>
+                </td>
+              </tr>
+            ))
           ) : (
             <tr>
-              <td colSpan={Object.keys(data[0]).length}>
+              <td colSpan={5}>
                 <Text weight={500} align="center">
-                  No records found
+                  No contacts available
                 </Text>
               </td>
             </tr>
@@ -358,10 +363,6 @@ export function Contacts({ data }: ContactsProps) {
       >
         <AddNew />
       </Drawer>
-      <div className={classes.tableBottom}>
-        <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-        <Pagination total={5} size="sm" />
-      </div>
     </ScrollArea>
   )
 }

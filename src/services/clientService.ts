@@ -1,11 +1,7 @@
-import {
-  TClientFindAll,
-  TClientFindById,
-  TContactsFindAll,
-  TJobsFindAll,
-} from '@/types'
+import { TClientFindAll, TClientFindById, TContacts, TJobs } from '@/types'
 import apiClient from './base'
 
+// for client
 const findAll = async () => {
   const response = await apiClient.get<TClientFindAll>('/clients')
   return response.data
@@ -16,19 +12,22 @@ const findById = async (id: number) => {
   return response.data
 }
 
-const findContactsByClientId = async (id: number) => {
-  const response = await apiClient.get<TContactsFindAll>(
+const findContactsByClientId = async (id: number): Promise<TContacts[]> => {
+  const response = await apiClient.get<TContacts[]>(
     `/contacts?filter[clients][_eq]=${id}`
   )
-  return response.data
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return response.data.data
 }
 
-const findJobsByClientId = async (id: number) => {
-  const response = await apiClient.get<TJobsFindAll>(
+const findJobsByClientId = async (id: number): Promise<TJobs[]> => {
+  const response = await apiClient.get<TJobs[]>(
     `/jobs?filter[clients][_eq]=${id}`
   )
-  return response.data
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return response.data.data
 }
+
 // const findByTitle = async (title: string) => {
 //   const response = await apiClient.get<TClientList[]>(`/clients?title=${title}`)
 //   return response.data

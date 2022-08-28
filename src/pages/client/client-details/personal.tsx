@@ -1,6 +1,9 @@
-import {TClient } from '@/types'
-import { Avatar, Text, createStyles, Group, Box } from '@mantine/core'
+import ClientService from '@/services/clientService'
+import { TClientFindById } from '@/types'
+import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
 import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
+import { useQuery } from 'react-query'
+import { Link, useParams } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   ClientUserCard: {
@@ -16,7 +19,6 @@ const useStyles = createStyles((theme) => ({
   },
   clientInnerProfile: {
     display: 'flex',
-    // justifyContent: 'center',
     flexDirection: 'column',
     width: '100%',
     gap: '15px',
@@ -24,11 +26,11 @@ const useStyles = createStyles((theme) => ({
   personalDetails: {
     display: 'flex',
     flexDirection: 'column',
-    boxShadow: '1px 1px 12px rgba(122, 211, 299, 0.40)',
     padding: '20px',
     gap: '5px',
-    backgroundColor: theme.colors.blue[0],
     borderRadius: '5px',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
+    border: `1px solid ${theme.colors.blue[0]}`,
   },
   detailHead: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
@@ -46,15 +48,37 @@ const useStyles = createStyles((theme) => ({
       borderRadius: '2px',
     },
   },
+  userLink: {
+    textDecoration: 'none',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
+  },
 }))
 
-interface PersonalProps {
-  data: TClient
-}
-export default function Personal({ data }: PersonalProps) {
-  console.log(data)
-
+export default function Personal() {
+  const { clientId } = useParams()
   const { classes } = useStyles()
+
+  const { data, isError, error, isLoading } = useQuery<TClientFindById, Error>(
+    ['clientDetails', clientId],
+    async () => await ClientService.findById(Number(clientId))
+  )
+
+  if (isError) {
+    console.log(error)
+    return <h1>An Error Occurred</h1>
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loader variant="dots" />
+      </div>
+    )
+  }
+
   return (
     <div className={classes.clientInnerProfile}>
       {/* back to Client table list */}
@@ -62,28 +86,30 @@ export default function Personal({ data }: PersonalProps) {
         <Text size="md" color="blue" weight={600}>
           Back to Client List
         </Text>
-        <Text align="right">
-          <IconArrowBackUp
-            size={24}
-            color="blue"
-            className={classes.detailsIcon}
-          />
-        </Text>
+        <Link to={`/client`} className={classes.userLink}>
+          <Text align="right">
+            <IconArrowBackUp
+              size={24}
+              color="blue"
+              className={classes.detailsIcon}
+            />
+          </Text>
+        </Link>
       </Group>
       <div className={classes.ClientUserCard}>
         <div className={classes.UserCardInner}>
           <Avatar
-            src={`https://gokv9osl.directus.app/assets/${data.profile_image}/${data.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            src={`https://gokv9osl.directus.app/assets/${data?.data.profile_image}/${data?.data.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
             size={120}
             radius={120}
             mx="auto"
           />
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data.first_name}
-            {data.last_name}
+            {data?.data?.first_name} {data?.data?.last_name}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data.email}
+            {data?.data?.email}
           </Text>
         </div>
       </div>
@@ -102,106 +128,44 @@ export default function Personal({ data }: PersonalProps) {
       <div className={classes.personalDetails}>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            Name :
+            <b>Name :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data.first_name}
-            {data.last_name}
+            {data?.data?.first_name} {data?.data?.last_name}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            Email :
+            <b>Email :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data.email}
+            {data?.data?.email}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            Phone :
+            <b>Phone :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data.phone}
+            {data?.data?.phone}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            City :
+            <b>City :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data.city}
+            {data?.data?.city}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            State :
+            <b>State :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data.state}
+            {data?.data?.state}
           </Text>
         </Group>
-        {/* <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Country :
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Company :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            Spice X
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Contacts :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            Five
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Jobs :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            Nine
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Title :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            Soyinka
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Label :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            Joint
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Origin :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            America
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            Phone :
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            +1 6583 383 823
-          </Text>
-        </Group> */}
       </div>
     </div>
   )
