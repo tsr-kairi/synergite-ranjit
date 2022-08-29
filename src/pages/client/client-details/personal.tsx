@@ -1,3 +1,4 @@
+import { clientQueryKeys } from '@/react-query/queryKeys'
 import ClientService from '@/services/clientService'
 import { TClientFindById } from '@/types'
 import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
@@ -62,9 +63,11 @@ export default function Personal() {
   const { classes } = useStyles()
 
   const { data, isError, error, isLoading } = useQuery<TClientFindById, Error>(
-    ['clientDetails', clientId],
-    async () => await ClientService.findById(Number(clientId))
+    [clientQueryKeys.clientDetails, clientId],
+    async () => await ClientService.findClientById(Number(clientId))
   )
+
+  // const { data, isError, error, isLoading } = useGetClientById()
 
   if (isError) {
     console.log(error)

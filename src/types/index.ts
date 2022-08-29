@@ -18,7 +18,7 @@ const zClient = z.object({
 
 // new client add types
 const zClientCreate = z.object({
-  // profile_image: z.string(),
+  // profile_image: z.string(),[]
   first_name: z.string(),
   last_name: z.string(),
   email: z.string().email(),

@@ -3,16 +3,11 @@ import {
   IFindJobsByClientId,
   TClientCreate,
   TClientCreateResponse,
-  TClientFindAll,
+  TClientFindById,
 } from '@/types'
 import apiClient from './base'
 
 // for client
-
-const findById = async (id: number) => {
-  const response = await apiClient.get<TClientFindAll>(`/clients/${id}`)
-  return response.data
-}
 
 const findContactsByClientId = async (
   id: number
@@ -41,11 +36,16 @@ const createClient = async (
   return data
 }
 
+const findClientById = async (id: number) => {
+  const response = await apiClient.get<TClientFindById>(`/clients/${id}`)
+  return response.data
+}
+
 const ClientService = {
-  findById,
   findContactsByClientId,
   findJobsByClientId,
   createClient,
+  findClientById,
 }
 
 export default ClientService
