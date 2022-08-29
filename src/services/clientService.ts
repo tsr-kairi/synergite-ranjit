@@ -1,19 +1,16 @@
 import {
   IFindContactsByClientId,
   IFindJobsByClientId,
+  TClientCreate,
+  TClientCreateResponse,
   TClientFindAll,
-  TClientFindById,
 } from '@/types'
 import apiClient from './base'
 
 // for client
-const findAll = async () => {
-  const response = await apiClient.get<TClientFindAll>('/clients')
-  return response.data
-}
 
 const findById = async (id: number) => {
-  const response = await apiClient.get<TClientFindById>(`/clients/${id}`)
+  const response = await apiClient.get<TClientFindAll>(`/clients/${id}`)
   return response.data
 }
 
@@ -33,46 +30,22 @@ const findJobsByClientId = async (id: number): Promise<IFindJobsByClientId> => {
   return data
 }
 
-// const findByTitle = async (title: string) => {
-//   const response = await apiClient.get<TClientList[]>(`/clients?title=${title}`)
-//   return response.data
-// }
-
-// const create = async (data: TClientList) => {
-//   const response = await apiClient.post<unknown>('/clients', data)
-//   return response.data
-// }
-
-// const update = async (
-//   id: any,
-//   { title, description, published }: IRowClientData
-// ) => {
-//   const response = await apiClient.put<any>(`/tutorials/${id}`, {
-//     title,
-//     description,
-//     published,
-//   })
-//   return response.data
-// }
-
-// const deleteById = async (id: number) => {
-//   const response = await apiClient.delete<any>(`/clients/${id}`)
-//   return response.data
-// }
-
-// const deleteAll = async () => {
-//   const response = await apiClient.delete<any>('/clients')
-//   return response.data
-// }
+// add new form services
+const createClient = async (
+  client: TClientCreate
+): Promise<TClientCreateResponse> => {
+  const { data } = await apiClient.post<TClientCreateResponse>(
+    '/clients',
+    client
+  )
+  return data
+}
 
 const ClientService = {
-  findAll,
   findById,
   findContactsByClientId,
   findJobsByClientId,
-  // deleteById,
-  // deleteAll,
-  // getAllClients,
+  createClient,
 }
 
 export default ClientService

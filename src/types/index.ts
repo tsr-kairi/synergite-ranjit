@@ -16,6 +16,17 @@ const zClient = z.object({
   uuid: z.string(),
 })
 
+// new client add types
+const zClientCreate = z.object({
+  // profile_image: z.string(),
+  first_name: z.string(),
+  last_name: z.string(),
+  email: z.string().email(),
+  phone: z.string(),
+  city: z.string(),
+  state: z.string(),
+})
+
 // client list with contacts
 const zContacts = z.object({
   id: z.number(),
@@ -53,6 +64,7 @@ type TClientDetails = z.infer<typeof zClientDetails>
 type TClient = z.infer<typeof zClient>
 type TJobs = z.infer<typeof zJobs>
 type TContacts = z.infer<typeof zContacts>
+type TClientCreate = z.infer<typeof zClientCreate>
 
 // Vendor Table Data
 const zVendor = z.object({
@@ -73,6 +85,10 @@ type TVendor = z.infer<typeof zVendor>
 
 interface TClientFindAll {
   data: TClient[]
+}
+
+interface TClientCreateResponse {
+  data: TClient
 }
 
 interface IVendorFindAll {
@@ -112,4 +128,6 @@ export type {
   TClientFindById,
   IFindContactsByClientId,
   IFindJobsByClientId,
+  TClientCreateResponse,
+  TClientCreate,
 }

@@ -17,7 +17,6 @@ const Jobs = () => {
       onSuccess: (data) => {
         setJobData(data.data)
       },
-      enabled: !!clientId,
     }
   )
 

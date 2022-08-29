@@ -193,8 +193,6 @@ interface IClientTableProps {
 
 // Exporting Default ClientTable Component
 export function ClientTable({ data }: IClientTableProps) {
-  console.log(data)
-
   const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
@@ -233,21 +231,20 @@ export function ClientTable({ data }: IClientTableProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         // void axios
-        //   .delete(`http://localhost:4000/clientTableData/${ClientTable.id}`)
+        //   .delete(
+        //     `https://gokv9osl.directus.app/items/clients${clientTable.id}`
+        //   )
         //   .then(() => {
+        //     // removeClientDataById(Number(clientTable.id))
         //     showNotification({
-        //       title: 'ClientTable deleted!',
-        //       message: `${ClientTable.name.toUpperCase()} deleted Successfully!`,
+        //       title: 'Superhero deleted!',
+        //       message: `${clientTable.first_name.toUpperCase()} deleted Successfully!`,
         //     })
         //   })
         console.log('delete')
       },
     })
   }
-
-  // if (!sortedData.length) {
-  //   return <h1>Loading</h1>
-  // }
 
   // Create Rows
   const rows = sortedData?.map((row) => (

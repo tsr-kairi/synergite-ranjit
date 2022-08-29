@@ -22,7 +22,6 @@ const Contacts = () => {
       onSuccess: (data) => {
         setContactsData(data.data)
       },
-      enabled: !!clientId,
     }
   )
 
