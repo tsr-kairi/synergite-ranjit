@@ -1,3 +1,4 @@
+import { clientQueryKeys } from '@/react-query/queryKeys'
 import ClientService from '@/services/clientService'
 import { IFindContactsByClientId, TContacts } from '@/types'
 import { Loader } from '@mantine/core'
@@ -16,7 +17,7 @@ const Contacts = () => {
     IFindContactsByClientId,
     Error
   >(
-    ['contactList', clientId],
+    [clientQueryKeys.contactList, clientId],
     async () => await ClientService.findContactsByClientId(Number(clientId)),
     {
       onSuccess: (data) => {

@@ -91,6 +91,9 @@ interface TClientCreateResponse {
   data: TClient
 }
 
+interface TRemoveClientDataById {
+  data: TClient
+}
 interface IVendorFindAll {
   data: TVendor[]
 }
@@ -128,6 +131,7 @@ export type {
   TClientFindById,
   IFindContactsByClientId,
   IFindJobsByClientId,
+  TRemoveClientDataById,
   TClientCreateResponse,
   TClientCreate,
 }

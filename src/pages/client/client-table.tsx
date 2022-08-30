@@ -29,6 +29,8 @@ import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
 import { Link } from 'react-router-dom'
+// import { showNotification } from '@mantine/notifications'
+// import axios from 'axios'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -232,13 +234,13 @@ export function ClientTable({ data }: IClientTableProps) {
       onConfirm: () => {
         // void axios
         //   .delete(
-        //     `https://gokv9osl.directus.app/items/clients${clientTable.id}`
+        //     `https://gokv9osl.directus.app/items/clients${TRemoveClientDataById.id}`
         //   )
         //   .then(() => {
-        //     // removeClientDataById(Number(clientTable.id))
+        //     removeClientDataById(Number(TRemoveClientDataById.id))
         //     showNotification({
-        //       title: 'Superhero deleted!',
-        //       message: `${clientTable.first_name.toUpperCase()} deleted Successfully!`,
+        //       title: 'Client deleted!',
+        //       message: `${TRemoveClientDataById.first_name.toUpperCase()} deleted Successfully!`,
         //     })
         //   })
         console.log('delete')

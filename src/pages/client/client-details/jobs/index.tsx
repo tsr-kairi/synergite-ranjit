@@ -1,3 +1,4 @@
+import { clientQueryKeys } from '@/react-query/queryKeys'
 import ClientService from '@/services/clientService'
 import { IFindJobsByClientId, TJobs } from '@/types'
 import { Loader } from '@mantine/core'
@@ -11,7 +12,7 @@ const Jobs = () => {
   const [jobData, setJobData] = useState<TJobs[]>([] as TJobs[])
 
   const { isError, error, isLoading } = useQuery<IFindJobsByClientId, Error>(
-    ['jobList', clientId],
+    [clientQueryKeys.jobList, clientId],
     async () => await ClientService.findJobsByClientId(Number(clientId)),
     {
       onSuccess: (data) => {

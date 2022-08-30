@@ -5,6 +5,7 @@ import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
 import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
 import { useQuery } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
+// import useGetClientById from '../hooks/useGetClientById'
 
 const useStyles = createStyles((theme) => ({
   ClientUserCard: {
@@ -58,12 +59,12 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function Personal() {
+export default function Personal(id: number) {
   const { clientId } = useParams()
   const { classes } = useStyles()
 
   const { data, isError, error, isLoading } = useQuery<TClientFindById, Error>(
-    [clientQueryKeys.clientDetails, clientId],
+    [clientQueryKeys.clientDetails, clientId, id],
     async () => await ClientService.findClientById(Number(clientId))
   )
 
