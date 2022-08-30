@@ -25,12 +25,13 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TClient } from '@/types'
+import { TClient, TClientCreate } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import AddNew from '@/components/form/addNew'
+import CreateForm from '@/components/form/createForm'
 import { Link } from 'react-router-dom'
 import useDeleteClientById from './hooks/useDeleteClientById'
 import { showNotification } from '@mantine/notifications'
+import EditForm from '@/components/form/editForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -196,12 +197,14 @@ interface IClientTableProps {
 // Exporting Default ClientTable Component
 export function ClientTable({ data }: IClientTableProps) {
   const [opened, setOpened] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TClient | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
   const { mutate: deleteClient } = useDeleteClientById()
+  const [clientEditData, setClientEditData] = useState({} as TClientCreate)
 
   const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -272,7 +275,14 @@ export function ClientTable({ data }: IClientTableProps) {
       <td>{row?.state}</td>
       <td>
         <Group spacing="sm">
-          <IconEdit className={classes.editIcon} cursor="pointer" />
+          <IconEdit
+            className={classes.editIcon}
+            cursor="pointer"
+            onClick={() => {
+              setIsOpened(true)
+              setClientEditData(row)
+            }}
+          />
           <IconTrash
             className={classes.deleteIcon}
             cursor="pointer"
@@ -388,7 +398,19 @@ export function ClientTable({ data }: IClientTableProps) {
         size="xl"
         position="right"
       >
-        <AddNew />
+        <CreateForm />
+      </Drawer>
+
+      {/* Edit Client - Client Edit Form Drawer*/}
+      <Drawer
+        opened={isOpened}
+        onClose={() => setIsOpened(false)}
+        title="Edit Client"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <EditForm {...clientEditData} />
       </Drawer>
     </>
   )
