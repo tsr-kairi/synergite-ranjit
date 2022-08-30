@@ -29,8 +29,8 @@ import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import AddNew from '@/components/form/addNew'
 import { Link } from 'react-router-dom'
-// import { showNotification } from '@mantine/notifications'
-// import axios from 'axios'
+import useDeleteClientById from './hooks/useDeleteClientById'
+import { showNotification } from '@mantine/notifications'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -201,6 +201,7 @@ export function ClientTable({ data }: IClientTableProps) {
   const [sortBy, setSortBy] = useState<keyof TClient | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
+  const { mutate: deleteClient } = useDeleteClientById()
 
   const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -218,9 +219,7 @@ export function ClientTable({ data }: IClientTableProps) {
   }
 
   // client data Delete handler
-  const openModalForDelete = () => {
-    console.log('openModalForDelete')
-
+  const openModalForDelete = (client: TClient) => {
     openConfirmModal({
       title: 'Do You want to delete this client?',
       children: (
@@ -232,18 +231,12 @@ export function ClientTable({ data }: IClientTableProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        // void axios
-        //   .delete(
-        //     `https://gokv9osl.directus.app/items/clients${TRemoveClientDataById.id}`
-        //   )
-        //   .then(() => {
-        //     removeClientDataById(Number(TRemoveClientDataById.id))
-        //     showNotification({
-        //       title: 'Client deleted!',
-        //       message: `${TRemoveClientDataById.first_name.toUpperCase()} deleted Successfully!`,
-        //     })
-        //   })
+        deleteClient(client.id)
         console.log('delete')
+        showNotification({
+          title: 'Client Deleted !!',
+          message: `${client.first_name} has been deleted successfully.`,
+        })
       },
     })
   }
@@ -283,7 +276,7 @@ export function ClientTable({ data }: IClientTableProps) {
           <IconTrash
             className={classes.deleteIcon}
             cursor="pointer"
-            onClick={() => openModalForDelete()}
+            onClick={() => openModalForDelete(row)}
           />
         </Group>
       </td>

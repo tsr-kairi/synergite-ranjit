@@ -1,21 +1,20 @@
 import { clientQueryKeys } from '@/react-query/queryKeys'
 import apiClient from '@/services/base'
-import { TClientFindById } from '@/types'
-import { useQuery } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 
-const deleteClientById = async (id: number) => {
-  const response = await apiClient.delete<TClientFindById>(`/clients/${id}`)
-  return response.data
+const deleteClientById = async (id: number): Promise<void> => {
+  await apiClient.delete(`/clients/${id}`)
 }
 
-const useDeleteClientById = (id: number) => {
-  return useQuery<TClientFindById, Error>(
-    [clientQueryKeys.clientDetails, id],
-    deleteClientById(id),
-    {
-      onSuccess: () => console.log('GetAllClientById On Success Called'),
-    }
-  )
+const useDeleteClientById = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(async (id: number) => deleteClientById(id), {
+    onSuccess: () => {
+      void queryClient.resetQueries(clientQueryKeys.allClients)
+      console.log('Delete Client Called')
+    },
+  })
 }
 
 export default useDeleteClientById

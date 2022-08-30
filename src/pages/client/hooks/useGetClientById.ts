@@ -11,7 +11,7 @@ const findClientById = async (id: number) => {
 const useGetClientById = (id: number) => {
   return useQuery<TClientFindById, Error>(
     [clientQueryKeys.clientDetails, id],
-    findClientById(id),
+    async () => await findClientById(id),
     {
       onSuccess: () => console.log('GetAllClientById On Success Called'),
     }
