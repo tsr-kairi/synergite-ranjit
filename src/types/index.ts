@@ -17,6 +17,7 @@ const zClient = z.object({
 })
 
 // new client add types
+
 const zClientCreate = z.object({
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
   last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
@@ -119,9 +120,9 @@ interface TClientFindById {
   data: TClient
 }
 
-interface TClientEditById {
-  data: TClient
-}
+// interface TClientEditById {
+//   data: TClient
+// }
 
 interface IFindContactsByClientId {
   data: TContacts[]
@@ -142,7 +143,7 @@ export type {
   IVendorFindAll,
   TJobsFindAll,
   TClientFindById,
-  TClientEditById,
+  // TClientEditById,
   IFindContactsByClientId,
   IFindJobsByClientId,
   TRemoveClientDataById,

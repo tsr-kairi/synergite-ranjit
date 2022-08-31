@@ -204,7 +204,7 @@ export function ClientTable({ data }: IClientTableProps) {
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
   const { mutate: deleteClient } = useDeleteClientById()
-  const [clientEditData, setClientEditData] = useState({} as TClientCreate)
+  const [clientEditData, setClientEditData] = useState({} as TClient)
 
   const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false

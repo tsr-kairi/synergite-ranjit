@@ -65,7 +65,6 @@ export default function EditForm(clientData: TClient) {
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group grow align="center" mt="md">
             <TextInput
-              withAsterisk
               required
               label="First Name"
               type={'text'}
@@ -73,7 +72,6 @@ export default function EditForm(clientData: TClient) {
               {...form.getInputProps('first_name')}
             />
             <TextInput
-              withAsterisk
               required
               label="Last Name"
               type={'text'}
@@ -83,7 +81,6 @@ export default function EditForm(clientData: TClient) {
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              withAsterisk
               required
               label="Email"
               type={'email'}
@@ -91,7 +88,6 @@ export default function EditForm(clientData: TClient) {
               {...form.getInputProps('email')}
             />
             <TextInput
-              withAsterisk
               required
               label="Phone"
               // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +104,6 @@ export default function EditForm(clientData: TClient) {
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              withAsterisk
               required
               label="City"
               type={'text'}
@@ -116,7 +111,6 @@ export default function EditForm(clientData: TClient) {
               {...form.getInputProps('city')}
             />
             <TextInput
-              withAsterisk
               required
               label="State"
               type={'text'}
