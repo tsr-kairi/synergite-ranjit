@@ -26,7 +26,7 @@ import {
 } from '@tabler/icons'
 import { TVendor } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import AddNew from '@/components/form/addNew'
+import AddNew from '@/components/form/createForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({

@@ -17,12 +17,22 @@ const zClient = z.object({
 })
 
 // new client add types
+
 const zClientCreate = z.object({
-  // profile_image: z.string(),[]
-  first_name: z.string(),
-  last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  city: z.string(),
+  state: z.string(),
+})
+
+// new client edit types
+const zClientEdit = z.object({
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
   city: z.string(),
   state: z.string(),
 })
@@ -91,6 +101,9 @@ interface TClientCreateResponse {
   data: TClient
 }
 
+interface TRemoveClientDataById {
+  data: TClient
+}
 interface IVendorFindAll {
   data: TVendor[]
 }
@@ -106,6 +119,10 @@ interface TJobsFindAll {
 interface TClientFindById {
   data: TClient
 }
+
+// interface TClientEditById {
+//   data: TClient
+// }
 
 interface IFindContactsByClientId {
   data: TContacts[]
@@ -126,8 +143,12 @@ export type {
   IVendorFindAll,
   TJobsFindAll,
   TClientFindById,
+  // TClientEditById,
   IFindContactsByClientId,
   IFindJobsByClientId,
+  TRemoveClientDataById,
   TClientCreateResponse,
   TClientCreate,
 }
+
+export { zClientCreate, zClientEdit }

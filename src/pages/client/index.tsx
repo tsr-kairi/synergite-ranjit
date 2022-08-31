@@ -10,14 +10,6 @@ export const Client = () => {
     return <h1>An Error Occurred</h1>
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <div>
-  //       <Loader variant="dots" />
-  //     </div>
-  //   )
-  // }
-
   if (data?.data.length) {
     return <ClientTable data={data.data} />
   } else {

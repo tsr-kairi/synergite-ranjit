@@ -1,5 +1,5 @@
 import useCreateClient from '@/pages/client/hooks/useCreateClient'
-import { TClientCreate } from '@/types'
+import { TClientCreate, zClientCreate } from '@/types'
 import {
   TextInput,
   Button,
@@ -8,21 +8,21 @@ import {
   Paper,
   FileInput,
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import { FormEvent } from 'react'
+import { useForm, zodResolver } from '@mantine/form'
+import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
   },
 }))
 
-export default function AddNew() {
+export default function CreateForm() {
   const { classes } = useStyles()
-  const { mutate: addClient } = useCreateClient()
+  const { mutate: addClient, isSuccess, isError } = useCreateClient()
 
   const form = useForm<TClientCreate>({
+    validate: zodResolver(zClientCreate),
     initialValues: {
-      // profile_image: '',
       first_name: '',
       last_name: '',
       email: '',
@@ -30,86 +30,98 @@ export default function AddNew() {
       city: '',
       state: '',
     },
-
-    // validate: {
-    //   email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-    // },
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault()
-    // console.log(event)
-    // console.log(form.values)
-
+  const handleSubmit = (values: TClientCreate) => {
     const clientCreateData = {
-      ...form.values,
+      ...values,
       status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
     const data = addClient(clientCreateData)
+    console.log(data)
 
-    console.log({ data })
+    showNotification({
+      title: 'Success!!',
+      message: 'Client Created successfully.',
+    })
 
-    form.reset()
+    // if (isError)
+    //   showNotification({
+    //     title: 'Filed!!',
+    //     message: 'Failed to create client',
+    //   })
 
-    // const res = axios.post(
-    //   'https://gokv9osl.directus.app/items/clients',
-    //   clientCreateData,
-    //   {
-    //     headers: {
-    //       'Content-type': 'application/json',
-    //       Authorization: 'Bearer Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE',
-    //     },
-    //   }
-    // )
+    // if (isSuccess) {
+    //   form.reset()
+    //   showNotification({
+    //     title: 'Success!!',
+    //     message: 'Client Created successfully.',
+    //   })
+    // }
 
-    // console.log(res)
+    console.log(isError, isSuccess)
   }
 
   return (
     <>
       <Paper p={20} mt={30} radius="sm" className={classes.paper}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group grow align="center" mt="md">
             <TextInput
-              label="First Name"
-              placeholder="First Name"
               required
+              label="First Name"
+              type={'text'}
+              placeholder="First Name"
               {...form.getInputProps('first_name')}
             />
             <TextInput
-              label="Last Name"
-              placeholder="Last Name"
               required
+              label="Last Name"
+              type={'text'}
+              placeholder="Last Name"
               {...form.getInputProps('last_name')}
             />
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              label="Email"
-              placeholder="email@email.com"
               required
+              label="Email"
+              type={'email'}
+              placeholder="email@email.com"
               {...form.getInputProps('email')}
             />
             <TextInput
-              label="Phone"
-              placeholder="Phone"
               required
+              label="Phone"
+              // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+              //   console.log(event)
+
+              //   event.target.value
+              //     .replace(/[^0-9.]/g, '')
+              //     .replace(/(\..*)\./g, '$1')
+              // }}
+              type={'tel'}
+              placeholder="Phone"
               {...form.getInputProps('phone')}
             />
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              label="City"
-              placeholder="City"
               required
+              label="City"
+              type={'text'}
+              placeholder="City"
               {...form.getInputProps('city')}
             />
             <TextInput
-              label="State"
-              placeholder="State"
               required
+              label="State"
+              type={'text'}
+              placeholder="State"
               {...form.getInputProps('state')}
             />
           </Group>
