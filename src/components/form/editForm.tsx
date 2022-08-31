@@ -1,5 +1,5 @@
 import useEditClient from '@/pages/client/hooks/useEditClient'
-import { TClientCreate, zClientEdit } from '@/types'
+import { TClient, zClientEdit } from '@/types'
 import {
   TextInput,
   Button,
@@ -16,18 +16,18 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(clientData: TClientCreate) {
+export default function EditForm(clientData: TClient) {
   const { classes } = useStyles()
   const { mutate: addClient, isSuccess, isError } = useEditClient()
 
-  const form = useForm<TClientCreate>({
+  const form = useForm<TClient>({
     validate: zodResolver(zClientEdit),
     initialValues: clientData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TClientCreate) => {
+  const handleSubmit = (values: TClient) => {
     const clientCreateData = {
       ...values,
       status: 'published',
