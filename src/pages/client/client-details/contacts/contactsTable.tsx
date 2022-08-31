@@ -25,7 +25,10 @@ import {
 } from '@tabler/icons'
 import { TContacts } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import AddNew from '@/components/form/createForm'
+import CreateContact from '@/components/form/contact/createForm'
+import EditContact from '@/components/form/contact/editForm'
+import { showNotification } from '@mantine/notifications'
+import useDeleteContactById from '../../hooks/useDeleteContactById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -189,8 +192,9 @@ export default function ContactsTable({ data }: ContactProps) {
   console.log('contacts', data)
 
   const [opened, setOpened] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
-
+  const [contactEditData, setContactEditData] = useState({} as TContacts)
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TContacts | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
@@ -201,6 +205,7 @@ export default function ContactsTable({ data }: ContactProps) {
     setSortBy(field)
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
+  const { mutate: deleteContact } = useDeleteContactById()
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget
@@ -212,30 +217,25 @@ export default function ContactsTable({ data }: ContactProps) {
       search: value,
     })
   }
-  //   client data Delete handler
-  const openModalForDelete = () => {
-    console.log('openModalForDelete')
-
+  //   contact data Delete handler model
+  const openModalForDelete = (contact: TContacts) => {
     openConfirmModal({
-      title: 'Do You want to delete this client?',
+      title: 'Do You want to delete this contact?',
       children: (
         <Text size="sm">
-          After deleting a clients, You cannot recover them back. So, Please
+          After deleting a contacts, You cannot recover them back. So, Please
           take your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        // void axios
-        //   .delete(`http://localhost:4000/clientTableData/${Contacts.id}`)
-        //   .then(() => {
-        //     showNotification({
-        //       title: 'Contacts deleted!',
-        //       message: `${Contacts.name.toUpperCase()} deleted Successfully!`,
-        //     })
-        //   })
+        deleteContact(contact.id)
         console.log('delete')
+        showNotification({
+          title: 'Contact Deleted !!',
+          message: `${contact.first_name} has been deleted successfully.`,
+        })
       },
     })
   }
@@ -330,11 +330,18 @@ export default function ContactsTable({ data }: ContactProps) {
                 <td>{row?.country}</td>
                 <td>
                   <Group spacing="sm">
-                    <IconEdit className={classes.editIcon} cursor="pointer" />
+                    <IconEdit
+                      className={classes.editIcon}
+                      cursor="pointer"
+                      onClick={() => {
+                        setIsOpened(true)
+                        setContactEditData(row)
+                      }}
+                    />
                     <IconTrash
                       className={classes.deleteIcon}
                       cursor="pointer"
-                      onClick={() => openModalForDelete()}
+                      onClick={() => openModalForDelete(row)}
                     />
                   </Group>
                 </td>
@@ -351,7 +358,7 @@ export default function ContactsTable({ data }: ContactProps) {
           )}
         </tbody>
       </Table>
-      {/* Add New - Client Form Drawer*/}
+      {/* Add New Contact - Contact Form Drawer*/}
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
@@ -360,7 +367,19 @@ export default function ContactsTable({ data }: ContactProps) {
         size="xl"
         position="right"
       >
-        <AddNew />
+        <CreateContact />
+      </Drawer>
+
+      {/* Edit Contact - Contact Edit Form Drawer*/}
+      <Drawer
+        opened={isOpened}
+        onClose={() => setIsOpened(false)}
+        title="Edit Contact"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <EditContact {...contactEditData} />
       </Drawer>
     </ScrollArea>
   )

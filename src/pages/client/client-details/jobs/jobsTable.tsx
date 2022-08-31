@@ -24,7 +24,11 @@ import {
 } from '@tabler/icons'
 import { TJobs } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import AddNew from '@/components/form/createForm'
+import CreateJob from '@/components/form/job/createForm'
+import EditJob from '@/components/form/job/editForm'
+import { showNotification } from '@mantine/notifications'
+
+import useDeleteJobById from '../../hooks/useDeleteJobById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -78,7 +82,7 @@ const useStyles = createStyles((theme) => ({
   text: {
     color: theme.colors.blue[9],
   },
-  contactIcon: {
+  jobIcon: {
     color: theme.colors.blue[8],
   },
   editIcon: {
@@ -187,11 +191,14 @@ interface JobsProps {
 export default function JobsTable({ data }: JobsProps) {
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+  const [jobEditData, setJobEditData] = useState({} as TJobs)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TJobs | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
+  const { mutate: deleteJob } = useDeleteJobById()
 
   const setSorting = (field: keyof TJobs) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -207,29 +214,24 @@ export default function JobsTable({ data }: JobsProps) {
     sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
   }
   //   client data Delete handler
-  const openModalForDelete = () => {
-    console.log('openModalForDelete')
-
+  const openModalForDelete = (job: TJobs) => {
     openConfirmModal({
-      title: 'Do You want to delete this client?',
+      title: 'Do You want to delete this job?',
       children: (
         <Text size="sm">
-          After deleting a clients, You cannot recover them back. So, Please
-          take your Action Carefully.
+          After deleting a jobs, You cannot recover them back. So, Please take
+          your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        // void axios
-        //   .delete(`http://localhost:4000/clientTableData/${Contacts.id}`)
-        //   .then(() => {
-        //     showNotification({
-        //       title: 'Contacts deleted!',
-        //       message: `${Contacts.name.toUpperCase()} deleted Successfully!`,
-        //     })
-        //   })
+        deleteJob(job.id)
         console.log('delete')
+        showNotification({
+          title: 'Job Deleted !!',
+          message: `${job.job_name} has been deleted successfully.`,
+        })
       },
     })
   }
@@ -305,11 +307,18 @@ export default function JobsTable({ data }: JobsProps) {
                 <td>{row?.job_status}</td>
                 <td>
                   <Group spacing="sm">
-                    <IconEdit className={classes.editIcon} cursor="pointer" />
+                    <IconEdit
+                      className={classes.editIcon}
+                      cursor="pointer"
+                      onClick={() => {
+                        setIsOpened(true)
+                        setJobEditData(row)
+                      }}
+                    />
                     <IconTrash
                       className={classes.deleteIcon}
                       cursor="pointer"
-                      onClick={() => openModalForDelete()}
+                      onClick={() => openModalForDelete(row)}
                     />
                   </Group>
                 </td>
@@ -335,7 +344,19 @@ export default function JobsTable({ data }: JobsProps) {
         size="xl"
         position="right"
       >
-        <AddNew />
+        <CreateJob />
+      </Drawer>
+      {/* Edit - Contact Form Drawer*/}
+
+      <Drawer
+        opened={isOpened}
+        onClose={() => setIsOpened(false)}
+        title="Edit Contact"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <EditJob {...jobEditData} />
       </Drawer>
     </ScrollArea>
   )

@@ -52,6 +52,28 @@ const zContacts = z.object({
   uuid: z.string(),
 })
 
+// new create contact add types
+
+const zContactCreate = z.object({
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  city: z.string(),
+  country: z.string(),
+})
+
+// new create contact add types
+
+const zContactEdit = z.object({
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  city: z.string(),
+  country: z.string(),
+})
+
 // client list with jobs
 const zJobs = z.object({
   id: z.number(),
@@ -62,6 +84,21 @@ const zJobs = z.object({
   date_created: z.string(),
   date_updated: z.string().optional(),
   uuid: z.string(),
+})
+
+// Job create - new job
+const zJobCreate = z.object({
+  job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
+  location: z.string(),
+  category: z.string(),
+  job_status: z.string(),
+})
+
+const zJobEdit = z.object({
+  job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
+  location: z.string(),
+  category: z.string(),
+  job_status: z.string(),
 })
 
 // extend array of objects
@@ -75,6 +112,10 @@ type TClient = z.infer<typeof zClient>
 type TJobs = z.infer<typeof zJobs>
 type TContacts = z.infer<typeof zContacts>
 type TClientCreate = z.infer<typeof zClientCreate>
+type TContactCreate = z.infer<typeof zContactCreate>
+type TContactEdit = z.infer<typeof zContactEdit>
+type TJobCreate = z.infer<typeof zJobCreate>
+type TJobEdit = z.infer<typeof zJobEdit>
 
 // Vendor Table Data
 const zVendor = z.object({
@@ -101,6 +142,13 @@ interface TClientCreateResponse {
   data: TClient
 }
 
+interface TContactCreateResponse {
+  data: TContacts
+}
+
+interface TJobCreateResponse {
+  data: TJobs
+}
 interface TRemoveClientDataById {
   data: TClient
 }
@@ -112,7 +160,15 @@ interface TContactsFindAll {
   data: TContacts[]
 }
 
+interface TContactsFindById {
+  data: TContacts[]
+}
+
 interface TJobsFindAll {
+  data: TJobs[]
+}
+
+interface TJobsFindById {
   data: TJobs[]
 }
 
@@ -139,6 +195,8 @@ export type {
   TJobs,
   TClientFindAll,
   TContactsFindAll,
+  TContactsFindById,
+  TJobsFindById,
   TVendor,
   IVendorFindAll,
   TJobsFindAll,
@@ -148,7 +206,20 @@ export type {
   IFindJobsByClientId,
   TRemoveClientDataById,
   TClientCreateResponse,
+  TContactCreateResponse,
+  TJobCreateResponse,
   TClientCreate,
+  TContactCreate,
+  TContactEdit,
+  TJobCreate,
+  TJobEdit,
 }
 
-export { zClientCreate, zClientEdit }
+export {
+  zClientCreate,
+  zContactCreate,
+  zContactEdit,
+  zJobCreate,
+  zJobEdit,
+  zClientEdit,
+}

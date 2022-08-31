@@ -24,7 +24,7 @@ const useStyles = createStyles(() => ({
     height: '88.5vh',
     display: 'flex',
     flexDirection: 'column',
-    gap: '50px',
+    gap: '20px',
     flex: 1,
   },
   contacts: {
@@ -42,7 +42,7 @@ export const ClientDetails = () => {
           <Personal />
         </div>
         <div className={classes.clientContactJobs}>
-          <div className={classes.contacts}>
+          <div>
             <Contacts />
           </div>
           <Jobs />

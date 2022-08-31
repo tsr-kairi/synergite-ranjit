@@ -25,13 +25,14 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TClient, TClientCreate } from '@/types'
+import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import CreateForm from '@/components/form/createForm'
 import { Link } from 'react-router-dom'
 import useDeleteClientById from './hooks/useDeleteClientById'
+
 import { showNotification } from '@mantine/notifications'
-import EditForm from '@/components/form/editForm'
+import EditClient from '@/components/form/client/editForm'
+import CreateClient from '@/components/form/client/createForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -129,7 +130,6 @@ interface ThProps {
   sorted: boolean
   onSort(): void
 }
-
 // Table Heading Component
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles()
@@ -398,7 +398,7 @@ export function ClientTable({ data }: IClientTableProps) {
         size="xl"
         position="right"
       >
-        <CreateForm />
+        <CreateClient />
       </Drawer>
 
       {/* Edit Client - Client Edit Form Drawer*/}
@@ -410,7 +410,7 @@ export function ClientTable({ data }: IClientTableProps) {
         size="xl"
         position="right"
       >
-        <EditForm {...clientEditData} />
+        <EditClient {...clientEditData} />
       </Drawer>
     </>
   )
