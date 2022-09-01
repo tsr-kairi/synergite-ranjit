@@ -16,8 +16,7 @@ const zClient = z.object({
   uuid: z.string(),
 })
 
-// new client add types
-
+// new client add
 const zClientCreate = z.object({
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
   last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
@@ -27,7 +26,7 @@ const zClientCreate = z.object({
   state: z.string(),
 })
 
-// new client edit types
+// client edit
 const zClientEdit = z.object({
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
   last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
@@ -52,7 +51,7 @@ const zContacts = z.object({
   uuid: z.string(),
 })
 
-// new create contact add types
+// new create contact
 
 const zContactCreate = z.object({
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
@@ -63,7 +62,7 @@ const zContactCreate = z.object({
   country: z.string(),
 })
 
-// new create contact add types
+// contacts edit
 
 const zContactEdit = z.object({
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
@@ -94,6 +93,7 @@ const zJobCreate = z.object({
   job_status: z.string(),
 })
 
+// Job edit - edit job
 const zJobEdit = z.object({
   job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
   location: z.string(),
@@ -107,6 +107,7 @@ const zClientDetails = zClient.extend({
   jobs: z.array(zJobs),
 })
 
+// clients zod types define
 type TClientDetails = z.infer<typeof zClientDetails>
 type TClient = z.infer<typeof zClient>
 type TJobs = z.infer<typeof zJobs>
@@ -117,23 +118,7 @@ type TContactEdit = z.infer<typeof zContactEdit>
 type TJobCreate = z.infer<typeof zJobCreate>
 type TJobEdit = z.infer<typeof zJobEdit>
 
-// Vendor Table Data
-const zVendor = z.object({
-  id: z.number(),
-  profile_image: z.string().url(),
-  first_name: z.string(),
-  last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
-  city: z.string(),
-  country: z.string(),
-  date_created: z.string(),
-  date_updated: z.string().optional(),
-  uuid: z.string(),
-})
-
-type TVendor = z.infer<typeof zVendor>
-
+// client interface define
 interface TClientFindAll {
   data: TClient[]
 }
@@ -151,9 +136,6 @@ interface TJobCreateResponse {
 }
 interface TRemoveClientDataById {
   data: TClient
-}
-interface IVendorFindAll {
-  data: TVendor[]
 }
 
 interface TContactsFindAll {
@@ -176,10 +158,7 @@ interface TClientFindById {
   data: TClient
 }
 
-// interface TClientEditById {
-//   data: TClient
-// }
-
+// I - interface define
 interface IFindContactsByClientId {
   data: TContacts[]
 }
@@ -187,6 +166,60 @@ interface IFindContactsByClientId {
 interface IFindJobsByClientId {
   data: TJobs[]
 }
+
+// Vendor List Data
+const zVendor = z.object({
+  id: z.number(),
+  profile_image: z.string().url(),
+  first_name: z.string(),
+  last_name: z.string(),
+  email: z.string().email(),
+  phone: z.string(),
+  city: z.string(),
+  country: z.string(),
+  date_created: z.string(),
+  date_updated: z.string().optional(),
+  uuid: z.string(),
+})
+
+// new Vendor add
+const zVendorCreate = z.object({
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  city: z.string(),
+  country: z.string(),
+})
+
+// vendor edit
+const zVendorEdit = z.object({
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  city: z.string(),
+  country: z.string(),
+})
+
+// clients zod types define
+type TVendorCreate = z.infer<typeof zVendorCreate>
+type TVendor = z.infer<typeof zVendor>
+
+// vendor T - interface define
+interface TVendorFindAll {
+  data: TVendor[]
+}
+
+interface TVendorCreateResponse {
+  data: TVendor
+}
+
+interface TVendorFindById {
+  data: TVendor
+}
+
+// export types
 
 export type {
   TClient,
@@ -198,23 +231,26 @@ export type {
   TContactsFindById,
   TJobsFindById,
   TVendor,
-  IVendorFindAll,
+  TVendorFindAll,
   TJobsFindAll,
   TClientFindById,
-  // TClientEditById,
+  TVendorFindById,
   IFindContactsByClientId,
   IFindJobsByClientId,
   TRemoveClientDataById,
   TClientCreateResponse,
   TContactCreateResponse,
+  TVendorCreateResponse,
   TJobCreateResponse,
   TClientCreate,
+  TVendorCreate,
   TContactCreate,
   TContactEdit,
   TJobCreate,
   TJobEdit,
 }
 
+// export ZOD
 export {
   zClientCreate,
   zContactCreate,
@@ -222,4 +258,7 @@ export {
   zJobCreate,
   zJobEdit,
   zClientEdit,
+  // vendor
+  zVendorCreate,
+  zVendorEdit,
 }

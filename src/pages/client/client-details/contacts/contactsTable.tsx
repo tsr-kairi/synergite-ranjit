@@ -25,8 +25,8 @@ import {
 } from '@tabler/icons'
 import { TContacts } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import CreateContact from '@/components/form/contact/createForm'
-import EditContact from '@/components/form/contact/editForm'
+import CreateContact from '@/components/form/client/contact/createForm'
+import EditContact from '@/components/form/client/contact/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteContactById from '../../hooks/useDeleteContactById'
 

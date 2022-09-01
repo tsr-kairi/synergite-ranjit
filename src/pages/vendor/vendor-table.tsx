@@ -26,7 +26,10 @@ import {
 } from '@tabler/icons'
 import { TVendor } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import AddNew from '@/components/form/client/createForm'
+import CreateForm from '@/components/form/vendor/createForm'
+import EditVendor from '@/components/form/vendor/editForm'
+import { showNotification } from '@mantine/notifications'
+import useDeleteVendorById from './hooks/useDeleteVendorById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -194,11 +197,14 @@ export default function VendorTable({ data }: IVendorTableProps) {
   console.log(data)
 
   const [opened, setOpened] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+  const [vendorEditData, setVendorEditData] = useState({} as TVendor)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TVendor | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
+  const { mutate: deleteVendor } = useDeleteVendorById()
 
   const setSorting = (field: keyof TVendor) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -215,30 +221,25 @@ export default function VendorTable({ data }: IVendorTableProps) {
     )
   }
 
-  // client data Delete handler
-  const openModalForDelete = () => {
-    console.log('openModalForDelete')
-
+  // vendor data Delete handler
+  const openModalForDelete = (vendor: TVendor) => {
     openConfirmModal({
-      title: 'Do You want to delete this client?',
+      title: 'Do You want to delete this vendor?',
       children: (
         <Text size="sm">
-          After deleting a clients, You cannot recover them back. So, Please
+          After deleting a vendors, You cannot recover them back. So, Please
           take your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        // void axios
-        //   .delete(`http://localhost:4000/clientTableData/${ClientTable.id}`)
-        //   .then(() => {
-        //     showNotification({
-        //       title: 'ClientTable deleted!',
-        //       message: `${ClientTable.name.toUpperCase()} deleted Successfully!`,
-        //     })
-        //   })
+        deleteVendor(vendor.id)
         console.log('delete')
+        showNotification({
+          title: 'Client Deleted !!',
+          message: `${vendor.first_name} has been deleted successfully.`,
+        })
       },
     })
   }
@@ -268,11 +269,18 @@ export default function VendorTable({ data }: IVendorTableProps) {
       <td>{row?.country}</td>
       <td>
         <Group spacing="sm">
-          <IconEdit className={classes.editIcon} cursor="pointer" />
+          <IconEdit
+            className={classes.editIcon}
+            cursor="pointer"
+            onClick={() => {
+              setIsOpened(true)
+              setVendorEditData(row)
+            }}
+          />
           <IconTrash
             className={classes.deleteIcon}
             cursor="pointer"
-            onClick={() => openModalForDelete()}
+            onClick={() => openModalForDelete(row)}
           />
         </Group>
       </td>
@@ -375,7 +383,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
         </div>
       </ScrollArea>
 
-      {/* Add New - Client Form Drawer*/}
+      {/* Add New - Vendor Form Drawer*/}
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
@@ -384,7 +392,19 @@ export default function VendorTable({ data }: IVendorTableProps) {
         size="xl"
         position="right"
       >
-        <AddNew />
+        <CreateForm />
+      </Drawer>
+
+      {/* Edit Vendor - Vendor Edit Form Drawer*/}
+      <Drawer
+        opened={isOpened}
+        onClose={() => setIsOpened(false)}
+        title="Edit Vendor"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <EditVendor {...vendorEditData} />
       </Drawer>
     </>
   )

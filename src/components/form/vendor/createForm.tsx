@@ -1,5 +1,5 @@
-import useEditClient from '@/pages/client/hooks/useEditClient'
-import { TClient, zClientEdit } from '@/types'
+import useCreateVendor from '@/pages/vendor/hooks/useCreateVendor'
+import { TVendorCreate, zVendorCreate } from '@/types'
 import {
   TextInput,
   Button,
@@ -16,43 +16,50 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(clientData: TClient) {
+export default function CreateForm() {
   const { classes } = useStyles()
-  const { mutate: editClient, isSuccess, isError } = useEditClient()
+  const { mutate: addVendor, isSuccess, isError } = useCreateVendor()
 
-  const form = useForm<TClient>({
-    validate: zodResolver(zClientEdit),
-    initialValues: clientData,
+  const form = useForm<TVendorCreate>({
+    validate: zodResolver(zVendorCreate),
+    initialValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      city: '',
+      country: '',
+    },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TClient) => {
-    const clientCreateData = {
+  const handleSubmit = (values: TVendorCreate) => {
+    const vendorCreateData = {
       ...values,
       status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = editClient(clientCreateData)
+    const data = addVendor(vendorCreateData)
     console.log(data)
 
     showNotification({
       title: 'Success!!',
-      message: 'Client Edited successfully.',
+      message: 'Vendor Created successfully.',
     })
 
     // if (isError)
     //   showNotification({
     //     title: 'Filed!!',
-    //     message: 'Failed to create client',
+    //     message: 'Failed to create vendor',
     //   })
 
     // if (isSuccess) {
     //   form.reset()
     //   showNotification({
     //     title: 'Success!!',
-    //     message: 'Client Created successfully.',
+    //     message: 'Vendor Created successfully.',
     //   })
     // }
 
@@ -112,20 +119,21 @@ export default function EditForm(clientData: TClient) {
             />
             <TextInput
               required
-              label="State"
+              label="Country"
               type={'text'}
-              placeholder="State"
-              {...form.getInputProps('state')}
+              placeholder="Country"
+              {...form.getInputProps('country')}
             />
           </Group>
           <div>
             <FileInput
               label="Profile Image"
+              type={'file'}
               mt="md"
               {...form.getInputProps('profile_image')}
             />
             <Button fullWidth type="submit" mt="md" mb="lg">
-              Edit Client
+              Add New
             </Button>
           </div>
         </form>

@@ -1,5 +1,5 @@
-import useEditClient from '@/pages/client/hooks/useEditClient'
-import { TClient, zClientEdit } from '@/types'
+import useEditVendor from '@/pages/vendor/hooks/useEditVendor'
+import { TVendor, zVendorEdit } from '@/types'
 import {
   TextInput,
   Button,
@@ -16,30 +16,30 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(clientData: TClient) {
+export default function EditForm(vendorData: TVendor) {
   const { classes } = useStyles()
-  const { mutate: editClient, isSuccess, isError } = useEditClient()
+  const { mutate: editVendor, isSuccess, isError } = useEditVendor()
 
-  const form = useForm<TClient>({
-    validate: zodResolver(zClientEdit),
-    initialValues: clientData,
+  const form = useForm<TVendor>({
+    validate: zodResolver(zVendorEdit),
+    initialValues: vendorData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TClient) => {
-    const clientCreateData = {
+  const handleSubmit = (values: TVendor) => {
+    const vendorCreateData = {
       ...values,
       status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = editClient(clientCreateData)
+    const data = editVendor(vendorCreateData)
     console.log(data)
 
     showNotification({
       title: 'Success!!',
-      message: 'Client Edited successfully.',
+      message: 'Vendor Edited successfully.',
     })
 
     // if (isError)
@@ -112,10 +112,10 @@ export default function EditForm(clientData: TClient) {
             />
             <TextInput
               required
-              label="State"
+              label="Country"
               type={'text'}
-              placeholder="State"
-              {...form.getInputProps('state')}
+              placeholder="Country"
+              {...form.getInputProps('country')}
             />
           </Group>
           <div>
@@ -125,7 +125,7 @@ export default function EditForm(clientData: TClient) {
               {...form.getInputProps('profile_image')}
             />
             <Button fullWidth type="submit" mt="md" mb="lg">
-              Edit Client
+              Edit Vendor
             </Button>
           </div>
         </form>
