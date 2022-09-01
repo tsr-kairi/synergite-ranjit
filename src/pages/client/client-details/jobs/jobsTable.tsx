@@ -24,8 +24,8 @@ import {
 } from '@tabler/icons'
 import { TJobs } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import CreateJob from '@/components/form/job/createForm'
-import EditJob from '@/components/form/job/editForm'
+import CreateJob from '@/components/form/client/job/createForm'
+import EditJob from '@/components/form/client/job/editForm'
 import { showNotification } from '@mantine/notifications'
 
 import useDeleteJobById from '../../hooks/useDeleteJobById'

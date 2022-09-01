@@ -5,4 +5,10 @@ const clientQueryKeys = {
   jobList: 'job-list',
 }
 
-export { clientQueryKeys }
+const vendorQueryKeys = {
+  allVendors: 'all-vendors',
+  vendorDetails: 'vendor-details',
+  contactList: 'contact-list',
+}
+
+export { clientQueryKeys, vendorQueryKeys }
