@@ -12,6 +12,7 @@ import {
   Button,
   Drawer,
   Pagination,
+  Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -30,6 +31,7 @@ import CreateForm from '@/components/form/vendor/createForm'
 import EditVendor from '@/components/form/vendor/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteVendorById from './hooks/useDeleteVendorById'
+import { Link } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -252,16 +254,26 @@ export default function VendorTable({ data }: IVendorTableProps) {
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
       <td>
-        <Group spacing="sm">
-          <Avatar
-            size={26}
-            src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-            radius={26}
-          />
-          <Text size="sm" weight={500}>
-            {row?.first_name} {row.last_name}
-          </Text>
-        </Group>
+        <Link to={`/vendor-details/${row?.id}`} className={classes.userLink}>
+          <Tooltip
+            label="Click to view"
+            color="blue"
+            withArrow
+            transition="pop-top-right"
+            transitionDuration={300}
+          >
+            <Group spacing="sm">
+              <Avatar
+                size={26}
+                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+                radius={26}
+              />
+              <Text size="sm" weight={500}>
+                {row?.first_name} {row.last_name}
+              </Text>
+            </Group>
+          </Tooltip>
+        </Link>
       </td>
       <td>{row?.email}</td>
       <td>{row?.phone}</td>
