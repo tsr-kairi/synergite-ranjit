@@ -36,7 +36,7 @@ const zClientEdit = z.object({
   state: z.string(),
 })
 
-// client list with contacts
+// client contacts
 const zContacts = z.object({
   id: z.number(),
   profile_image: z.string().url(),
@@ -101,7 +101,7 @@ const zJobEdit = z.object({
   job_status: z.string(),
 })
 
-// extend array of objects
+// extend array of objects client
 const zClientDetails = zClient.extend({
   contacts: z.array(zContacts),
   jobs: z.array(zJobs),
@@ -167,6 +167,8 @@ interface IFindJobsByClientId {
   data: TJobs[]
 }
 
+// vendor start here
+
 // Vendor List Data
 const zVendor = z.object({
   id: z.number(),
@@ -202,9 +204,31 @@ const zVendorEdit = z.object({
   country: z.string(),
 })
 
+// vendor contacts
+const zVContacts = z.object({
+  id: z.number(),
+  profile_image: z.string().url(),
+  first_name: z.string(),
+  last_name: z.string(),
+  email: z.string().email(),
+  phone: z.string(),
+  city: z.string(),
+  country: z.string(),
+  date_created: z.string(),
+  date_updated: z.string().optional(),
+  uuid: z.string(),
+})
+
+// extend array of objects vendor
+const zVendorDetails = zVendor.extend({
+  contacts: z.array(zVContacts),
+})
+
 // clients zod types define
+type TVendorDetails = z.infer<typeof zVendorDetails>
 type TVendorCreate = z.infer<typeof zVendorCreate>
 type TVendor = z.infer<typeof zVendor>
+type TVContacts = z.infer<typeof zVContacts>
 
 // vendor T - interface define
 interface TVendorFindAll {
@@ -219,12 +243,18 @@ interface TVendorFindById {
   data: TVendor
 }
 
+interface IFindContactsByVendorId {
+  data: TContacts[]
+}
+
 // export types
 
 export type {
   TClient,
   TClientDetails,
+  TVendorDetails,
   TContacts,
+  TVContacts,
   TJobs,
   TClientFindAll,
   TContactsFindAll,
@@ -236,6 +266,7 @@ export type {
   TClientFindById,
   TVendorFindById,
   IFindContactsByClientId,
+  IFindContactsByVendorId,
   IFindJobsByClientId,
   TRemoveClientDataById,
   TClientCreateResponse,

@@ -1,5 +1,5 @@
-import useEditContact from '@/pages/client/hooks/useEditContact'
-import { TContacts, zContactEdit } from '@/types'
+import useEditContact from '@/pages/vendor/hooks/useEditContact'
+import { TVContacts, zContactEdit } from '@/types'
 import {
   TextInput,
   Button,
@@ -16,18 +16,18 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(contactData: TContacts) {
+export default function EditForm(contactData: TVContacts) {
   const { classes } = useStyles()
   const { mutate: editContact, isSuccess, isError } = useEditContact()
 
-  const form = useForm<TContacts>({
+  const form = useForm<TVContacts>({
     validate: zodResolver(zContactEdit),
     initialValues: contactData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TContacts) => {
+  const handleSubmit = (values: TVContacts) => {
     const contactEditData = {
       ...values,
       status: 'published',

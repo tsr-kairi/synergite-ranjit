@@ -1,9 +1,11 @@
 import { vendorQueryKeys } from '@/react-query/queryKeys'
 import apiClient from '@/services/base'
-import { TVendorCreate, TVendorFindAll } from '@/types'
+import { TVendorCreate, TVendorFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
-const createVendor = async (vendor: TVendorCreate): Promise<TVendorFindAll> => {
+const createVendor = async (
+  vendor: TVendorCreate
+): Promise<TVendorFindById> => {
   return await apiClient.post('/vendors', vendor)
 }
 

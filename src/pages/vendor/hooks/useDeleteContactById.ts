@@ -1,4 +1,4 @@
-import { clientQueryKeys } from '@/react-query/queryKeys'
+import { vendorQueryKeys } from '@/react-query/queryKeys'
 import apiClient from '@/services/base'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -11,8 +11,8 @@ const useDeleteContactById = () => {
 
   return useMutation(async (id: number) => deleteContactById(id), {
     onSuccess: () => {
-      void queryClient.resetQueries(clientQueryKeys.contactList)
-      console.log('Delete Contact Called')
+      void queryClient.resetQueries(vendorQueryKeys.contactList)
+      console.log('Delete Client Called')
     },
   })
 }
