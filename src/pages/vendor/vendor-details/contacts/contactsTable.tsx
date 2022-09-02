@@ -8,7 +8,7 @@ import {
   Text,
   Center,
   TextInput,
-  // Drawer,
+  Drawer,
   Button,
   Avatar,
   // Pagination,
@@ -24,12 +24,11 @@ import {
   IconPlus,
 } from '@tabler/icons'
 import { TVContacts } from '@/types'
-// import { openConfirmModal } from '@mantine/modals'
-// import CreateContact from '@/components/form/client/contact/createForm'
-// import EditContact from '@/components/form/client/contact/editForm'
-// import { showNotification } from '@mantine/notifications'
-// import useGetVendorById from '../../hooks/useGetVendorById'
-// import useDeleteContactById from '../../hooks/useDeleteContactById'
+import CreateContact from '@/components/form/vendor/contact/createForm'
+import { openConfirmModal } from '@mantine/modals'
+import useDeleteContactById from '../../hooks/useDeleteContactById'
+import { showNotification } from '@mantine/notifications'
+import EditContact from '@/components/form/vendor/contact/editForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -193,9 +192,9 @@ export default function ContactsTable({ data }: ContactProps) {
   console.log('contacts', data)
 
   const [opened, setOpened] = useState(false)
-  // const [isOpened, setIsOpened] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
-  // const [contactEditData, setContactEditData] = useState({} as TVContacts)
+  const [contactEditData, setContactEditData] = useState({} as TVContacts)
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TVContacts | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
@@ -206,7 +205,7 @@ export default function ContactsTable({ data }: ContactProps) {
     setSortBy(field)
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
-  // const { mutate: deleteContact } = useGetVendorById()
+  const { mutate: deleteContact } = useDeleteContactById()
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget
@@ -219,27 +218,27 @@ export default function ContactsTable({ data }: ContactProps) {
     })
   }
   //   contact data Delete handler model
-  // const openModalForDelete = (contact: TVContacts) => {
-  //   openConfirmModal({
-  //     title: 'Do You want to delete this contact?',
-  //     children: (
-  //       <Text size="sm">
-  //         After deleting a contacts, You cannot recover them back. So, Please
-  //         take your Action Carefully.
-  //       </Text>
-  //     ),
-  //     labels: { confirm: 'Confirm', cancel: 'Cancel' },
-  //     onCancel: () => console.log('Cancel'),
-  //     onConfirm: () => {
-  //       deleteContact(contact.id)
-  //       console.log('delete')
-  //       showNotification({
-  //         title: 'Contact Deleted !!',
-  //         message: `${contact.first_name} has been deleted successfully.`,
-  //       })
-  //     },
-  //   })
-  // }
+  const openModalForDelete = (contact: TVContacts) => {
+    openConfirmModal({
+      title: 'Do You want to delete this contact?',
+      children: (
+        <Text size="sm">
+          After deleting a contacts, You cannot recover them back. So, Please
+          take your Action Carefully.
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        deleteContact(contact.id)
+        console.log('delete')
+        showNotification({
+          title: 'Contact Deleted !!',
+          message: `${contact.first_name} has been deleted successfully.`,
+        })
+      },
+    })
+  }
 
   return (
     <ScrollArea>
@@ -334,15 +333,15 @@ export default function ContactsTable({ data }: ContactProps) {
                     <IconEdit
                       className={classes.editIcon}
                       cursor="pointer"
-                      // onClick={() => {
-                      //   setIsOpened(true)
-                      //   setContactEditData(row)
-                      // }}
+                      onClick={() => {
+                        setIsOpened(true)
+                        setContactEditData(row)
+                      }}
                     />
                     <IconTrash
                       className={classes.deleteIcon}
                       cursor="pointer"
-                      // onClick={() => openModalForDelete(row)}
+                      onClick={() => openModalForDelete(row)}
                     />
                   </Group>
                 </td>
@@ -360,7 +359,7 @@ export default function ContactsTable({ data }: ContactProps) {
         </tbody>
       </Table>
       {/* Add New Contact - Contact Form Drawer */}
-      {/* <Drawer
+      <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
         title="Add New Contact"
@@ -369,9 +368,9 @@ export default function ContactsTable({ data }: ContactProps) {
         position="right"
       >
         <CreateContact />
-      </Drawer> */}
+      </Drawer>
       {/* Edit Contact - Contact Edit Form Drawer*/}
-      {/* <Drawer
+      <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
         title="Edit Contact"
@@ -380,7 +379,7 @@ export default function ContactsTable({ data }: ContactProps) {
         position="right"
       >
         <EditContact {...contactEditData} />
-      </Drawer> */}
+      </Drawer>
     </ScrollArea>
   )
 }

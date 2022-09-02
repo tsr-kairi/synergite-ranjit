@@ -239,7 +239,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
         deleteVendor(vendor.id)
         console.log('delete')
         showNotification({
-          title: 'Client Deleted !!',
+          title: 'Vendor Deleted !!',
           message: `${vendor.first_name} has been deleted successfully.`,
         })
       },

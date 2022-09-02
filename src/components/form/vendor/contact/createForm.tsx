@@ -1,5 +1,5 @@
-import useEditContact from '@/pages/client/hooks/useEditContact'
-import { TContacts, zContactEdit } from '@/types'
+import useCreateContact from '@/pages/vendor/hooks/useCreateContact'
+import { TContactCreate, zContactCreate } from '@/types'
 import {
   TextInput,
   Button,
@@ -10,42 +10,52 @@ import {
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
   },
 }))
 
-export default function EditForm(contactData: TContacts) {
+export default function CreateForm() {
+  const { vendorId } = useParams()
   const { classes } = useStyles()
-  const { mutate: editContact, isSuccess, isError } = useEditContact()
+  const { mutate: addContact, isSuccess, isError } = useCreateContact()
 
-  const form = useForm<TContacts>({
-    validate: zodResolver(zContactEdit),
-    initialValues: contactData,
+  const form = useForm<TContactCreate>({
+    validate: zodResolver(zContactCreate),
+    initialValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      city: '',
+      country: '',
+    },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TContacts) => {
-    const contactEditData = {
+  const handleSubmit = (values: TContactCreate) => {
+    const contactCreateData = {
       ...values,
       status: 'published',
+      vendors: Number(vendorId),
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = editContact(contactEditData)
+    const data = addContact(contactCreateData)
     console.log(data)
 
     showNotification({
       title: 'Success!!',
-      message: 'Contact Edited successfully.',
+      message: 'Contact Created successfully.',
     })
 
     // if (isError)
     //   showNotification({
     //     title: 'Filed!!',
-    //     message: 'Failed to create client',
+    //     message: 'Failed to create vendor',
     //   })
 
     // if (isSuccess) {
@@ -125,7 +135,7 @@ export default function EditForm(contactData: TContacts) {
               {...form.getInputProps('profile_image')}
             />
             <Button fullWidth type="submit" mt="md" mb="lg">
-              Edit Contact
+              Add New
             </Button>
           </div>
         </form>

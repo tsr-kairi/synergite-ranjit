@@ -33,7 +33,7 @@ function App() {
               element={<ClientDetails />}
             />
             <Route
-              path="/vendor-details/:vendorId"
+              path={'/vendor-details/:vendorId'}
               element={<VendorDetails />}
             />
           </Route>

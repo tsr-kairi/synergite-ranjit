@@ -1,5 +1,5 @@
 import { createStyles } from '@mantine/core'
-// import Contacts from './contacts'
+import Contacts from './contacts'
 import Personal from './personal'
 
 const useStyles = createStyles(() => ({
@@ -41,9 +41,9 @@ export const VendorDetails = () => {
           <Personal />
         </div>
         <div className={classes.vendorContactJobs}>
-          {/* <div>
+          <div>
             <Contacts />
-          </div> */}
+          </div>
         </div>
       </div>
     </>
