@@ -7,6 +7,7 @@ import {
   Group,
   MantineProvider,
   Image,
+  Anchor,
 } from '@mantine/core'
 import SynergiteLogo from '@/assets/images/Synergite-Logo-With-Tagline.png'
 import serverError from '@/assets/images/serverError.svg'
@@ -68,11 +69,16 @@ export default function ServerError() {
 
   return (
     <div className={classes.main}>
-      <Link to={'/'}>
-        <a href="/" rel="noopener noreferrer">
+      <Anchor<'a'>
+        href="/"
+        weight={700}
+        onClick={(event) => event.preventDefault()}
+        // mt={20}
+      >
+        <Link to={'/'}>
           <Image src={SynergiteLogo} alt="SynergiteLogo" width={200} />
-        </a>
-      </Link>
+        </Link>
+      </Anchor>
       <div className={classes.root}>
         <Container>
           <Image

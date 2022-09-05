@@ -12,6 +12,7 @@ import {
   MediaQuery,
   Box,
   Divider,
+  Anchor,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
@@ -131,11 +132,16 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
   return (
     <Header className={classes.header} height={80}>
       <Box className={classes.leftSide}>
-        <Link to={'/'}>
-          <a href="/" rel="noopener noreferrer">
+        <Anchor<'a'>
+          href="/"
+          weight={700}
+          onClick={(event) => event.preventDefault()}
+          // mt={20}
+        >
+          <Link to={'/'}>
             <Logo />
-          </a>
-        </Link>
+          </Link>
+        </Anchor>
       </Box>
       <Box className={classes.rightSide}>
         <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>

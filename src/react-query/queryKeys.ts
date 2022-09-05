@@ -11,4 +11,9 @@ const vendorQueryKeys = {
   contactList: 'contact-list',
 }
 
-export { clientQueryKeys, vendorQueryKeys }
+const employeeQueryKeys = {
+  allEmployee: 'all-employees',
+  employeeDetails: 'employee-details',
+}
+
+export { clientQueryKeys, vendorQueryKeys, employeeQueryKeys }

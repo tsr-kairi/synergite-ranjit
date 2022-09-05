@@ -11,6 +11,8 @@ import Client from './pages/client'
 import Vendor from './pages/vendor'
 import ClientDetails from './pages/client/client-details'
 import VendorDetails from './pages/vendor/vendor-details'
+import Employee from './pages/employee'
+import EmployeeDetails from './pages/employee/employee-details'
 // import AppShellMain from './components/layout'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
@@ -28,6 +30,7 @@ function App() {
             <Route path="/" element={<DashBoard />} />
             <Route path="/client" element={<Client />} />
             <Route path="/vendor" element={<Vendor />} />
+            <Route path="/employee" element={<Employee />} />
             <Route
               path="/client-details/:clientId"
               element={<ClientDetails />}
@@ -35,6 +38,10 @@ function App() {
             <Route
               path={'/vendor-details/:vendorId'}
               element={<VendorDetails />}
+            />
+            <Route
+              path="/employee-details/:employeeId"
+              element={<EmployeeDetails />}
             />
           </Route>
         </Routes>

@@ -97,6 +97,7 @@ export default function CreateForm() {
             <TextInput
               required
               label="Phone"
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
               //   console.log(event)
 
