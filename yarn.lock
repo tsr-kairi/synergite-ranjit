@@ -997,12 +997,12 @@
   resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-5.1.4.tgz"
   integrity sha512-hK0f46+JDP2av7R4sD8s+jkunWszlo0SqX3L0wdFZ7BdjnGC7vTgRrESbu+/K6x0eWSXtAQ0GWXt+0R7jkO3Eg==
 
-"@mantine/modals@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@mantine/modals/-/modals-5.2.0.tgz#2bbd474a48fe0d8c1e6ba671f498ff7e00242633"
-  integrity sha512-HQmq85K+uAEXoUKl/FVYI7pMPOffEz7tCb1TmTkNhHGzRd5pGI+/2/hVMY7vjt0NMutdqWjZTgQsnxnlPaStoQ==
+"@mantine/modals@^5.2.5":
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/@mantine/modals/-/modals-5.2.5.tgz#f5553efc26d0f77d3408c7239ac1ed0b3cc853c7"
+  integrity sha512-HlVHxqDm4b1ekFR466EocC/WMcUtPZ7WDXQqYf80ejgzF/qCfh1vcPJM0r6b/oz9JmgOzyQ4QnNg43dcaVDQOQ==
   dependencies:
-    "@mantine/utils" "5.2.0"
+    "@mantine/utils" "5.2.5"
 
 "@mantine/notifications@^5.2.0":
   version "5.2.0"
@@ -1029,6 +1029,11 @@
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-5.2.0.tgz#7b0488a96198bd06bfdf16ce088b61b3afd2bd9b"
   integrity sha512-wDJKbW5EYboTSNkWhIXKdyDgBVxGLmdkGL4O94iNtZbRy5zoouGaEP3sW88GgIhyFmeVlnu+Mdzzsd76IsX/NA==
+
+"@mantine/utils@5.2.5":
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-5.2.5.tgz#4fc31808addb8596aaef91bbdb384122364297e3"
+  integrity sha512-tKRbHrK027wYzzu0PSP71WT3bikcaX/jKdVETihKytYgM2rW6jJ3iDnhS1cBi35o4q67WMsLkpOgIGoY+lTQPw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
