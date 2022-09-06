@@ -1,5 +1,5 @@
 import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
-import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
+import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
 import useGetEmployeeById from '../hooks/useGetEmployeeById'
 
@@ -8,7 +8,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     width: '100%',
     justifyContent: 'center',
-    border: `1px solid ${theme.colors.blue[0]}`,
+    border: `1px solid ${theme.colors.blue[1]}`,
     borderRadius: '5px',
   },
   UserCardInner: {
@@ -27,19 +27,14 @@ const useStyles = createStyles((theme) => ({
     padding: '20px',
     gap: '50px',
     borderRadius: '5px',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
-    border: `1px solid ${theme.colors.blue[0]}`,
+    border: `1px solid ${theme.colors.blue[1]}`,
   },
 
   leftDT: {
     gap: '5px',
   },
-  rightDT: {
-    gap: '5px',
-  },
   detailHead: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
-    border: `1px solid ${theme.colors.blue[0]}`,
+    border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
     paddingLeft: '20px',
     paddingRight: '20px',
@@ -243,6 +238,14 @@ export default function Personal() {
           </Group>
           <Group spacing="xl">
             <Text size="sm" color="#686969" weight={400}>
+              <b>County :</b>
+            </Text>
+            <Text size="sm" color="#686969" weight={400}>
+              {data?.data?.county}
+            </Text>
+          </Group>
+          <Group spacing="xl">
+            <Text size="sm" color="#686969" weight={400}>
               <b>Country :</b>
             </Text>
             <Text size="sm" color="#686969" weight={400}>
@@ -255,152 +258,6 @@ export default function Personal() {
             </Text>
             <Text size="sm" color="#686969" weight={400}>
               {data?.data?.zip_code}
-            </Text>
-          </Group>
-        </div>
-        <div className={classes.rightDT}>
-          <Text
-            size="md"
-            color="blue"
-            weight={600}
-            className={classes.detailBottom}
-          >
-            Employment details
-          </Text>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Type of Employee :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.type_of_employee}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Start date of employment :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.sde}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Account :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.account}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Contact :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.contact}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Pay Rate :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.pay_rate}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Job Title :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.job_title}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Visa Status :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.visa_status}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Work Status :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.work_state}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Work Location :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.work_location}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Client Location :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.client_location}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Home Location :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.home_location}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Candidate Status :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.candidate_status}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Skills :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.skills}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Experience :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.experience}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Department :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.department}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Reporting To :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.reporting_to}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
-              <b>Designation :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.designation}
             </Text>
           </Group>
         </div>

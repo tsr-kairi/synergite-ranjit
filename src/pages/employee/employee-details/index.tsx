@@ -1,7 +1,7 @@
 import { createStyles } from '@mantine/core'
 import Personal from './personal'
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   employeeDetails: {
     display: 'flex',
     paddingLeft: '20px',
@@ -13,10 +13,13 @@ const useStyles = createStyles(() => ({
   employeeProProfile: {
     display: 'flex',
     height: '88.5vh',
-    width: 'maxWidth',
+    width: '30%',
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
     borderRadius: '10px',
     padding: '20px',
+    [theme.fn.smallerThan('xs')]: {
+      width: '100%',
+    },
   },
 }))
 

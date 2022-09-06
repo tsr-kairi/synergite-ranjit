@@ -20,7 +20,6 @@ import {
   IconSettings,
   IconClock,
   IconChevronRight,
-  IconLogin,
   IconRoute,
 } from '@tabler/icons'
 import Logo from '../logo'

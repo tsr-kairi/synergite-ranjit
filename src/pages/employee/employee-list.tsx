@@ -13,6 +13,7 @@ import {
   Drawer,
   Pagination,
   Tooltip,
+  Checkbox,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -220,7 +221,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
     )
   }
 
-  // client data Delete handler
+  // employee data Delete handler
   const openModalForDelete = (Employee: TAEmployee) => {
     openConfirmModal({
       title: 'Do You want to delete this Employee?',
@@ -238,6 +239,60 @@ export function EmployeeList({ data }: IEmployeeProps) {
         showNotification({
           title: 'Employee Deleted !!',
           message: `${Employee.first_name} has been deleted successfully.`,
+        })
+      },
+    })
+  }
+
+  // employee data filter handler
+  const openModalForFilter = () => {
+    openConfirmModal({
+      title: 'Select Filter?',
+      children: (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            marginBottom: '30px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+            }}
+          >
+            <Text size="sm" color="blue">
+              Payment Type
+            </Text>
+            <Checkbox size="xs" label="Billable" />
+            <Checkbox size="xs" label="Non Billable" />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+            }}
+          >
+            <Text size="sm" color="blue">
+              Employee Type
+            </Text>
+            <Checkbox size="xs" label="W2" />
+            <Checkbox size="xs" label="C2C" />
+            <Checkbox size="xs" label="1099" />
+            <Checkbox size="xs" label="Internal" />
+          </div>
+        </div>
+      ),
+      labels: { confirm: 'Submit', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        console.log('Filtered')
+        showNotification({
+          title: 'EmployeeType Filtered !!',
+          message: 'EmployeeType has been filtered successfully.',
         })
       },
     })
@@ -276,8 +331,6 @@ export function EmployeeList({ data }: IEmployeeProps) {
       <td>{row?.city}</td>
       <td>{row?.state}</td>
       <td>{row?.country}</td>
-      <td>{row?.type_of_employee}</td>
-      {/* <td>{row?.sde}</td> */}
       <td>
         <Group spacing="sm">
           <IconEdit
@@ -307,7 +360,11 @@ export function EmployeeList({ data }: IEmployeeProps) {
             <Text size={'xl'} weight="600" className={classes.text}>
               Employee List
             </Text>
-            <IconFilter className={classes.filterIcon} />
+            <IconFilter
+              className={classes.filterIcon}
+              onClick={() => openModalForFilter()}
+              cursor="pointer"
+            />
           </Group>
           <TextInput
             placeholder="Search by any field"
@@ -396,20 +453,6 @@ export function EmployeeList({ data }: IEmployeeProps) {
               >
                 Country
               </Th>
-              <Th
-                sorted={sortBy === 'type_of_employee'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('type_of_employee')}
-              >
-                Type of Employee
-              </Th>
-              {/* <Th
-                sorted={sortBy === 'sde'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('sde')}
-              >
-                Start date of employment
-              </Th> */}
               <th className={classes.action}>Action</th>
             </tr>
           </thead>
@@ -441,7 +484,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         onClose={() => setOpened(false)}
         title="Add New Employee"
         padding="xl"
-        size="40%"
+        size="xl"
         position="right"
       >
         <CreateEmployee />
@@ -453,7 +496,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         onClose={() => setIsOpened(false)}
         title="Edit Employee"
         padding="xl"
-        size="40%"
+        size="xl"
         position="right"
       >
         <EditEmployee {...employeeEditData} />
