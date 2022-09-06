@@ -7,10 +7,14 @@ import {
   IconFileAnalytics,
   IconSettings,
 } from '@tabler/icons'
+
 import LinksGroup from './NavBarLinksGroup'
 
 const mockdata = [
-  { label: 'Dashboard', icon: IconLayoutDashboard },
+  {
+    label: 'Dashboard',
+    icon: IconLayoutDashboard,
+  },
   {
     label: 'Account',
     icon: IconWallet,
@@ -24,10 +28,8 @@ const mockdata = [
     label: 'Employees',
     icon: IconUsers,
     initiallyOpened: false,
-    links: [
-      { label: 'Active Employee', link: '' },
-      { label: 'All Employee', link: '' },
-    ],
+    // links: ['/employee'],
+    links: [{ label: 'Employees', link: '/employee' }],
   },
   { label: 'Activities', icon: IconActivity },
   { label: 'Contacts', icon: IconFileAnalytics },
@@ -55,8 +57,22 @@ const useStyles = createStyles((theme) => ({
   linksInner: {
     paddingBottom: theme.spacing.xl,
   },
+
+  // active: {
+  //   '&, &:hover': {
+  //     backgroundColor: theme.fn.variant({
+  //       variant: 'light',
+  //       color: theme.primaryColor,
+  //     }).background,
+  //     color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+  //       .color,
+  //   },
+  // },
 }))
 
+// interface NavbarLinkProps {
+//   active?: boolean
+// }
 export default function NavBar() {
   const { classes } = useStyles()
   const links = mockdata.map((item) => (

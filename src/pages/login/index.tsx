@@ -95,11 +95,16 @@ export function Login() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
-        <Link to={'/'}>
-          <a href="/" rel="noopener noreferrer">
+        <Anchor<'a'>
+          href="/"
+          weight={700}
+          onClick={(event) => event.preventDefault()}
+          // mt={20}
+        >
+          <Link to={'/'}>
             <Logo />
-          </a>
-        </Link>
+          </Link>
+        </Anchor>
         <Paper className={classes.formInner} radius={10}>
           <Title
             order={6}
