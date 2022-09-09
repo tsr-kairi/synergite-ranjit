@@ -14,25 +14,36 @@ import {
 
 import Logo from '@/components/logo'
 import { Link } from 'react-router-dom'
+import { useForm, zodResolver } from '@mantine/form'
+import useLogin, { ILoginRequest } from './hooks/useLogin'
+import { zLoginValidation } from '@/types/login-type'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    minHeight: 900,
+    minHeight: 800,
     display: 'flex',
     width: '100%',
     overflow: 'hidden',
 
+    [theme.fn.smallerThan('xl')]: {
+      minHeight: 600,
+    },
     [theme.fn.smallerThan('xs')]: {
       flexDirection: 'column',
+      minHeight: 600,
     },
   },
-  form: {
+  formMain: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: 900,
     width: `40%`,
     backgroundColor: theme.colors.blue[9],
 
+    [theme.fn.smallerThan('xl')]: {
+      width: '40%',
+      padding: '40px',
+    },
     [theme.fn.smallerThan('xs')]: {
       width: '100%',
       padding: '20px',
@@ -46,7 +57,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.white,
     marginTop: '140px',
 
-    [theme.fn.smallerThan('xs')]: {
+    [theme.fn.smallerThan('xl')]: {
       padding: 30,
       marginTop: '70px',
     },
@@ -92,9 +103,25 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const { classes } = useStyles()
+  const { login } = useLogin()
+  const form = useForm<ILoginRequest>({
+    validate: zodResolver(zLoginValidation),
+    initialValues: {
+      userId: '',
+      password: '',
+    },
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
+
+  const handleSubmit = (values: ILoginRequest) => {
+    void login(values)
+    console.log(values)
+  }
+
   return (
     <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={30} px={80}>
+      <Paper className={classes.formMain} radius={0} p={30} px={80}>
         <Anchor<'a'>
           href="/"
           weight={700}
@@ -105,60 +132,73 @@ export function Login() {
             <Logo />
           </Link>
         </Anchor>
-        <Paper className={classes.formInner} radius={10}>
-          <Title
-            order={6}
-            className={classes.title}
-            align="left"
-            mt="md"
-            mb={50}
-          >
-            Login with <span className={classes.password}>Email</span> and{' '}
-            <span className={classes.password}>Password</span>
-          </Title>
-
-          <TextInput
-            className={classes.emailInput}
-            label="Email address"
-            placeholder="randome@gmail.com"
-            size="md"
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="★★★★★★★★"
-            mt="md"
-            size="md"
-          />
-
-          <Group grow mt={20} position="center">
-            <Checkbox label="Keep me logged in" size="sm" />
-
-            <Anchor<'a'>
-              href="#login"
-              weight={700}
-              onClick={(event) => event.preventDefault()}
-              align="right"
+        {/* Login form */}
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Paper className={classes.formInner} radius={10}>
+            <Title
+              order={6}
+              className={classes.title}
+              align="left"
+              mt="md"
+              mb={50}
             >
-              <Link className={classes.backPage} to={'/forgot-password'}>
-                Forgot Password
-              </Link>
-            </Anchor>
-          </Group>
-          <MantineProvider
-            inherit
-            theme={{
-              defaultGradient: {
-                from: 'orange',
-                to: 'red',
-                deg: 45,
-              },
-            }}
-          >
-            <Button variant="gradient" size="md" fullWidth mt="xl">
-              login
-            </Button>
-          </MantineProvider>
-        </Paper>
+              Login with <span className={classes.password}>Email</span> and{' '}
+              <span className={classes.password}>Password</span>
+            </Title>
+
+            <TextInput
+              className={classes.emailInput}
+              label="Email address"
+              placeholder="Enter your email address"
+              size="md"
+              type="email"
+              {...form.getInputProps('userId')}
+            />
+            <PasswordInput
+              label="Password"
+              placeholder="Enter your password"
+              mt="md"
+              size="md"
+              // type="password"
+              {...form.getInputProps('password')}
+            />
+
+            <Group grow mt={20} position="center">
+              <Checkbox label="Keep me logged in" size="sm" />
+
+              <Anchor<'a'>
+                href="#login"
+                weight={700}
+                onClick={(event) => event.preventDefault()}
+                align="right"
+              >
+                <Link className={classes.backPage} to={'/forgot-password'}>
+                  Forgot Password
+                </Link>
+              </Anchor>
+            </Group>
+            <MantineProvider
+              inherit
+              theme={{
+                defaultGradient: {
+                  from: 'orange',
+                  to: 'red',
+                  deg: 45,
+                },
+              }}
+            >
+              <Button
+                type="submit"
+                variant="gradient"
+                size="md"
+                fullWidth
+                mt="xl"
+              >
+                Login
+              </Button>
+            </MantineProvider>
+          </Paper>
+        </form>
       </Paper>
 
       <div className={classes.loginImg}>

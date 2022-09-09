@@ -18,20 +18,20 @@ const zClient = z.object({
 
 // new client add
 const zClientCreate = z.object({
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  first_name: z.string().min(2, { message: 'F_N should be >= 10' }),
+  last_name: z.string().min(2, { message: 'L_N should be >= 2' }),
   email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  phone: z.string().min(10, { message: 'Phone number should be >= 10' }),
   city: z.string(),
   state: z.string(),
 })
 
 // client edit
 const zClientEdit = z.object({
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  first_name: z.string().min(2, { message: 'F_N should be >= 2' }),
+  last_name: z.string().min(2, { message: 'L_N should be >= 2' }),
   email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  phone: z.string().min(10, { message: 'Phone number should be >= 10' }),
   city: z.string(),
   state: z.string(),
 })
