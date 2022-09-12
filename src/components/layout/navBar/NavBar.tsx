@@ -24,13 +24,14 @@ const mockdata = [
       { label: 'Vendors', link: '/vendor' },
     ],
   },
-  {
-    label: 'Employees',
-    icon: IconUsers,
-    initiallyOpened: false,
-    // links: ['/employee'],
-    links: [{ label: 'Employees', link: '/employee' }],
-  },
+  { label: 'Employees', icon: IconUsers, url: '/employee' },
+  // {
+  //   label: 'Employees',
+  //   icon: IconUsers,
+  //   initiallyOpened: false,
+  //   // links: ['/employee'],
+  //   links: [{ label: 'Employees', link: '/employee' }],
+  // },
   { label: 'Activities', icon: IconActivity },
   { label: 'Contacts', icon: IconFileAnalytics },
   { label: 'Settings', icon: IconSettings },
@@ -82,7 +83,7 @@ export default function NavBar() {
   return (
     <Navbar
       hiddenBreakpoint="sm"
-      width={{ sm: 200, lg: 300 }}
+      width={{ sm: 200, md: 250, lg: 300 }}
       hidden={!open}
       className={classes.mainNav}
     >
