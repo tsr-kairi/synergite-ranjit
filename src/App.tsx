@@ -13,6 +13,8 @@ import ClientDetails from './pages/client/client-details'
 import VendorDetails from './pages/vendor/vendor-details'
 import Employee from './pages/employee'
 import EmployeeDetails from './pages/employee/employee-details'
+import Submission from './pages/client/client-details/jobs/submissions'
+// import Submission from './pages/client/client-details/jobs/submissions'
 // import AppShellMain from './components/layout'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
@@ -43,6 +45,7 @@ function App() {
               path="/employee-details/:employeeId"
               element={<EmployeeDetails />}
             />
+            <Route path="/submissions/:jobId" element={<Submission />} />
           </Route>
         </Routes>
       </React.Suspense>
