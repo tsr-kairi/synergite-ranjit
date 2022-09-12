@@ -9,6 +9,7 @@ import {
   TJobCreate,
   TJobCreateResponse,
 } from '@/types'
+import { IFindSubmissionByJobId } from '@/types/submission-type'
 import apiClient from './base'
 
 // for client
@@ -25,6 +26,16 @@ const findContactsByClientId = async (
 const findJobsByClientId = async (id: number): Promise<IFindJobsByClientId> => {
   const { data } = await apiClient.get<IFindJobsByClientId>(
     `/jobs?filter[clients][_eq]=${id}`
+  )
+  return data
+}
+
+// submissions
+const findSubmissionByJobId = async (
+  id: number
+): Promise<IFindSubmissionByJobId> => {
+  const { data } = await apiClient.get<IFindSubmissionByJobId>(
+    `/submissions?filter[jobs][_eq]=${id}`
   )
   return data
 }
@@ -69,6 +80,7 @@ const ClientService = {
   findClientById,
   createContact,
   createJob,
+  findSubmissionByJobId,
 }
 
 export default ClientService

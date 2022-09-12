@@ -3,6 +3,7 @@ const clientQueryKeys = {
   clientDetails: 'client-details',
   contactList: 'contact-list',
   jobList: 'job-list',
+  jobDetails: 'job-details',
 }
 
 const vendorQueryKeys = {
@@ -16,4 +17,15 @@ const employeeQueryKeys = {
   employeeDetails: 'employee-details',
 }
 
-export { clientQueryKeys, vendorQueryKeys, employeeQueryKeys }
+const submissionQueryKeys = {
+  allSubmission: 'all-submissions',
+  submissionDetails: 'submission-details',
+  submissionList: 'submission-list',
+}
+
+export {
+  clientQueryKeys,
+  vendorQueryKeys,
+  employeeQueryKeys,
+  submissionQueryKeys,
+}
