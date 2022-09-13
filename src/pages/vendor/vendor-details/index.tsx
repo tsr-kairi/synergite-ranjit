@@ -1,20 +1,20 @@
-import { createStyles } from '@mantine/core'
+import { createStyles, Grid } from '@mantine/core'
 import Contacts from './contacts'
 import Personal from './personal'
 
 const useStyles = createStyles(() => ({
   vendorDetails: {
-    display: 'flex',
+    // display: 'flex',
     paddingLeft: '20px',
     paddingRight: '20px',
-    gap: '20px',
+    // gap: '20px',
     width: '100%',
     // placeItems: 'center',
   },
   vendorProProfile: {
-    display: 'flex',
-    height: '88.5vh',
-    width: '30%',
+    // display: 'flex',
+    // height: '88.5vh',
+    width: '100%',
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
     borderRadius: '10px',
     padding: '20px',
@@ -36,16 +36,24 @@ export const VendorDetails = () => {
 
   return (
     <>
-      <div className={classes.vendorDetails}>
-        <div className={classes.vendorProProfile}>
-          <Personal />
-        </div>
-        <div className={classes.vendorContactJobs}>
-          <div>
-            <Contacts />
+      <Grid>
+        <Grid.Col span={4}>
+          <div className={classes.vendorDetails}>
+            <div className={classes.vendorProProfile}>
+              <Personal />
+            </div>
           </div>
-        </div>
-      </div>
+        </Grid.Col>
+        <Grid.Col span={8}>
+          <div className={classes.vendorDetails}>
+            <div className={classes.vendorContactJobs}>
+              <div>
+                <Contacts />
+              </div>
+            </div>
+          </div>
+        </Grid.Col>
+      </Grid>
     </>
   )
 }

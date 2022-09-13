@@ -1,17 +1,23 @@
 import { vendorQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
 import apiClient from '@/services/base'
 import { TVendorFindById } from '@/types'
 import { useQuery } from 'react-query'
 
-const findVendorById = async (id: number) => {
-  const response = await apiClient.get<TVendorFindById>(`/vendors/${id}`)
+const findVendorById = async (uuid: string) => {
+  // const response = await apiClient.get<TVendorFindById>(`/vendors/${uuid}`)
+  // return response.data
+  const response = await axiosPrivate.get<TVendorFindById>(
+    `/vendor/getvendor/${uuid}`
+  )
+  console.log('resp', response)
   return response.data
 }
 
-const useGetVendorById = (id: number) => {
+const useGetVendorById = (uuid: string) => {
   return useQuery<TVendorFindById, Error>(
-    [vendorQueryKeys.vendorDetails, id],
-    async () => await findVendorById(id),
+    [vendorQueryKeys.vendorDetails, uuid],
+    async () => await findVendorById(uuid),
     {
       onSuccess: () => console.log('GetAllVendorById On Success Called'),
     }

@@ -25,10 +25,11 @@ export default function CreateForm() {
     initialValues: {
       first_name: '',
       last_name: '',
-      email: '',
-      phone: '',
+      primary_email: '',
+      primary_phone: '',
       city: '',
       country: '',
+      state: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -37,7 +38,7 @@ export default function CreateForm() {
   const handleSubmit = (values: TVendorCreate) => {
     const vendorCreateData = {
       ...values,
-      status: 'published',
+      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
@@ -92,7 +93,7 @@ export default function CreateForm() {
               label="Email"
               type={'email'}
               placeholder="email@email.com"
-              {...form.getInputProps('email')}
+              {...form.getInputProps('primary_email')}
             />
             <TextInput
               required
@@ -106,7 +107,7 @@ export default function CreateForm() {
               // }}
               type={'tel'}
               placeholder="Phone"
-              {...form.getInputProps('phone')}
+              {...form.getInputProps('primary_phone')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -117,6 +118,15 @@ export default function CreateForm() {
               placeholder="City"
               {...form.getInputProps('city')}
             />
+            <TextInput
+              required
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
             <TextInput
               required
               label="Country"
