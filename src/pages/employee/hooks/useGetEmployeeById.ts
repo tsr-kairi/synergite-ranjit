@@ -1,17 +1,22 @@
 import { employeeQueryKeys } from '@/react-query/queryKeys'
 import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TAEmployeeFindById } from '@/types/employee-type'
 import { useQuery } from 'react-query'
 
-const findEmployeeById = async (id: number) => {
-  const response = await apiClient.get<TAEmployeeFindById>(`/employees/${id}`)
+const findEmployeeById = async (uuid: string) => {
+  // const response = await apiClient.get<TAEmployeeFindById>(`/employees/${id}`)
+  // return response.data
+  const response = await axiosPrivate.get<TAEmployeeFindById>(
+    `/employee/get/${uuid}`
+  )
   return response.data
 }
 
-const useGetEmployeeById = (id: number) => {
+const useGetEmployeeById = (uuid: string) => {
   return useQuery<TAEmployeeFindById, Error>(
-    [employeeQueryKeys.employeeDetails, id],
-    async () => await findEmployeeById(id),
+    [employeeQueryKeys.employeeDetails, uuid],
+    async () => await findEmployeeById(uuid),
     {
       onSuccess: () => console.log('GetAllEmployeeById On Success Called'),
     }
