@@ -238,7 +238,8 @@ export function EmployeeList({ data }: IEmployeeProps) {
         console.log('delete')
         showNotification({
           title: 'Employee Deleted !!',
-          message: `${Employee.fname} has been deleted successfully.`,
+          // message: `${Employee.fname} has been deleted successfully.`,
+          message: `Employee has been deleted successfully.`,
         })
       },
     })
