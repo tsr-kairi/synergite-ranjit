@@ -107,7 +107,7 @@ export function Login() {
   const form = useForm<ILoginRequest>({
     validate: zodResolver(zLoginValidation),
     initialValues: {
-      userId: '',
+      email: '',
       password: '',
     },
     validateInputOnChange: true,
@@ -115,6 +115,7 @@ export function Login() {
   })
 
   const handleSubmit = (values: ILoginRequest) => {
+    console.log('submitted', values)
     void login(values)
     console.log(values)
   }
@@ -122,16 +123,16 @@ export function Login() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.formMain} radius={0} p={30} px={80}>
-        <Anchor<'a'>
-          href="/"
-          weight={700}
-          onClick={(event) => event.preventDefault()}
-          // mt={20}
-        >
-          <Link to={'/'}>
+        <Link to={'/'}>
+          <Anchor<'a'>
+            href="/"
+            weight={700}
+            onClick={(event) => event.preventDefault()}
+            // mt={20}
+          >
             <Logo />
-          </Link>
-        </Anchor>
+          </Anchor>
+        </Link>
         {/* Login form */}
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Paper className={classes.formInner} radius={10}>
@@ -152,7 +153,7 @@ export function Login() {
               placeholder="Enter your email address"
               size="md"
               type="email"
-              {...form.getInputProps('userId')}
+              {...form.getInputProps('email')}
             />
             <PasswordInput
               label="Password"
@@ -164,18 +165,18 @@ export function Login() {
             />
 
             <Group grow mt={20} position="center">
-              <Checkbox label="Keep me logged in" size="sm" />
+              <Checkbox label="Keep me logged in" size="sm" required />
 
-              <Anchor<'a'>
-                href="#login"
-                weight={700}
-                onClick={(event) => event.preventDefault()}
-                align="right"
-              >
-                <Link className={classes.backPage} to={'/forgot-password'}>
+              <Link className={classes.backPage} to={'/forgot-password'}>
+                <Anchor<'a'>
+                  href="#login"
+                  weight={700}
+                  onClick={(event) => event.preventDefault()}
+                  align="right"
+                >
                   Forgot Password
-                </Link>
-              </Anchor>
+                </Anchor>
+              </Link>
             </Group>
             <MantineProvider
               inherit
