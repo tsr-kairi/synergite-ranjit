@@ -59,7 +59,7 @@ export default function Personal() {
   const { vendorId } = useParams()
   const { classes } = useStyles()
 
-  const { data, isError, error, isLoading } = useGetVendorById(Number(vendorId))
+  const { data, isError, error, isLoading } = useGetVendorById(String(vendorId))
 
   if (isError) {
     console.log(error)
@@ -73,6 +73,8 @@ export default function Personal() {
       </div>
     )
   }
+
+  console.log('vendor', data?.data[0])
 
   return (
     <div className={classes.vendorInnerProfile}>
@@ -101,10 +103,10 @@ export default function Personal() {
             mx="auto"
           />
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data?.first_name} {data?.data?.last_name}
+            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data?.email}
+            {data?.data[0]?.primary_email}
           </Text>
         </div>
       </div>
@@ -122,43 +124,51 @@ export default function Personal() {
       </Group>
       <div className={classes.personalDetails}>
         <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
             <b>Name :</b>
           </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.first_name} {data?.data?.last_name}
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
           </Text>
         </Group>
         <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
             <b>Email :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.email}
+            {data?.data[0]?.primary_email}
           </Text>
         </Group>
         <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
             <b>Phone :</b>
           </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.phone}
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            {data?.data[0]?.primary_phone}
           </Text>
         </Group>
         <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
             <b>City :</b>
           </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.city}
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            {data?.data[0]?.city}
           </Text>
         </Group>
         <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
             <b>State :</b>
           </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.country}
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            {data?.data[0]?.state}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            <b>Country :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            {data?.data[0]?.country}
           </Text>
         </Group>
       </div>

@@ -1,10 +1,11 @@
 import { vendorQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
 import apiClient from '@/services/base'
 import { TVendor, TVendorFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editVendor = async (data: TVendor): Promise<TVendorFindById> => {
-  return await apiClient.patch(`/vendors/${data.id}`, data)
+  return await axiosPrivate.post(`/vendor/save`, data)
 }
 
 const useEditVendor = () => {

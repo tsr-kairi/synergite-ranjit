@@ -175,9 +175,10 @@ const zVendor = z.object({
   profile_image: z.string().url(),
   first_name: z.string(),
   last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  primary_email: z.string().email(),
+  primary_phone: z.string(),
   city: z.string(),
+  state: z.string(),
   country: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
@@ -188,9 +189,10 @@ const zVendor = z.object({
 const zVendorCreate = z.object({
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
   last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  primary_email: z.string().email({ message: 'Invalid email address' }),
+  primary_phone: z.string().min(10, { message: 'Phone Number should have 10' }),
   city: z.string(),
+  state: z.string(),
   country: z.string(),
 })
 
@@ -198,9 +200,10 @@ const zVendorCreate = z.object({
 const zVendorEdit = z.object({
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
   last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  primary_email: z.string().email({ message: 'Invalid email address' }),
+  primary_phone: z.string().min(10, { message: 'Phone Number should have 10' }),
   city: z.string(),
+  state: z.string(),
   country: z.string(),
 })
 
@@ -240,7 +243,9 @@ interface TVendorCreateResponse {
 }
 
 interface TVendorFindById {
-  data: TVendor
+  data: TVendor[]
+  message: string
+  ok: boolean
 }
 
 interface IFindContactsByVendorId {

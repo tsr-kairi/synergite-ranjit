@@ -130,7 +130,9 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
   const { logOut } = useLogout()
 
   const currentDay = new Date().toLocaleDateString('en-US')
-  void useCurrentUser()
+  const data = useCurrentUser()
+
+  console.log('data', data)
 
   return (
     <Header className={classes.header} height={80}>

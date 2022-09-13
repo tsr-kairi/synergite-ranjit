@@ -236,11 +236,11 @@ export default function VendorTable({ data }: IVendorTableProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteVendor(vendor.id)
+        deleteVendor(vendor.uuid)
         console.log('delete')
         showNotification({
           title: 'Vendor Deleted !!',
-          message: `${vendor.first_name} has been deleted successfully.`,
+          message: `Vendor has been deleted successfully.`,
         })
       },
     })
@@ -254,7 +254,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
       <td>
-        <Link to={`/vendor-details/${row?.id}`} className={classes.userLink}>
+        <Link to={`/vendor-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
             color="blue"
@@ -263,11 +263,14 @@ export default function VendorTable({ data }: IVendorTableProps) {
             transitionDuration={300}
           >
             <Group spacing="sm">
-              <Avatar
+              {/* <Avatar
                 size={26}
                 src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
                 radius={26}
-              />
+              /> */}
+              <Avatar color="cyan" radius={26} size={26}>
+                V
+              </Avatar>
               <Text size="sm" weight={500}>
                 {row?.first_name} {row.last_name}
               </Text>
@@ -275,9 +278,10 @@ export default function VendorTable({ data }: IVendorTableProps) {
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.email}</td>
-      <td>{row?.phone}</td>
+      <td>{row?.primary_email}</td>
+      <td>{row?.primary_phone}</td>
       <td>{row?.city}</td>
+      <td>{row?.state}</td>
       <td>{row?.country}</td>
       <td>
         <Group spacing="sm">
@@ -343,16 +347,16 @@ export default function VendorTable({ data }: IVendorTableProps) {
                 Name
               </Th>
               <Th
-                sorted={sortBy === 'email'}
+                sorted={sortBy === 'primary_email'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('email')}
+                onSort={() => setSorting('primary_email')}
               >
                 Email
               </Th>
               <Th
-                sorted={sortBy === 'phone'}
+                sorted={sortBy === 'primary_phone'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('phone')}
+                onSort={() => setSorting('primary_phone')}
               >
                 Phone
               </Th>
@@ -364,11 +368,18 @@ export default function VendorTable({ data }: IVendorTableProps) {
                 City
               </Th>
               <Th
+                sorted={sortBy === 'state'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('state')}
+              >
+                State
+              </Th>
+              <Th
                 sorted={sortBy === 'country'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('country')}
               >
-                Country
+                State
               </Th>
               <th className={classes.action}>Action</th>
             </tr>

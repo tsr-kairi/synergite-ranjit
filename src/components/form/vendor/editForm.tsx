@@ -30,7 +30,7 @@ export default function EditForm(vendorData: TVendor) {
   const handleSubmit = (values: TVendor) => {
     const vendorCreateData = {
       ...values,
-      status: 'published',
+      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
@@ -85,7 +85,7 @@ export default function EditForm(vendorData: TVendor) {
               label="Email"
               type={'email'}
               placeholder="email@email.com"
-              {...form.getInputProps('email')}
+              {...form.getInputProps('primary_email')}
             />
             <TextInput
               required
@@ -99,7 +99,7 @@ export default function EditForm(vendorData: TVendor) {
               // }}
               type={'tel'}
               placeholder="Phone"
-              {...form.getInputProps('phone')}
+              {...form.getInputProps('primary_phone')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -110,6 +110,15 @@ export default function EditForm(vendorData: TVendor) {
               placeholder="City"
               {...form.getInputProps('city')}
             />
+            <TextInput
+              required
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
             <TextInput
               required
               label="Country"
