@@ -1,6 +1,7 @@
 import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
 import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
+import { string } from 'zod'
 import useGetEmployeeById from '../hooks/useGetEmployeeById'
 
 const useStyles = createStyles((theme) => ({
@@ -70,7 +71,7 @@ export default function Personal() {
   const { classes } = useStyles()
 
   const { data, isError, error, isLoading } = useGetEmployeeById(
-    Number(employeeId)
+    String(employeeId)
   )
 
   if (isError) {
@@ -86,12 +87,13 @@ export default function Personal() {
     )
   }
 
+  console.log('data', data)
   return (
     <div className={classes.employeeInnerProfile}>
       {/* back to Employ table list */}
       <Group grow className={classes.detailHead}>
         <Text size="md" color="blue" weight={600}>
-          Back to Employ List
+          Back to Employee List
         </Text>
         <Link to={`/employee`} className={classes.userLink}>
           <Text align="right">

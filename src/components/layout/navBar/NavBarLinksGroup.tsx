@@ -88,16 +88,19 @@ interface LinksGroupProps {
   label: string
   initiallyOpened?: boolean
   links?: { label: string; link: string }[]
+  url?: string
 }
 
 export default function LinksGroup({
   icon: Icon,
   label,
   initiallyOpened,
+  url,
   links,
 }: LinksGroupProps) {
   const { classes, theme, cx } = useStyles()
   const hasLinks = Array.isArray(links)
+
   const [opened, setOpened] = useState(initiallyOpened || false)
   const [active, setActive] = useState('Dashboard')
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
@@ -116,6 +119,7 @@ export default function LinksGroup({
       {link.label}
     </Text>
   ))
+
   return (
     <>
       <UnstyledButton
@@ -125,7 +129,7 @@ export default function LinksGroup({
         <Anchor
           className={classes.anchor}
           component={Link}
-          to={hasLinks ? links[0].link : '/'}
+          to={hasLinks ? links[0]?.link : url !== undefined ? url : '/'}
         >
           <Group position="apart" spacing={0}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>

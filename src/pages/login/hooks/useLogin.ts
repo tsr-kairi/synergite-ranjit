@@ -2,7 +2,7 @@ import axiosPublic from '@/services/axiosPublic'
 import { useNavigate } from 'react-router-dom'
 
 type IToken = {
-  token: string
+  access_token: string
   refresh_token: string
 }
 type ILoginResponse = {
@@ -12,7 +12,7 @@ type ILoginResponse = {
 }
 
 type ILoginRequest = {
-  userId: string
+  email: string
   password: string
 }
 
@@ -21,16 +21,17 @@ const useLogin = (): {
 } => {
   const navigate = useNavigate()
   const login = async (loginReqData: ILoginRequest) => {
+    console.log('loginData', loginReqData)
     try {
       const response = await axiosPublic.post<ILoginResponse>(
         '/user/login',
         loginReqData
       )
-      console.log(response.data.data.token)
+      console.log(response.data.data)
 
-      localStorage.setItem('access_token', response.data?.data?.token)
+      localStorage.setItem('access_token', response.data?.data?.access_token)
       localStorage.setItem('refresh_token', response.data?.data?.refresh_token)
-      navigate('/')
+      navigate('/employee')
     } catch (error) {
       console.log(error)
       localStorage.removeItem('access_token')

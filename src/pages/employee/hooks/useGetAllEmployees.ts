@@ -1,10 +1,12 @@
 import { employeeQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TAEmployeeFindAll } from '@/types/employee-type'
 import { useQuery } from 'react-query'
 
 const findAlEmployees = async () => {
-  const response = await apiClient.get<TAEmployeeFindAll>('/employees')
+  const response = await axiosPrivate.get<TAEmployeeFindAll>(
+    `/employee/get?page-no=0&page-size=10`
+  )
   return response.data
 }
 

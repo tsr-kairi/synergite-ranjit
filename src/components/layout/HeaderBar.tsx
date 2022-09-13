@@ -24,6 +24,8 @@ import {
 } from '@tabler/icons'
 import Logo from '../logo'
 import { Link } from 'react-router-dom'
+import useLogout from '@/pages/login/hooks/useLogout'
+import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -125,8 +127,10 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
   const { classes, cx } = useStyles()
   const [opened, { toggle }] = useDisclosure(false)
   const [userMenuOpened, setUserMenuOpened] = useState(false)
+  const { logOut } = useLogout()
 
   const currentDay = new Date().toLocaleDateString('en-US')
+  void useCurrentUser()
 
   return (
     <Header className={classes.header} height={80}>
@@ -203,6 +207,7 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
                 <Menu.Item
                   icon={<IconLogout size={14} stroke={1.5} />}
                   className={classes.logout}
+                  onClick={() => logOut()}
                 >
                   Logout
                 </Menu.Item>
