@@ -91,37 +91,42 @@ export type {
 
 // Active Employees export ZOD
 export { zAEmployeeCreate, zEmployeeEdit }
-//   id |
-//   employee_id |
-//   profile_image |
-//   first_name |
-//   last_name |
-//   email |
-//   phone |
-//   ssn |
-//   dob |
-//   gender |
-//   address_line_1 |
-//   address_line_2 |
-//   city |
-//   state |
-//   country |
-//   ethnic_origin |
-//   zip_code |
-//   type_of_employee |
-//   sde |
-//   account |
-//   contact |
-//   pay_rate |
-//   job_title |
-//   visa_status |
-//   work_state |
-//   work_location |
-//   client_location |
-//   home_location |
-//   candidate_status |
-//   skills |
-//   experience |
-//   department |
-//   reporting_to |
-//   designation
+
+// "id": 14,
+// "user_id": 8,
+// "uuid": "A17A812A:292A:583C:79B8:19E6DBB8B5EA64471C971E915178B925CEE959FF1",
+// "fname": null,
+// "mname": null,
+// "lname": null,
+// "email": null,
+// "phone": null,
+// "ssn_no": null,
+// "dob": null,
+// "gender": null,
+// "address1": null,
+// "address2": null,
+// "city": null,
+// "county": null,
+// "state": null,
+// "zip": null,
+// "country": null,
+// "employee_type": null,
+// "employment_start_date": null,
+// "payrate": null,
+// "job_title": null,
+// "visa_status": null,
+// "work_state": null,
+// "work_location": null,
+// "client_location": null,
+// "candidate_status": null,
+// "skills": null,
+// "experience": null,
+// "dept_id": null,
+// "reporting_to": null,
+// "designation": null,
+// "status": "Y",
+// "created_by": 1,
+// "created_date": "2022-09-13 12:48:15",
+// "modified_by": null,
+// "modified_date": null,
+// "delete_date": null

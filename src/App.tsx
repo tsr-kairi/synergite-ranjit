@@ -14,6 +14,7 @@ import VendorDetails from './pages/vendor/vendor-details'
 import Employee from './pages/employee'
 import EmployeeDetails from './pages/employee/employee-details'
 import useCurrentUser from './pages/login/hooks/useCurrentUser'
+import SubmissionMain from './pages/client/client-details/jobs/submissions'
 // import AppShellMain from './components/layout'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
@@ -77,7 +78,7 @@ function App() {
               path="/employee-details/:employeeId"
               element={<EmployeeDetails />}
             />
-            <Route path="/submissions/:jobId" element={<Submission />} />
+            <Route path="/submissions/:jobId" element={<SubmissionMain />} />
           </Route>
         </Routes>
       </React.Suspense>

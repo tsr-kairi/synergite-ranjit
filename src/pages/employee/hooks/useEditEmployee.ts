@@ -13,7 +13,7 @@ const editEmployee = async (data: TAEmployee): Promise<TAEmployeeFindById> => {
 // const editEmployee = async (
 //   employee: TAEmployee
 // ): Promise<TAEmployeeFindById> => {
-//   return await axiosPrivate.post('/employee/save', employee)
+//   return await axiosPrivate.patch('/employee/save', employee)
 // }
 
 const useEditEmployee = () => {
