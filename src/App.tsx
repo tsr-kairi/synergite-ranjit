@@ -77,6 +77,7 @@ function App() {
               path="/employee-details/:employeeId"
               element={<EmployeeDetails />}
             />
+            <Route path="/submissions/:jobId" element={<Submission />} />
           </Route>
         </Routes>
       </React.Suspense>

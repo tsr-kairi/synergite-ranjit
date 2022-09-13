@@ -10,6 +10,7 @@ import {
   TextInput,
   Drawer,
   Button,
+  Tooltip,
   // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -29,6 +30,7 @@ import EditJob from '@/components/form/client/job/editForm'
 import { showNotification } from '@mantine/notifications'
 
 import useDeleteJobById from '../../hooks/useDeleteJobById'
+import { Link } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -112,6 +114,13 @@ const useStyles = createStyles((theme) => ({
     margin: '10px',
     borderCollapse: 'collapse',
     border: 'none',
+  },
+  userLink: {
+    textDecoration: 'none',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
   },
 }))
 
@@ -301,7 +310,22 @@ export default function JobsTable({ data }: JobsProps) {
           {data.length > 0 ? (
             sortedData.map((row) => (
               <tr key={row.id} className={classes.companyDetails}>
-                <td>{row?.job_name}</td>
+                <td>
+                  <Link
+                    to={`/submissions/${row?.id}`}
+                    className={classes.userLink}
+                  >
+                    <Tooltip
+                      label="Click to view"
+                      color="blue"
+                      withArrow
+                      transition="pop-top-right"
+                      transitionDuration={300}
+                    >
+                      <div>{row?.job_name}</div>
+                    </Tooltip>
+                  </Link>
+                </td>
                 <td>{row?.location}</td>
                 <td>{row?.category}</td>
                 <td>{row?.job_status}</td>

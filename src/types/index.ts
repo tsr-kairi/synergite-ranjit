@@ -151,7 +151,7 @@ interface TJobsFindAll {
 }
 
 interface TJobsFindById {
-  data: TJobs[]
+  data: TJobs
 }
 
 interface TClientFindById {
