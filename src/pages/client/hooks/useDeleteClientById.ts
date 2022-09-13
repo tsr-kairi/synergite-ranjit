@@ -1,15 +1,15 @@
 import { clientQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
-const deleteClientById = async (id: number): Promise<void> => {
-  await apiClient.delete(`/clients/${id}`)
+const deleteClientById = async (uuid: string): Promise<void> => {
+  await axiosPrivate.post(`/client/delete/${uuid}`)
 }
 
 const useDeleteClientById = () => {
   const queryClient = useQueryClient()
 
-  return useMutation(async (id: number) => deleteClientById(id), {
+  return useMutation(async (uuid: string) => deleteClientById(uuid), {
     onSuccess: () => {
       void queryClient.resetQueries(clientQueryKeys.allClients)
       console.log('Delete Client Called')

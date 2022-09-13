@@ -1,12 +1,12 @@
 import { clientQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TClientCreate, TClientFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
 const createClient = async (
   client: TClientCreate
 ): Promise<TClientFindById> => {
-  return await apiClient.post('/clients', client)
+  return await axiosPrivate.post('/client/save', client)
 }
 
 const useCreateClient = () => {

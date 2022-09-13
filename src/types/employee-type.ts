@@ -130,3 +130,17 @@ export { zAEmployeeCreate, zEmployeeEdit }
 // "modified_by": null,
 // "modified_date": null,
 // "delete_date": null
+
+// ? client
+// first_name: '',
+// last_name: '',
+// address_line2: '',
+// zip: '',
+// country: '',
+// fax: '',
+// city: '',
+// state: '',
+// primary_email: '',
+// primary_phone: '',
+// status: '',
+// created_date: '',

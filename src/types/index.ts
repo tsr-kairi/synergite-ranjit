@@ -7,10 +7,17 @@ const zClient = z.object({
   profile_image: z.string(),
   first_name: z.string(),
   last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  address_line1: z.string(),
   city: z.string(),
   state: z.string(),
+  primary_email: z.string().email(),
+  primary_phone: z.string(),
+  address_line2: z.string(),
+  zip: z.string(),
+  country: z.string(),
+  fax: z.string(),
+  status: z.string(),
+  created_date: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
   uuid: z.string(),
@@ -20,20 +27,34 @@ const zClient = z.object({
 const zClientCreate = z.object({
   first_name: z.string().min(2, { message: 'F_N should be >= 10' }),
   last_name: z.string().min(2, { message: 'L_N should be >= 2' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone number should be >= 10' }),
+  primary_email: z.string().email({ message: 'Invalid email address' }),
+  primary_phone: z
+    .string()
+    .min(10, { message: 'Phone number should be >= 10' }),
   city: z.string(),
   state: z.string(),
+  address_line2: z.string(),
+  zip: z.string(),
+  country: z.string(),
 })
 
 // client edit
 const zClientEdit = z.object({
   first_name: z.string().min(2, { message: 'F_N should be >= 2' }),
   last_name: z.string().min(2, { message: 'L_N should be >= 2' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone number should be >= 10' }),
+  primary_email: z.string().email({ message: 'Invalid email address' }),
+  primary_phone: z
+    .string()
+    .min(10, { message: 'Phone number should be >= 10' }),
   city: z.string(),
   state: z.string(),
+  address_line2: z.string(),
+  zip: z.string(),
+  country: z.string(),
+  fax: z.string(),
+  status: z.string(),
+  created_date: z.string(),
+  date_created: z.string(),
 })
 
 // client contacts
@@ -155,7 +176,9 @@ interface TJobsFindById {
 }
 
 interface TClientFindById {
-  data: TClient
+  data: TClient[]
+  ok: boolean
+  message: string
 }
 
 // I - interface define

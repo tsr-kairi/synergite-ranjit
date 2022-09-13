@@ -1,6 +1,5 @@
 import { employeeQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import apiClient from '@/services/base'
 import { TAEmployeeCreate, TAEmployeeFindById } from '@/types/employee-type'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -16,7 +15,7 @@ const useCreateEmployee = () => {
   return useMutation(createEmployee, {
     onSuccess: () => {
       void queryClient.resetQueries(employeeQueryKeys.allEmployee)
-      console.log('Create  Employee Called')
+      console.log('Create Employee Called')
     },
   })
 }
