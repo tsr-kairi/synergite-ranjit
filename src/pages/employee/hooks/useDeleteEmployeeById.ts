@@ -1,6 +1,5 @@
 import { employeeQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import apiClient from '@/services/base'
 import { useMutation, useQueryClient } from 'react-query'
 
 const deleteEmployeeById = async (uuid: string): Promise<void> => {

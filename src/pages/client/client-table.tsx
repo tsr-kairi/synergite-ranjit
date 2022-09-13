@@ -234,7 +234,7 @@ export function ClientTable({ data }: IClientTableProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteClient(client.id)
+        deleteClient(client.uuid)
         console.log('delete')
         showNotification({
           title: 'Client Deleted !!',
@@ -248,7 +248,7 @@ export function ClientTable({ data }: IClientTableProps) {
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
       <td>
-        <Link to={`/client-details/${row?.id}`} className={classes.userLink}>
+        <Link to={`/client-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
             color="blue"
@@ -259,7 +259,7 @@ export function ClientTable({ data }: IClientTableProps) {
             <Group spacing="sm">
               <Avatar
                 size={26}
-                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+                src={`https://cdn4.vectorstock.com/i/1000x1000/17/28/color-letter-c-logo-icon-design-vector-22731728.jpg`}
                 radius={26}
               />
               <Text size="sm" weight={500}>
@@ -269,8 +269,8 @@ export function ClientTable({ data }: IClientTableProps) {
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.email}</td>
-      <td>{row?.phone}</td>
+      <td>{row?.primary_email}</td>
+      <td>{row?.primary_phone}</td>
       <td>{row?.city}</td>
       <td>{row?.state}</td>
       <td>
@@ -337,16 +337,16 @@ export function ClientTable({ data }: IClientTableProps) {
                 Name
               </Th>
               <Th
-                sorted={sortBy === 'email'}
+                sorted={sortBy === 'primary_email'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('email')}
+                onSort={() => setSorting('primary_email')}
               >
                 Email
               </Th>
               <Th
-                sorted={sortBy === 'phone'}
+                sorted={sortBy === 'primary_phone'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('phone')}
+                onSort={() => setSorting('primary_phone')}
               >
                 Phone
               </Th>

@@ -1,5 +1,5 @@
 import useEditEmployee from '@/pages/employee/hooks/useEditEmployee'
-import { TAEmployee, zEmployeeEdit } from '@/types/employee-type'
+import { TAEmployee } from '@/types/employee-type'
 import {
   TextInput,
   Button,
@@ -9,7 +9,7 @@ import {
   FileInput,
   Stepper,
 } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
 const useStyles = createStyles(() => ({

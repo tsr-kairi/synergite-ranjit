@@ -1,5 +1,5 @@
 import useEditClient from '@/pages/client/hooks/useEditClient'
-import { TClient, zClientEdit } from '@/types'
+import { TClient } from '@/types'
 import {
   TextInput,
   Button,
@@ -8,7 +8,7 @@ import {
   Paper,
   FileInput,
 } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
   paper: {
@@ -21,7 +21,7 @@ export default function EditForm(clientData: TClient) {
   const { mutate: editClient, isSuccess, isError } = useEditClient()
 
   const form = useForm<TClient>({
-    validate: zodResolver(zClientEdit),
+    // validate: zodResolver(zClientEdit),
     initialValues: clientData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -30,7 +30,7 @@ export default function EditForm(clientData: TClient) {
   const handleSubmit = (values: TClient) => {
     const clientCreateData = {
       ...values,
-      status: 'published',
+      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
@@ -82,24 +82,65 @@ export default function EditForm(clientData: TClient) {
           <Group grow align="center" mt="md">
             <TextInput
               required
-              label="Email"
-              type={'email'}
-              placeholder="email@email.com"
-              {...form.getInputProps('email')}
+              label="Address Line 2"
+              type={'text'}
+              placeholder="Address Line 2"
+              {...form.getInputProps('address_line2')}
             />
             <TextInput
               required
-              label="Phone"
-              // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-              //   console.log(event)
-
-              //   event.target.value
-              //     .replace(/[^0-9.]/g, '')
-              //     .replace(/(\..*)\./g, '$1')
-              // }}
+              label="Zip Code"
+              type={'text'}
+              placeholder="Zip Code"
+              {...form.getInputProps('zip')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Country"
+              type={'text'}
+              placeholder="Country"
+              {...form.getInputProps('country')}
+            />
+            <TextInput
+              required
+              label="Fax"
+              type={'text'}
+              placeholder="Fax"
+              {...form.getInputProps('fax')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Primary Email"
+              type={'text'}
+              placeholder="Primary Email"
+              {...form.getInputProps('primary_email')}
+            />
+            <TextInput
+              required
+              label="Primary Phone"
               type={'tel'}
-              placeholder="Phone"
-              {...form.getInputProps('phone')}
+              placeholder="Primary Phone"
+              {...form.getInputProps('primary_phone')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Status"
+              type={'text'}
+              placeholder="Status"
+              {...form.getInputProps('status')}
+            />
+            <TextInput
+              required
+              label="Created Date"
+              type={'datetime-local'}
+              placeholder="Created Date"
+              {...form.getInputProps('created_date')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -125,7 +166,7 @@ export default function EditForm(clientData: TClient) {
               {...form.getInputProps('profile_image')}
             />
             <Button fullWidth type="submit" mt="md" mb="lg">
-              Edit Client
+              Update Now
             </Button>
           </div>
         </form>
