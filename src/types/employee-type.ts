@@ -4,23 +4,23 @@ import { z } from 'zod'
 // Validation
 const zAEmployee = z.object({
   id: z.number(),
-  profile_image: z.string(),
+  // profile_image: z.string(),
   employee_id: z.string(),
-  first_name: z.string(),
-  last_name: z.string(),
+  fname: z.string(),
+  lname: z.string(),
   email: z.string(),
   phone: z.string(),
-  ssn: z.string(),
+  ssn_no: z.string(),
   dob: z.string(),
   gender: z.string(),
   ethnic_origin: z.string(),
-  address_line_1: z.string(),
-  address_line_2: z.string(),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
   state: z.string(),
   county: z.string(),
   country: z.string(),
-  zip_code: z.string(),
+  zip: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
   uuid: z.string(),
@@ -29,41 +29,41 @@ const zAEmployee = z.object({
 // new Active Employees add and validation
 const zAEmployeeCreate = z.object({
   employee_id: z.string(),
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
   email: z.string().email({ message: 'Invalid email address' }),
   phone: z.string().min(10, { message: 'Phone Number should have 10' }),
-  ssn: z.string(),
+  ssn_no: z.string(),
   dob: z.string(),
   gender: z.string(),
-  address_line_1: z.string(),
-  address_line_2: z.string(),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
   state: z.string(),
   county: z.string(),
   country: z.string(),
   ethnic_origin: z.string(),
-  zip_code: z.string(),
+  zip: z.string(),
 })
 
 // employee edit
 const zEmployeeEdit = z.object({
   employee_id: z.string(),
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
   email: z.string().email({ message: 'Invalid email address' }),
   phone: z.string().min(10, { message: 'Phone Number should have 10' }),
-  ssn: z.string(),
+  ssn_no: z.string(),
   dob: z.string(),
   gender: z.string(),
-  address_line_1: z.string(),
-  address_line_2: z.string(),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
   state: z.string(),
   county: z.string(),
   country: z.string(),
   ethnic_origin: z.string(),
-  zip_code: z.string(),
+  zip: z.string(),
 })
 
 // Active Employees zod types define
@@ -76,7 +76,9 @@ interface TAEmployeeFindAll {
 }
 
 interface TAEmployeeFindById {
-  data: TAEmployee
+  data: TAEmployee[]
+  message: string
+  ok: boolean
 }
 
 // Active Employees export (T) Types

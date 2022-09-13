@@ -27,21 +27,21 @@ export default function CreateForm() {
     validate: zodResolver(zAEmployeeCreate),
     initialValues: {
       employee_id: '',
-      first_name: '',
-      last_name: '',
+      fname: '',
+      lname: '',
       email: '',
       phone: '',
-      ssn: '',
+      ssn_no: '',
       dob: '',
       gender: '',
-      address_line_1: '',
-      address_line_2: '',
+      address1: '',
+      address2: '',
       city: '',
       state: '',
       county: '',
       country: '',
       ethnic_origin: '',
-      zip_code: '',
+      zip: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -50,7 +50,7 @@ export default function CreateForm() {
   const handleSubmit = (values: TAEmployeeCreate) => {
     const employeeCreateData = {
       ...values,
-      status: 'published',
+      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
@@ -109,14 +109,14 @@ export default function CreateForm() {
                   label="First Name"
                   type={'text'}
                   placeholder="First Name"
-                  {...form.getInputProps('first_name')}
+                  {...form.getInputProps('fname')}
                 />
                 <TextInput
                   required
                   label="Last Name"
                   type={'text'}
                   placeholder="Last Name"
-                  {...form.getInputProps('last_name')}
+                  {...form.getInputProps('lname')}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -138,10 +138,10 @@ export default function CreateForm() {
               <Group grow align="center" mt="md">
                 <TextInput
                   required
-                  label="Ssn"
+                  label="SSN"
                   type={'text'}
-                  placeholder="Ssn"
-                  {...form.getInputProps('ssn')}
+                  placeholder="SSN"
+                  {...form.getInputProps('ssn_no')}
                 />
                 <TextInput
                   required
@@ -176,14 +176,14 @@ export default function CreateForm() {
                   label="Address line 1"
                   type={'text'}
                   placeholder="Address line 1"
-                  {...form.getInputProps('address_line_1')}
+                  {...form.getInputProps('address1')}
                 />
                 <TextInput
                   required
                   label="Address line 2"
                   type={'text'}
                   placeholder="Address line 2"
-                  {...form.getInputProps('address_line_2')}
+                  {...form.getInputProps('address2')}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -215,7 +215,7 @@ export default function CreateForm() {
                   label="Zip Code"
                   type={'text'}
                   placeholder="Zip Code"
-                  {...form.getInputProps('zip_code')}
+                  {...form.getInputProps('zip')}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -227,7 +227,7 @@ export default function CreateForm() {
                   {...form.getInputProps('county')}
                 />
                 <Button fullWidth type="submit" mt="xl">
-                  Edit
+                  Save
                 </Button>
               </Group>
             </Stepper.Step>

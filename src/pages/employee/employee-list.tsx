@@ -227,18 +227,18 @@ export function EmployeeList({ data }: IEmployeeProps) {
       title: 'Do You want to delete this Employee?',
       children: (
         <Text size="sm">
-          After deleting a Active Employees, You cannot recover them back. So,
-          Please take your Action Carefully.
+          After deleting an active employee, You cannot recover them back. So,
+          please choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteEmployee(Employee.id)
+        deleteEmployee(Employee.uuid)
         console.log('delete')
         showNotification({
           title: 'Employee Deleted !!',
-          message: `${Employee.first_name} has been deleted successfully.`,
+          message: `${Employee.fname} has been deleted successfully.`,
         })
       },
     })
@@ -316,13 +316,13 @@ export function EmployeeList({ data }: IEmployeeProps) {
             transitionDuration={300}
           >
             <Group spacing="sm">
-              <Avatar
+              {/* <Avatar
                 size={26}
-                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.fname}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
                 radius={26}
-              />
+              /> */}
               <Text size="sm" weight={500}>
-                {row?.first_name} {row?.last_name}
+                {row?.fname} {row?.lname}
               </Text>
             </Group>
           </Tooltip>
@@ -402,9 +402,9 @@ export function EmployeeList({ data }: IEmployeeProps) {
                 Employee Id
               </Th>
               <Th
-                sorted={sortBy === 'first_name'}
+                sorted={sortBy === 'fname'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('first_name')}
+                onSort={() => setSorting('fname')}
               >
                 Name
               </Th>

@@ -1,4 +1,5 @@
 import { employeeQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
 import apiClient from '@/services/base'
 import { TAEmployeeCreate, TAEmployeeFindById } from '@/types/employee-type'
 import { useMutation, useQueryClient } from 'react-query'
@@ -6,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query'
 const createEmployee = async (
   employee: TAEmployeeCreate
 ): Promise<TAEmployeeFindById> => {
-  return await apiClient.post('/employees', employee)
+  return await axiosPrivate.post('/employee/save', employee)
 }
 
 const useCreateEmployee = () => {
