@@ -8,7 +8,6 @@ import {
   Text,
   Center,
   TextInput,
-  Avatar,
   Button,
   Drawer,
   Pagination,

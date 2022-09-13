@@ -1,5 +1,5 @@
 import useEditClient from '@/pages/client/hooks/useEditClient'
-import { TClient, zClientEdit } from '@/types'
+import { TClient } from '@/types'
 import {
   TextInput,
   Button,
@@ -8,7 +8,7 @@ import {
   Paper,
   FileInput,
 } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
   paper: {

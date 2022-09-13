@@ -1,4 +1,4 @@
-import { createStyles, Grid } from '@mantine/core'
+import { createStyles } from '@mantine/core'
 import Contacts from './contacts'
 import Jobs from './jobs'
 import Personal from './personal'

@@ -1,16 +1,16 @@
-import axiosPublic from '@/services/axiosPublic'
+// import axiosPublic from '@/services/axiosPublic'
 import axios from 'axios'
 
-type IUser = {
-  first_name: string
-  last_name: string
-  email_id: string
-}
-type ILoginResponse = {
-  ok: boolean
-  message: string
-  data: IUser
-}
+// type IUser = {
+//   first_name: string
+//   last_name: string
+//   email_id: string
+// }
+// type ILoginResponse = {
+//   ok: boolean
+//   message: string
+//   data: IUser
+// }
 
 const useCurrentUser = () => {
   // if (!access_token) {
