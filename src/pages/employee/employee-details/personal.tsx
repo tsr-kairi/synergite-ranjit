@@ -1,4 +1,4 @@
-import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
+import { Avatar, Text, createStyles, Group, Loader, Grid } from '@mantine/core'
 import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
 import { string } from 'zod'
@@ -87,7 +87,7 @@ export default function Personal() {
     )
   }
 
-  console.log('data', data)
+  console.log('data', data?.data[0])
   return (
     <div className={classes.employeeInnerProfile}>
       {/* back to Employ table list */}
@@ -115,10 +115,10 @@ export default function Personal() {
             mx="auto"
           />
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data?.first_name} {data?.data?.last_name}
+            {data?.data[0]?.fname} {data?.data[0]?.lname}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data?.employee_id}
+            {data?.data[0]?.id}
           </Text>
         </div>
       </div>
@@ -130,72 +130,77 @@ export default function Personal() {
             weight={600}
             className={classes.detailBottom}
           >
-            Personal information
+            Personal Information
           </Text>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Employee Id :</b>
             </Text>
-            <Text align="center" color="dimmed" size="sm">
-              {data?.data?.employee_id}
+            <Text
+              align="center"
+              color="dimmed"
+              size="sm"
+              transform="capitalize"
+            >
+              {data?.data[0]?.id}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Name :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.first_name} {data?.data?.last_name}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.fname} {data?.data[0]?.lname}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Email :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.email}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.email}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Phone :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.phone}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.phone}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Ssn :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.ssn}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.ssn_no}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Date of Birth :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.dob}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.dob}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Gender :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.gender}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.gender}
             </Text>
           </Group>
-          <Group spacing="xl">
+          {/* <Group spacing="xl">
             <Text size="sm" color="#686969" weight={400}>
               <b>Ethnic Origin :</b>
             </Text>
             <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.ethnic_origin}
+              {data?.data[0]?.ethnic_origin}
             </Text>
-          </Group>
+          </Group> */}
           {/* 2nd phase */}
           <Text
             size="md"
@@ -204,62 +209,62 @@ export default function Personal() {
             weight={600}
             className={classes.detailBottom}
           >
-            Employee address
+            Address Details
           </Text>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Address Line 1 :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.address_line_1}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.address1}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Address line 2 :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.address_line_2}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.address2}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>City :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.city}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.city}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>State :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.state}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.state}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>County :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.county}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.county}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Country :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.country}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.country}
             </Text>
           </Group>
           <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400}>
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
               <b>Zip Code :</b>
             </Text>
-            <Text size="sm" color="#686969" weight={400}>
-              {data?.data?.zip_code}
+            <Text size="sm" color="#686969" weight={400} transform="capitalize">
+              {data?.data[0]?.zip}
             </Text>
           </Group>
         </div>

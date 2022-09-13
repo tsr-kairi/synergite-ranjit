@@ -1,10 +1,15 @@
 import { vendorQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
 import apiClient from '@/services/base'
 import { TVendorFindAll } from '@/types'
 import { useQuery } from 'react-query'
 
 const findAllVendors = async () => {
-  const response = await apiClient.get<TVendorFindAll>('/vendors')
+  // const response = await apiClient.get<TVendorFindAll>('/vendors')
+  // return response.data
+  const response = await axiosPrivate.get<TVendorFindAll>(
+    '/vendor/getactivevendors'
+  )
   return response.data
 }
 
