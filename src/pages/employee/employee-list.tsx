@@ -301,9 +301,13 @@ export function EmployeeList({ data }: IEmployeeProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.employeeRowData}>
-      <td>{row?.employee_id}</td>
+      {/* <td>{row?.employee_id}</td> */}
+      <td>{row?.id}</td>
       <td>
-        <Link to={`/employee-details/${row?.id}`} className={classes.userLink}>
+        <Link
+          to={`/employee-details/${row?.uuid}`}
+          className={classes.userLink}
+        >
           <Tooltip
             label="Click to view"
             color="blue"

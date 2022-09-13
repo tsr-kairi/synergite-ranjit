@@ -31,7 +31,7 @@ const useLogin = (): {
 
       localStorage.setItem('access_token', response.data?.data?.access_token)
       localStorage.setItem('refresh_token', response.data?.data?.refresh_token)
-      navigate('/')
+      navigate('/employee')
     } catch (error) {
       console.log(error)
       localStorage.removeItem('access_token')
