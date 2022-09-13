@@ -322,6 +322,9 @@ export function EmployeeList({ data }: IEmployeeProps) {
                 src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.fname}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
                 radius={26}
               /> */}
+              <Avatar color="cyan" size={26} radius={26}>
+                E
+              </Avatar>
               <Text size="sm" weight={500}>
                 {row?.fname} {row?.lname}
               </Text>
@@ -428,7 +431,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('dob')}
               >
-                Dob
+                DOB
               </Th>
               <Th
                 sorted={sortBy === 'gender'}
