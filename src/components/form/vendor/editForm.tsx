@@ -21,7 +21,7 @@ export default function EditForm(vendorData: TVendor) {
   const { mutate: editVendor, isSuccess, isError } = useEditVendor()
 
   const form = useForm<TVendor>({
-    validate: zodResolver(zVendorEdit),
+    // validate: zodResolver(zVendorEdit),
     initialValues: vendorData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,

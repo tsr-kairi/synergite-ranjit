@@ -21,7 +21,7 @@ export default function EditForm(contactData: TContacts) {
   const { mutate: editContact, isSuccess, isError } = useEditContact()
 
   const form = useForm<TContacts>({
-    validate: zodResolver(zContactEdit),
+    // validate: zodResolver(zContactEdit),
     initialValues: contactData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -69,23 +69,24 @@ export default function EditForm(contactData: TContacts) {
               label="First Name"
               type={'text'}
               placeholder="First Name"
-              {...form.getInputProps('first_name')}
+              {...form.getInputProps('fname')}
             />
             <TextInput
               required
               label="Last Name"
               type={'text'}
               placeholder="Last Name"
-              {...form.getInputProps('last_name')}
+              {...form.getInputProps('lname')}
             />
           </Group>
+
           <Group grow align="center" mt="md">
             <TextInput
               required
               label="Email"
               type={'email'}
               placeholder="email@email.com"
-              {...form.getInputProps('email')}
+              {...form.getInputProps('email1')}
             />
             <TextInput
               required
@@ -99,7 +100,23 @@ export default function EditForm(contactData: TContacts) {
               // }}
               type={'tel'}
               placeholder="Phone"
-              {...form.getInputProps('phone')}
+              {...form.getInputProps('phone1')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Address Line 1"
+              type={'text'}
+              placeholder="Address Line 1"
+              {...form.getInputProps('address1')}
+            />
+            <TextInput
+              required
+              label="Address Line 2"
+              type={'text'}
+              placeholder="Address Line 2"
+              {...form.getInputProps('address2')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -112,10 +129,35 @@ export default function EditForm(contactData: TContacts) {
             />
             <TextInput
               required
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="County"
+              type={'text'}
+              placeholder="County"
+              {...form.getInputProps('county')}
+            />
+            <TextInput
+              required
               label="Country"
               type={'text'}
               placeholder="Country"
               {...form.getInputProps('country')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Zip Code"
+              type={'text'}
+              placeholder="Zip Code"
+              {...form.getInputProps('zip')}
             />
           </Group>
           <div>
@@ -125,7 +167,7 @@ export default function EditForm(contactData: TContacts) {
               {...form.getInputProps('profile_image')}
             />
             <Button fullWidth type="submit" mt="md" mb="lg">
-              Edit Contact
+              Update Now
             </Button>
           </div>
         </form>

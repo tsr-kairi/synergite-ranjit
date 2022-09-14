@@ -235,11 +235,11 @@ export default function JobsTable({ data }: JobsProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteJob(job.id)
+        deleteJob(job.uuid)
         console.log('delete')
         showNotification({
           title: 'Job Deleted !!',
-          message: `${job.job_name} has been deleted successfully.`,
+          message: `Job has been deleted successfully.`,
         })
       },
     })
@@ -276,43 +276,50 @@ export default function JobsTable({ data }: JobsProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'job_name'}
+              sorted={sortBy === 'title'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('job_name')}
+              onSort={() => setSorting('title')}
             >
-              Job Name
+              Job Title
             </Th>
             <Th
-              sorted={sortBy === 'location'}
+              sorted={sortBy === 'city'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('location')}
+              onSort={() => setSorting('city')}
             >
-              Location
+              City
             </Th>
             <Th
-              sorted={sortBy === 'category'}
+              sorted={sortBy === 'country'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('category')}
+              onSort={() => setSorting('country')}
             >
-              Category
+              Country
+            </Th>
+            <Th
+              sorted={sortBy === 'visa_status'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('visa_status')}
+            >
+              Visa Status
             </Th>
             <Th
               sorted={sortBy === 'job_status'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('job_status')}
             >
-              Job Status
+              Status
             </Th>
             <th className={classes.action}>Action</th>
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
+          {data && data?.length > 0 ? (
             sortedData.map((row) => (
               <tr key={row.id} className={classes.companyDetails}>
                 <td>
                   <Link
-                    to={`/submissions/${row?.id}`}
+                    to={`/submissions/${row?.uuid}`}
                     className={classes.userLink}
                   >
                     <Tooltip
@@ -322,12 +329,13 @@ export default function JobsTable({ data }: JobsProps) {
                       transition="pop-top-right"
                       transitionDuration={300}
                     >
-                      <div>{row?.job_name}</div>
+                      <div>{row?.title}</div>
                     </Tooltip>
                   </Link>
                 </td>
-                <td>{row?.location}</td>
-                <td>{row?.category}</td>
+                <td>{row?.city}</td>
+                <td>{row?.country}</td>
+                <td>{row?.visa_status}</td>
                 <td>{row?.job_status}</td>
                 <td>
                   <Group spacing="sm">

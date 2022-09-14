@@ -247,8 +247,12 @@ export function ClientTable({ data }: IClientTableProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
+      <td>{row?.id}</td>
       <td>
-        <Link to={`/client-details/${row?.uuid}`} className={classes.userLink}>
+        <Link
+          to={`/client-details/${row?.uuid}?id=${row?.id}`}
+          className={classes.userLink}
+        >
           <Tooltip
             label="Click to view"
             color="blue"
@@ -257,11 +261,9 @@ export function ClientTable({ data }: IClientTableProps) {
             transitionDuration={300}
           >
             <Group spacing="sm">
-              <Avatar
-                size={26}
-                src={`https://cdn4.vectorstock.com/i/1000x1000/17/28/color-letter-c-logo-icon-design-vector-22731728.jpg`}
-                radius={26}
-              />
+              <Avatar color="cyan" size={26} radius={26}>
+                C
+              </Avatar>
               <Text size="sm" weight={500}>
                 {row?.first_name} {row?.last_name}
               </Text>
@@ -273,6 +275,7 @@ export function ClientTable({ data }: IClientTableProps) {
       <td>{row?.primary_phone}</td>
       <td>{row?.city}</td>
       <td>{row?.state}</td>
+      <td>{row?.country}</td>
       <td>
         <Group spacing="sm">
           <IconEdit
@@ -330,6 +333,13 @@ export function ClientTable({ data }: IClientTableProps) {
           <thead>
             <tr>
               <Th
+                sorted={sortBy === 'id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('id')}
+              >
+                ID
+              </Th>
+              <Th
                 sorted={sortBy === 'first_name'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('first_name')}
@@ -363,6 +373,13 @@ export function ClientTable({ data }: IClientTableProps) {
                 onSort={() => setSorting('state')}
               >
                 State
+              </Th>
+              <Th
+                sorted={sortBy === 'country'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('country')}
+              >
+                Country
               </Th>
               <th className={classes.action}>Action</th>
             </tr>

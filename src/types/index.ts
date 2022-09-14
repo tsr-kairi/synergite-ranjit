@@ -61,12 +61,17 @@ const zClientEdit = z.object({
 const zContacts = z.object({
   id: z.number(),
   profile_image: z.string().url(),
-  first_name: z.string(),
-  last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  fname: z.string(),
+  lname: z.string(),
+  email1: z.string().email(),
+  phone1: z.string(),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  county: z.string(),
+  state: z.string(),
   country: z.string(),
+  zip: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
   uuid: z.string(),
@@ -75,31 +80,50 @@ const zContacts = z.object({
 // new create contact
 
 const zContactCreate = z.object({
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email1: z.string().email({ message: 'Invalid email address' }),
+  phone1: z.string().min(10, { message: 'Phone Number should have 10' }),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  state: z.string(),
+  county: z.string(),
   country: z.string(),
+  zip: z.string(),
 })
 
 // contacts edit
 
 const zContactEdit = z.object({
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email1: z.string().email({ message: 'Invalid email address' }),
+  phone1: z.string().min(10, { message: 'Phone Number should have 10' }),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  state: z.string(),
+  county: z.string(),
   country: z.string(),
+  zip: z.string(),
+  uuid: z.string(),
+  id: z.number(),
 })
 
 // client list with jobs
 const zJobs = z.object({
   id: z.number(),
-  job_name: z.string(),
-  location: z.string(),
-  category: z.string(),
+  title: z.string(),
+  city: z.string(),
+  country: z.string(),
+  state: z.string(),
+  primary_skills: z.string(),
+  secondary_skills: z.string(),
+  start_date: z.string(),
+  visa_status: z.string(),
+  job_type: z.string(),
+  pay_rate: z.string(),
   job_status: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
@@ -108,18 +132,44 @@ const zJobs = z.object({
 
 // Job create - new job
 const zJobCreate = z.object({
-  job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
-  location: z.string(),
-  category: z.string(),
+  // job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
+  // location: z.string(),
+  // category: z.string(),
+  // job_status: z.string(),
+  title: z.string().min(3, { message: 'Title should have 3 letters' }),
+  city: z.string(),
+  country: z.string(),
+  state: z.string(),
+  primary_skills: z.string(),
+  secondary_skills: z.string(),
+  start_date: z.string(),
+  visa_status: z.string(),
+  job_type: z.string(),
+  pay_rate: z.string(),
   job_status: z.string(),
 })
 
 // Job edit - edit job
 const zJobEdit = z.object({
-  job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
-  location: z.string(),
-  category: z.string(),
+  // job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
+  // location: z.string(),
+  // category: z.string(),
+  // job_status: z.string(),
+  id: z.number(),
+  title: z.string().min(3, { message: 'Title should have 3 letters' }),
+  city: z.string(),
+  country: z.string(),
+  state: z.string(),
+  // primary_skills: z.string(),
+  secondary_skills: z.string(),
+  // start_date: z.string(),
+  visa_status: z.string(),
+  job_type: z.string(),
+  pay_rate: z.string(),
   job_status: z.string(),
+  date_created: z.string(),
+  date_updated: z.string().optional(),
+  uuid: z.string(),
 })
 
 // extend array of objects client
@@ -165,6 +215,8 @@ interface TContactsFindAll {
 
 interface TContactsFindById {
   data: TContacts[]
+  ok: boolean
+  message: string
 }
 
 interface TJobsFindAll {
@@ -172,7 +224,9 @@ interface TJobsFindAll {
 }
 
 interface TJobsFindById {
-  data: TJobs
+  data: TJobs[]
+  ok: boolean
+  message: string
 }
 
 interface TClientFindById {
@@ -184,6 +238,8 @@ interface TClientFindById {
 // I - interface define
 interface IFindContactsByClientId {
   data: TContacts[]
+  ok: boolean
+  message: string
 }
 
 interface IFindJobsByClientId {
@@ -233,12 +289,17 @@ const zVendorEdit = z.object({
 // vendor contacts
 const zVContacts = z.object({
   id: z.number(),
-  profile_image: z.string().url(),
-  first_name: z.string(),
-  last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  // profile_image: z.string().url(),
+  fname: z.string(),
+  lname: z.string(),
+  email1: z.string().email(),
+  phone1: z.string(),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  state: z.string(),
+  county: z.string(),
+  zip: z.string(),
   country: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
@@ -273,6 +334,8 @@ interface TVendorFindById {
 
 interface IFindContactsByVendorId {
   data: TContacts[]
+  ok: boolean
+  message: string
 }
 
 // export types
@@ -321,3 +384,24 @@ export {
   zVendorCreate,
   zVendorEdit,
 }
+
+// "fname": "Ranjit",
+// "lname": "K",
+// "address1": null,
+// "address2": null,
+// "city": null,
+// "state": null,
+// "county": null,
+// "country": null,
+// "zip": null,
+// "fax": null,
+// "email1": "rj@xyz.com",
+// "phone1": null,
+// "created_date": "2022-08-30 12:57:20",
+// "modified_date": null,
+// "created_by": 1,
+// "modified_by": null,
+// "delete_date": null,
+// "status": "Y",
+// "client_id": 2,
+// "vendor_id": 2

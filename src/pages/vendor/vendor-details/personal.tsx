@@ -112,7 +112,7 @@ export default function Personal() {
       </div>
       <Group grow className={classes.detailHead}>
         <Text size="md" color="blue" weight={600}>
-          Personal Details
+          Vendor Details
         </Text>
         <Text align="right">
           <IconListDetails

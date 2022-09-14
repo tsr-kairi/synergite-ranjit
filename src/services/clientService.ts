@@ -10,22 +10,22 @@ import {
   TJobCreateResponse,
 } from '@/types'
 import { IFindSubmissionByJobId } from '@/types/submission-type'
+import axiosPrivate from './axiosPrivate'
 import apiClient from './base'
 
-// for client
-
+// for client contact
 const findContactsByClientId = async (
   id: number
 ): Promise<IFindContactsByClientId> => {
-  const { data } = await apiClient.get<IFindContactsByClientId>(
-    `/contacts?filter[clients][_eq]=${id}`
+  const { data } = await axiosPrivate.get<IFindContactsByClientId>(
+    `/contact/client/${id}`
   )
   return data
 }
 
 const findJobsByClientId = async (id: number): Promise<IFindJobsByClientId> => {
-  const { data } = await apiClient.get<IFindJobsByClientId>(
-    `/jobs?filter[clients][_eq]=${id}`
+  const { data } = await axiosPrivate.get<IFindJobsByClientId>(
+    `/jobs/client/${id}`
   )
   return data
 }

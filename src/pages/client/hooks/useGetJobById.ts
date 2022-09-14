@@ -1,14 +1,15 @@
 import { clientQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
 import apiClient from '@/services/base'
 import { TJobsFindById } from '@/types'
 import { useQuery } from 'react-query'
 
-const findJobById = async (id: number) => {
-  const response = await apiClient.get<TJobsFindById>(`/jobs/${id}`)
+const findJobById = async (id: string) => {
+  const response = await axiosPrivate.get<TJobsFindById>(`/jobs/get/${id}`)
   return response.data
 }
 
-const useGetJobById = (id: number) => {
+const useGetJobById = (id: string) => {
   return useQuery<TJobsFindById, Error>(
     [clientQueryKeys.jobDetails, id],
     async () => await findJobById(id),
