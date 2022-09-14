@@ -3,13 +3,14 @@ import {
   TContactCreate,
   TContactCreateResponse,
 } from '@/types'
+import axiosPrivate from './axiosPrivate'
 import apiClient from './base'
 
 const findContactsByVendorId = async (
   id: number
 ): Promise<IFindContactsByVendorId> => {
-  const { data } = await apiClient.get<IFindContactsByVendorId>(
-    `/contacts?filter[vendors][_eq]=${id}`
+  const { data } = await axiosPrivate.get<IFindContactsByVendorId>(
+    `/contact/vendor/${id}`
   )
   return data
 }

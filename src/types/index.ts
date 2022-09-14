@@ -40,12 +40,17 @@ const zClientEdit = z.object({
 const zContacts = z.object({
   id: z.number(),
   profile_image: z.string().url(),
-  first_name: z.string(),
-  last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  fname: z.string(),
+  lname: z.string(),
+  email1: z.string().email(),
+  phone1: z.string(),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  county: z.string(),
+  state: z.string(),
   country: z.string(),
+  zip: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
   uuid: z.string(),
@@ -54,23 +59,35 @@ const zContacts = z.object({
 // new create contact
 
 const zContactCreate = z.object({
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email1: z.string().email({ message: 'Invalid email address' }),
+  phone1: z.string().min(10, { message: 'Phone Number should have 10' }),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  state: z.string(),
+  county: z.string(),
   country: z.string(),
+  zip: z.string(),
 })
 
 // contacts edit
 
 const zContactEdit = z.object({
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
+  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  email1: z.string().email({ message: 'Invalid email address' }),
+  phone1: z.string().min(10, { message: 'Phone Number should have 10' }),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  state: z.string(),
+  county: z.string(),
   country: z.string(),
+  zip: z.string(),
+  uuid: z.string(),
+  id: z.number(),
 })
 
 // client list with jobs
@@ -210,12 +227,17 @@ const zVendorEdit = z.object({
 // vendor contacts
 const zVContacts = z.object({
   id: z.number(),
-  profile_image: z.string().url(),
-  first_name: z.string(),
-  last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  // profile_image: z.string().url(),
+  fname: z.string(),
+  lname: z.string(),
+  email1: z.string().email(),
+  phone1: z.string(),
+  address1: z.string(),
+  address2: z.string(),
   city: z.string(),
+  state: z.string(),
+  county: z.string(),
+  zip: z.string(),
   country: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
