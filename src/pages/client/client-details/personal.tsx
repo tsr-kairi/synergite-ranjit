@@ -162,14 +162,14 @@ export default function Personal() {
             {data?.data[0]?.state}
           </Text>
         </Group>
-        <Group spacing="xl">
+        {/* <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
             <b>Zip Code :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
             {data?.data[0]?.zip}
           </Text>
-        </Group>
+        </Group> */}
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
             <b>Country :</b>
@@ -178,15 +178,15 @@ export default function Personal() {
             {data?.data[0]?.country}
           </Text>
         </Group>
-        <Group spacing="xl">
+        {/* <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
             <b>Fax :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
             {data?.data[0]?.fax}
           </Text>
-        </Group>
-        <Group spacing="xl">
+        </Group> */}
+        {/* <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
             <b>Status :</b>
           </Text>
@@ -201,7 +201,7 @@ export default function Personal() {
           <Text size="sm" color="#686969" weight={400}>
             {data?.data[0]?.created_date}
           </Text>
-        </Group>
+        </Group> */}
       </div>
     </div>
   )

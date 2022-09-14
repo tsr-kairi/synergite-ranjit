@@ -4,7 +4,7 @@ import { TContactCreate, TContactsFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
 const createContact = (data: TContactCreate): Promise<TContactsFindById> => {
-  return axiosPrivate.post('/contact/save/', data)
+  return axiosPrivate.post('/contact/save', data)
   // return apiClient.post('/contacts').then((response) => response.data.data)
 }
 

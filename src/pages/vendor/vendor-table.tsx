@@ -390,7 +390,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('country')}
               >
-                State
+                Country
               </Th>
               <th className={classes.action}>Action</th>
             </tr>

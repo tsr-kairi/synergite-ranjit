@@ -89,7 +89,7 @@ export default function CreateForm() {
               {...form.getInputProps('last_name')}
             />
           </Group>
-          <Group grow align="center" mt="md">
+          {/* <Group grow align="center" mt="md">
             <TextInput
               required
               label="Address Line 2"
@@ -104,16 +104,8 @@ export default function CreateForm() {
               placeholder="Zip Code"
               {...form.getInputProps('zip')}
             />
-          </Group>
-          <Group grow align="center" mt="md">
-            <TextInput
-              required
-              label="Country"
-              type={'text'}
-              placeholder="Country"
-              {...form.getInputProps('country')}
-            />
-          </Group>
+          </Group> */}
+
           <Group grow align="center" mt="md">
             <TextInput
               required
@@ -144,6 +136,15 @@ export default function CreateForm() {
               type={'text'}
               placeholder="State"
               {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Country"
+              type={'text'}
+              placeholder="Country"
+              {...form.getInputProps('country')}
             />
           </Group>
           <div>

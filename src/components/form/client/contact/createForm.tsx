@@ -19,6 +19,9 @@ const useStyles = createStyles(() => ({
 
 export default function CreateForm() {
   // const { clientId } = useParams()
+  const search = window.location.search
+  const params = new URLSearchParams(search)
+  const id = params.get('id')
   const { classes } = useStyles()
   const { mutate: addContact, isSuccess, isError } = useCreateContact()
 
@@ -35,6 +38,7 @@ export default function CreateForm() {
       state: '',
       county: '',
       country: '',
+      zip: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -45,6 +49,7 @@ export default function CreateForm() {
       ...values,
       // status: 'published',
       // clients: Number(clientId),
+      client_id: Number(id),
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
@@ -96,22 +101,6 @@ export default function CreateForm() {
           <Group grow align="center" mt="md">
             <TextInput
               required
-              label="Address1"
-              type={'text'}
-              placeholder="Address1"
-              {...form.getInputProps('address1')}
-            />
-            <TextInput
-              required
-              label="Address2"
-              type={'text'}
-              placeholder="Address2"
-              {...form.getInputProps('address2')}
-            />
-          </Group>
-          <Group grow align="center" mt="md">
-            <TextInput
-              required
               label="Email"
               type={'email'}
               placeholder="email@email.com"
@@ -132,6 +121,23 @@ export default function CreateForm() {
               {...form.getInputProps('phone1')}
             />
           </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Address Line 1"
+              type={'text'}
+              placeholder="Address Line 1"
+              {...form.getInputProps('address1')}
+            />
+            <TextInput
+              required
+              label="Address Line 2"
+              type={'text'}
+              placeholder="Address Line 2"
+              {...form.getInputProps('address2')}
+            />
+          </Group>
+
           <Group grow align="center" mt="md">
             <TextInput
               required
@@ -162,6 +168,15 @@ export default function CreateForm() {
               type={'text'}
               placeholder="Country"
               {...form.getInputProps('country')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Zip Code"
+              type={'text'}
+              placeholder="Zip Code"
+              {...form.getInputProps('zip')}
             />
           </Group>
           <div>

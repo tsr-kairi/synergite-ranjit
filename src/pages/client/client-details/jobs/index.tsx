@@ -9,11 +9,14 @@ import JobsTable from './jobsTable'
 
 const Jobs = () => {
   const { clientId } = useParams()
+  const search = window.location.search
+  const params = new URLSearchParams(search)
+  const id = params.get('id')
   const [jobData, setJobData] = useState<TJobs[]>([] as TJobs[])
 
   const { isError, error, isLoading } = useQuery<IFindJobsByClientId, Error>(
-    [clientQueryKeys.jobList, clientId],
-    async () => await ClientService.findJobsByClientId(Number(clientId)),
+    [clientQueryKeys.jobList, id],
+    async () => await ClientService.findJobsByClientId(Number(id)),
     {
       onSuccess: (data) => {
         setJobData(data.data)

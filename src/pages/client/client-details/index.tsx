@@ -1,21 +1,21 @@
-import { createStyles } from '@mantine/core'
+import { createStyles, Grid } from '@mantine/core'
 import Contacts from './contacts'
 import Jobs from './jobs'
 import Personal from './personal'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
-    display: 'flex',
+    // display: 'flex',
     paddingLeft: '20px',
     paddingRight: '20px',
-    gap: '20px',
+    // gap: '20px',
     width: '100%',
     // placeItems: 'center',
   },
   clientProProfile: {
-    display: 'flex',
-    height: '88.5vh',
-    width: '30%',
+    // display: 'flex',
+    // height: '88.5vh',
+    width: '100%',
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
     borderRadius: '10px',
     padding: '20px',
@@ -37,17 +37,25 @@ export const ClientDetails = () => {
 
   return (
     <>
-      <div className={classes.clientDetails}>
-        <div className={classes.clientProProfile}>
-          <Personal />
-        </div>
-        <div className={classes.clientContactJobs}>
-          <div>
-            <Contacts />
+      <Grid>
+        <Grid.Col span={4}>
+          <div className={classes.clientDetails}>
+            <div className={classes.clientProProfile}>
+              <Personal />
+            </div>
           </div>
-          <Jobs />
-        </div>
-      </div>
+        </Grid.Col>
+        <Grid.Col span={8}>
+          <div className={classes.clientDetails}>
+            <div className={classes.clientContactJobs}>
+              <div>
+                <Contacts />
+              </div>
+              <Jobs />
+            </div>
+          </div>
+        </Grid.Col>
+      </Grid>
     </>
   )
 }

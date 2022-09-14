@@ -79,7 +79,7 @@ export default function EditForm(clientData: TClient) {
               {...form.getInputProps('last_name')}
             />
           </Group>
-          <Group grow align="center" mt="md">
+          {/* <Group grow align="center" mt="md">
             <TextInput
               required
               label="Address Line 2"
@@ -94,40 +94,26 @@ export default function EditForm(clientData: TClient) {
               placeholder="Zip Code"
               {...form.getInputProps('zip')}
             />
-          </Group>
+          </Group> */}
+
           <Group grow align="center" mt="md">
             <TextInput
               required
-              label="Country"
+              label="Email"
               type={'text'}
-              placeholder="Country"
-              {...form.getInputProps('country')}
-            />
-            <TextInput
-              required
-              label="Fax"
-              type={'text'}
-              placeholder="Fax"
-              {...form.getInputProps('fax')}
-            />
-          </Group>
-          <Group grow align="center" mt="md">
-            <TextInput
-              required
-              label="Primary Email"
-              type={'text'}
-              placeholder="Primary Email"
+              placeholder="Email"
               {...form.getInputProps('primary_email')}
             />
             <TextInput
               required
-              label="Primary Phone"
+              label="Phone"
               type={'tel'}
-              placeholder="Primary Phone"
+              placeholder="Phone"
               {...form.getInputProps('primary_phone')}
             />
           </Group>
-          <Group grow align="center" mt="md">
+
+          {/* <Group grow align="center" mt="md">
             <TextInput
               required
               label="Status"
@@ -142,7 +128,7 @@ export default function EditForm(clientData: TClient) {
               placeholder="Created Date"
               {...form.getInputProps('created_date')}
             />
-          </Group>
+          </Group> */}
           <Group grow align="center" mt="md">
             <TextInput
               required
@@ -158,6 +144,22 @@ export default function EditForm(clientData: TClient) {
               placeholder="State"
               {...form.getInputProps('state')}
             />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Country"
+              type={'text'}
+              placeholder="Country"
+              {...form.getInputProps('country')}
+            />
+            {/* <TextInput
+              required
+              label="Fax"
+              type={'text'}
+              placeholder="Fax"
+              {...form.getInputProps('fax')}
+            /> */}
           </Group>
           <div>
             <FileInput

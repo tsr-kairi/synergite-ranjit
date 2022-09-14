@@ -299,11 +299,11 @@ export default function ContactsTable({ data }: ContactProps) {
               City
             </Th>
             <Th
-              sorted={sortBy === 'county'}
+              sorted={sortBy === 'state'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('county')}
+              onSort={() => setSorting('state')}
             >
-              County
+              State
             </Th>
             <Th
               sorted={sortBy === 'country'}
@@ -316,7 +316,7 @@ export default function ContactsTable({ data }: ContactProps) {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
+          {data && data?.length > 0 ? (
             sortedData.map((row) => (
               <tr key={row?.id} className={classes.companyDetails}>
                 <td>
@@ -334,7 +334,7 @@ export default function ContactsTable({ data }: ContactProps) {
                 <td>{row?.email1}</td>
                 <td>{row?.phone1}</td>
                 <td>{row?.city}</td>
-                <td>{row?.county}</td>
+                <td>{row?.state}</td>
                 <td>{row?.country}</td>
                 <td>
                   <Group spacing="sm">

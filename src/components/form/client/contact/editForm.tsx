@@ -21,7 +21,7 @@ export default function EditForm(contactData: TContacts) {
   const { mutate: editContact, isSuccess, isError } = useEditContact()
 
   const form = useForm<TContacts>({
-    validate: zodResolver(zContactEdit),
+    // validate: zodResolver(zContactEdit),
     initialValues: contactData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -79,22 +79,7 @@ export default function EditForm(contactData: TContacts) {
               {...form.getInputProps('lname')}
             />
           </Group>
-          <Group grow align="center" mt="md">
-            <TextInput
-              required
-              label="Address1"
-              type={'text'}
-              placeholder="Address1"
-              {...form.getInputProps('address1')}
-            />
-            <TextInput
-              required
-              label="Address2"
-              type={'text'}
-              placeholder="Address2"
-              {...form.getInputProps('address2')}
-            />
-          </Group>
+
           <Group grow align="center" mt="md">
             <TextInput
               required
@@ -116,6 +101,22 @@ export default function EditForm(contactData: TContacts) {
               type={'tel'}
               placeholder="Phone"
               {...form.getInputProps('phone1')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Address Line 1"
+              type={'text'}
+              placeholder="Address Line 1"
+              {...form.getInputProps('address1')}
+            />
+            <TextInput
+              required
+              label="Address Line 2"
+              type={'text'}
+              placeholder="Address Line 2"
+              {...form.getInputProps('address2')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -148,6 +149,15 @@ export default function EditForm(contactData: TContacts) {
               type={'text'}
               placeholder="Country"
               {...form.getInputProps('country')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Zip Code"
+              type={'text'}
+              placeholder="Zip Code"
+              {...form.getInputProps('zip')}
             />
           </Group>
           <div>

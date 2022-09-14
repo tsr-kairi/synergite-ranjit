@@ -59,7 +59,7 @@ export default function Personal() {
   const { jobId } = useParams()
   const { classes } = useStyles()
 
-  const { data, isError, error, isLoading } = useGetJobById(Number(jobId))
+  const { data, isError, error, isLoading } = useGetJobById(String(jobId))
 
   if (isError) {
     console.log(error)
@@ -73,7 +73,7 @@ export default function Personal() {
       </div>
     )
   }
-  console.log(data)
+  console.log('job', data?.data[0])
 
   return (
     <div className={classes.submissionInnerProfile}>
@@ -96,10 +96,11 @@ export default function Personal() {
         <div className={classes.UserCardInner}>
           <Avatar size={120} radius={120} mx="auto" />
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data?.job_name}
+            {data?.data[0]?.title}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data?.location}
+            {data?.data[0]?.city},{data?.data[0]?.state},
+            {data?.data[0]?.country}
           </Text>
         </div>
       </div>
@@ -118,34 +119,82 @@ export default function Personal() {
       <div className={classes.personalDetails}>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            <b>Job Name :</b>
+            <b>Job Title :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.job_name}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Location :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.location}
+            {data?.data[0]?.title}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            <b>Category :</b>
+            <b>City :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.category}
+            {data?.data[0]?.city}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
-            <b>Job Status :</b>
+            <b>State :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.job_status}
+            {data?.data[0]?.state}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Country :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.country}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Primary Skills :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.primary_skills}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Secondary Skills :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.secondary_skills}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Visa Status :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.visa_status}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Start Date :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.start_date}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Pay Rate :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.pay_rate}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Status :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.job_status}
           </Text>
         </Group>
       </div>

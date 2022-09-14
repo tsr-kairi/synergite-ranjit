@@ -1,6 +1,15 @@
 import useCreateJob from '@/pages/client/hooks/useCreateJob'
 import { TJobCreate, zJobCreate } from '@/types'
-import { TextInput, Button, Group, createStyles, Paper } from '@mantine/core'
+import {
+  TextInput,
+  Button,
+  Group,
+  createStyles,
+  Paper,
+  NativeSelect,
+  Select,
+  Textarea,
+} from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useParams } from 'react-router-dom'
@@ -12,15 +21,25 @@ const useStyles = createStyles(() => ({
 
 export default function CreateForm() {
   const { clientId } = useParams()
+  const search = window.location.search
+  const params = new URLSearchParams(search)
+  const id = params.get('id')
   const { classes } = useStyles()
   const { mutate: addJob, isSuccess, isError } = useCreateJob()
 
   const form = useForm<TJobCreate>({
     validate: zodResolver(zJobCreate),
     initialValues: {
-      job_name: '',
-      location: '',
-      category: '',
+      title: '',
+      city: '',
+      country: '',
+      state: '',
+      primary_skills: '',
+      secondary_skills: '',
+      start_date: '',
+      visa_status: '',
+      job_type: '',
+      pay_rate: '',
       job_status: '',
     },
     validateInputOnChange: true,
@@ -30,8 +49,9 @@ export default function CreateForm() {
   const handleSubmit = (values: TJobCreate) => {
     const jobCreateData = {
       ...values,
-      status: 'published',
-      clients: Number(clientId),
+      // status: 'published',
+      // clients: Number(clientId),
+      client_id: Number(id),
     }
 
     const data = addJob(jobCreateData)
@@ -66,39 +86,108 @@ export default function CreateForm() {
           <Group grow align="center" mt="md">
             <TextInput
               required
-              label="Job Name"
+              label="Job Title"
               type={'text'}
-              placeholder="Job Name"
-              {...form.getInputProps('job_name')}
-            />
-            <TextInput
-              required
-              label="Location"
-              type={'text'}
-              placeholder="Location"
-              {...form.getInputProps('location')}
+              placeholder="Job Title"
+              {...form.getInputProps('title')}
             />
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
               required
-              label="Category"
+              label="City"
               type={'text'}
-              placeholder="Category"
-              {...form.getInputProps('category')}
+              placeholder="City"
+              {...form.getInputProps('city')}
             />
             <TextInput
               required
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Country"
+              type={'text'}
+              placeholder="Country"
+              {...form.getInputProps('country')}
+            />
+            {/* <TextInput
+              required
+              label="Visa Status"
+              type={'text'}
+              placeholder="Visa Status"
+              {...form.getInputProps('visa_status')}
+            /> */}
+            <Select
+              data={[
+                { value: 'H1B', label: 'H1B' },
+                { value: 'Green Card', label: 'Green Card' },
+                { value: 'Citizen', label: 'Citizen' },
+              ]}
+              placeholder="Visa Status"
+              label="Visa Status"
+              {...form.getInputProps('visa_status')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <Textarea
+              label="Primary Skills"
+              placeholder="Primary Skills"
+              maxRows={4}
+              {...form.getInputProps('primary_skills')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <Textarea
+              label="Secondary Skills"
+              placeholder="Enter Secondary Skills"
+              maxRows={4}
+              {...form.getInputProps('secondary_skills')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Job Type"
+              type={'text'}
+              placeholder="Job Type"
+              {...form.getInputProps('job_type')}
+            />
+            <TextInput
+              required
+              label="Pay Rate"
+              type={'text'}
+              placeholder="Pay Rate"
+              {...form.getInputProps('pay_rate')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              // required
+              label="Start Date"
+              type={'date'}
+              placeholder="Start Date"
+              {...form.getInputProps('start_date')}
+            />
+            {/* <TextInput
+              required
               label="Job Status"
-              // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-              //   console.log(event)
-
-              //   event.target.value
-              //     .replace(/[^0-9.]/g, '')
-              //     .replace(/(\..*)\./g, '$1')
-              // }}
               type={'text'}
               placeholder="Job Status"
+              {...form.getInputProps('job_status')}
+            /> */}
+            <Select
+              data={[
+                { value: 'Active', label: 'Active' },
+                { value: 'Inactive', label: 'Inactive' },
+              ]}
+              placeholder="Job Status"
+              label="Job Status"
               {...form.getInputProps('job_status')}
             />
           </Group>

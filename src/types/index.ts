@@ -114,9 +114,16 @@ const zContactEdit = z.object({
 // client list with jobs
 const zJobs = z.object({
   id: z.number(),
-  job_name: z.string(),
-  location: z.string(),
-  category: z.string(),
+  title: z.string(),
+  city: z.string(),
+  country: z.string(),
+  state: z.string(),
+  primary_skills: z.string(),
+  secondary_skills: z.string(),
+  start_date: z.string(),
+  visa_status: z.string(),
+  job_type: z.string(),
+  pay_rate: z.string(),
   job_status: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
@@ -125,18 +132,44 @@ const zJobs = z.object({
 
 // Job create - new job
 const zJobCreate = z.object({
-  job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
-  location: z.string(),
-  category: z.string(),
+  // job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
+  // location: z.string(),
+  // category: z.string(),
+  // job_status: z.string(),
+  title: z.string().min(3, { message: 'Title should have 3 letters' }),
+  city: z.string(),
+  country: z.string(),
+  state: z.string(),
+  primary_skills: z.string(),
+  secondary_skills: z.string(),
+  start_date: z.string(),
+  visa_status: z.string(),
+  job_type: z.string(),
+  pay_rate: z.string(),
   job_status: z.string(),
 })
 
 // Job edit - edit job
 const zJobEdit = z.object({
-  job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
-  location: z.string(),
-  category: z.string(),
+  // job_name: z.string().min(3, { message: 'J_N should have 3 letters' }),
+  // location: z.string(),
+  // category: z.string(),
+  // job_status: z.string(),
+  id: z.number(),
+  title: z.string().min(3, { message: 'Title should have 3 letters' }),
+  city: z.string(),
+  country: z.string(),
+  state: z.string(),
+  // primary_skills: z.string(),
+  secondary_skills: z.string(),
+  // start_date: z.string(),
+  visa_status: z.string(),
+  job_type: z.string(),
+  pay_rate: z.string(),
   job_status: z.string(),
+  date_created: z.string(),
+  date_updated: z.string().optional(),
+  uuid: z.string(),
 })
 
 // extend array of objects client
@@ -191,7 +224,9 @@ interface TJobsFindAll {
 }
 
 interface TJobsFindById {
-  data: TJobs
+  data: TJobs[]
+  ok: boolean
+  message: string
 }
 
 interface TClientFindById {
