@@ -316,7 +316,7 @@ export default function ContactsTable({ data }: ContactProps) {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
+          {data && data?.length > 0 ? (
             sortedData.map((row) => (
               <tr key={row?.id} className={classes.companyDetails}>
                 <td>
