@@ -1,7 +1,6 @@
-import { Avatar, Text, createStyles, Group, Loader, Grid } from '@mantine/core'
+import { Text, createStyles, Group, Loader } from '@mantine/core'
 import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
-import { string } from 'zod'
 import useGetEmployeeById from '../hooks/useGetEmployeeById'
 
 const useStyles = createStyles((theme) => ({

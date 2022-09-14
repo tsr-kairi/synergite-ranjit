@@ -25,10 +25,13 @@ export default function CreateForm() {
     initialValues: {
       first_name: '',
       last_name: '',
-      email: '',
-      phone: '',
+      address_line2: '',
+      zip: '',
+      country: '',
       city: '',
       state: '',
+      primary_email: '',
+      primary_phone: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -37,7 +40,7 @@ export default function CreateForm() {
   const handleSubmit = (values: TClientCreate) => {
     const clientCreateData = {
       ...values,
-      status: 'published',
+      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
@@ -89,25 +92,42 @@ export default function CreateForm() {
           <Group grow align="center" mt="md">
             <TextInput
               required
+              label="Address Line 2"
+              type={'text'}
+              placeholder="Address Line 2"
+              {...form.getInputProps('address_line2')}
+            />
+            <TextInput
+              required
+              label="Zip Code"
+              type={'text'}
+              placeholder="Zip Code"
+              {...form.getInputProps('zip')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Country"
+              type={'text'}
+              placeholder="Country"
+              {...form.getInputProps('country')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
               label="Email"
-              type={'email'}
-              placeholder="email@email.com"
-              {...form.getInputProps('email')}
+              type={'text'}
+              placeholder="Email"
+              {...form.getInputProps('primary_email')}
             />
             <TextInput
               required
               label="Phone"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-              //   console.log(event)
-
-              //   event.target.value
-              //     .replace(/[^0-9.]/g, '')
-              //     .replace(/(\..*)\./g, '$1')
-              // }}
               type={'tel'}
               placeholder="Phone"
-              {...form.getInputProps('phone')}
+              {...form.getInputProps('primary_phone')}
             />
           </Group>
           <Group grow align="center" mt="md">

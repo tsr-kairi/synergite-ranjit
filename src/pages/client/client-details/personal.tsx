@@ -59,7 +59,7 @@ export default function Personal() {
   const { clientId } = useParams()
   const { classes } = useStyles()
 
-  const { data, isError, error, isLoading } = useGetClientById(Number(clientId))
+  const { data, isError, error, isLoading } = useGetClientById(String(clientId))
 
   if (isError) {
     console.log(error)
@@ -73,6 +73,7 @@ export default function Personal() {
       </div>
     )
   }
+  console.log('clientData', data?.data[0])
 
   return (
     <div className={classes.clientInnerProfile}>
@@ -95,22 +96,22 @@ export default function Personal() {
         <div className={classes.UserCardInner}>
           <Avatar
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            src={`https://gokv9osl.directus.app/assets/${data?.data.profile_image}/${data?.data.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
+            src={`https://cdn4.vectorstock.com/i/1000x1000/17/28/color-letter-c-logo-icon-design-vector-22731728.jpg`}
             size={120}
             radius={120}
             mx="auto"
           />
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data?.first_name} {data?.data?.last_name}
+            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data?.email}
+            {data?.data[0]?.primary_email}
           </Text>
         </div>
       </div>
       <Group grow className={classes.detailHead}>
         <Text size="md" color="blue" weight={600}>
-          Personal Details
+          Client Details
         </Text>
         <Text align="right">
           <IconListDetails
@@ -126,7 +127,7 @@ export default function Personal() {
             <b>Name :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.first_name} {data?.data?.last_name}
+            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -134,7 +135,7 @@ export default function Personal() {
             <b>Email :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.email}
+            {data?.data[0]?.primary_email}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -142,7 +143,7 @@ export default function Personal() {
             <b>Phone :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.phone}
+            {data?.data[0]?.primary_phone}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -150,7 +151,7 @@ export default function Personal() {
             <b>City :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.city}
+            {data?.data[0]?.city}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -158,7 +159,47 @@ export default function Personal() {
             <b>State :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data?.state}
+            {data?.data[0]?.state}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Zip Code :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.zip}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Country :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.country}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Fax :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.fax}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Status :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.status}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400}>
+            <b>Created Date :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400}>
+            {data?.data[0]?.created_date}
           </Text>
         </Group>
       </div>

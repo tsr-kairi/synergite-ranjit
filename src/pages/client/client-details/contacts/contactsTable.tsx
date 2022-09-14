@@ -230,7 +230,7 @@ export default function ContactsTable({ data }: ContactProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteContact(contact.id)
+        deleteContact(contact?.uuid)
         console.log('delete')
         showNotification({
           title: 'Contact Deleted !!',
@@ -299,6 +299,13 @@ export default function ContactsTable({ data }: ContactProps) {
               City
             </Th>
             <Th
+              sorted={sortBy === 'county'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('county')}
+            >
+              County
+            </Th>
+            <Th
               sorted={sortBy === 'country'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('country')}
@@ -327,6 +334,7 @@ export default function ContactsTable({ data }: ContactProps) {
                 <td>{row?.email1}</td>
                 <td>{row?.phone1}</td>
                 <td>{row?.city}</td>
+                <td>{row?.county}</td>
                 <td>{row?.country}</td>
                 <td>
                   <Group spacing="sm">

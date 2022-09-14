@@ -153,11 +153,13 @@ export function Login() {
               placeholder="Enter your email address"
               size="md"
               type="email"
+              autoComplete="on"
               {...form.getInputProps('email')}
             />
             <PasswordInput
               label="Password"
               placeholder="Enter your password"
+              autoComplete="on"
               mt="md"
               size="md"
               // type="password"

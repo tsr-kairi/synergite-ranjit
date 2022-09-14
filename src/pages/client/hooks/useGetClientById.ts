@@ -1,17 +1,20 @@
 import { clientQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TClientFindById } from '@/types'
 import { useQuery } from 'react-query'
 
-const findClientById = async (id: number) => {
-  const response = await apiClient.get<TClientFindById>(`/clients/${id}`)
+const findClientById = async (uuid: string) => {
+  const response = await axiosPrivate.get<TClientFindById>(
+    `/client/getclient/${uuid}`
+  )
+  console.log('resp', response)
   return response.data
 }
 
-const useGetClientById = (id: number) => {
+const useGetClientById = (uuid: string) => {
   return useQuery<TClientFindById, Error>(
-    [clientQueryKeys.clientDetails, id],
-    async () => await findClientById(id),
+    [clientQueryKeys.clientDetails, uuid],
+    async () => await findClientById(uuid),
     {
       onSuccess: () => console.log('GetAllClientById On Success Called'),
     }

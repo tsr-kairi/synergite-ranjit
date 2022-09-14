@@ -8,12 +8,12 @@ import {
   Text,
   Center,
   TextInput,
-  Avatar,
   Button,
   Drawer,
   Pagination,
   Tooltip,
   Checkbox,
+  Avatar,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {

@@ -7,10 +7,17 @@ const zClient = z.object({
   profile_image: z.string(),
   first_name: z.string(),
   last_name: z.string(),
-  email: z.string().email(),
-  phone: z.string(),
+  address_line1: z.string(),
   city: z.string(),
   state: z.string(),
+  primary_email: z.string().email(),
+  primary_phone: z.string(),
+  address_line2: z.string(),
+  zip: z.string(),
+  country: z.string(),
+  fax: z.string(),
+  status: z.string(),
+  created_date: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
   uuid: z.string(),
@@ -20,20 +27,34 @@ const zClient = z.object({
 const zClientCreate = z.object({
   first_name: z.string().min(2, { message: 'F_N should be >= 10' }),
   last_name: z.string().min(2, { message: 'L_N should be >= 2' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone number should be >= 10' }),
+  primary_email: z.string().email({ message: 'Invalid email address' }),
+  primary_phone: z
+    .string()
+    .min(10, { message: 'Phone number should be >= 10' }),
   city: z.string(),
   state: z.string(),
+  address_line2: z.string(),
+  zip: z.string(),
+  country: z.string(),
 })
 
 // client edit
 const zClientEdit = z.object({
   first_name: z.string().min(2, { message: 'F_N should be >= 2' }),
   last_name: z.string().min(2, { message: 'L_N should be >= 2' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone number should be >= 10' }),
+  primary_email: z.string().email({ message: 'Invalid email address' }),
+  primary_phone: z
+    .string()
+    .min(10, { message: 'Phone number should be >= 10' }),
   city: z.string(),
   state: z.string(),
+  address_line2: z.string(),
+  zip: z.string(),
+  country: z.string(),
+  fax: z.string(),
+  status: z.string(),
+  created_date: z.string(),
+  date_created: z.string(),
 })
 
 // client contacts
@@ -161,6 +182,8 @@ interface TContactsFindAll {
 
 interface TContactsFindById {
   data: TContacts[]
+  ok: boolean
+  message: string
 }
 
 interface TJobsFindAll {
@@ -172,12 +195,16 @@ interface TJobsFindById {
 }
 
 interface TClientFindById {
-  data: TClient
+  data: TClient[]
+  ok: boolean
+  message: string
 }
 
 // I - interface define
 interface IFindContactsByClientId {
   data: TContacts[]
+  ok: boolean
+  message: string
 }
 
 interface IFindJobsByClientId {
@@ -272,6 +299,8 @@ interface TVendorFindById {
 
 interface IFindContactsByVendorId {
   data: TContacts[]
+  ok: boolean
+  message: string
 }
 
 // export types
@@ -320,3 +349,24 @@ export {
   zVendorCreate,
   zVendorEdit,
 }
+
+// "fname": "Ranjit",
+// "lname": "K",
+// "address1": null,
+// "address2": null,
+// "city": null,
+// "state": null,
+// "county": null,
+// "country": null,
+// "zip": null,
+// "fax": null,
+// "email1": "rj@xyz.com",
+// "phone1": null,
+// "created_date": "2022-08-30 12:57:20",
+// "modified_date": null,
+// "created_by": 1,
+// "modified_by": null,
+// "delete_date": null,
+// "status": "Y",
+// "client_id": 2,
+// "vendor_id": 2

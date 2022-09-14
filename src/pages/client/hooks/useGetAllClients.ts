@@ -1,10 +1,12 @@
 import { clientQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TClientFindAll } from '@/types'
 import { useQuery } from 'react-query'
 
 const findAllClients = async () => {
-  const response = await apiClient.get<TClientFindAll>('/clients')
+  const response = await axiosPrivate.get<TClientFindAll>(
+    '/client/getactiveclients'
+  )
   return response.data
 }
 

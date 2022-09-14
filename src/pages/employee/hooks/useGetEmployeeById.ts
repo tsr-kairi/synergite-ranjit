@@ -1,5 +1,4 @@
 import { employeeQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
 import axiosPrivate from '@/services/axiosPrivate'
 import { TAEmployeeFindById } from '@/types/employee-type'
 import { useQuery } from 'react-query'
