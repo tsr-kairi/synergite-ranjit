@@ -13,6 +13,7 @@ import {
   Pagination,
   Tooltip,
   Checkbox,
+  Avatar,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {

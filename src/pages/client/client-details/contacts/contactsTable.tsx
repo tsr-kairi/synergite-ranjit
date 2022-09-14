@@ -230,11 +230,11 @@ export default function ContactsTable({ data }: ContactProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteContact(contact.id)
+        deleteContact(contact?.uuid)
         console.log('delete')
         showNotification({
           title: 'Contact Deleted !!',
-          message: `${contact.first_name} has been deleted successfully.`,
+          message: `${contact.fname} has been deleted successfully.`,
         })
       },
     })
@@ -271,23 +271,23 @@ export default function ContactsTable({ data }: ContactProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'first_name'}
+              sorted={sortBy === 'fname'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('last_name')}
+              onSort={() => setSorting('lname')}
             >
               Name
             </Th>
             <Th
-              sorted={sortBy === 'email'}
+              sorted={sortBy === 'email1'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('email')}
+              onSort={() => setSorting('email1')}
             >
               Email
             </Th>
             <Th
-              sorted={sortBy === 'phone'}
+              sorted={sortBy === 'phone1'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('phone')}
+              onSort={() => setSorting('phone1')}
             >
               Phone
             </Th>
@@ -297,6 +297,13 @@ export default function ContactsTable({ data }: ContactProps) {
               onSort={() => setSorting('city')}
             >
               City
+            </Th>
+            <Th
+              sorted={sortBy === 'county'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('county')}
+            >
+              County
             </Th>
             <Th
               sorted={sortBy === 'country'}
@@ -314,19 +321,18 @@ export default function ContactsTable({ data }: ContactProps) {
               <tr key={row?.id} className={classes.companyDetails}>
                 <td>
                   <Group spacing="sm">
-                    <Avatar
-                      size={26}
-                      src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-                      radius={26}
-                    />
+                    <Avatar color="cyan" size={26} radius={26}>
+                      C
+                    </Avatar>
                     <Text size="sm" weight={500}>
-                      {row?.first_name} {row?.last_name}
+                      {row?.fname} {row?.lname}
                     </Text>
                   </Group>
                 </td>
-                <td>{row?.email}</td>
-                <td>{row?.phone}</td>
+                <td>{row?.email1}</td>
+                <td>{row?.phone1}</td>
                 <td>{row?.city}</td>
+                <td>{row?.county}</td>
                 <td>{row?.country}</td>
                 <td>
                   <Group spacing="sm">

@@ -248,7 +248,10 @@ export function ClientTable({ data }: IClientTableProps) {
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
       <td>
-        <Link to={`/client-details/${row?.uuid}`} className={classes.userLink}>
+        <Link
+          to={`/client-details/${row?.uuid}?id=${row?.id}`}
+          className={classes.userLink}
+        >
           <Tooltip
             label="Click to view"
             color="blue"
@@ -257,11 +260,9 @@ export function ClientTable({ data }: IClientTableProps) {
             transitionDuration={300}
           >
             <Group spacing="sm">
-              <Avatar
-                size={26}
-                src={`https://cdn4.vectorstock.com/i/1000x1000/17/28/color-letter-c-logo-icon-design-vector-22731728.jpg`}
-                radius={26}
-              />
+              <Avatar color="cyan" size={26} radius={26}>
+                C
+              </Avatar>
               <Text size="sm" weight={500}>
                 {row?.first_name} {row?.last_name}
               </Text>
