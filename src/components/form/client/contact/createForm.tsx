@@ -158,9 +158,9 @@ export default function CreateForm() {
             />
             <TextInput
               required
-              label="State"
+              label="Country"
               type={'text'}
-              placeholder="State"
+              placeholder="Country"
               {...form.getInputProps('country')}
             />
           </Group>

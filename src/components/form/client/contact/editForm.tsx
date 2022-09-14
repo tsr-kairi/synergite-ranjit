@@ -69,14 +69,30 @@ export default function EditForm(contactData: TContacts) {
               label="First Name"
               type={'text'}
               placeholder="First Name"
-              {...form.getInputProps('first_name')}
+              {...form.getInputProps('fname')}
             />
             <TextInput
               required
               label="Last Name"
               type={'text'}
               placeholder="Last Name"
-              {...form.getInputProps('last_name')}
+              {...form.getInputProps('lname')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="Address1"
+              type={'text'}
+              placeholder="Address1"
+              {...form.getInputProps('address1')}
+            />
+            <TextInput
+              required
+              label="Address2"
+              type={'text'}
+              placeholder="Address2"
+              {...form.getInputProps('address2')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -85,7 +101,7 @@ export default function EditForm(contactData: TContacts) {
               label="Email"
               type={'email'}
               placeholder="email@email.com"
-              {...form.getInputProps('email')}
+              {...form.getInputProps('email1')}
             />
             <TextInput
               required
@@ -99,7 +115,7 @@ export default function EditForm(contactData: TContacts) {
               // }}
               type={'tel'}
               placeholder="Phone"
-              {...form.getInputProps('phone')}
+              {...form.getInputProps('phone1')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -109,6 +125,22 @@ export default function EditForm(contactData: TContacts) {
               type={'text'}
               placeholder="City"
               {...form.getInputProps('city')}
+            />
+            <TextInput
+              required
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="County"
+              type={'text'}
+              placeholder="County"
+              {...form.getInputProps('county')}
             />
             <TextInput
               required
@@ -125,7 +157,7 @@ export default function EditForm(contactData: TContacts) {
               {...form.getInputProps('profile_image')}
             />
             <Button fullWidth type="submit" mt="md" mb="lg">
-              Edit Contact
+              Update Now
             </Button>
           </div>
         </form>
