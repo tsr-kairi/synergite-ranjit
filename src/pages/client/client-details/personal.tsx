@@ -73,7 +73,6 @@ export default function Personal() {
       </div>
     )
   }
-  console.log('clientData', data?.data[0])
 
   return (
     <div className={classes.clientInnerProfile}>

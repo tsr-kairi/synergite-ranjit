@@ -4,7 +4,6 @@ import {
   PasswordInput,
   Button,
   Title,
-  Anchor,
   Image,
   Group,
   MantineProvider,
@@ -84,16 +83,9 @@ export function Login() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
-        <Anchor<'a'>
-          href="/"
-          weight={700}
-          onClick={(event) => event.preventDefault()}
-          // mt={20}
-        >
-          <Link to={'/'}>
-            <Logo />
-          </Link>
-        </Anchor>
+        <Link to={'/'}>
+          <Logo />
+        </Link>
         <Paper className={classes.formInner} radius={10}>
           <Title
             order={6}
@@ -118,15 +110,9 @@ export function Login() {
             mb={10}
           />
           <Group grow mt={20} position="apart">
-            <Anchor<'a'>
-              href="#login"
-              weight={700}
-              onClick={(event) => event.preventDefault()}
-            >
-              <Link className={classes.backPage} to={'/login'}>
-                Back to login page
-              </Link>
-            </Anchor>
+            <Link className={classes.backPage} to={'/login'}>
+              Back to login page
+            </Link>
             <MantineProvider
               theme={{
                 defaultGradient: {

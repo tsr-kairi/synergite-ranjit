@@ -8,10 +8,10 @@ import {
   Text,
   Center,
   TextInput,
-  Avatar,
   Button,
   Drawer,
   Pagination,
+  Badge,
   // Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -31,9 +31,6 @@ import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
-// import EditSubmission from '@/components/form/employee/editForm'
-// import CreateSubmission from '@/components/form/employee/createForm'
-// import { Link } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -237,52 +234,60 @@ export function SubmissionList({ data }: ISubmissionProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteSubmission(Submission.id)
+        deleteSubmission(Submission.uuid)
         console.log('delete')
         showNotification({
           title: 'Submission Deleted !!',
-          message: `${Submission.first_name} has been deleted successfully.`,
+          message: `Submission has been deleted successfully.`,
         })
       },
     })
   }
 
   // Create Rows
+  console.log(sortedData)
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.employeeRowData}>
-      <td>{row?.submission_id}</td>
       <td>
         <Group spacing="sm">
-          <Avatar
+          {/* <Avatar
             size={26}
             src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
             radius={26}
-          />
+          /> */}
           <Text size="sm" weight={500}>
-            {row?.first_name} {row?.last_name}
+            {row?.client_id}
           </Text>
         </Group>
       </td>
-      <td>{row?.client}</td>
+      <td>{row?.vendor_id}</td>
+      <td>{row?.employee_id}</td>
       <td>{row?.submission_status}</td>
       <td>{row?.remarks}</td>
-      <td>{row?.pay_rate}</td>
       <td>
-        <Group spacing="sm">
-          <IconEdit
-            className={classes.editIcon}
-            cursor="pointer"
-            onClick={() => {
-              setIsOpened(true)
-              setSubmissionEditData(row)
-            }}
-          />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete(row)}
-          />
-        </Group>
+        {row.submission_status === 'Rejected' ? (
+          <Badge color="red">Rejected</Badge>
+        ) : row.submission_status === 'On Hold' ? (
+          <Badge color="yellow">On Hold</Badge>
+        ) : row.submission_status === 'Selected' ? (
+          <Badge color="blue">Onboard Now</Badge>
+        ) : (
+          <Group spacing="sm">
+            <IconEdit
+              className={classes.editIcon}
+              cursor="pointer"
+              onClick={() => {
+                setIsOpened(true)
+                setSubmissionEditData(row)
+              }}
+            />
+            <IconTrash
+              className={classes.deleteIcon}
+              cursor="pointer"
+              onClick={() => openModalForDelete(row)}
+            />
+          </Group>
+        )}
       </td>
     </tr>
   ))
@@ -323,25 +328,25 @@ export function SubmissionList({ data }: ISubmissionProps) {
           <thead>
             <tr>
               <Th
-                sorted={sortBy === 'submission_id'}
+                sorted={sortBy === 'client_id'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('submission_id')}
+                onSort={() => setSorting('client_id')}
               >
-                Submission Id
+                Client Id
               </Th>
               <Th
-                sorted={sortBy === 'first_name'}
+                sorted={sortBy === 'vendor_id'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('first_name')}
+                onSort={() => setSorting('vendor_id')}
               >
-                Name
+                Vendor Id
               </Th>
               <Th
-                sorted={sortBy === 'client'}
+                sorted={sortBy === 'employee_id'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('client')}
+                onSort={() => setSorting('employee_id')}
               >
-                Client
+                Employee Id
               </Th>
               <Th
                 sorted={sortBy === 'submission_status'}
@@ -356,13 +361,6 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 onSort={() => setSorting('remarks')}
               >
                 Remarks
-              </Th>
-              <Th
-                sorted={sortBy === 'pay_rate'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('pay_rate')}
-              >
-                Pay Rate
               </Th>
               <th className={classes.action}>Action</th>
             </tr>

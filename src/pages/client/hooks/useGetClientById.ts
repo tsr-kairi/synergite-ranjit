@@ -7,17 +7,16 @@ const findClientById = async (uuid: string) => {
   const response = await axiosPrivate.get<TClientFindById>(
     `/client/getclient/${uuid}`
   )
-  console.log('resp', response)
   return response.data
 }
 
 const useGetClientById = (uuid: string) => {
   return useQuery<TClientFindById, Error>(
     [clientQueryKeys.clientDetails, uuid],
-    async () => await findClientById(uuid),
-    {
-      onSuccess: () => console.log('GetAllClientById On Success Called'),
-    }
+    async () => await findClientById(uuid)
+    // {
+    //   onSuccess: () => console.log('GetAllClientById On Success Called'),
+    // }
   )
 }
 

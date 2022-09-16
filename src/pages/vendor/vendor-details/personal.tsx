@@ -74,8 +74,6 @@ export default function Personal() {
     )
   }
 
-  console.log('vendor', data?.data[0])
-
   return (
     <div className={classes.vendorInnerProfile}>
       {/* back to Client table list */}

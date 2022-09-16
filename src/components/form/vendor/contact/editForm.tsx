@@ -39,7 +39,6 @@ export default function EditForm(contactData: TVContacts) {
     }
 
     const data = editContact(contactEditData)
-    console.log('hi', data)
 
     showNotification({
       title: 'Success!!',
@@ -59,8 +58,6 @@ export default function EditForm(contactData: TVContacts) {
     //     message: 'Client Created successfully.',
     //   })
     // }
-
-    console.log(isError, isSuccess)
   }
 
   return (

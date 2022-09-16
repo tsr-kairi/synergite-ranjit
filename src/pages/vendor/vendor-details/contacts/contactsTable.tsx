@@ -231,7 +231,6 @@ export default function ContactsTable({ data }: ContactProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         deleteContact(contact.uuid)
-        console.log('delete')
         showNotification({
           title: 'Contact Deleted !!',
           message: `${contact.fname} has been deleted successfully.`,

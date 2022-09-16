@@ -73,7 +73,6 @@ export default function Personal() {
       </div>
     )
   }
-  console.log('job', data?.data[0])
 
   return (
     <div className={classes.submissionInnerProfile}>

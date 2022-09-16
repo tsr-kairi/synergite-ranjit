@@ -235,7 +235,6 @@ export function ClientTable({ data }: IClientTableProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         deleteClient(client.uuid)
-        console.log('delete')
         showNotification({
           title: 'Client Deleted !!',
           message: `${client.first_name} has been deleted successfully.`,

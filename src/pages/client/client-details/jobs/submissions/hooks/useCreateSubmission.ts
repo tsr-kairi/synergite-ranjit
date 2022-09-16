@@ -1,12 +1,14 @@
 import { submissionQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TSubmissionCreate, TSubmissionFindById } from '@/types/submission-type'
 import { useMutation, useQueryClient } from 'react-query'
 
 const createSubmission = async (
-  submission: TSubmissionCreate
+  data: TSubmissionCreate
 ): Promise<TSubmissionFindById> => {
-  return await apiClient.post('/submissions', submission)
+  console.log(data)
+
+  return await axiosPrivate.post(`/submission/save`, data)
 }
 
 const useCreateSubmission = () => {
@@ -15,7 +17,6 @@ const useCreateSubmission = () => {
   return useMutation(createSubmission, {
     onSuccess: () => {
       void queryClient.resetQueries(submissionQueryKeys.allSubmission)
-      console.log('Create Client Called')
     },
   })
 }

@@ -30,7 +30,7 @@ import EditJob from '@/components/form/client/job/editForm'
 import { showNotification } from '@mantine/notifications'
 
 import useDeleteJobById from '../../hooks/useDeleteJobById'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -198,6 +198,7 @@ interface JobsProps {
 // Exporting Default ClientTable Component
 
 export default function JobsTable({ data }: JobsProps) {
+  // const { clientId } = useParams()
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
@@ -236,7 +237,6 @@ export default function JobsTable({ data }: JobsProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         deleteJob(job.uuid)
-        console.log('delete')
         showNotification({
           title: 'Job Deleted !!',
           message: `Job has been deleted successfully.`,
@@ -320,6 +320,7 @@ export default function JobsTable({ data }: JobsProps) {
                 <td>
                   <Link
                     to={`/submissions/${row?.uuid}`}
+                    // /${String(clientId)}
                     className={classes.userLink}
                   >
                     <Tooltip

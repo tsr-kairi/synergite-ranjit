@@ -14,7 +14,6 @@ const useEditContact = () => {
   return useMutation(editContact, {
     onSuccess: () => {
       void queryClient.resetQueries(clientQueryKeys.contactList)
-      console.log('Contact Edited')
     },
   })
 }

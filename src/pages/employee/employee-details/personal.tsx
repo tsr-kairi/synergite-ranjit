@@ -86,7 +86,6 @@ export default function Personal() {
     )
   }
 
-  console.log('data', data?.data[0])
   return (
     <div className={classes.employeeInnerProfile}>
       {/* back to Employ table list */}

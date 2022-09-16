@@ -54,7 +54,6 @@ export default function CreateForm() {
     }
 
     const data = addContact(contactCreateData)
-    console.log(data)
 
     showNotification({
       title: 'Success!!',
@@ -74,8 +73,6 @@ export default function CreateForm() {
     //     message: 'Client Created successfully.',
     //   })
     // }
-
-    console.log(isError, isSuccess)
   }
 
   return (
@@ -110,7 +107,6 @@ export default function CreateForm() {
               required
               label="Phone"
               // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-              //   console.log(event)
 
               //   event.target.value
               //     .replace(/[^0-9.]/g, '')

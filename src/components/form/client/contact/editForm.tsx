@@ -35,7 +35,6 @@ export default function EditForm(contactData: TContacts) {
     }
 
     const data = editContact(contactEditData)
-    console.log(data)
 
     showNotification({
       title: 'Success!!',
@@ -55,8 +54,6 @@ export default function EditForm(contactData: TContacts) {
     //     message: 'Client Created successfully.',
     //   })
     // }
-
-    console.log(isError, isSuccess)
   }
 
   return (

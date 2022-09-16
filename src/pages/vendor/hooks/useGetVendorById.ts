@@ -10,7 +10,6 @@ const findVendorById = async (uuid: string) => {
   const response = await axiosPrivate.get<TVendorFindById>(
     `/vendor/getvendor/${uuid}`
   )
-  console.log('resp', response)
   return response.data
 }
 

@@ -12,7 +12,6 @@ const Contacts = () => {
   const search = window.location.search
   const params = new URLSearchParams(search)
   const id = params.get('id')
-  console.log('vendor id', id)
 
   const [vContactsData, setVContactsData] = useState<TVContacts[]>(
     [] as TVContacts[]

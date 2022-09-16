@@ -15,7 +15,6 @@ const useCreateEmployee = () => {
   return useMutation(createEmployee, {
     onSuccess: () => {
       void queryClient.resetQueries(employeeQueryKeys.allEmployee)
-      console.log('Create Employee Called')
     },
   })
 }

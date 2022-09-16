@@ -16,7 +16,6 @@ const useCreateContact = () => {
   return useMutation(createContact, {
     onSuccess: () => {
       void queryClient.resetQueries(vendorQueryKeys.contactList)
-      console.log('Create Contact Called')
     },
   })
 }

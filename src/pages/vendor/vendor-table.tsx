@@ -196,8 +196,6 @@ interface IVendorTableProps {
 
 // Exporting Default ClientTable Component
 export default function VendorTable({ data }: IVendorTableProps) {
-  console.log(data)
-
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [vendorEditData, setVendorEditData] = useState({} as TVendor)
@@ -237,7 +235,6 @@ export default function VendorTable({ data }: IVendorTableProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         deleteVendor(vendor.uuid)
-        console.log('delete')
         showNotification({
           title: 'Vendor Deleted !!',
           message: `Vendor has been deleted successfully.`,

@@ -13,7 +13,6 @@ const useDeleteContactById = () => {
   return useMutation(async (uuid: string) => deleteContactById(uuid), {
     onSuccess: () => {
       void queryClient.resetQueries(vendorQueryKeys.contactList)
-      console.log('Delete Client Called')
     },
   })
 }

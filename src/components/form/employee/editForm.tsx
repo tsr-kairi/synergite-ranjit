@@ -22,9 +22,7 @@ export default function EditForm(employeeData: TAEmployee) {
   const [active, setActive] = useState(0)
 
   const { classes } = useStyles()
-  const { mutate: editEmployee, isSuccess, isError } = useEditEmployee()
-
-  console.log('employeeData', employeeData)
+  const { mutate: editEmployee } = useEditEmployee()
 
   const form = useForm<TAEmployee>({
     // validate: zodResolver(zEmployeeEdit),
@@ -39,29 +37,12 @@ export default function EditForm(employeeData: TAEmployee) {
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = editEmployee(employeeEditData)
-    console.log('data', data)
+    editEmployee(employeeEditData)
 
     showNotification({
       title: 'Success!!',
       message: 'Employee Edited successfully.',
     })
-
-    // if (isError)
-    //   showNotification({
-    //     title: 'Filed!!',
-    //     message: 'Failed to create client',
-    //   })
-
-    // if (isSuccess) {
-    //   form.reset()
-    //   showNotification({
-    //     title: 'Success!!',
-    //     message: 'Client Created successfully.',
-    //   })
-    // }
-
-    console.log(isError, isSuccess)
   }
   // next btn
   const nextStep = () =>

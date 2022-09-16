@@ -16,7 +16,6 @@ const useCreateVendor = () => {
   return useMutation(createVendor, {
     onSuccess: () => {
       void queryClient.resetQueries(vendorQueryKeys.allVendors)
-      console.log('Create Vendor Called')
     },
   })
 }

@@ -189,8 +189,6 @@ interface ContactProps {
 // Exporting Default ClientTable Component
 
 export default function ContactsTable({ data }: ContactProps) {
-  console.log('contacts', data)
-
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
@@ -231,7 +229,6 @@ export default function ContactsTable({ data }: ContactProps) {
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         deleteContact(contact?.uuid)
-        console.log('delete')
         showNotification({
           title: 'Contact Deleted !!',
           message: `${contact.fname} has been deleted successfully.`,

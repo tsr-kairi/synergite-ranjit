@@ -21,7 +21,6 @@ const useEditEmployee = () => {
   return useMutation(editEmployee, {
     onSuccess: () => {
       void queryClient.resetQueries(employeeQueryKeys.allEmployee)
-      console.log('Employee Edited')
     },
   })
 }

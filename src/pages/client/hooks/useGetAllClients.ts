@@ -13,10 +13,10 @@ const findAllClients = async () => {
 const useGetAllClients = () => {
   return useQuery<TClientFindAll, Error>(
     clientQueryKeys.allClients,
-    findAllClients,
-    {
-      onSuccess: () => console.log('GetAllClients On Success Called'),
-    }
+    findAllClients
+    // {
+    //   onSuccess: () => console.log('GetAllClients On Success Called'),
+    // }
   )
 }
 

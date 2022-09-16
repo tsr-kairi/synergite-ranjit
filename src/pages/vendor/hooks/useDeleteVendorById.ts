@@ -14,7 +14,6 @@ const useDeleteVendorById = () => {
   return useMutation(async (uuid: string) => deleteVendorById(uuid), {
     onSuccess: () => {
       void queryClient.resetQueries(vendorQueryKeys.allVendors)
-      console.log('Delete Vendor Called')
     },
   })
 }
