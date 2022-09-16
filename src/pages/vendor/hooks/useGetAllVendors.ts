@@ -15,10 +15,10 @@ const findAllVendors = async () => {
 const useGetAllVendors = () => {
   return useQuery<TVendorFindAll, Error>(
     vendorQueryKeys.allVendors,
-    findAllVendors,
-    {
-      onSuccess: () => console.log('GetAllVendors On Success Called'),
-    }
+    findAllVendors
+    // {
+    //   onSuccess: () => console.log('GetAllVendors On Success Called'),
+    // }
   )
 }
 

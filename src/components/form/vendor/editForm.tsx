@@ -1,5 +1,5 @@
 import useEditVendor from '@/pages/vendor/hooks/useEditVendor'
-import { TVendor, zVendorEdit } from '@/types'
+import { TVendor } from '@/types'
 import {
   TextInput,
   Button,
@@ -8,7 +8,7 @@ import {
   Paper,
   FileInput,
 } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
   paper: {
@@ -18,7 +18,7 @@ const useStyles = createStyles(() => ({
 
 export default function EditForm(vendorData: TVendor) {
   const { classes } = useStyles()
-  const { mutate: editVendor, isSuccess, isError } = useEditVendor()
+  const { mutate: editVendor } = useEditVendor()
 
   const form = useForm<TVendor>({
     // validate: zodResolver(zVendorEdit),
@@ -30,33 +30,15 @@ export default function EditForm(vendorData: TVendor) {
   const handleSubmit = (values: TVendor) => {
     const vendorCreateData = {
       ...values,
-      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = editVendor(vendorCreateData)
-    console.log(data)
+    editVendor(vendorCreateData)
 
     showNotification({
       title: 'Success!!',
       message: 'Vendor Edited successfully.',
     })
-
-    // if (isError)
-    //   showNotification({
-    //     title: 'Filed!!',
-    //     message: 'Failed to create client',
-    //   })
-
-    // if (isSuccess) {
-    //   form.reset()
-    //   showNotification({
-    //     title: 'Success!!',
-    //     message: 'Client Created successfully.',
-    //   })
-    // }
-
-    console.log(isError, isSuccess)
   }
 
   return (
@@ -90,13 +72,6 @@ export default function EditForm(vendorData: TVendor) {
             <TextInput
               required
               label="Phone"
-              // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-              //   console.log(event)
-
-              //   event.target.value
-              //     .replace(/[^0-9.]/g, '')
-              //     .replace(/(\..*)\./g, '$1')
-              // }}
               type={'tel'}
               placeholder="Phone"
               {...form.getInputProps('primary_phone')}

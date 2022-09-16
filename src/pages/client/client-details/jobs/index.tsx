@@ -4,11 +4,11 @@ import { IFindJobsByClientId, TJobs } from '@/types'
 import { Loader } from '@mantine/core'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import JobsTable from './jobsTable'
 
 const Jobs = () => {
-  const { clientId } = useParams()
+  // const { clientId } = useParams()
   const search = window.location.search
   const params = new URLSearchParams(search)
   const id = params.get('id')

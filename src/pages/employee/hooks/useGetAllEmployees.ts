@@ -13,10 +13,10 @@ const findAlEmployees = async () => {
 const useGetAllEmployees = () => {
   return useQuery<TAEmployeeFindAll, Error>(
     employeeQueryKeys.allEmployee,
-    findAlEmployees,
-    {
-      onSuccess: () => console.log('GetAllEmployees On Success Called'),
-    }
+    findAlEmployees
+    // {
+    //   onSuccess: () => console.log('GetAllEmployees On Success Called'),
+    // }
   )
 }
 

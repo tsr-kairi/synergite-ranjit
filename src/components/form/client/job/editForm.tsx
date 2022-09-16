@@ -36,7 +36,6 @@ export default function EditForm(jobData: TJobs) {
     }
 
     const data = editJob(jobEditData)
-    console.log(data)
 
     showNotification({
       title: 'Success!!',
@@ -56,8 +55,6 @@ export default function EditForm(jobData: TJobs) {
     //     message: 'Client Created successfully.',
     //   })
     // }
-
-    console.log(isError, isSuccess)
   }
 
   return (
@@ -200,7 +197,6 @@ export default function EditForm(jobData: TJobs) {
               required
               label="Job Status"
               // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-              //   console.log(event)
 
               //   event.target.value
               //     .replace(/[^0-9.]/g, '')

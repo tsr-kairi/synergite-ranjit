@@ -6,7 +6,6 @@ import {
   Group,
   createStyles,
   Paper,
-  NativeSelect,
   Select,
   Textarea,
 } from '@mantine/core'
@@ -20,7 +19,6 @@ const useStyles = createStyles(() => ({
 }))
 
 export default function CreateForm() {
-  const { clientId } = useParams()
   const search = window.location.search
   const params = new URLSearchParams(search)
   const id = params.get('id')
@@ -55,7 +53,6 @@ export default function CreateForm() {
     }
 
     const data = addJob(jobCreateData)
-    console.log(data)
 
     showNotification({
       title: 'Success!!',

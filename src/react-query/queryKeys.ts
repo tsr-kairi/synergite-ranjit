@@ -20,7 +20,7 @@ const employeeQueryKeys = {
 const submissionQueryKeys = {
   allSubmission: 'all-submissions',
   submissionDetails: 'submission-details',
-  submissionList: 'submission-list',
+  getAllSubmissionByJobId: 'get-all-submission-by-job-id',
 }
 
 export {

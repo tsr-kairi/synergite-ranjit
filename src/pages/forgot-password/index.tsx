@@ -5,7 +5,6 @@ import {
   Button,
   Title,
   Text,
-  Anchor,
   Image,
   Group,
   MantineProvider,
@@ -106,16 +105,9 @@ export function ForgotPassword() {
             mb={10}
           />
           <Group grow mt={20} position="apart">
-            <Anchor<'a'>
-              href="#login"
-              weight={700}
-              onClick={(event) => event.preventDefault()}
-              // mt={20}
-            >
-              <Link className={classes.backPage} to={'/login'}>
-                Back to login page
-              </Link>
-            </Anchor>
+            <Link className={classes.backPage} to={'/login'}>
+              Back to login page
+            </Link>
             <MantineProvider
               theme={{
                 defaultGradient: {

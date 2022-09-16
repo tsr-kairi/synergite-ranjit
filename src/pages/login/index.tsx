@@ -6,10 +6,10 @@ import {
   Checkbox,
   Button,
   Title,
-  Anchor,
   Image,
   MantineProvider,
   Group,
+  Text,
 } from '@mantine/core'
 
 import Logo from '@/components/logo'
@@ -115,26 +115,17 @@ export function Login() {
   })
 
   const handleSubmit = (values: ILoginRequest) => {
-    console.log('submitted', values)
     void login(values)
-    console.log(values)
   }
 
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.formMain} radius={0} p={30} px={80}>
         <Link to={'/'}>
-          <Anchor<'a'>
-            href="/"
-            weight={700}
-            onClick={(event) => event.preventDefault()}
-            // mt={20}
-          >
-            <Logo />
-          </Anchor>
+          <Logo />
         </Link>
         {/* Login form */}
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form onSubmit={form.onSubmit(handleSubmit)} autoComplete="on">
           <Paper className={classes.formInner} radius={10}>
             <Title
               order={6}
@@ -170,14 +161,13 @@ export function Login() {
               <Checkbox label="Keep me logged in" size="sm" required />
 
               <Link className={classes.backPage} to={'/forgot-password'}>
-                <Anchor<'a'>
-                  href="#login"
+                <Text
                   weight={700}
-                  onClick={(event) => event.preventDefault()}
+                  // onClick={(event) => event.preventDefault()}
                   align="right"
                 >
                   Forgot Password
-                </Anchor>
+                </Text>
               </Link>
             </Group>
             <MantineProvider

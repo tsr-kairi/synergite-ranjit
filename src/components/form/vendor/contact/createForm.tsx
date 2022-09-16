@@ -60,7 +60,6 @@ export default function CreateForm() {
     }
 
     const data = addContact(contactCreateData)
-    console.log(data)
 
     showNotification({
       title: 'Success!!',

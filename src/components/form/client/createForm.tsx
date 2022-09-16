@@ -45,7 +45,6 @@ export default function CreateForm() {
     }
 
     const data = addClient(clientCreateData)
-    console.log(data)
 
     showNotification({
       title: 'Success!!',
@@ -65,8 +64,6 @@ export default function CreateForm() {
     //     message: 'Client Created successfully.',
     //   })
     // }
-
-    console.log(isError, isSuccess)
   }
 
   return (

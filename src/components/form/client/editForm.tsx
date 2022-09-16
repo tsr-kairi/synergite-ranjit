@@ -35,7 +35,6 @@ export default function EditForm(clientData: TClient) {
     }
 
     const data = editClient(clientCreateData)
-    console.log(data)
 
     showNotification({
       title: 'Success!!',
@@ -55,8 +54,6 @@ export default function EditForm(clientData: TClient) {
     //     message: 'Client Created successfully.',
     //   })
     // }
-
-    console.log(isError, isSuccess)
   }
 
   return (

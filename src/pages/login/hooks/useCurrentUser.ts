@@ -48,7 +48,7 @@ const useCurrentUser = () => {
     },
   })
     .then(function (response) {
-      console.log('userGet', JSON.stringify(response.data))
+      // console.log('userGet', JSON.stringify(response.data))
     })
     .catch(function (error) {
       console.log(error)

@@ -14,7 +14,6 @@ const useEditJob = () => {
   return useMutation(editJob, {
     onSuccess: () => {
       void queryClient.resetQueries(clientQueryKeys.jobList)
-      console.log('Job Edited')
     },
   })
 }

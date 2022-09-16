@@ -14,7 +14,6 @@ const useEditVendor = () => {
   return useMutation(editVendor, {
     onSuccess: () => {
       void queryClient.resetQueries(vendorQueryKeys.allVendors)
-      console.log('Vendor Edited')
     },
   })
 }

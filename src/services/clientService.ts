@@ -32,10 +32,11 @@ const findJobsByClientId = async (id: number): Promise<IFindJobsByClientId> => {
 
 // submissions
 const findSubmissionByJobId = async (
-  id: number
+  client_id: number,
+  job_id: number
 ): Promise<IFindSubmissionByJobId> => {
-  const { data } = await apiClient.get<IFindSubmissionByJobId>(
-    `/submissions?filter[jobs][_eq]=${id}`
+  const { data } = await axiosPrivate.get<IFindSubmissionByJobId>(
+    `submission/get/client/jobs?client_id=${client_id}&job_id=${job_id}`
   )
   return data
 }

@@ -1,12 +1,12 @@
 import { submissionQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TSubmission, TSubmissionFindById } from '@/types/submission-type'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editSubmission = async (
   data: TSubmission
 ): Promise<TSubmissionFindById> => {
-  return await apiClient.patch(`/submissions/${data.id}`, data)
+  return await axiosPrivate.post(`/submission/save`, data)
 }
 
 const useEditSubmission = () => {
@@ -15,7 +15,6 @@ const useEditSubmission = () => {
   return useMutation(editSubmission, {
     onSuccess: () => {
       void queryClient.resetQueries(submissionQueryKeys.allSubmission)
-      console.log('Client Edited')
     },
   })
 }

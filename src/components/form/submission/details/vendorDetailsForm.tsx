@@ -1,14 +1,7 @@
-import useCreateVendor from '@/pages/vendor/hooks/useCreateVendor'
-import { TVendorCreate, zVendorCreate } from '@/types'
-import {
-  TextInput,
-  Button,
-  Group,
-  createStyles,
-  Paper,
-  FileInput,
-} from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import useEditVendor from '@/pages/vendor/hooks/useEditVendor'
+import { TVendor } from '@/types'
+import { TextInput, Group, createStyles, Paper, FileInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
   paper: {
@@ -16,52 +9,29 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function CreateForm() {
+export default function VendorDetailsForm(vendorData: TVendor) {
   const { classes } = useStyles()
-  const { mutate: addVendor, isSuccess, isError } = useCreateVendor()
+  const { mutate: editVendor } = useEditVendor()
 
-  const form = useForm<TVendorCreate>({
-    validate: zodResolver(zVendorCreate),
-    initialValues: {
-      first_name: '',
-      last_name: '',
-      primary_email: '',
-      primary_phone: '',
-      city: '',
-      country: '',
-      state: '',
-    },
+  const form = useForm<TVendor>({
+    // validate: zodResolver(zVendorEdit),
+    initialValues: vendorData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TVendorCreate) => {
+  const handleSubmit = (values: TVendor) => {
     const vendorCreateData = {
       ...values,
-      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = addVendor(vendorCreateData)
+    editVendor(vendorCreateData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Vendor Created successfully.',
+      message: 'Vendor Edited successfully.',
     })
-
-    // if (isError)
-    //   showNotification({
-    //     title: 'Filed!!',
-    //     message: 'Failed to create vendor',
-    //   })
-
-    // if (isSuccess) {
-    //   form.reset()
-    //   showNotification({
-    //     title: 'Success!!',
-    //     message: 'Vendor Created successfully.',
-    //   })
-    // }
   }
 
   return (
@@ -95,12 +65,6 @@ export default function CreateForm() {
             <TextInput
               required
               label="Phone"
-              // onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-
-              //   event.target.value
-              //     .replace(/[^0-9.]/g, '')
-              //     .replace(/(\..*)\./g, '$1')
-              // }}
               type={'tel'}
               placeholder="Phone"
               {...form.getInputProps('primary_phone')}
@@ -134,13 +98,12 @@ export default function CreateForm() {
           <div>
             <FileInput
               label="Profile Image"
-              type={'file'}
               mt="md"
               {...form.getInputProps('profile_image')}
             />
-            <Button fullWidth type="submit" mt="md" mb="lg">
-              Add New
-            </Button>
+            {/* <Button fullWidth type="submit" mt="md" mb="lg">
+              Edit Vendor
+            </Button> */}
           </div>
         </form>
       </Paper>

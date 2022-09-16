@@ -21,13 +21,11 @@ const useLogin = (): {
 } => {
   const navigate = useNavigate()
   const login = async (loginReqData: ILoginRequest) => {
-    console.log('loginData', loginReqData)
     try {
       const response = await axiosPublic.post<ILoginResponse>(
         '/user/login',
         loginReqData
       )
-      console.log(response.data.data)
 
       localStorage.setItem('access_token', response.data?.data?.access_token)
       localStorage.setItem('refresh_token', response.data?.data?.refresh_token)

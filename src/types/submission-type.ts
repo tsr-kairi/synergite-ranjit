@@ -3,63 +3,35 @@ import { z } from 'zod'
 // Submission Validation
 const zSubmission = z.object({
   id: z.number(),
-  profile_image: z.string().url(),
-  submission_id: z.string(),
-  first_name: z.string(),
-  last_name: z.string(),
-  client: z.string(),
+  created_by: z.string(),
+  created_date: z.date(),
+  modified_by: z.string(),
+  modified_date: z.date(),
+  delete_date: z.date(),
+  client_id: z.number(),
   submission_status: z.string(),
   remarks: z.string(),
-  pay_rate: z.string(),
-  city: z.string(),
-  state: z.string(),
-  submitted_date: z.string(),
-  submitted_by: z.string(),
-  rejection_reason: z.string(),
-  recruiters: z.string(),
-  recruitment_manager: z.string(),
-  account_manager: z.string(),
-  date_created: z.string(),
-  date_updated: z.string().optional(),
+  employee_id: z.number(),
+  vendor_id: z.number(),
   uuid: z.string(),
 })
 
 // new Submission crate
 const zSubmissionCreate = z.object({
-  submission_id: z.string(),
-  first_name: z.string(),
-  last_name: z.string(),
-  client: z.string(),
+  // job_id: z.number(),
+  // job_id: z.number(),
   submission_status: z.string(),
   remarks: z.string(),
-  pay_rate: z.string(),
-  city: z.string(),
-  state: z.string(),
-  submitted_date: z.string(),
-  submitted_by: z.string(),
-  rejection_reason: z.string(),
-  recruiters: z.string(),
-  recruitment_manager: z.string(),
-  account_manager: z.string(),
+  employee_id: z.number(),
+  vendor_id: z.number(),
 })
 
 // Submission update
 const zSubmissionEdit = z.object({
-  submission_id: z.string(),
-  first_name: z.string(),
-  last_name: z.string(),
-  client: z.string(),
   submission_status: z.string(),
   remarks: z.string(),
-  pay_rate: z.string(),
-  city: z.string(),
-  state: z.string(),
-  submitted_date: z.string(),
-  submitted_by: z.string(),
-  rejection_reason: z.string(),
-  recruiters: z.string(),
-  recruitment_manager: z.string(),
-  account_manager: z.string(),
+  employee_id: z.string(),
+  vendor_id: z.string(),
 })
 
 // submission zod types define
@@ -72,11 +44,15 @@ interface TSubmissionFindAll {
 }
 
 interface TSubmissionFindById {
-  data: TSubmission
+  data: TSubmission[]
+  ok: boolean
+  message: string
 }
 
 interface IFindSubmissionByJobId {
   data: TSubmission[]
+  ok: boolean
+  message: string
 }
 
 // export types
@@ -90,3 +66,15 @@ export type {
 
 // export ZOD submission
 export { zSubmissionEdit, zSubmissionCreate }
+
+// // "employee_id": 1,
+// // "vendor_id": 2,
+// // "job_id": 2,
+// "start_date": null,
+// "end_date": null,
+// "employee_type": "Internal",
+// "others": "comments",
+// "recruitment_mgr_id": null,
+// "acct_mgr_id": null,
+// "status": "Y",
+// "sub_status": null,
