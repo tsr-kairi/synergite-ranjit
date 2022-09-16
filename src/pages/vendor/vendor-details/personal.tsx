@@ -1,4 +1,4 @@
-import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
+import { Text, createStyles, Group, Loader } from '@mantine/core'
 import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
 import useGetVendorById from '../hooks/useGetVendorById'
@@ -93,13 +93,13 @@ export default function Personal() {
       </Group>
       <div className={classes.ClientUserCard}>
         <div className={classes.UserCardInner}>
-          <Avatar
+          {/* <Avatar
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             src={`https://gokv9osl.directus.app/assets/${data?.data.profile_image}/${data?.data.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
             size={120}
             radius={120}
             mx="auto"
-          />
+          /> */}
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
             {data?.data[0]?.first_name} {data?.data[0]?.last_name}
           </Text>
