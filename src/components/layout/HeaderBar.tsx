@@ -24,7 +24,6 @@ import {
 import Logo from '../logo'
 import { Link } from 'react-router-dom'
 import useLogout from '@/pages/login/hooks/useLogout'
-import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -129,7 +128,6 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
   const { logOut } = useLogout()
 
   const currentDay = new Date().toLocaleDateString('en-US')
-  useCurrentUser()
 
   return (
     <Header className={classes.header} height={80}>
