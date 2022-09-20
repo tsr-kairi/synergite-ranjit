@@ -1,10 +1,12 @@
 import axiosPrivate from '@/services/axiosPrivate'
 import axiosPublic from '@/services/axiosPublic'
+import { setAuthDataInLocalStorage } from '@/utils/auth.utils'
 import { createContext, useEffect, useState } from 'react'
 
 interface AuthContextProps {
   isAuth: boolean
   user: IUser
+  token: IToken
   login: (loginReqData: ILoginRequest) => Promise<any>
 }
 
@@ -23,6 +25,10 @@ const iUser: IUser = {
 const initialValue = {
   isAuth: false,
   user: iUser,
+  token: {
+    access_token: '',
+    refresh_token: '',
+  },
   login: async () => Promise.resolve(iUser),
 }
 
@@ -57,6 +63,10 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false)
   const [user, setUser] = useState<IUser>(iUser)
+  const [token, setToken] = useState<IToken>({
+    access_token: '',
+    refresh_token: '',
+  })
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token')
@@ -77,32 +87,45 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
           setUser(iUser)
         })
     }
-
-    // console.log('Setting time out')
-    // setTimeout(() => {
-    //   const expire_at = localStorage.getItem('expire_at') || ''
-    //   const expireAtDate = new Date(expire_at)
-    //   const currentDate = new Date()
-
-    //   if (expireAtDate >= currentDate) {
-    //     console.log('Call refresh token')
-    //   } else {
-    //     console.log('expire_at =', expire_at)
-    //   }
-    // }, 1000)
   }, [])
+
+  const getTokenByRefreshToken = async (accessToken: string) => {
+    try {
+      const response = await axiosPrivate.get<GetUsersResponse>(
+        '/user/refreshtoken'
+      )
+
+      return {
+        access_token: '',
+      }
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  } // End of getTokenByRefreshToken function
 
   useEffect(() => {
     console.log(isAuth)
     if (isAuth) {
       console.log('Setting time out')
       setTimeout(() => {
+        const refreshToken = localStorage.getItem('refresh_token') || ''
         const expire_at = localStorage.getItem('expire_at') || ''
         const expireAtDate = new Date(expire_at)
         const currentDate = new Date()
 
         if (expireAtDate >= currentDate) {
+          alert('Calling refresh token')
           console.log('Call refresh token')
+          getTokenByRefreshToken(refreshToken)
+            .then(() => {
+              // Set new access and refresh token
+              setAuthDataInLocalStorage('', '')
+              setIsAuth(true)
+            })
+            .catch((error) => {
+              setIsAuth(false)
+            })
         } else {
           console.log('expire_at =', expire_at)
         }
@@ -130,13 +153,15 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         loginReqData
       )
 
-      const date = new Date()
-      date.setMinutes(date.getMinutes() + 1)
+      const accessToken = response.data?.data?.access_token
+      const refreshToken = response.data?.data?.refresh_token
 
-      localStorage.setItem('expire_at', date.toString())
-      localStorage.setItem('access_token', response.data?.data?.access_token)
-      localStorage.setItem('refresh_token', response.data?.data?.refresh_token)
+      setAuthDataInLocalStorage(accessToken, refreshToken)
       setIsAuth(true)
+      setToken({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      })
 
       const userData = await getUserData()
       setUser({
@@ -157,10 +182,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     }
   } // End of login function
 
-  console.log('user =', user)
-
   return (
-    <AuthContext.Provider value={{ isAuth, user, login }}>
+    <AuthContext.Provider value={{ isAuth, user, token, login }}>
       {children}
     </AuthContext.Provider>
   )
