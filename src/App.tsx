@@ -13,34 +13,34 @@ import ClientDetails from './pages/client/client-details'
 import VendorDetails from './pages/vendor/vendor-details'
 import Employee from './pages/employee'
 import EmployeeDetails from './pages/employee/employee-details'
-// import useCurrentUser from './pages/login/hooks/useCurrentUser'
+import useCurrentUser from './pages/login/hooks/useCurrentUser'
 import SubmissionMain from './pages/client/client-details/jobs/submissions'
+import { Loader } from '@mantine/core'
 // import AppShellMain from './components/layout'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
-// type IUser = {
-//   first_name: string
-//   last_name: string
-//   email_id: string
-// }
-// type ProtectedRouteProps = {
-//   user: IUser
-//   children: ReactNode
-// }
+type IUser = {
+  first_name: string
+  last_name: string
+  email_id: string
+}
+type ProtectedRouteProps = {
+  user: IUser
+  children: ReactNode
+}
 
-// const ProtectedRoute = ({ user, children }: ProtectedRouteProps) => {
-//   if (!user) {
-//     return <Navigate to="/login" replace />
-//   }
-
-//   return children
-// }
+const ProtectedRoute = ({ user, children }: ProtectedRouteProps) => {
+  if (!user) {
+    return <Navigate to="/login" replace />
+  }
+  return children
+}
 
 function App() {
-  // const user = useCurrentUser()
+  const user = useCurrentUser()
   return (
     <BrowserRouter>
-      <React.Suspense fallback="Loading...">
+      <React.Suspense fallback={<Loader variant="dots" />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -58,9 +58,9 @@ function App() {
             <Route
               path="/"
               element={
-                // <ProtectedRoute user={user}>
-                <DashBoard />
-                // </ProtectedRoute>
+                <ProtectedRoute user={user}>
+                  <DashBoard />
+                </ProtectedRoute>
               }
             />
             <Route path="/client" element={<Client />} />
