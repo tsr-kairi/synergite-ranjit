@@ -10,8 +10,6 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
   const { isAuth, children } = props
 
-  console.log('[ProtectedRoute] =', isAuth)
-
   if (!isAuth) {
     return <Navigate to="/login" replace />
   }

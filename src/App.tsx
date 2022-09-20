@@ -41,7 +41,7 @@ type ProtectedRouteProps = {
 
 function App() {
   const { isAuth } = useContext(AuthContext)
-  console.log('isAuth =', isAuth)
+  console.log('[App] isAuth =', isAuth)
 
   return (
     <BrowserRouter>

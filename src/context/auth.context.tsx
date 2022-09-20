@@ -73,9 +73,42 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         })
         .catch((error) => {
           console.log(error)
+          setIsAuth(false)
+          setUser(iUser)
         })
     }
+
+    // console.log('Setting time out')
+    // setTimeout(() => {
+    //   const expire_at = localStorage.getItem('expire_at') || ''
+    //   const expireAtDate = new Date(expire_at)
+    //   const currentDate = new Date()
+
+    //   if (expireAtDate >= currentDate) {
+    //     console.log('Call refresh token')
+    //   } else {
+    //     console.log('expire_at =', expire_at)
+    //   }
+    // }, 1000)
   }, [])
+
+  useEffect(() => {
+    console.log(isAuth)
+    if (isAuth) {
+      console.log('Setting time out')
+      setTimeout(() => {
+        const expire_at = localStorage.getItem('expire_at') || ''
+        const expireAtDate = new Date(expire_at)
+        const currentDate = new Date()
+
+        if (expireAtDate >= currentDate) {
+          console.log('Call refresh token')
+        } else {
+          console.log('expire_at =', expire_at)
+        }
+      }, 50000)
+    }
+  }, [isAuth])
 
   const getUserData = async () => {
     try {
@@ -90,12 +123,17 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   }
 
   const login = async (loginReqData: ILoginRequest) => {
+    console.log('Logging is called')
     try {
       const response = await axiosPublic.post<ILoginResponse>(
         '/user/login',
         loginReqData
       )
 
+      const date = new Date()
+      date.setMinutes(date.getMinutes() + 1)
+
+      localStorage.setItem('expire_at', date.toString())
       localStorage.setItem('access_token', response.data?.data?.access_token)
       localStorage.setItem('refresh_token', response.data?.data?.refresh_token)
       setIsAuth(true)
@@ -107,11 +145,14 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         email_id: userData?.email_id || '',
       })
 
+      console.log('Auth is set')
+
       return response.data?.data
     } catch (error) {
       console.log(error)
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
+      setIsAuth(false)
       throw error
     }
   } // End of login function

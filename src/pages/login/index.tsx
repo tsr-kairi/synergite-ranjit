@@ -122,6 +122,7 @@ export function Login() {
   })
 
   const handleSubmit = (values: ILoginRequest) => {
+    console.log('[handleSubmit] is called')
     login(values)
       .then(() => {
         navigate('/client')
