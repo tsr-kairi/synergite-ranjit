@@ -16,6 +16,7 @@ import EmployeeDetails from './pages/employee/employee-details'
 import useCurrentUser from './pages/login/hooks/useCurrentUser'
 import SubmissionMain from './pages/client/client-details/jobs/submissions'
 import { Loader } from '@mantine/core'
+import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess'
 // import AppShellMain from './components/layout'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
@@ -47,6 +48,10 @@ function App() {
           <Route path="/confirm-password" element={<ConfirmPassword />} />
           <Route path="/server-error" element={<ServerError />} />
           <Route path="/not-found" element={<NotFound />} />
+          <Route
+            path="/forgotPasswordSuccess"
+            element={<ForgotPasswordSuccess />}
+          />
 
           <Route
             element={

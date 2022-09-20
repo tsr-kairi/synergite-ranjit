@@ -5,6 +5,10 @@ const zLoginValidation = z.object({
   password: z.string(),
 })
 
+const zForgotValidation = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+})
+
 interface user {
   id: number
   first_name: string
@@ -12,7 +16,7 @@ interface user {
   email_id: string
 }
 
-export { zLoginValidation, user }
+export { zLoginValidation, zForgotValidation, user }
 
 // "first_name": "testclient2",
 // "last_name": "testclient2",

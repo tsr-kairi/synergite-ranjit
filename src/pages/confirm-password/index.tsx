@@ -11,6 +11,8 @@ import {
 
 import Logo from '@/components/logo'
 import { Link } from 'react-router-dom'
+import { useForm } from '@mantine/form'
+import axiosPublic from '@/services/axiosPublic'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -77,57 +79,82 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.blue[9],
   },
 }))
-
+type IResetRequest = {
+  password: string
+  confirm_password: string
+}
 export function Login() {
   const { classes } = useStyles()
+  const form = useForm<IResetRequest>({
+    initialValues: {
+      password: '',
+      confirm_password: '',
+    },
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
+  const handleSubmit = (values: IResetRequest) => {
+    console.log({ values })
+
+    try {
+      void axiosPublic.post(`/user/resetpassword`)
+      // navigate('/forgotPasswordSuccess')
+    } catch (error) {
+      // TODO - Need to show an Error Alert
+    }
+  }
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
         <Link to={'/'}>
           <Logo />
         </Link>
-        <Paper className={classes.formInner} radius={10}>
-          <Title
-            order={6}
-            className={classes.title}
-            align="left"
-            mt="md"
-            mb={50}
-          >
-            Confirm your <span className={classes.password}>Password</span>
-          </Title>
-          <PasswordInput
-            label="Password"
-            placeholder="★★★★★★★★"
-            mt="md"
-            size="md"
-          />
-          <PasswordInput
-            label="Confirm Password"
-            placeholder="★★★★★★★★"
-            mt="md"
-            size="md"
-            mb={10}
-          />
-          <Group grow mt={20} position="apart">
-            <Link className={classes.backPage} to={'/login'}>
-              Back to login page
-            </Link>
-            <MantineProvider
-              theme={{
-                defaultGradient: {
-                  from: 'orange',
-                  to: 'red',
-                  deg: 45,
-                },
-              }}
+        <form onSubmit={form.onSubmit(handleSubmit)} autoComplete="on">
+          <Paper className={classes.formInner} radius={10}>
+            <Title
+              order={6}
+              className={classes.title}
+              align="left"
+              mt="md"
+              mb={50}
             >
-              <Button variant="gradient" size="md">
-                Confirm
-              </Button>
-            </MantineProvider>
-          </Group>
-        </Paper>
+              Confirm your <span className={classes.password}>Password</span>
+            </Title>
+            <PasswordInput
+              label="Password"
+              placeholder="★★★★★★★★"
+              mt="md"
+              size="md"
+              {...form.getInputProps('password')}
+            />
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="★★★★★★★★"
+              mt="md"
+              size="md"
+              mb={10}
+              {...form.getInputProps('confirm_password')}
+            />
+            <Group grow mt={20} position="apart">
+              <Link className={classes.backPage} to={'/login'}>
+                Back to login page
+              </Link>
+              <MantineProvider
+                theme={{
+                  defaultGradient: {
+                    from: 'orange',
+                    to: 'red',
+                    deg: 45,
+                  },
+                }}
+              >
+                <Button variant="gradient" size="md" type="submit">
+                  Confirm
+                </Button>
+              </MantineProvider>
+            </Group>
+          </Paper>
+        </form>
       </Paper>
 
       <Paper className={classes.loginImg} radius={0}>
