@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+
 import {
   Paper,
   createStyles,
@@ -13,10 +15,11 @@ import {
 } from '@mantine/core'
 
 import Logo from '@/components/logo'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm, zodResolver } from '@mantine/form'
 import useLogin, { ILoginRequest } from './hooks/useLogin'
 import { zLoginValidation } from '@/types/login-type'
+import { AuthContext } from '@/context/auth.context'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -103,7 +106,11 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const { classes } = useStyles()
-  const { login } = useLogin()
+  // const { login } = useLogin()
+
+  const { login } = useContext(AuthContext)
+  const navigate = useNavigate()
+
   const form = useForm<ILoginRequest>({
     validate: zodResolver(zLoginValidation),
     initialValues: {
@@ -115,7 +122,14 @@ export function Login() {
   })
 
   const handleSubmit = (values: ILoginRequest) => {
-    void login(values)
+    login(values)
+      .then(() => {
+        navigate('/client')
+      })
+      .catch((error) => {
+        console.log(error)
+        navigate('/login')
+      })
   }
 
   return (

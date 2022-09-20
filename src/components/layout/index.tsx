@@ -1,4 +1,7 @@
+import { useContext } from 'react'
+
 import NavBar from '@/components/layout/navBar/NavBar'
+import { AuthContext } from '@/context/auth.context'
 // import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
 // import axiosPrivate from '@/services/axiosPrivate'
 import { AppShell, createStyles } from '@mantine/core'
@@ -23,6 +26,9 @@ const useStyles = createStyles((theme) => ({
 
 const AppShellMain = () => {
   const { classes } = useStyles()
+
+  const { user } = useContext(AuthContext)
+
   // useEffect(() => {
   //   void ApiCall()
   // }, [])
@@ -51,7 +57,7 @@ const AppShellMain = () => {
       header={
         <HeaderBar
           user={{
-            name: 'Jone Doe',
+            name: `${user.first_name} ${user.last_name}`,
             image:
               'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80',
           }}

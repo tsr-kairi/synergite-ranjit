@@ -1,5 +1,6 @@
 // import axiosPublic from '@/services/axiosPublic'
 import axiosPrivate from '@/services/axiosPrivate'
+import { useEffect, useState } from 'react'
 
 type IUser = {
   first_name: string
@@ -12,23 +13,27 @@ type ILoginResponse = {
   data: IUser
 }
 
-const useCurrentUser = async () => {
+const useCurrentUser = () => {
   const access_token = localStorage.getItem('access_token')
 
-  if (!access_token) {
-    return false
-  }
+  const [isAuth, setIsAuth] = useState(access_token ? true : false)
 
-  try {
-    const response = await axiosPrivate.get<ILoginResponse>(
-      '/user/getcurrentuser'
-    )
-    console.log(response)
-    return response.data.data
-  } catch (error) {
-    console.log(error)
-    return null
-  }
+  useEffect(() => {
+    if (isAuth) {
+      axiosPrivate
+        .get<ILoginResponse>('/user/getcurrentuser')
+        .then((response) => {
+          setIsAuth(true)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [])
+
+  console.log('return isAuth =', isAuth)
+
+  return isAuth
 }
 
 export default useCurrentUser
