@@ -36,7 +36,7 @@ const ProtectedRoute = ({ user, children }: ProtectedRouteProps) => {
   return children
 }
 
-function App(): JSX.Element {
+function App() {
   const user = useCurrentUser()
   return (
     <BrowserRouter>
