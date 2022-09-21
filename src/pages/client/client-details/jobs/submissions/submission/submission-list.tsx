@@ -12,6 +12,7 @@ import {
   Drawer,
   Pagination,
   Badge,
+  Modal,
   // Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -196,6 +197,7 @@ interface ISubmissionProps {
 export function SubmissionList({ data }: ISubmissionProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
+  const [popUpIsOpen, setPopUpIsOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TSubmission | null>(null)
@@ -270,7 +272,15 @@ export function SubmissionList({ data }: ISubmissionProps) {
         ) : row.submission_status === 'On Hold' ? (
           <Badge color="yellow">On Hold</Badge>
         ) : row.submission_status === 'Selected' ? (
-          <Badge color="blue">Onboard Now</Badge>
+          <Badge
+            color="blue"
+            onClick={() => {
+              setPopUpIsOpen(true)
+            }}
+            style={{ cursor: 'pointer' }}
+          >
+            Onboard Now
+          </Badge>
         ) : (
           <Group spacing="sm">
             <IconEdit
@@ -410,6 +420,21 @@ export function SubmissionList({ data }: ISubmissionProps) {
       >
         <EditForm {...submissionEditData} />
       </Drawer>
+
+      {/* On Board PopUp */}
+      <Modal
+        centered
+        size="xl"
+        onClose={() => setPopUpIsOpen(false)}
+        opened={popUpIsOpen}
+      >
+        <h1>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur
+          placeat et incidunt in eius, maiores quasi, eaque libero nisi numquam
+          non assumenda rem mollitia
+        </h1>
+        <Button>Proceed To Onboarding</Button>
+      </Modal>
     </>
   )
 }
