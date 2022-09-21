@@ -9,6 +9,21 @@ const zForgotValidation = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
 })
 
+// reset password
+const zResetPassword = z
+  .object({
+    password: z.string().min(6),
+    confirm_password: z.string().min(6),
+  })
+  .superRefine(({ confirm_password, password }, ctx) => {
+    if (confirm_password !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'The passwords did not match',
+      })
+    }
+  })
+
 interface user {
   id: number
   first_name: string
@@ -16,28 +31,4 @@ interface user {
   email_id: string
 }
 
-export { zLoginValidation, zForgotValidation, user }
-
-// "first_name": "testclient2",
-// "last_name": "testclient2",
-// "address_line1": "Hitech City",
-// "address_line2": "",
-// "city": "HYD",
-// "county": null,
-// "state": "IL",
-// "zip": 12345,
-// "country": "USA",
-// "fax": "342344",
-// "primary_email": "raghava@gmail.com",
-// "primary_phone": "9876543678",
-// "primary_phone_ext": null,
-// "secondary_email": null,
-// "secondary_phone": null,
-// "secondary_phone_ext": null,
-// "primary_contact": null,
-// "created_date": "2022-09-12 10:49:35",
-// "created_by": 123,
-// "modified_date": null,
-// "modified_by": null,
-// "status": "Y",
-// "version": 1
+export { zLoginValidation, zForgotValidation, zResetPassword, user }

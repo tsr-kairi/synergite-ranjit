@@ -4,7 +4,6 @@ import {
   Group,
   Text,
   Avatar,
-  Grid,
   TextInput,
   Button,
 } from '@mantine/core'
@@ -69,7 +68,7 @@ export function EventBoard({ title, data }: EventBoardProps) {
 
   const items = data.map((item) => (
     <Group
-      key={item.title}
+      key={item.description}
       className={classes.mainItem}
       position="apart"
       spacing="xl"

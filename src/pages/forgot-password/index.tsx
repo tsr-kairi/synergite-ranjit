@@ -82,7 +82,7 @@ type IForgotRequest = {
 }
 export function ForgotPassword() {
   const navigate = useNavigate()
-  const [IsSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { classes } = useStyles()
 
   const form = useForm<IForgotRequest>({
@@ -99,7 +99,9 @@ export function ForgotPassword() {
     try {
       // Hitting Forgot Password endpoint
       void axiosPublic.post(`/user/forgotpassword?email=${values.email}`)
-      navigate('/forgotPasswordSuccess')
+      setTimeout(() => {
+        navigate('/forgotPasswordSuccess')
+      }, 2000)
     } catch (error) {
       // TODO - Need to show an Error Alert
       navigate('/server-error')
@@ -134,6 +136,7 @@ export function ForgotPassword() {
               size="md"
               mb={10}
               required
+              type="email"
               {...form.getInputProps('email')}
             />
             <Group grow mt={20} position="apart">
@@ -150,8 +153,8 @@ export function ForgotPassword() {
                 }}
               >
                 <Button variant="gradient" type="submit" size="md">
-                  {!IsSubmitting && 'Reset Password'}
-                  {IsSubmitting && (
+                  {!isSubmitting && 'Reset Password'}
+                  {isSubmitting && (
                     <Text>
                       Resetting{''}
                       <Loader variant="dots" color={'white'} size="sm" />

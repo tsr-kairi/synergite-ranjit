@@ -7,12 +7,17 @@ import {
   Image,
   Group,
   MantineProvider,
+  Text,
+  Loader,
 } from '@mantine/core'
 
 import Logo from '@/components/logo'
-import { Link } from 'react-router-dom'
-import { useForm } from '@mantine/form'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useForm, zodResolver } from '@mantine/form'
 import axiosPublic from '@/services/axiosPublic'
+import { useMemo, useState } from 'react'
+import { zResetPassword } from '@/types/login-type'
+import { showNotification } from '@mantine/notifications'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -83,9 +88,21 @@ type IResetRequest = {
   password: string
   confirm_password: string
 }
+
+function useQuery() {
+  const { search } = useLocation()
+
+  return useMemo(() => new URLSearchParams(search), [search])
+}
+
 export function Login() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const query = useQuery()
+  const navigate = useNavigate()
+
   const { classes } = useStyles()
   const form = useForm<IResetRequest>({
+    validate: zodResolver(zResetPassword),
     initialValues: {
       password: '',
       confirm_password: '',
@@ -97,11 +114,28 @@ export function Login() {
     console.log({ values })
 
     try {
-      void axiosPublic.post(`/user/resetpassword`)
-      // navigate('/forgotPasswordSuccess')
+      void axiosPublic.post(
+        `/user/resetpassword?email=ranjitkoiri009@gmail.com&reset_token=${String(
+          query.get('reset_token')
+        )}&password=${values.password}`
+      )
+      // resetting form = Done
+      form.reset()
+      // notifying password reset success = Done
+      setTimeout(() => {
+        showNotification({
+          title: 'Password Reset Success!!',
+          message: 'You have successfully resetting your password.',
+        })
+      }, 1500)
+      // navigating login page after 2 sec = Done
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
     } catch (error) {
       // TODO - Need to show an Error Alert
     }
+    setIsSubmitting(true)
   }
   return (
     <div className={classes.wrapper}>
@@ -148,8 +182,14 @@ export function Login() {
                   },
                 }}
               >
-                <Button variant="gradient" size="md" type="submit">
-                  Confirm
+                <Button variant="gradient" type="submit" size="md">
+                  {!isSubmitting && 'Submit'}
+                  {isSubmitting && (
+                    <Text>
+                      Submitting{''}
+                      <Loader variant="dots" color={'white'} size="sm" />
+                    </Text>
+                  )}
                 </Button>
               </MantineProvider>
             </Group>

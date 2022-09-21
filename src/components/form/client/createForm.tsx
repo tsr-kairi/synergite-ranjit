@@ -18,7 +18,7 @@ const useStyles = createStyles(() => ({
 
 export default function CreateForm() {
   const { classes } = useStyles()
-  const { mutate: addClient, isSuccess, isError } = useCreateClient()
+  const { mutate: addClient } = useCreateClient()
 
   const form = useForm<TClientCreate>({
     validate: zodResolver(zClientCreate),
