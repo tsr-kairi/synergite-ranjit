@@ -1,82 +1,118 @@
 import {
+  Autocomplete,
   Button,
-  Container,
   createStyles,
-  Divider,
   Group,
-  TextInput,
+  Loader,
   Text,
 } from '@mantine/core'
-import { IconChevronsRight } from '@tabler/icons'
+import { useForm } from '@mantine/form'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
-  main: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // justifyItems: 'center',
-    minHeight: '65vh',
-  },
   successCmp: {
     display: 'flex',
     flexDirection: 'column',
     padding: '30px',
-    marginTop: '200px',
-    border: `1px solid ${theme.colors.grey[6]}`,
-  },
-  text: {
-    fontSize: '28px',
-    // color: theme.colors.blue[4],
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.40)',
   },
   logo: {
     color: theme.colors.cyan,
     height: '50px',
   },
 }))
+
+type IOnboardingQuestionnaireProps = {
+  employee_type: string
+  immigration_status: string
+  payment_type: string
+}
+
 const Questionnaire = () => {
+  const [isProceeding, setIsProceeding] = useState(false)
   const { classes } = useStyles()
+  const navigate = useNavigate()
+  const form = useForm<IOnboardingQuestionnaireProps>({
+    initialValues: {
+      employee_type: '',
+      immigration_status: '',
+      payment_type: '',
+    },
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
+  const handleSubmit = (values: IOnboardingQuestionnaireProps) => {
+    console.log(values)
+    void values
+    try {
+      form.reset()
+      setTimeout(() => {
+        navigate('/onboarding')
+      }, 2000)
+    } catch (error) {
+      // TODO - Need to show an Error Alert
+    }
+    setIsProceeding(true)
+  }
 
   return (
     <>
-      <div className={classes.main}>
-        <Container>
-          <div className={classes.successCmp}>
-            {/* <Image src={SuccessfullyDone} alt="SuccessfullyDone" width={250} /> */}
-            <Text
-              className={classes.text}
-              weight="500"
-              style={{
-                textAlign: 'center',
-                fontFamily: '-moz-initial',
-              }}
-            >
-              Questionnaire
-            </Text>
-            <form>
-              <div
-                style={{
-                  width: '100%',
-                  maxWidth: '70%',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                }}
-              >
-                <TextInput variant="unstyled" radius="xs" px="sm" />
-                <Divider mb="5px" size="sm" />
-                <TextInput variant="unstyled" radius="xs" px="sm" />
-                <Divider mb="5px" size="sm" />
-                <TextInput variant="unstyled" radius="xs" px="sm" />
-                <Divider mb="5px" size="sm" />
-              </div>
-              <Group position="apart" mt="xl" align={'center'} px="md">
-                <IconChevronsRight color="grey" />
-                <Button variant="outline" color={'grey'}>
-                  Proceed to Onboarding
-                </Button>
-              </Group>
-            </form>
-          </div>
-        </Container>
-      </div>
+      {isProceeding && (
+        <div>
+          Proceeding
+          <Loader variant="dots" size="sm" />
+        </div>
+      )}
+      {!isProceeding && (
+        <form
+          onSubmit={form.onSubmit(handleSubmit)}
+          className={classes.successCmp}
+        >
+          <Group position="apart" mb="sm" align={'center'} grow>
+            <Autocomplete
+              data={['1099', 'C2C', 'W2', 'Others']}
+              label="Employee Type"
+              placeholder="Employee Type"
+              radius="xs"
+              variant="default"
+              required
+              withAsterisk
+              {...form.getInputProps('employee_type')}
+            />
+            <Autocomplete
+              data={['Green card/Citizen', 'H1', 'Not Applicable', 'Others']}
+              label="Immigration Status"
+              placeholder="Immigration Status"
+              radius="xs"
+              variant="default"
+              required
+              withAsterisk
+              {...form.getInputProps('immigration_status')}
+            />
+          </Group>
+          <Group position="apart" align={'center'} grow>
+            <Autocomplete
+              data={[
+                'Billable',
+                'Non Billable',
+                'Billable/Non Billable',
+                'Others',
+              ]}
+              label="Payment Type"
+              placeholder="Payment Type"
+              radius="xs"
+              variant="default"
+              required
+              withAsterisk
+              {...form.getInputProps('payment_type')}
+            />
+            <Button variant="gradient" mt="xl" type="submit">
+              Proceed to Onboarding
+            </Button>
+          </Group>
+        </form>
+      )}
     </>
   )
 }

@@ -111,7 +111,7 @@ export function Login() {
     clearInputErrorOnChange: true,
   })
   const handleSubmit = (values: IResetRequest) => {
-    console.log({ values })
+    // console.log({ values })
 
     try {
       void axiosPublic.post(

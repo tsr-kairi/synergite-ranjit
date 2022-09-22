@@ -32,6 +32,7 @@ import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
+import Questionnaire from '@/pages/onboarding/questionnaire'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -423,17 +424,23 @@ export function SubmissionList({ data }: ISubmissionProps) {
 
       {/* On Board PopUp */}
       <Modal
-        centered
-        size="xl"
+        title={
+          <Text
+            weight="500"
+            style={{
+              textAlign: 'center',
+              fontFamily: '-moz-initial',
+              fontSize: '24px',
+            }}
+          >
+            Questionnaire
+          </Text>
+        }
+        size="lg"
         onClose={() => setPopUpIsOpen(false)}
         opened={popUpIsOpen}
       >
-        <h1>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur
-          placeat et incidunt in eius, maiores quasi, eaque libero nisi numquam
-          non assumenda rem mollitia
-        </h1>
-        <Button>Proceed To Onboarding</Button>
+        <Questionnaire />
       </Modal>
     </>
   )
