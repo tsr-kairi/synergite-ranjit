@@ -1,5 +1,20 @@
+import { TClient, TVendor } from '@/types'
+import { TAEmployee } from '@/types/employee-type'
+import {
+  TAccount,
+  TDocuments,
+  TImmigration,
+  TProfile,
+} from '@/types/onboarding-flow-type'
 import { Button, Group, createStyles, Stepper, Tabs } from '@mantine/core'
 import { useState } from 'react'
+import OnboardEmployeeDetails from './details/employee-details'
+import OnboardClientDetails from './details/onboard-client-details'
+import OnboardVendorDetails from './details/vendor-details'
+import Account from './onboarding-flow/account'
+import Documents from './onboarding-flow/document'
+import Immigration from './onboarding-flow/immigration'
+import Profile from './onboarding-flow/profile'
 const useStyles = createStyles((theme) => ({
   onboarding: {
     display: 'flex',
@@ -17,7 +32,7 @@ const useStyles = createStyles((theme) => ({
     flex: 1,
     height: '88vh',
   },
-  stepper: {
+  stepperMain: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.35)',
     width: '70%',
     padding: 20,
@@ -26,10 +41,21 @@ const useStyles = createStyles((theme) => ({
       width: '100%',
     },
   },
+  stepper: {
+    height: '65vh',
+  },
 }))
 
 export default function Onboarding() {
   const [active, setActive] = useState(0)
+  const [clientDetailsData] = useState({} as TClient)
+  const [employeeDetailsData] = useState({} as TAEmployee)
+  const [vendorDetailsData] = useState({} as TVendor)
+  // onboarding flow
+  const [profileFlowData] = useState({} as TProfile)
+  const [accountFlowData] = useState({} as TAccount)
+  const [immigrationFlowData] = useState({} as TImmigration)
+  const [documentsFlowData] = useState({} as TDocuments)
 
   const { classes } = useStyles()
 
@@ -43,8 +69,6 @@ export default function Onboarding() {
   return (
     <div className={classes.onboarding}>
       {/* Onboarding details tabs */}
-
-      {/* <Paper p={20} className={classes.tabs}> */}
       <Tabs
         // variant="outline"
         p={20}
@@ -126,40 +150,44 @@ export default function Onboarding() {
         </Tabs.List>
 
         <Tabs.Panel value="Client" pt="xs">
-          Client details form goes here...
+          <OnboardClientDetails {...clientDetailsData} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Employee" pt="xs">
-          Employee details form goes here...
+          <OnboardEmployeeDetails {...employeeDetailsData} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Vendor" pt="xs">
-          Vendor details form goes here...
+          <OnboardVendorDetails {...vendorDetailsData} />
         </Tabs.Panel>
       </Tabs>
-      {/* </Paper> */}
       {/* Onboarding flow stepper */}
-      <div className={classes.stepper}>
-        <Stepper active={active} onStepClick={setActive} breakpoint="sm">
-          <Stepper.Step label="Profile" description="Hr & Other Info...">
-            Step 1 content: Profile...
+      <div className={classes.stepperMain}>
+        <Stepper
+          active={active}
+          onStepClick={setActive}
+          breakpoint="sm"
+          className={classes.stepper}
+        >
+          <Stepper.Step label="Profile" description="Profile Info...">
+            <Profile {...profileFlowData} />
           </Stepper.Step>
-          <Stepper.Step label="Account" description="Client & Others Info...">
-            Step 2 content: Account...
+          <Stepper.Step label="Account" description="Account Info...">
+            <Account {...accountFlowData} />
           </Stepper.Step>
-          <Stepper.Step label="Immigration" description="Others Info...">
-            Step 3 content: Immigration...
+          <Stepper.Step label="Immigration" description="Immigration Info...">
+            <Immigration {...immigrationFlowData} />
           </Stepper.Step>
-          <Stepper.Step label="Documents" description="Others Info...">
-            Step 4 content: Documents...
+          <Stepper.Step label="Documents" description="Immigration Info...">
+            <Documents {...documentsFlowData} />
           </Stepper.Step>
-          <Stepper.Step label="Summary" description="Others Info...">
+          <Stepper.Step label="Summary" description="Immigration Info...">
             Step 5 content: Summary...
           </Stepper.Step>
           <Stepper.Completed>Completed, Others messages...</Stepper.Completed>
         </Stepper>
 
-        <Group position="center" mt="65vh">
+        <Group position="center" mt="5rem">
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
