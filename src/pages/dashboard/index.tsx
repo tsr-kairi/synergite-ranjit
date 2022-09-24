@@ -100,19 +100,19 @@ export default function DashBoard() {
               data={[
                 {
                   title: 'Mark Jupiter',
-                  description: 'Messages you have received',
+                  description: 'Hey dude whatsapp',
                   image:
                     'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
                 },
                 {
                   title: 'Mark Jupiter',
-                  description: 'Messages you have received',
+                  description: 'Hey dude whatsapp',
                   image:
                     'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
                 },
                 {
                   title: 'Mark Jupiter',
-                  description: 'Messages you have received',
+                  description: 'Hey dude whatsapp',
                   image:
                     'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
                 },
@@ -124,7 +124,6 @@ export default function DashBoard() {
           <Grid.Col className={classes.messageBoard}>
             <MessageBoard
               title={'Message Board'}
-              // description={''}
               data={[
                 {
                   title: 'Jone Doe',

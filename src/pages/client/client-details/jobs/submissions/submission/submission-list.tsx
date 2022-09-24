@@ -12,6 +12,7 @@ import {
   Drawer,
   Pagination,
   Badge,
+  Modal,
   // Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -31,6 +32,7 @@ import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
+import Questionnaire from '@/pages/onboarding/questionnaire'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -196,6 +198,7 @@ interface ISubmissionProps {
 export function SubmissionList({ data }: ISubmissionProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
+  const [popUpIsOpen, setPopUpIsOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TSubmission | null>(null)
@@ -270,7 +273,15 @@ export function SubmissionList({ data }: ISubmissionProps) {
         ) : row.submission_status === 'On Hold' ? (
           <Badge color="yellow">On Hold</Badge>
         ) : row.submission_status === 'Selected' ? (
-          <Badge color="blue">Onboard Now</Badge>
+          <Badge
+            color="blue"
+            onClick={() => {
+              setPopUpIsOpen(true)
+            }}
+            style={{ cursor: 'pointer' }}
+          >
+            Onboard Now
+          </Badge>
         ) : (
           <Group spacing="sm">
             <IconEdit
@@ -410,6 +421,27 @@ export function SubmissionList({ data }: ISubmissionProps) {
       >
         <EditForm {...submissionEditData} />
       </Drawer>
+
+      {/* On Board PopUp */}
+      <Modal
+        title={
+          <Text
+            weight="500"
+            style={{
+              textAlign: 'center',
+              fontFamily: '-moz-initial',
+              fontSize: '24px',
+            }}
+          >
+            Questionnaire
+          </Text>
+        }
+        size="lg"
+        onClose={() => setPopUpIsOpen(false)}
+        opened={popUpIsOpen}
+      >
+        <Questionnaire />
+      </Modal>
     </>
   )
 }

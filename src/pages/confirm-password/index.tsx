@@ -7,10 +7,17 @@ import {
   Image,
   Group,
   MantineProvider,
+  Text,
+  Loader,
 } from '@mantine/core'
 
 import Logo from '@/components/logo'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useForm, zodResolver } from '@mantine/form'
+import axiosPublic from '@/services/axiosPublic'
+import { useMemo, useState } from 'react'
+import { zResetPassword } from '@/types/login-type'
+import { showNotification } from '@mantine/notifications'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -77,57 +84,117 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.blue[9],
   },
 }))
+type IResetRequest = {
+  password: string
+  confirm_password: string
+}
+
+function useQuery() {
+  const { search } = useLocation()
+
+  return useMemo(() => new URLSearchParams(search), [search])
+}
 
 export function Login() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const query = useQuery()
+  const navigate = useNavigate()
+
   const { classes } = useStyles()
+  const form = useForm<IResetRequest>({
+    validate: zodResolver(zResetPassword),
+    initialValues: {
+      password: '',
+      confirm_password: '',
+    },
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
+  const handleSubmit = (values: IResetRequest) => {
+    // console.log({ values })
+
+    try {
+      void axiosPublic.post(
+        `/user/resetpassword?email=ranjitkoiri009@gmail.com&reset_token=${String(
+          query.get('reset_token')
+        )}&password=${values.password}`
+      )
+      // resetting form = Done
+      form.reset()
+      // notifying password reset success = Done
+      setTimeout(() => {
+        showNotification({
+          title: 'Password Reset Success!!',
+          message: 'You have successfully resetting your password.',
+        })
+      }, 1500)
+      // navigating login page after 2 sec = Done
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
+    } catch (error) {
+      // TODO - Need to show an Error Alert
+    }
+    setIsSubmitting(true)
+  }
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30} px={80}>
         <Link to={'/'}>
           <Logo />
         </Link>
-        <Paper className={classes.formInner} radius={10}>
-          <Title
-            order={6}
-            className={classes.title}
-            align="left"
-            mt="md"
-            mb={50}
-          >
-            Confirm your <span className={classes.password}>Password</span>
-          </Title>
-          <PasswordInput
-            label="Password"
-            placeholder="★★★★★★★★"
-            mt="md"
-            size="md"
-          />
-          <PasswordInput
-            label="Confirm Password"
-            placeholder="★★★★★★★★"
-            mt="md"
-            size="md"
-            mb={10}
-          />
-          <Group grow mt={20} position="apart">
-            <Link className={classes.backPage} to={'/login'}>
-              Back to login page
-            </Link>
-            <MantineProvider
-              theme={{
-                defaultGradient: {
-                  from: 'orange',
-                  to: 'red',
-                  deg: 45,
-                },
-              }}
+        <form onSubmit={form.onSubmit(handleSubmit)} autoComplete="on">
+          <Paper className={classes.formInner} radius={10}>
+            <Title
+              order={6}
+              className={classes.title}
+              align="left"
+              mt="md"
+              mb={50}
             >
-              <Button variant="gradient" size="md">
-                Confirm
-              </Button>
-            </MantineProvider>
-          </Group>
-        </Paper>
+              Confirm your <span className={classes.password}>Password</span>
+            </Title>
+            <PasswordInput
+              label="Password"
+              placeholder="★★★★★★★★"
+              mt="md"
+              size="md"
+              {...form.getInputProps('password')}
+            />
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="★★★★★★★★"
+              mt="md"
+              size="md"
+              mb={10}
+              {...form.getInputProps('confirm_password')}
+            />
+            <Group grow mt={20} position="apart">
+              <Link className={classes.backPage} to={'/login'}>
+                Back to login page
+              </Link>
+              <MantineProvider
+                theme={{
+                  defaultGradient: {
+                    from: 'orange',
+                    to: 'red',
+                    deg: 45,
+                  },
+                }}
+              >
+                <Button variant="gradient" type="submit" size="md">
+                  {!isSubmitting && 'Submit'}
+                  {isSubmitting && (
+                    <Text>
+                      Submitting{''}
+                      <Loader variant="dots" color={'white'} size="sm" />
+                    </Text>
+                  )}
+                </Button>
+              </MantineProvider>
+            </Group>
+          </Paper>
+        </form>
       </Paper>
 
       <Paper className={classes.loginImg} radius={0}>

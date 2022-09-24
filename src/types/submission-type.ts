@@ -18,8 +18,6 @@ const zSubmission = z.object({
 
 // new Submission crate
 const zSubmissionCreate = z.object({
-  // job_id: z.number(),
-  // job_id: z.number(),
   submission_status: z.string(),
   remarks: z.string(),
   employee_id: z.number(),
