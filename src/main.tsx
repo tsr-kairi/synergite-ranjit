@@ -10,6 +10,8 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import ContextWrapper from './context/context-wrapper.context'
 
+import './style.css'
+
 // Create a client
 const queryClient = new QueryClient()
 

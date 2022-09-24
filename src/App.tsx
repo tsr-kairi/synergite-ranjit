@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react'
+import React, { useContext } from 'react'
 import Login from './pages/login'
 import ForgotPassword from './pages/forgot-password'
 import ConfirmPassword from './pages/confirm-password'
@@ -17,34 +17,16 @@ import SubmissionMain from './pages/client/client-details/jobs/submissions'
 import { Loader } from '@mantine/core'
 import ProtectedRoute from './components/routes/protected-route'
 import PublicRoute from './components/routes/public-route'
-import ContextWrapper from './context/context-wrapper.context'
 import { AuthContext } from './context/auth.context'
 import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess'
-// import AppShellMain from './components/layout'
+import OnboardingList from './pages/onboarding/components/onboarding-list'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
-
-// type IUser = {
-//   first_name: string
-//   last_name: string
-//   email_id: string
-// }
-// type ProtectedRouteProps = {
-//   user: IUser
-//   children: ReactNode
-// }
-
-// const ProtectedRoute = ({ user, children }: ProtectedRouteProps) => {
-//   if (!user) {
-//     return <Navigate to="/login" replace />
-//   }
-//   return children
-// }
 
 function App() {
   const { isAuth } = useContext(AuthContext)
-  console.log('[App] isAuth =', isAuth)
 
-  // const user = useCurrentUser()
+  return <OnboardingList />
+
   return (
     <BrowserRouter>
       <React.Suspense fallback={<Loader variant="dots" />}>
