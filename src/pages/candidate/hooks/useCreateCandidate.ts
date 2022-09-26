@@ -1,11 +1,11 @@
-import { employeeQueryKeys } from '@/react-query/queryKeys'
+import { candidateQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TAEmployeeCreate, TAEmployeeFindById } from '@/types/employee-type'
+import { TCandidateCreate, TCandidateFindById } from '@/types/candidate-type'
 import { useMutation, useQueryClient } from 'react-query'
 
 const createCandidate = async (
-  employee: TAEmployeeCreate
-): Promise<TAEmployeeFindById> => {
+  employee: TCandidateCreate
+): Promise<TCandidateFindById> => {
   return await axiosPrivate.post('/employee/save', employee)
 }
 
@@ -14,7 +14,7 @@ const useCreateCandidate = () => {
 
   return useMutation(createCandidate, {
     onSuccess: () => {
-      void queryClient.resetQueries(employeeQueryKeys.allEmployee)
+      void queryClient.resetQueries(candidateQueryKeys.allCandidate)
     },
   })
 }

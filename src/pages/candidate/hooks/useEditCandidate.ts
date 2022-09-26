@@ -1,17 +1,17 @@
 import { employeeQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TAEmployee, TAEmployeeFindById } from '@/types/employee-type'
+import { TCandidate, TCandidateFindById } from '@/types/candidate-type'
 import { useMutation, useQueryClient } from 'react-query'
 
-// const editEmployee = async (data: TAEmployee): Promise<TAEmployeeFindById> => {
+// const editEmployee = async (data: TCandidate): Promise<TCandidateFindById> => {
 //   return await apiClient.patch(`/employees/${data.id}`, data)
 // }
-const editCandidate = async (data: TAEmployee): Promise<TAEmployeeFindById> => {
+const editCandidate = async (data: TCandidate): Promise<TCandidateFindById> => {
   return await axiosPrivate.post(`/employee/save`, data)
 }
 // const editCandidate = async (
-//   employee: TAEmployee
-// ): Promise<TAEmployeeFindById> => {
+//   employee: TCandidate
+// ): Promise<TCandidateFindById> => {
 //   return await axiosPrivate.patch('/employee/save', employee)
 // }
 

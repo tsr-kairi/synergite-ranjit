@@ -1,5 +1,5 @@
 import useEditCandidate from '@/pages/candidate/hooks/useEditCandidate'
-import { TAEmployee } from '@/types/employee-type'
+import { TCandidate } from '@/types/candidate-type'
 import {
   TextInput,
   Button,
@@ -18,20 +18,20 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(candidateData: TAEmployee) {
+export default function EditForm(candidateData: TCandidate) {
   const [active, setActive] = useState(0)
 
   const { classes } = useStyles()
   const { mutate: editCandidate } = useEditCandidate()
 
-  const form = useForm<TAEmployee>({
+  const form = useForm<TCandidate>({
     // validate: zodResolver(zEmployeeEdit),
     initialValues: candidateData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TAEmployee) => {
+  const handleSubmit = (values: TCandidate) => {
     const candidateEditData = {
       ...values,
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',

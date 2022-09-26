@@ -1,4 +1,4 @@
-import { employeeQueryKeys } from '@/react-query/queryKeys'
+import { candidateQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -11,7 +11,7 @@ const useDeleteCandidateById = () => {
 
   return useMutation(async (uuid: string) => deleteCandidateById(uuid), {
     onSuccess: () => {
-      void queryClient.resetQueries(employeeQueryKeys.allEmployee)
+      void queryClient.resetQueries(candidateQueryKeys.allCandidate)
       console.log('Delete Employee Called')
     },
   })

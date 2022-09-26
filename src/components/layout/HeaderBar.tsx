@@ -203,7 +203,7 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
                 >
                   Logout
                 </Menu.Item>
-                <Divider my="sm" />
+                {/* <Divider my="sm" />
                 <Menu.Item
                   icon={<IconRoute size={14} stroke={1.5} />}
                   className={classes.logout}
@@ -224,7 +224,7 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
                 </Menu.Item>
                 <Menu.Item>
                   <Link to={'/server-error'}>500 Server Error</Link>
-                </Menu.Item>
+                </Menu.Item> */}
               </Menu.Dropdown>
             </Menu>
           </Group>

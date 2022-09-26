@@ -1,5 +1,5 @@
 import useCreateCandidate from '@/pages/candidate/hooks/useCreateCandidate'
-import { TAEmployeeCreate, zAEmployeeCreate } from '@/types/employee-type'
+import { TCandidateCreate, zCandidateCreate } from '@/types/candidate-type'
 import {
   TextInput,
   Button,
@@ -23,8 +23,8 @@ export default function CreateForm() {
   const { classes } = useStyles()
   const { mutate: addCandidate } = useCreateCandidate()
 
-  const form = useForm<TAEmployeeCreate>({
-    validate: zodResolver(zAEmployeeCreate),
+  const form = useForm<TCandidateCreate>({
+    validate: zodResolver(zCandidateCreate),
     initialValues: {
       employee_id: '',
       fname: '',
@@ -47,7 +47,7 @@ export default function CreateForm() {
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TAEmployeeCreate) => {
+  const handleSubmit = (values: TCandidateCreate) => {
     const candidateCreateData = {
       ...values,
       // status: 'published',

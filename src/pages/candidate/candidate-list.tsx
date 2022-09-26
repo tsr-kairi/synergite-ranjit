@@ -26,7 +26,7 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TAEmployee } from '@/types/employee-type'
+import { TCandidate } from '@/types/candidate-type'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 import EditCandidate from '@/components/form/candidate/editForm'
@@ -155,7 +155,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TAEmployee[], search: string) {
+function filterData(data: TCandidate[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -164,9 +164,9 @@ function filterData(data: TAEmployee[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TAEmployee[],
+  data: TCandidate[],
   payload: {
-    sortBy: keyof TAEmployee | null
+    sortBy: keyof TCandidate | null
     reversed: boolean
     search: string
   }
@@ -190,23 +190,23 @@ function sortData(
   )
 }
 
-interface IEmployeeProps {
-  data: TAEmployee[]
+interface ICandidateProps {
+  data: TCandidate[]
 }
 
 // Exporting Default ClientTable Component
-export function CandidateList({ data }: IEmployeeProps) {
+export function CandidateList({ data }: ICandidateProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TAEmployee | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
   const { mutate: deleteCandidate } = useDeleteCandidateById()
-  const [candidateEditData, setCandidateEditData] = useState({} as TAEmployee)
+  const [candidateEditData, setCandidateEditData] = useState({} as TCandidate)
 
-  const setSorting = (field: keyof TAEmployee) => {
+  const setSorting = (field: keyof TCandidate) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -222,7 +222,7 @@ export function CandidateList({ data }: IEmployeeProps) {
   }
 
   // candidate data Delete handler
-  const openModalForDelete = (Candidate: TAEmployee) => {
+  const openModalForDelete = (Candidate: TCandidate) => {
     openConfirmModal({
       title: 'Do You want to delete this Employee?',
       children: (
@@ -334,7 +334,6 @@ export function CandidateList({ data }: IEmployeeProps) {
       </td>
       <td>{row?.email}</td>
       <td>{row?.phone}</td>
-      <td>{row?.dob}</td>
       <td>{row?.gender}</td>
       <td>{row?.city}</td>
       <td>{row?.state}</td>
@@ -425,13 +424,6 @@ export function CandidateList({ data }: IEmployeeProps) {
                 onSort={() => setSorting('phone')}
               >
                 Phone
-              </Th>
-              <Th
-                sorted={sortBy === 'dob'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('dob')}
-              >
-                DOB
               </Th>
               <Th
                 sorted={sortBy === 'gender'}
