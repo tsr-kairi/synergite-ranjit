@@ -23,9 +23,15 @@ const submissionQueryKeys = {
   getAllSubmissionByJobId: 'get-all-submission-by-job-id',
 }
 
+const onboardingQueryKeys = {
+  allOnboarding: 'all-onboarding',
+  onboardingDetails: 'onboarding-details',
+}
+
 export {
   clientQueryKeys,
   vendorQueryKeys,
   employeeQueryKeys,
   submissionQueryKeys,
+  onboardingQueryKeys,
 }

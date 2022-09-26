@@ -1,16 +1,14 @@
 import { TClient, TVendor } from '@/types'
 import { TAEmployee } from '@/types/employee-type'
-import {
-  TAccount,
-  TDocuments,
-  TImmigration,
-  TProfile,
-} from '@/types/onboarding-flow-type'
+import { TOnboarding } from '@/types/onboarding-flow-type'
 import { Button, Group, createStyles, Stepper, Tabs } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
 import OnboardEmployeeDetails from './details/employee-details'
 import OnboardClientDetails from './details/onboard-client-details'
 import OnboardVendorDetails from './details/vendor-details'
+// import useSaveOnboarding from './hooks/useSaveOnboarding'
 import Account from './onboarding-flow/account'
 import Documents from './onboarding-flow/document'
 import Immigration from './onboarding-flow/immigration'
@@ -47,17 +45,36 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Onboarding() {
+  const { classes } = useStyles()
+  // const { mutate: onboardingFlow } = useSaveOnboarding()
+
+  // details states
   const [active, setActive] = useState(0)
   const [clientDetailsData] = useState({} as TClient)
   const [employeeDetailsData] = useState({} as TAEmployee)
   const [vendorDetailsData] = useState({} as TVendor)
-  // onboarding flow
-  const [profileFlowData] = useState({} as TProfile)
-  const [accountFlowData] = useState({} as TAccount)
-  const [immigrationFlowData] = useState({} as TImmigration)
-  const [documentsFlowData] = useState({} as TDocuments)
 
-  const { classes } = useStyles()
+  // onboarding flow states
+  const [onboardingStepperData] = useState({} as TOnboarding)
+
+  const form = useForm<TOnboarding>({
+    initialValues: onboardingStepperData,
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
+
+  const handleSave = (values: TOnboarding) => {
+    const onboardingStepperData = {
+      ...values,
+    }
+
+    // void onboardingFlow(onboardingStepperData)
+
+    showNotification({
+      title: 'Success!!',
+      message: 'Onboarding save called successfully.',
+    })
+  }
 
   // next btn
   const nextStep = () =>
@@ -163,37 +180,39 @@ export default function Onboarding() {
       </Tabs>
       {/* Onboarding flow stepper */}
       <div className={classes.stepperMain}>
-        <Stepper
-          active={active}
-          onStepClick={setActive}
-          breakpoint="sm"
-          className={classes.stepper}
-        >
-          <Stepper.Step label="Profile" description="Profile Info...">
-            <Profile {...profileFlowData} />
-          </Stepper.Step>
-          <Stepper.Step label="Account" description="Account Info...">
-            <Account {...accountFlowData} />
-          </Stepper.Step>
-          <Stepper.Step label="Immigration" description="Immigration Info...">
-            <Immigration {...immigrationFlowData} />
-          </Stepper.Step>
-          <Stepper.Step label="Documents" description="Immigration Info...">
-            <Documents {...documentsFlowData} />
-          </Stepper.Step>
-          <Stepper.Step label="Summary" description="Immigration Info...">
-            Step 5 content: Summary...
-          </Stepper.Step>
-          <Stepper.Completed>Completed, Others messages...</Stepper.Completed>
-        </Stepper>
+        <form onSubmit={form.onSubmit(handleSave)}>
+          <Stepper
+            active={active}
+            onStepClick={setActive}
+            breakpoint="sm"
+            className={classes.stepper}
+          >
+            <Stepper.Step label="Profile" description="Profile Info...">
+              <Profile form={form} />
+            </Stepper.Step>
+            <Stepper.Step label="Account" description="Account Info...">
+              <Account form={form} />
+            </Stepper.Step>
+            <Stepper.Step label="Immigration" description="Immigration Info...">
+              <Immigration form={form} />
+            </Stepper.Step>
+            <Stepper.Step label="Documents" description="Immigration Info...">
+              <Documents form={form} />
+            </Stepper.Step>
+            <Stepper.Step label="Summary" description="Immigration Info...">
+              Step 5 content: Summary...
+            </Stepper.Step>
+            <Stepper.Completed>Completed, Others messages...</Stepper.Completed>
+          </Stepper>
 
-        <Group position="center" mt="5rem">
-          <Button variant="default" onClick={prevStep}>
-            Back
-          </Button>
-          <Button variant="light">Save</Button>
-          <Button onClick={nextStep}>Next</Button>
-        </Group>
+          <Group position="center" mt="5rem">
+            <Button variant="default" onClick={prevStep}>
+              Back
+            </Button>
+            <Button variant="light">Save</Button>
+            <Button onClick={nextStep}>Next</Button>
+          </Group>
+        </form>
       </div>
     </div>
   )
