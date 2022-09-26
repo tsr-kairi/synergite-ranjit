@@ -1,12 +1,12 @@
 import { Navbar, ScrollArea, createStyles } from '@mantine/core'
 import {
-  IconUsers,
   IconLayoutDashboard,
   IconWallet,
   IconActivity,
   IconFileAnalytics,
   IconSettings,
   IconContrast2,
+  IconTableOptions,
 } from '@tabler/icons'
 
 import LinksGroup from './NavBarLinksGroup'
@@ -25,8 +25,17 @@ const mockdata = [
       { label: 'Vendors', link: '/vendor' },
     ],
   },
-  { label: 'Employees', icon: IconUsers, url: '/employee' },
-  { label: 'Activities', icon: IconActivity },
+  // resources
+  {
+    label: 'Resources',
+    icon: IconTableOptions,
+    initiallyOpened: false,
+    links: [
+      { label: 'Employees', link: '/employee' },
+      { label: 'Candidates', link: '/candidate' },
+    ],
+  },
+  { label: 'Activities', icon: IconActivity, url: '/employee' },
   { label: 'Contacts', icon: IconFileAnalytics },
   { label: 'On Boarding', icon: IconContrast2, url: '/onboarding' },
   { label: 'Settings', icon: IconSettings },
