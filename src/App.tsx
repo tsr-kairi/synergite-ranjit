@@ -25,7 +25,7 @@ const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 function App() {
   const { isAuth } = useContext(AuthContext)
 
-  return <OnboardingList />
+  // return <OnboardingList />
 
   return (
     <BrowserRouter>
