@@ -1,4 +1,4 @@
-import useCreateEmployee from '@/pages/employee/hooks/useCreateEmployee'
+import useCreateCandidate from '@/pages/candidate/hooks/useCreateCandidate'
 import { TAEmployeeCreate, zAEmployeeCreate } from '@/types/employee-type'
 import {
   TextInput,
@@ -21,7 +21,7 @@ const useStyles = createStyles(() => ({
 export default function CreateForm() {
   const [active, setActive] = useState(0)
   const { classes } = useStyles()
-  const { mutate: addEmployee } = useCreateEmployee()
+  const { mutate: addCandidate } = useCreateCandidate()
 
   const form = useForm<TAEmployeeCreate>({
     validate: zodResolver(zAEmployeeCreate),
@@ -48,13 +48,13 @@ export default function CreateForm() {
   })
 
   const handleSubmit = (values: TAEmployeeCreate) => {
-    const employeeCreateData = {
+    const candidateCreateData = {
       ...values,
       // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    addEmployee(employeeCreateData)
+    addCandidate(candidateCreateData)
 
     showNotification({
       title: 'Success!!',

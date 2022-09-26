@@ -12,12 +12,14 @@ import Vendor from './pages/vendor'
 import ClientDetails from './pages/client/client-details'
 import VendorDetails from './pages/vendor/vendor-details'
 import Employee from './pages/employee'
+import Candidate from './pages/candidate'
 import EmployeeDetails from './pages/employee/employee-details'
 // import useCurrentUser from './pages/login/hooks/useCurrentUser'
 import SubmissionMain from './pages/client/client-details/jobs/submissions'
 import { Loader } from '@mantine/core'
 import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess'
 import OnBoarding from './pages/onboarding'
+import CandidateDetails from './pages/candidate/candidate-details'
 // import AppShellMain from './components/layout'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
@@ -72,6 +74,7 @@ function App() {
             <Route path="/client" element={<Client />} />
             <Route path="/vendor" element={<Vendor />} />
             <Route path="/employee" element={<Employee />} />
+            <Route path="/candidate" element={<Candidate />} />
             <Route path="/onboarding" element={<OnBoarding />} />
             <Route
               path="/client-details/:clientId"
@@ -84,6 +87,10 @@ function App() {
             <Route
               path="/employee-details/:employeeId"
               element={<EmployeeDetails />}
+            />
+            <Route
+              path="/candidate-details/:candidateId"
+              element={<CandidateDetails />}
             />
             <Route path="/submissions/:jobId" element={<SubmissionMain />} />
           </Route>

@@ -29,10 +29,10 @@ import {
 import { TAEmployee } from '@/types/employee-type'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
-import EditEmployee from '@/components/form/employee/editForm'
-import CreateEmployee from '@/components/form/employee/createForm'
-import useDeleteEmployeeById from './hooks/useDeleteEmployeeById'
+import EditCandidate from '@/components/form/candidate/editForm'
+import CreateCandidate from '@/components/form/candidate/createForm'
 import { Link } from 'react-router-dom'
+import useDeleteCandidateById from './hooks/useDeleteCandidateById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -49,7 +49,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  employeeRowData: {
+  candidateRowData: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -195,7 +195,7 @@ interface IEmployeeProps {
 }
 
 // Exporting Default ClientTable Component
-export function EmployeeList({ data }: IEmployeeProps) {
+export function CandidateList({ data }: IEmployeeProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
@@ -203,8 +203,8 @@ export function EmployeeList({ data }: IEmployeeProps) {
   const [sortBy, setSortBy] = useState<keyof TAEmployee | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const { mutate: deleteEmployee } = useDeleteEmployeeById()
-  const [employeeEditData, setEmployeeEditData] = useState({} as TAEmployee)
+  const { mutate: deleteCandidate } = useDeleteCandidateById()
+  const [candidateEditData, setCandidateEditData] = useState({} as TAEmployee)
 
   const setSorting = (field: keyof TAEmployee) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -221,31 +221,31 @@ export function EmployeeList({ data }: IEmployeeProps) {
     )
   }
 
-  // employee data Delete handler
-  const openModalForDelete = (Employee: TAEmployee) => {
+  // candidate data Delete handler
+  const openModalForDelete = (Candidate: TAEmployee) => {
     openConfirmModal({
       title: 'Do You want to delete this Employee?',
       children: (
         <Text size="sm">
-          After deleting an active employee, You cannot recover them back. So,
+          After deleting an active candidate, You cannot recover them back. So,
           please choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteEmployee(Employee.uuid)
+        deleteCandidate(Candidate.uuid)
         console.log('delete')
         showNotification({
-          title: 'Employee Deleted !!',
+          title: 'Candidate Deleted !!',
           // message: `${Employee.fname} has been deleted successfully.`,
-          message: `Employee has been deleted successfully.`,
+          message: `Candidate has been deleted successfully.`,
         })
       },
     })
   }
 
-  // employee data filter handler
+  // candidate data filter handler
   const openModalForFilter = () => {
     openConfirmModal({
       title: 'Select Filter?',
@@ -301,12 +301,12 @@ export function EmployeeList({ data }: IEmployeeProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.id} className={classes.employeeRowData}>
+    <tr key={row?.id} className={classes.candidateRowData}>
       {/* <td>{row?.employee_id}</td> */}
       <td>{row?.id}</td>
       <td>
         <Link
-          to={`/employee-details/${row?.uuid}`}
+          to={`/candidate-details/${row?.uuid}`}
           className={classes.userLink}
         >
           <Tooltip
@@ -346,7 +346,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
-              setEmployeeEditData(row)
+              setCandidateEditData(row)
             }}
           />
           <IconTrash
@@ -366,7 +366,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Active Employees
+              Inactive Employees
             </Text>
             <IconFilter
               className={classes.filterIcon}
@@ -495,7 +495,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         size="xl"
         position="right"
       >
-        <CreateEmployee />
+        <CreateCandidate />
       </Drawer>
 
       {/* Edit Employee - Employee Edit Form Drawer*/}
@@ -507,7 +507,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         size="xl"
         position="right"
       >
-        <EditEmployee {...employeeEditData} />
+        <EditCandidate {...candidateEditData} />
       </Drawer>
     </>
   )

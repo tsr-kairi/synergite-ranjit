@@ -17,6 +17,11 @@ const employeeQueryKeys = {
   employeeDetails: 'employee-details',
 }
 
+const candidateQueryKeys = {
+  allCandidate: 'all-candidates',
+  candidateDetails: 'candidate-details',
+}
+
 const submissionQueryKeys = {
   allSubmission: 'all-submissions',
   submissionDetails: 'submission-details',
@@ -32,6 +37,7 @@ export {
   clientQueryKeys,
   vendorQueryKeys,
   employeeQueryKeys,
+  candidateQueryKeys,
   submissionQueryKeys,
   onboardingQueryKeys,
 }

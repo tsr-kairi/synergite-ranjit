@@ -1,5 +1,5 @@
-import useCreateEmployee from '@/pages/employee/hooks/useCreateEmployee'
-import { TAEmployeeCreate, zAEmployeeCreate } from '@/types/employee-type'
+import useEditCandidate from '@/pages/candidate/hooks/useEditCandidate'
+import { TAEmployee } from '@/types/employee-type'
 import {
   TextInput,
   Button,
@@ -9,7 +9,7 @@ import {
   FileInput,
   Stepper,
 } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
 const useStyles = createStyles(() => ({
@@ -18,62 +18,31 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function CreateForm() {
+export default function EditForm(candidateData: TAEmployee) {
   const [active, setActive] = useState(0)
-  const { classes } = useStyles()
-  const { mutate: addEmployee } = useCreateEmployee()
 
-  const form = useForm<TAEmployeeCreate>({
-    validate: zodResolver(zAEmployeeCreate),
-    initialValues: {
-      employee_id: '',
-      fname: '',
-      lname: '',
-      email: '',
-      phone: '',
-      ssn_no: '',
-      dob: '',
-      gender: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state: '',
-      county: '',
-      country: '',
-      ethnic_origin: '',
-      zip: '',
-    },
+  const { classes } = useStyles()
+  const { mutate: editCandidate } = useEditCandidate()
+
+  const form = useForm<TAEmployee>({
+    // validate: zodResolver(zEmployeeEdit),
+    initialValues: candidateData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TAEmployeeCreate) => {
-    const employeeCreateData = {
+  const handleSubmit = (values: TAEmployee) => {
+    const candidateEditData = {
       ...values,
-      // status: 'published',
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    addEmployee(employeeCreateData)
+    editCandidate(candidateEditData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Employee Created successfully.',
+      message: 'Employee Edited successfully.',
     })
-
-    // if (isError)
-    //   showNotification({
-    //     title: 'Filed!!',
-    //     message: 'Failed to create client',
-    //   })
-
-    // if (isSuccess) {
-    //   form.reset()
-    //   showNotification({
-    //     title: 'Success!!',
-    //     message: 'Client Created successfully.',
-    //   })
-    // }
   }
   // next btn
   const nextStep = () =>
@@ -86,9 +55,10 @@ export default function CreateForm() {
   // prev btn
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current))
+
   return (
     <>
-      <Paper p={20} radius="sm" className={classes.paper}>
+      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stepper active={active} breakpoint="sm">
             {/* Personal Information */}
@@ -98,6 +68,13 @@ export default function CreateForm() {
                   label="Profile Image"
                   // mt="md"
                   {...form.getInputProps('profile_image')}
+                />
+                <TextInput
+                  required
+                  label="Employee Id"
+                  type={'text'}
+                  placeholder="Employee Id"
+                  {...form.getInputProps('id')}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -224,7 +201,7 @@ export default function CreateForm() {
                   {...form.getInputProps('county')}
                 />
                 <Button fullWidth type="submit" mt="xl">
-                  Save
+                  Update
                 </Button>
               </Group>
             </Stepper.Step>
