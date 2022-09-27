@@ -1,8 +1,10 @@
+import { createStyles } from '@mantine/core'
 import NoteTile from './note-tile'
 
 const NoteList = () => {
+  const { classes } = useNoteListStyle()
   return (
-    <div className="space-y-6">
+    <div className={classes.container}>
       <NoteTile />
       <NoteTile />
       <NoteTile />
@@ -13,3 +15,11 @@ const NoteList = () => {
 } // End of NoteList
 
 export default NoteList
+
+const useNoteListStyle = createStyles({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+})

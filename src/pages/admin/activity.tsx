@@ -34,6 +34,7 @@ import EditClient from '@/components/form/client/editForm'
 import CreateClient from '@/components/form/client/createForm'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import CreateForm from '@/components/form/client/createForm'
+import ActivityForm from '@/components/admin/activity-form.component'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -202,7 +203,8 @@ export const AdminActivity: React.FC = () => {
   return (
     <ListViewLayout
       title="Activity Table"
-      createDrawerChildren={<CreateForm />}
+      createDrawerTitle="Add new Activity"
+      createDrawerChildren={<ActivityForm />}
     >
       <thead>
         <tr>

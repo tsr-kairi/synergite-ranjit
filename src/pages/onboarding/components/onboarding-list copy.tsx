@@ -1,6 +1,5 @@
-import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { Th } from '@/pages/employee/employee-list'
-import { Button, Drawer, Group, Table, TextInput } from '@mantine/core'
+import { Table } from '@mantine/core'
 import { useState } from 'react'
 import NoteList from './notes/note-list'
 import SideModal from './side-modal'
@@ -14,63 +13,6 @@ const OnboardingList = () => {
     setIsNoteOpen(false)
     setIsActivityOpen(false)
   } // End of closeAllSideModalHandler
-
-  return (
-    <>
-      <ListViewLayout title="Onboarding List">
-        <Table
-          horizontalSpacing="md"
-          verticalSpacing="xs"
-          // className={classes.childTable}
-          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
-        >
-          <thead>
-            <tr>
-              <Th onSort={() => null}>Onboarding Id</Th>
-              <Th onSort={() => null}>Name</Th>
-              <Th onSort={() => null}>Percent</Th>
-              <Th onSort={() => null}>Status</Th>
-              <th>Add Note</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {onboardingList?.map((num) => {
-              return (
-                <tr key={num}>
-                  <td>{num}</td>
-                  <td>Onboarding {num}</td>
-                  <td>65%</td>
-                  <td>Completed</td>
-                  <td onClick={() => setIsNoteOpen(true)}>Add Note</td>
-                  <td>Action</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </Table>
-      </ListViewLayout>
-
-      {/* Add New - Drawer */}
-      <Drawer
-        opened={isNoteOpen}
-        onClose={() => setIsNoteOpen(false)}
-        title="Add Note"
-        padding="xl"
-        size="xl"
-        position="right"
-      >
-        <div className="space-y-32">
-          <NoteList />
-          <Group mt={40} style={{ display: 'flex', alignItems: 'center' }}>
-            <TextInput label="Note" placeholder="Write note" />
-            <Button mt={24}>Submit</Button>
-          </Group>
-        </div>
-      </Drawer>
-    </>
-  )
 
   return (
     <div className="p-4">
