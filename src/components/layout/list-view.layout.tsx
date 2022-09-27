@@ -18,6 +18,7 @@ interface IListViewLayoutProps {
   createDrawerTitle?: string
   createDrawerChildren?: React.ReactNode
   editDrawerChildren?: React.ReactNode
+  hideActionButton?: boolean
 }
 
 export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
@@ -27,6 +28,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     createDrawerTitle,
     createDrawerChildren,
     editDrawerChildren,
+    hideActionButton,
   } = props
 
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
@@ -53,12 +55,14 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
             className={classes.searchField}
           />
           {/* Add New - Button*/}
-          <Button onClick={() => setIsAddNewDrawerOpen(true)}>
-            <Group spacing="sm" align="center">
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
+          {!hideActionButton && (
+            <Button onClick={() => setIsAddNewDrawerOpen(true)}>
+              <Group spacing="sm" align="center">
+                <IconPlus color="white" />
+                <Text weight={400}>Add New</Text>
+              </Group>
+            </Button>
+          )}
         </div>
 
         <Table

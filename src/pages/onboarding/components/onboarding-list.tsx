@@ -17,7 +17,7 @@ const OnboardingList = () => {
 
   return (
     <>
-      <ListViewLayout title="Onboarding List">
+      <ListViewLayout title="Onboarding List" hideActionButton={true}>
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
