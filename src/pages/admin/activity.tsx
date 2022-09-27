@@ -192,10 +192,6 @@ function sortData(
   )
 }
 
-interface IClientTableProps {
-  data: TClient[]
-}
-
 // Exporting Default AdminActivity Component
 export const AdminActivity: React.FC = () => {
   const onboardingList = [1, 2, 3, 4, 5]

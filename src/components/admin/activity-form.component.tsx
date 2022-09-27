@@ -120,7 +120,27 @@ export default function ActivityForm() {
             ]}
             //   {...form.getInputProps('immigration_status')}
           />
-
+          <TextInput
+            mb={16}
+            label="Default Activity"
+            placeholder="Default Activity"
+          />
+          <TextInput
+            mb={16}
+            label="New Client Contracts"
+            placeholder="New Client Contracts"
+          />
+          <Select
+            mb={16}
+            label="Assignee Role"
+            placeholder="Assignee Role"
+            data={[
+              { label: 'Supervisor', value: 'Supervisor' },
+              { label: 'Department', value: 'Department' },
+              { label: 'Contracts', value: 'Contracts' },
+            ]}
+            //   {...form.getInputProps('immigration_status')}
+          />
           <Button fullWidth type="submit" mt="md" mb="lg">
             Add New
           </Button>
