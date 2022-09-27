@@ -1,12 +1,13 @@
 import { Navbar, ScrollArea, createStyles } from '@mantine/core'
 import {
-  IconUsers,
   IconLayoutDashboard,
   IconWallet,
   IconActivity,
   IconFileAnalytics,
   IconSettings,
   IconContrast2,
+  IconTableOptions,
+  IconUsers,
 } from '@tabler/icons'
 
 import LinksGroup from './NavBarLinksGroup'
@@ -29,9 +30,7 @@ const mockdata = [
     label: 'Admin',
     icon: IconWallet,
     initiallyOpened: false,
-    links: [
-      { label: 'Activity', link: '/admin-activity' },
-    ],
+    links: [{ label: 'Activity', link: '/admin-activity' }],
   },
   { label: 'Employees', icon: IconUsers, url: '/employee' },
   { label: 'Activities', icon: IconActivity },

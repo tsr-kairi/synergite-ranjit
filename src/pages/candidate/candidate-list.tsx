@@ -26,13 +26,13 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TAEmployee } from '@/types/employee-type'
+import { TCandidate } from '@/types/candidate-type'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
-import EditEmployee from '@/components/form/employee/editForm'
-import CreateEmployee from '@/components/form/employee/createForm'
-import useDeleteEmployeeById from './hooks/useDeleteEmployeeById'
+import EditCandidate from '@/components/form/candidate/editForm'
+import CreateCandidate from '@/components/form/candidate/createForm'
 import { Link } from 'react-router-dom'
+import useDeleteCandidateById from './hooks/useDeleteCandidateById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -49,7 +49,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  employeeRowData: {
+  candidateRowData: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -126,12 +126,12 @@ const useStyles = createStyles((theme) => ({
 // Table Heading Props
 interface ThProps {
   children: React.ReactNode
-  reversed?: boolean
-  sorted?: boolean
+  reversed: boolean
+  sorted: boolean
   onSort(): void
 }
 // Table Heading Component
-export function Th({ children, reversed, sorted, onSort }: ThProps) {
+function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles()
   const Icon = sorted
     ? reversed
@@ -155,7 +155,7 @@ export function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TAEmployee[], search: string) {
+function filterData(data: TCandidate[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -164,9 +164,9 @@ function filterData(data: TAEmployee[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TAEmployee[],
+  data: TCandidate[],
   payload: {
-    sortBy: keyof TAEmployee | null
+    sortBy: keyof TCandidate | null
     reversed: boolean
     search: string
   }
@@ -190,23 +190,23 @@ function sortData(
   )
 }
 
-interface IEmployeeProps {
-  data: TAEmployee[]
+interface ICandidateProps {
+  data: TCandidate[]
 }
 
 // Exporting Default ClientTable Component
-export function EmployeeList({ data }: IEmployeeProps) {
+export function CandidateList({ data }: ICandidateProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TAEmployee | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const { mutate: deleteEmployee } = useDeleteEmployeeById()
-  const [employeeEditData, setEmployeeEditData] = useState({} as TAEmployee)
+  const { mutate: deleteCandidate } = useDeleteCandidateById()
+  const [candidateEditData, setCandidateEditData] = useState({} as TCandidate)
 
-  const setSorting = (field: keyof TAEmployee) => {
+  const setSorting = (field: keyof TCandidate) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -221,31 +221,31 @@ export function EmployeeList({ data }: IEmployeeProps) {
     )
   }
 
-  // employee data Delete handler
-  const openModalForDelete = (Employee: TAEmployee) => {
+  // candidate data Delete handler
+  const openModalForDelete = (Candidate: TCandidate) => {
     openConfirmModal({
       title: 'Do You want to delete this Employee?',
       children: (
         <Text size="sm">
-          After deleting an active employee, You cannot recover them back. So,
+          After deleting an active candidate, You cannot recover them back. So,
           please choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteEmployee(Employee.uuid)
+        deleteCandidate(Candidate.uuid)
         console.log('delete')
         showNotification({
-          title: 'Employee Deleted !!',
+          title: 'Candidate Deleted !!',
           // message: `${Employee.fname} has been deleted successfully.`,
-          message: `Employee has been deleted successfully.`,
+          message: `Candidate has been deleted successfully.`,
         })
       },
     })
   }
 
-  // employee data filter handler
+  // candidate data filter handler
   const openModalForFilter = () => {
     openConfirmModal({
       title: 'Select Filter?',
@@ -301,12 +301,12 @@ export function EmployeeList({ data }: IEmployeeProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.id} className={classes.employeeRowData}>
+    <tr key={row?.id} className={classes.candidateRowData}>
       {/* <td>{row?.employee_id}</td> */}
       <td>{row?.id}</td>
       <td>
         <Link
-          to={`/employee-details/${row?.uuid}`}
+          to={`/candidate-details/${row?.uuid}`}
           className={classes.userLink}
         >
           <Tooltip
@@ -334,7 +334,6 @@ export function EmployeeList({ data }: IEmployeeProps) {
       </td>
       <td>{row?.email}</td>
       <td>{row?.phone}</td>
-      <td>{row?.dob}</td>
       <td>{row?.gender}</td>
       <td>{row?.city}</td>
       <td>{row?.state}</td>
@@ -346,7 +345,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
-              setEmployeeEditData(row)
+              setCandidateEditData(row)
             }}
           />
           <IconTrash
@@ -366,7 +365,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Active Employees
+              Inactive Employees
             </Text>
             <IconFilter
               className={classes.filterIcon}
@@ -425,13 +424,6 @@ export function EmployeeList({ data }: IEmployeeProps) {
                 onSort={() => setSorting('phone')}
               >
                 Phone
-              </Th>
-              <Th
-                sorted={sortBy === 'dob'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('dob')}
-              >
-                DOB
               </Th>
               <Th
                 sorted={sortBy === 'gender'}
@@ -495,7 +487,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         size="xl"
         position="right"
       >
-        <CreateEmployee />
+        <CreateCandidate />
       </Drawer>
 
       {/* Edit Employee - Employee Edit Form Drawer*/}
@@ -507,7 +499,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         size="xl"
         position="right"
       >
-        <EditEmployee {...employeeEditData} />
+        <EditCandidate {...candidateEditData} />
       </Drawer>
     </>
   )
