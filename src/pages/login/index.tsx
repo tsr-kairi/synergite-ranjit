@@ -201,6 +201,7 @@ export function Login() {
                 size="md"
                 fullWidth
                 mt="xl"
+                color="indigo"
               >
                 Login
               </Button>

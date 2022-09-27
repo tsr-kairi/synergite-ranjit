@@ -1,3 +1,5 @@
+import { Th } from '@/pages/employee/employee-list'
+import { Table } from '@mantine/core'
 import { useState } from 'react'
 import NoteList from './notes/note-list'
 import SideModal from './side-modal'
@@ -48,6 +50,41 @@ const OnboardingList = () => {
             />
           )
         })}
+      </div>
+
+      <div>
+        <Table
+          horizontalSpacing="md"
+          verticalSpacing="xs"
+          // className={classes.childTable}
+          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
+        >
+          <thead>
+            <tr>
+              <Th onSort={() => null}>Employee Id</Th>
+              <Th onSort={() => null}>Name</Th>
+              <Th onSort={() => null}>Percent</Th>
+              <Th onSort={() => null}>Status</Th>
+              <th>Add Note</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {onboardingList?.map((num) => {
+              return (
+                <tr key={num}>
+                  <td>{num}</td>
+                  <td>Onboarding {num}</td>
+                  <td>65%</td>
+                  <td>Completed</td>
+                  <td>Add Note</td>
+                  <td>Action</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </Table>
       </div>
 
       {/* Note Sidebar */}

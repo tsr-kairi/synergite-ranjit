@@ -25,6 +25,14 @@ const mockdata = [
       { label: 'Vendors', link: '/vendor' },
     ],
   },
+  {
+    label: 'Admin',
+    icon: IconWallet,
+    initiallyOpened: false,
+    links: [
+      { label: 'Activity', link: '/admin-activity' },
+    ],
+  },
   { label: 'Employees', icon: IconUsers, url: '/employee' },
   { label: 'Activities', icon: IconActivity },
   { label: 'Contacts', icon: IconFileAnalytics },

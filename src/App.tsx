@@ -20,12 +20,12 @@ import PublicRoute from './components/routes/public-route'
 import { AuthContext } from './context/auth.context'
 import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess'
 import OnboardingList from './pages/onboarding/components/onboarding-list'
+import { AdminActivity } from './pages/admin/activity'
+import AdminActivityDetails from './pages/admin/activity-details'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
   const { isAuth } = useContext(AuthContext)
-
-  // return <OnboardingList />
 
   return (
     <BrowserRouter>
@@ -53,6 +53,13 @@ function App() {
             <Route element={<ProtectedRoute isAuth={isAuth} />}>
               <Route path="/" element={<DashBoard />} />
               <Route path="/dashboard" element={<DashBoard />} />
+
+              <Route path="/onboarding" element={<OnboardingList />} />
+              <Route path="/admin-activity" element={<AdminActivity />} />
+              <Route
+                path="/admin-activity/:activityId"
+                element={<AdminActivityDetails />}
+              />
 
               <Route path="/client" element={<Client />} />
               <Route path="/vendor" element={<Vendor />} />
