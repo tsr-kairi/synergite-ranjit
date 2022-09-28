@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import {
   createStyles,
   // Container,
@@ -22,9 +22,10 @@ import {
   IconRoute,
 } from '@tabler/icons'
 import Logo from '../logo'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useLogout from '@/pages/login/hooks/useLogout'
 import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
+import { useAuth } from '@/store/auth.strore'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -126,7 +127,9 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
   const { classes, cx } = useStyles()
   const [opened, { toggle }] = useDisclosure(false)
   const [userMenuOpened, setUserMenuOpened] = useState(false)
-  const { logOut } = useLogout()
+
+  const logout = useAuth((state) => state.logout)
+  const navigate = useNavigate()
 
   const currentDay = new Date().toLocaleDateString('en-US')
   void useCurrentUser()
@@ -199,7 +202,10 @@ export default function HeaderBar({ user }: IHeaderBarProps) {
                 <Menu.Item
                   icon={<IconLogout size={14} stroke={1.5} />}
                   className={classes.logout}
-                  onClick={() => logOut()}
+                  onClick={() => {
+                    logout()
+                    navigate('/login')
+                  }}
                 >
                   Logout
                 </Menu.Item>

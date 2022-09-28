@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 // Third party packages
-import { Navigate, Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 
 interface ProtectedRouteProps {
   isAuth: boolean
@@ -8,13 +9,13 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
-  const { isAuth } = props
+  const { isAuth, children } = props
 
   if (!isAuth) {
     return <Navigate to="/login" replace />
   }
 
-  return <Outlet />
+  return <>{children}</>
 }
 
 export default ProtectedRoute

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 const access_token = localStorage.getItem('access_token')
 const axiosPrivate = axios.create({
@@ -20,5 +20,19 @@ axiosPrivate.interceptors.request.use((request) => {
 
   return request
 })
+
+axiosPrivate.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    const httpStatusCode = error.response?.status
+    if (httpStatusCode === 401) {
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      localStorage.removeItem('expire_at')
+    }
+
+    return Promise.reject(error)
+  }
+)
 
 export default axiosPrivate
