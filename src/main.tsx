@@ -8,9 +8,6 @@ import { ModalsProvider } from '@mantine/modals'
 import { NotificationsProvider } from '@mantine/notifications'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import ContextWrapper from './context/context-wrapper.context'
-
-// import './style.css'
 
 // Create a client
 const queryClient = new QueryClient()
@@ -23,9 +20,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <NotificationsProvider>
           <ModalsProvider>
             <CustomFonts />
-            <ContextWrapper>
-              <App />
-            </ContextWrapper>
+            <App />
           </ModalsProvider>
         </NotificationsProvider>
       </MantineProvider>

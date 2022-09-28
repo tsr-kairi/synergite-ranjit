@@ -19,7 +19,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm, zodResolver } from '@mantine/form'
 import useLogin, { ILoginRequest } from './hooks/useLogin'
 import { zLoginValidation } from '@/types/login-type'
-import { AuthContext } from '@/context/auth.context'
+import { AxiosError } from 'axios'
+import { useAuth } from '@/store/auth.strore'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -106,9 +107,8 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const { classes } = useStyles()
-  // const { login } = useLogin()
 
-  const { login } = useContext(AuthContext)
+  const login = useAuth((state) => state.login)
   const navigate = useNavigate()
 
   const form = useForm<ILoginRequest>({
@@ -127,7 +127,7 @@ export function Login() {
       .then(() => {
         navigate('/client')
       })
-      .catch((error) => {
+      .catch((error: AxiosError) => {
         console.log(error)
         navigate('/login')
       })
@@ -140,6 +140,7 @@ export function Login() {
           <Logo />
         </Link>
         {/* Login form */}
+        {/* <form onSubmit={form.onSubmit(handleSubmit)} autoComplete="on"> */}
         <form onSubmit={form.onSubmit(handleSubmit)} autoComplete="on">
           <Paper className={classes.formInner} radius={10}>
             <Title

@@ -17,15 +17,15 @@ import SubmissionMain from './pages/client/client-details/jobs/submissions'
 import { Loader } from '@mantine/core'
 import ProtectedRoute from './components/routes/protected-route'
 import PublicRoute from './components/routes/public-route'
-import { AuthContext } from './context/auth.context'
 import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess'
 import OnboardingList from './pages/onboarding/components/onboarding-list'
 import { AdminActivity } from './pages/admin/activity'
 import AdminActivityDetails from './pages/admin/activity-details'
+import { useAuth } from './store/auth.strore'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
-  const { isAuth } = useContext(AuthContext)
+  const isAuth = useAuth((state) => state.isAuth)
 
   return (
     <BrowserRouter>
@@ -50,34 +50,106 @@ function App() {
 
           <Route element={<LazyAppShallMain />}>
             {/* Protected Routes */}
-            <Route element={<ProtectedRoute isAuth={isAuth} />}>
-              <Route path="/" element={<DashBoard />} />
-              <Route path="/dashboard" element={<DashBoard />} />
+            {/* <Route element={<ProtectedRoute isAuth={isAuth} />}> */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <DashBoard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <DashBoard />
+                </ProtectedRoute>
+              }
+            />
 
-              <Route path="/onboarding" element={<OnboardingList />} />
-              <Route path="/admin-activity" element={<AdminActivity />} />
-              <Route
-                path="/admin-activity/:activityId"
-                element={<AdminActivityDetails />}
-              />
+            <Route
+              path="/onboarding"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <OnboardingList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-activity"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <AdminActivity />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-activity/:activityId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <AdminActivityDetails />
+                </ProtectedRoute>
+              }
+            />
 
-              <Route path="/client" element={<Client />} />
-              <Route path="/vendor" element={<Vendor />} />
-              <Route path="/employee" element={<Employee />} />
-              <Route
-                path="/client-details/:clientId"
-                element={<ClientDetails />}
-              />
-              <Route
-                path={'/vendor-details/:vendorId'}
-                element={<VendorDetails />}
-              />
-              <Route
-                path="/employee-details/:employeeId"
-                element={<EmployeeDetails />}
-              />
-              <Route path="/submissions/:jobId" element={<SubmissionMain />} />
-            </Route>
+            <Route
+              path="/client"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Client />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/vendor"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Vendor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/employee"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Employee />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/client-details/:clientId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <ClientDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={'/vendor-details/:vendorId'}
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <VendorDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/employee-details/:employeeId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <EmployeeDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/submissions/:jobId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <SubmissionMain />
+                </ProtectedRoute>
+              }
+            />
+            {/* </Route> */}
           </Route>
         </Routes>
       </React.Suspense>
