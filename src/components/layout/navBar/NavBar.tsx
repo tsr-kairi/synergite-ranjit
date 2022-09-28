@@ -7,6 +7,7 @@ import {
   IconSettings,
   IconContrast2,
   IconTableOptions,
+  IconUsers,
 } from '@tabler/icons'
 
 import LinksGroup from './NavBarLinksGroup'
@@ -25,17 +26,14 @@ const mockdata = [
       { label: 'Vendors', link: '/vendor' },
     ],
   },
-  // resources
   {
-    label: 'Resources',
-    icon: IconTableOptions,
+    label: 'Admin',
+    icon: IconWallet,
     initiallyOpened: false,
-    links: [
-      { label: 'Employees', link: '/employee' },
-      { label: 'Candidates', link: '/candidate' },
-    ],
+    links: [{ label: 'Activity', link: '/admin-activity' }],
   },
-  { label: 'Activities', icon: IconActivity, url: '/employee' },
+  { label: 'Employees', icon: IconUsers, url: '/employee' },
+  { label: 'Activities', icon: IconActivity },
   { label: 'Contacts', icon: IconFileAnalytics },
   { label: 'On Boarding', icon: IconContrast2, url: '/onboarding' },
   { label: 'Settings', icon: IconSettings },

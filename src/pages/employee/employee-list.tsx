@@ -126,12 +126,12 @@ const useStyles = createStyles((theme) => ({
 // Table Heading Props
 interface ThProps {
   children: React.ReactNode
-  reversed: boolean
-  sorted: boolean
+  reversed?: boolean
+  sorted?: boolean
   onSort(): void
 }
 // Table Heading Component
-function Th({ children, reversed, sorted, onSort }: ThProps) {
+export function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles()
   const Icon = sorted
     ? reversed

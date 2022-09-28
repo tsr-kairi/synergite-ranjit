@@ -12,4 +12,13 @@ const axiosPrivate = axios.create({
   },
 })
 
+axiosPrivate.interceptors.request.use((request) => {
+  const access_token = localStorage.getItem('access_token')
+  if (access_token && request.headers) {
+    request.headers.Authorization = `Bearer ${access_token}`
+  }
+
+  return request
+})
+
 export default axiosPrivate
