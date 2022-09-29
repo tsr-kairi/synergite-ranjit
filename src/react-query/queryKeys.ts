@@ -33,6 +33,12 @@ const onboardingQueryKeys = {
   onboardingDetails: 'onboarding-details',
 }
 
+const defaultActivityQueryKeys = {
+  allDefaultActivity: 'all-default-activity',
+  defaultActivityDetails: 'default-activity-details',
+  taskList: 'task-list',
+}
+
 export {
   clientQueryKeys,
   vendorQueryKeys,
@@ -40,4 +46,5 @@ export {
   candidateQueryKeys,
   submissionQueryKeys,
   onboardingQueryKeys,
+  defaultActivityQueryKeys,
 }

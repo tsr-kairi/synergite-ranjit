@@ -22,6 +22,8 @@ import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess
 import OnboardingList from './pages/onboarding/components/onboarding-list'
 import { AdminActivity } from './pages/admin/activity'
 import AdminActivityDetails from './pages/admin/activity-details'
+import Activity from './pages/activity'
+import ActivityDetails from './pages/activity/activity-details'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -64,6 +66,7 @@ function App() {
               <Route path="/client" element={<Client />} />
               <Route path="/vendor" element={<Vendor />} />
               <Route path="/employee" element={<Employee />} />
+              <Route path="/activity" element={<Activity />} />
               <Route
                 path="/client-details/:clientId"
                 element={<ClientDetails />}
@@ -75,6 +78,10 @@ function App() {
               <Route
                 path="/employee-details/:employeeId"
                 element={<EmployeeDetails />}
+              />
+              <Route
+                path="/activity-details/:vendorId"
+                element={<ActivityDetails />}
               />
               <Route path="/submissions/:jobId" element={<SubmissionMain />} />
             </Route>
