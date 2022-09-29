@@ -30,6 +30,7 @@ const zOnboarding = z.object({
   account_manager_commission: z.string(),
   recruitment_manager_commission: z.string(),
   recruitment_commission: z.string(),
+  additional_information: z.string(),
   additional_commission: z.string(),
   remarks: z.string(),
   vendor: z.string(), // Dropdown

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { TClient, TVendor } from '@/types'
 import { TAEmployee } from '@/types/employee-type'
 import { TOnboarding } from '@/types/onboarding-flow-type'
@@ -13,6 +14,12 @@ import Account from './onboarding-flow/account'
 import Documents from './onboarding-flow/document'
 import Immigration from './onboarding-flow/immigration'
 import Profile from './onboarding-flow/profile'
+
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useOnboarding } from '@/store/onboarding.store'
+import Review from './onboarding-flow/review'
+import { createOnboarding } from '@/services/onboarding.services'
+
 const useStyles = createStyles((theme) => ({
   onboarding: {
     display: 'flex',
@@ -47,15 +54,44 @@ const useStyles = createStyles((theme) => ({
 export default function Onboarding() {
   const { classes } = useStyles()
   // const { mutate: onboardingFlow } = useSaveOnboarding()
-
   // details states
   const [active, setActive] = useState(0)
-  const [clientDetailsData] = useState({} as TClient)
-  const [employeeDetailsData] = useState({} as TAEmployee)
-  const [vendorDetailsData] = useState({} as TVendor)
+  const [clientDetailsData, setClientDetailsData] = useState({} as TClient)
+  const [employeeDetailsData, setEmployeeDetailsData] = useState(
+    {} as TAEmployee
+  )
+  const [vendorDetailsData, setVendorDetailsData] = useState({} as TVendor)
+  const [onboardingStepperData, setOnboardingStepperData] =
+    useState<TOnboarding>({} as TOnboarding)
+
+  const [isOnboardingInitiated, setIsOnboardingInitiated] =
+    useState<boolean>(false)
+
+  const { state } = useLocation()
+  const navigate = useNavigate()
+  console.log('state =', state)
+
+  // const { client, vendor, job, employee, submission } = useOnboarding()
+  const { client, vendor } = useOnboarding()
+  // console.log({ client, vendor, job, employee, submission })
+
+  useEffect(() => {
+    console.log('client =', client)
+    if (client) {
+      setClientDetailsData(client)
+    }
+    if (vendor) {
+      setVendorDetailsData(vendor)
+    }
+  }, [client])
+
+  useEffect(() => {
+    if (active === 4) {
+      setOnboardingStepperData(form.values)
+    }
+  }, [active])
 
   // onboarding flow states
-  const [onboardingStepperData] = useState({} as TOnboarding)
 
   const form = useForm<TOnboarding>({
     initialValues: onboardingStepperData,
@@ -64,24 +100,40 @@ export default function Onboarding() {
   })
 
   const handleSave = (values: TOnboarding) => {
-    const onboardingStepperData = {
+    const onboardingData = {
+      ...clientDetailsData,
+      ...employeeDetailsData,
+      ...vendorDetailsData,
       ...values,
     }
 
     // void onboardingFlow(onboardingStepperData)
+    // calling API
 
-    showNotification({
-      title: 'Success!!',
-      message: 'Onboarding save called successfully.',
-    })
-  }
+    setIsOnboardingInitiated(true)
+    createOnboarding(onboardingData)
+      .then(() => {
+        showNotification({
+          title: 'Success!!',
+          message: 'Onboarding save called successfully.',
+        })
+        navigate('/onboarding-list')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => setIsOnboardingInitiated(false))
+  } // End of handleSave function
 
   // next btn
-  const nextStep = () =>
+  const nextStep = () => {
     setActive((current) => (current < 5 ? current + 1 : current))
+  }
+
   // prev btn
-  const prevStep = () =>
+  const prevStep = () => {
     setActive((current) => (current > 0 ? current - 1 : current))
+  }
 
   return (
     <div className={classes.onboarding}>
@@ -167,7 +219,10 @@ export default function Onboarding() {
         </Tabs.List>
 
         <Tabs.Panel value="Client" pt="xs">
-          <OnboardClientDetails {...clientDetailsData} />
+          <OnboardClientDetails
+            key={clientDetailsData.id}
+            {...clientDetailsData}
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value="Employee" pt="xs">
@@ -175,9 +230,13 @@ export default function Onboarding() {
         </Tabs.Panel>
 
         <Tabs.Panel value="Vendor" pt="xs">
-          <OnboardVendorDetails {...vendorDetailsData} />
+          <OnboardVendorDetails
+            key={vendorDetailsData.id}
+            {...vendorDetailsData}
+          />
         </Tabs.Panel>
       </Tabs>
+
       {/* Onboarding flow stepper */}
       <div className={classes.stepperMain}>
         <form onSubmit={form.onSubmit(handleSave)}>
@@ -200,7 +259,10 @@ export default function Onboarding() {
               <Documents form={form} />
             </Stepper.Step>
             <Stepper.Step label="Summary" description="Immigration Info...">
-              Step 5 content: Summary...
+              <Review
+                onboardingData={onboardingStepperData}
+                onReviewTileClick={(id) => setActive(+id)}
+              />
             </Stepper.Step>
             <Stepper.Completed>Completed, Others messages...</Stepper.Completed>
           </Stepper>
@@ -209,8 +271,12 @@ export default function Onboarding() {
             <Button variant="default" onClick={prevStep}>
               Back
             </Button>
-            <Button variant="light">Save</Button>
-            <Button onClick={nextStep}>Next</Button>
+            {active === 4 && (
+              <Button variant="light" type="submit">
+                {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
+              </Button>
+            )}
+            {active <= 3 && <Button onClick={nextStep}>Next</Button>}
           </Group>
         </form>
       </div>

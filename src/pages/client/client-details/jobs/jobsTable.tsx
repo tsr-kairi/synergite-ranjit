@@ -30,7 +30,8 @@ import EditJob from '@/components/form/client/job/editForm'
 import { showNotification } from '@mantine/notifications'
 
 import useDeleteJobById from '../../hooks/useDeleteJobById'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { useOnboarding } from '@/store/onboarding.store'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -210,6 +211,9 @@ export default function JobsTable({ data }: JobsProps) {
   const { classes } = useStyles()
   const { mutate: deleteJob } = useDeleteJobById()
 
+  // const { state } = useLocation()
+  const setJob = useOnboarding((state) => state.setJob)
+
   const setSorting = (field: keyof TJobs) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
@@ -322,6 +326,7 @@ export default function JobsTable({ data }: JobsProps) {
                     to={`/submissions/${row?.uuid}`}
                     // /${String(clientId)}
                     className={classes.userLink}
+                    onClick={() => setJob(row)}
                   >
                     <Tooltip
                       label="Click to view"

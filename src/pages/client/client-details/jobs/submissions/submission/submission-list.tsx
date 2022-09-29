@@ -33,6 +33,8 @@ import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
+import { useLocation } from 'react-router-dom'
+import { useOnboarding } from '@/store/onboarding.store'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -209,6 +211,8 @@ export function SubmissionList({ data }: ISubmissionProps) {
     {} as TSubmission
   )
 
+  const setSubmission = useOnboarding((state) => state.setSubmission)
+
   const setSorting = (field: keyof TSubmission) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
@@ -277,6 +281,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
             color="blue"
             onClick={() => {
               setPopUpIsOpen(true)
+              setSubmission(row)
             }}
             style={{ cursor: 'pointer' }}
           >

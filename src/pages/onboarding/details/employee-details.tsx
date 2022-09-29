@@ -42,14 +42,14 @@ export default function OnboardEmployeeDetails(
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Employee Id"
               type={'text'}
               placeholder="Employee Id"
               {...form.getInputProps('id')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="First Name"
               type={'text'}
               placeholder="First Name"
@@ -58,14 +58,14 @@ export default function OnboardEmployeeDetails(
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Last Name"
               type={'text'}
               placeholder="Last Name"
               {...form.getInputProps('lname')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Email"
               type={'text'}
               placeholder="Email"
@@ -74,14 +74,14 @@ export default function OnboardEmployeeDetails(
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Phone"
               type={'text'}
               placeholder="Phone"
               {...form.getInputProps('phone')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="SSN"
               type={'text'}
               placeholder="SSN"
@@ -90,14 +90,14 @@ export default function OnboardEmployeeDetails(
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Date of birth"
               type={'date'}
               placeholder="Date of birth"
               {...form.getInputProps('dob')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Gender"
               type={'text'}
               placeholder="Gender"
@@ -106,14 +106,14 @@ export default function OnboardEmployeeDetails(
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Ethnic Origin"
               type={'text'}
               placeholder="Ethnic Origin"
               {...form.getInputProps('ethnic_origin')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Address line 1"
               type={'text'}
               placeholder="Address line 1"
@@ -122,14 +122,14 @@ export default function OnboardEmployeeDetails(
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Address line 2"
               type={'text'}
               placeholder="Address line 2"
               {...form.getInputProps('address2')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="City"
               type={'text'}
               placeholder="City"
@@ -138,14 +138,14 @@ export default function OnboardEmployeeDetails(
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="State"
               type={'text'}
               placeholder="State"
               {...form.getInputProps('state')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Country"
               type={'text'}
               placeholder="Country"
@@ -154,14 +154,14 @@ export default function OnboardEmployeeDetails(
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Zip Code"
               type={'text'}
               placeholder="Zip Code"
               {...form.getInputProps('zip')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="County"
               type={'text'}
               placeholder="County"

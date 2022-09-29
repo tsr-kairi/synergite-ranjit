@@ -12,6 +12,7 @@ const useStyles = createStyles(() => ({
 export default function OnboardClientDetails(clientDetailsData: TClient) {
   const { classes } = useStyles()
   const { mutate: clientDetails } = useEditClient()
+  console.log('[OnboardClientDetails] clientDetailsData =', clientDetailsData)
 
   const form = useForm<TClient>({
     // validate: zodResolver(zClientEdit),
@@ -39,14 +40,14 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="First Name"
               type={'text'}
               placeholder="First Name"
               {...form.getInputProps('first_name')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Last Name"
               type={'text'}
               placeholder="Last Name"
@@ -55,14 +56,14 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Email"
               type={'text'}
               placeholder="Email"
               {...form.getInputProps('primary_email')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Phone"
               type={'tel'}
               placeholder="Phone"
@@ -71,14 +72,14 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="City"
               type={'text'}
               placeholder="City"
               {...form.getInputProps('city')}
             />
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="State"
               type={'text'}
               placeholder="State"
@@ -87,7 +88,7 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
           </Group>
           <Group grow align="center" mt="md">
             <TextInput
-              readonly="true"
+              // readonly="true"
               label="Country"
               type={'text'}
               placeholder="Country"

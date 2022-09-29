@@ -1,3 +1,4 @@
+import { useOnboarding } from '@/store/onboarding.store'
 import {
   Autocomplete,
   Button,
@@ -8,7 +9,7 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   successCmp: {
@@ -33,6 +34,9 @@ const Questionnaire = () => {
   const [isProceeding, setIsProceeding] = useState(false)
   const { classes } = useStyles()
   const navigate = useNavigate()
+  const { state } = useLocation()
+  console.log('[Questionnaire] state =', state)
+
   const form = useForm<IOnboardingQuestionnaireProps>({
     initialValues: {
       employee_type: '',
