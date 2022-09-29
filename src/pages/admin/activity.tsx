@@ -208,22 +208,25 @@ export const AdminActivity: React.FC = () => {
             ID
           </Th>
           <Th sorted={true} reversed={false} onSort={() => null}>
-            Name
+            Immigration Status
           </Th>
           <Th sorted={true} reversed={false} onSort={() => null}>
-            Email
+            Type of Employee
           </Th>
           <Th sorted={true} reversed={false} onSort={() => null}>
-            Phone
+            New Client
           </Th>
           <Th sorted={true} reversed={false} onSort={() => null}>
-            City
+            New Sub Vendo
           </Th>
           <Th sorted={true} reversed={false} onSort={() => null}>
-            State
+            Default Activity
           </Th>
           <Th sorted={true} reversed={false} onSort={() => null}>
-            Country
+            New Client Contracts
+          </Th>
+          <Th sorted={true} reversed={false} onSort={() => null}>
+            Assignee Role
           </Th>
           <th>Action</th>
           {/* <th className={classes.action}>Action</th> */}
@@ -261,6 +264,11 @@ export const AdminActivity: React.FC = () => {
                     </Group>
                   </Tooltip>
                 </Link>
+              </td>
+              <td>
+                <Text weight={500} align="center">
+                  No records found
+                </Text>
               </td>
               <td>
                 <Text weight={500} align="center">

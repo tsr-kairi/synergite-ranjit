@@ -43,9 +43,7 @@ interface IAuth {
   user: IUser
   login: (loginReqData: ILoginRequest) => Promise<void>
   logout: () => void
-
-  //   autoLogin: () => any
-  //   setCustomerData: (customerData: CustomerDataProps) => any
+  autoLogin: () => Promise<void>
 }
 
 const initialUserState = {
@@ -105,6 +103,37 @@ export const useAuth = create<IAuth>((set) => ({
       throw error
     }
   }, // End of loginHandler function,
+  autoLogin: async () => {
+    try {
+      const accessToken = localStorage.getItem('access_token')
+      const refreshToken = localStorage.getItem('refresh_token')
+
+      const rawUserData = await getUserData()
+      const userData = {
+        isAuth: true,
+        user: {
+          id: rawUserData?.id || '',
+          firstName: rawUserData?.first_name || '',
+          lastName: rawUserData?.last_name || '',
+          email: rawUserData?.email || '',
+          access: {
+            token: accessToken || '',
+            expireIn: '',
+          },
+          refresh: {
+            token: refreshToken || '',
+            expireIn: '',
+          },
+        },
+      }
+      set(userData)
+    } catch (error) {
+      console.log(error)
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      throw error
+    }
+  },
   logout: () => {
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')

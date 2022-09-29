@@ -4,9 +4,7 @@ import { TClientFindAll } from '@/types'
 import { useQuery } from 'react-query'
 
 const findAllClients = async () => {
-  const response = await axiosPrivate.get<TClientFindAll>(
-    '/client/getactiveclients'
-  )
+  const response = await axiosPrivate.get<TClientFindAll>('/client/client')
   return response.data
 }
 
