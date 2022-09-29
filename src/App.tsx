@@ -80,7 +80,7 @@ function App() {
                 element={<EmployeeDetails />}
               />
               <Route
-                path="/activity-details/:vendorId"
+                path="/activity-details/:activityId"
                 element={<ActivityDetails />}
               />
               <Route path="/submissions/:jobId" element={<SubmissionMain />} />

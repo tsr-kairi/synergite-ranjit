@@ -1,31 +1,24 @@
 import { vendorQueryKeys } from '@/react-query/queryKeys'
 import VendorService from '@/services/vendorService'
-import { IFindContactsByVendorId, TVContacts } from '@/types'
+import { TTasks, IFindTasksByActivityId } from '@/types/activity-type'
 import { Loader } from '@mantine/core'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-// import { useParams } from 'react-router-dom'
 import TasksTable from './tasksTable'
 
 const Tasks = () => {
-  // const { vendorId } = useParams()
   const search = window.location.search
   const params = new URLSearchParams(search)
   const id = params.get('id')
 
-  const [vContactsData, setVContactsData] = useState<TVContacts[]>(
-    [] as TVContacts[]
-  )
+  const [TaskData, setTaskData] = useState<TTasks[]>([] as TTasks[])
 
-  const { isError, error, isLoading } = useQuery<
-    IFindContactsByVendorId,
-    Error
-  >(
+  const { isError, error, isLoading } = useQuery<IFindTasksByActivityId, Error>(
     [vendorQueryKeys.contactList, id],
-    async () => await VendorService.findContactsByVendorId(Number(id)),
+    async () => await VendorService.findTaskByActivityId(Number(id)),
     {
       onSuccess: (data) => {
-        setVContactsData(data.data)
+        setTaskData(data.data)
       },
     }
   )
@@ -43,7 +36,7 @@ const Tasks = () => {
     )
   }
 
-  return <TasksTable data={vContactsData} />
+  return <TasksTable data={TaskData} />
 }
 
 export default Tasks

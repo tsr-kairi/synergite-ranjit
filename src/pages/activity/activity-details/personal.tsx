@@ -1,7 +1,7 @@
 import { Text, createStyles, Group, Loader, Avatar } from '@mantine/core'
 import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
-import useGetVendorById from '../hooks/useGetVendorById'
+import useGetDefaultActivityById from '../hooks/useGetDefaultActivityById'
 
 const useStyles = createStyles((theme) => ({
   ClientUserCard: {
@@ -15,7 +15,7 @@ const useStyles = createStyles((theme) => ({
     paddingTop: '20px',
     paddingBottom: '20px',
   },
-  vendorInnerProfile: {
+  activityInnerProfile: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
@@ -56,10 +56,12 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Personal() {
-  const { vendorId } = useParams()
+  const { activityId } = useParams()
   const { classes } = useStyles()
 
-  const { data, isError, error, isLoading } = useGetVendorById(String(vendorId))
+  const { data, isError, error, isLoading } = useGetDefaultActivityById(
+    Number(activityId)
+  )
 
   if (isError) {
     console.log(error)
@@ -75,7 +77,7 @@ export default function Personal() {
   }
 
   return (
-    <div className={classes.vendorInnerProfile}>
+    <div className={classes.activityInnerProfile}>
       {/* back to Client table list */}
       <Group grow className={classes.detailHead}>
         <Text size="md" color="blue" weight={600}>
@@ -97,10 +99,10 @@ export default function Personal() {
             A
           </Avatar>
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
+            {data?.data[0]?.immigration_status}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data[0]?.primary_email}
+            {data?.data[0]?.employee_type}
           </Text>
         </div>
       </div>
@@ -119,50 +121,50 @@ export default function Personal() {
       <div className={classes.personalDetails}>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            <b>Name :</b>
+            <b>Immigration Status :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
+            {data?.data[0]?.immigration_status}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            <b>Email :</b>
+            <b>Type of Employee :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.primary_email}
+            {data?.data[0]?.employee_type}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            <b>Phone :</b>
+            <b>New Client :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.primary_phone}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            <b>City :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.city}
+            {data?.data[0]?.new_client}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            <b>State :</b>
+            <b>New Subvendor :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.state}
+            {data?.data[0]?.new_subvendor}
           </Text>
         </Group>
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            <b>Country :</b>
+            <b>Default Activity :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.country}
+            {data?.data[0]?.default_activity}
+          </Text>
+        </Group>
+        <Group spacing="xl">
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            <b>Department :</b>
+          </Text>
+          <Text size="sm" color="#686969" weight={400} transform="capitalize">
+            {data?.data[0]?.department_uuid}
           </Text>
         </Group>
       </div>

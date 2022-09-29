@@ -23,12 +23,12 @@ import {
   IconTrash,
   IconPlus,
 } from '@tabler/icons'
-import { TVContacts } from '@/types'
-import CreateContact from '@/components/form/vendor/contact/createForm'
+import { TTasks } from '@/types/activity-type'
+import CreateTask from '@/components/form/defaultActivity/task/createForm'
 import { openConfirmModal } from '@mantine/modals'
-import useDeleteContactById from '../../hooks/useDeleteContactById'
 import { showNotification } from '@mantine/notifications'
 import EditContact from '@/components/form/vendor/contact/editForm'
+import useDeleteTaskById from '../../hooks/useDeleteTaskById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -148,7 +148,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filter Data
-function filterData(data: TVContacts[], search: string) {
+function filterData(data: TTasks[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -157,9 +157,9 @@ function filterData(data: TVContacts[], search: string) {
 
 // Utility Function - short Data
 function sortData(
-  data: TVContacts[],
+  data: TTasks[],
   payload: {
-    sortBy: keyof TVContacts | null
+    sortBy: keyof TTasks | null
     reversed: boolean
     search: string
   }
@@ -183,7 +183,7 @@ function sortData(
 }
 
 interface TasksProps {
-  data: TVContacts[]
+  data: TTasks[]
 }
 
 // Exporting Default ClientTable Component
@@ -194,18 +194,18 @@ export default function TasksTable({ data }: TasksProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
-  const [contactEditData, setContactEditData] = useState({} as TVContacts)
+  const [contactEditData, setContactEditData] = useState({} as TTasks)
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TVContacts | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TTasks | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const setSorting = (field: keyof TVContacts) => {
+  const setSorting = (field: keyof TTasks) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
-  const { mutate: deleteContact } = useDeleteContactById()
+  const { mutate: deleteTask } = useDeleteTaskById()
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget
@@ -217,23 +217,23 @@ export default function TasksTable({ data }: TasksProps) {
       search: value,
     })
   }
-  //   contact data Delete handler model
-  const openModalForDelete = (contact: TVContacts) => {
+  //   task data Delete handler model
+  const openModalForDelete = (task: TTasks) => {
     openConfirmModal({
-      title: 'Do you want to delete this contact?',
+      title: 'Do you want to delete this task?',
       children: (
         <Text size="sm">
-          After deleting a contacts, You cannot recover them back. So, Please
-          take your Action Carefully.
+          After deleting a tasks, You cannot recover them back. So, Please take
+          your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteContact(contact.uuid)
+        deleteTask(task.id)
         showNotification({
           title: 'Contact Deleted !!',
-          message: `${contact.fname} has been deleted successfully.`,
+          message: `Task has been deleted successfully.`,
         })
       },
     })
@@ -270,46 +270,32 @@ export default function TasksTable({ data }: TasksProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'fname'}
+              sorted={sortBy === 'onboarding_activity_id'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('lname')}
+              onSort={() => setSorting('onboarding_activity_id')}
             >
-              Name
+              Onboarding Activity
             </Th>
             <Th
-              sorted={sortBy === 'email1'}
+              sorted={sortBy === 'default_task'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('email1')}
+              onSort={() => setSorting('default_task')}
             >
-              Email
+              Default Task
             </Th>
             <Th
-              sorted={sortBy === 'phone1'}
+              sorted={sortBy === 'status'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('phone1')}
+              onSort={() => setSorting('status')}
             >
-              Phone
+              Status
             </Th>
             <Th
-              sorted={sortBy === 'city'}
+              sorted={sortBy === 'created_by'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('city')}
+              onSort={() => setSorting('created_by')}
             >
-              City
-            </Th>
-            <Th
-              sorted={sortBy === 'state'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('state')}
-            >
-              State
-            </Th>
-            <Th
-              sorted={sortBy === 'country'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('country')}
-            >
-              Country
+              Created By
             </Th>
             <th className={classes.action}>Action</th>
           </tr>
@@ -324,15 +310,13 @@ export default function TasksTable({ data }: TasksProps) {
                       T
                     </Avatar>
                     <Text size="sm" weight={500}>
-                      {row?.fname} {row?.lname}
+                      {row?.onboarding_activity_id}
                     </Text>
                   </Group>
                 </td>
-                <td>{row?.email1}</td>
-                <td>{row?.phone1}</td>
-                <td>{row?.city}</td>
-                <td>{row?.state}</td>
-                <td>{row?.country}</td>
+                <td>{row?.default_task}</td>
+                <td>{row?.status}</td>
+                <td>{row?.created_by}</td>
                 <td>
                   <Group spacing="sm">
                     <IconEdit
@@ -372,7 +356,7 @@ export default function TasksTable({ data }: TasksProps) {
         size="xl"
         position="right"
       >
-        <CreateContact />
+        <CreateTask />
       </Drawer>
       {/* Edit Contact - Contact Edit Form Drawer*/}
       <Drawer
@@ -383,7 +367,7 @@ export default function TasksTable({ data }: TasksProps) {
         size="xl"
         position="right"
       >
-        <EditContact {...contactEditData} />
+        {/* <EditContact {...contactEditData} /> */}
       </Drawer>
     </ScrollArea>
   )

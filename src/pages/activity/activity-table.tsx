@@ -30,8 +30,8 @@ import { openConfirmModal } from '@mantine/modals'
 import CreateForm from '@/components/form/defaultActivity/createForm'
 import EditForm from '@/components/form/defaultActivity/editForm'
 import { showNotification } from '@mantine/notifications'
-import useDeleteVendorById from './hooks/useDeleteVendorById'
 import { Link } from 'react-router-dom'
+import useDeleteActivityById from './hooks/useDeleteActivityById'
 
 // Style for the activity Page
 const useStyles = createStyles((theme) => ({
@@ -204,7 +204,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
   const [sortBy, setSortBy] = useState<keyof TActivity | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const { mutate: deleteActivity } = useDeleteVendorById()
+  const { mutate: deleteActivity } = useDeleteActivityById()
 
   const setSorting = (field: keyof TActivity) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -221,20 +221,20 @@ export default function ActivityTable({ data }: IActivityTableProps) {
     )
   }
 
-  // vendor data Delete handler
-  const openModalForDelete = (vendor: TActivity) => {
+  // activity data Delete handler
+  const openModalForDelete = (activity: TActivity) => {
     openConfirmModal({
-      title: 'Do You want to delete this vendor?',
+      title: 'Do You want to delete this activity?',
       children: (
         <Text size="sm">
-          After deleting a vendors, You cannot recover them back. So, Please
+          After deleting a activity, You cannot recover them back. So, Please
           take your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteActivity(vendor.uuid)
+        deleteActivity(activity.onboardingActivityId)
         showNotification({
           title: 'Activity Deleted !!',
           message: `Activity has been deleted successfully.`,
@@ -243,17 +243,14 @@ export default function ActivityTable({ data }: IActivityTableProps) {
     })
   }
 
-  // if (!sortedData.length) {
-  //   return <h1>Loading</h1>
-  // }
-
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.id} className={classes.companyDetails}>
-      <td>{row?.role_uuid}</td>
+    <tr key={row?.onboardingActivityId} className={classes.companyDetails}>
+      {/* <td>{row?.role_uuid}</td> */}
       <td>
         <Link
-          to={`/activity-details/${row?.uuid}?id=${row?.id}`}
+          to={`/activity-details/${row?.uuid}?id=${row?.onboardingActivityId}
+          `}
           className={classes.userLink}
         >
           <Tooltip
@@ -335,13 +332,13 @@ export default function ActivityTable({ data }: IActivityTableProps) {
         >
           <thead>
             <tr>
-              <Th
+              {/* <Th
                 sorted={sortBy === 'role_uuid'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('role_uuid')}
               >
                 Id
-              </Th>
+              </Th> */}
               <Th
                 sorted={sortBy === 'immigration_status'}
                 reversed={reverseSortDirection}

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 // Activity List Data
 const zActivity = z.object({
-  id: z.number(),
+  onboardingActivityId: z.number(),
   role_uuid: z.string(),
   immigration_status: z.string(),
   employee_type: z.string(),
@@ -40,55 +40,32 @@ const zActivityEdit = z.object({
   new_subvendor: z.string(),
 })
 
-// Activity contacts
+// Activity task
 const zTask = z.object({
   id: z.number(),
-  fname: z.string(),
-  lname: z.string(),
-  email1: z.string().email(),
-  phone1: z.string(),
-  address1: z.string(),
-  address2: z.string(),
-  city: z.string(),
-  state: z.string(),
-  county: z.string(),
-  zip: z.string(),
-  country: z.string(),
-  date_created: z.string(),
-  date_updated: z.string().optional(),
-  uuid: z.string(),
+  onboarding_activity_id: z.number(),
+  created_by: z.number(),
+  default_task: z.string(),
+  status: z.string(),
+  created_date: z.string(),
+  modified_by: z.string(),
+  modified_date: z.string().optional(),
+  delete_date: z.string().optional(),
 })
 
 const zTaskCreate = z.object({
-  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email1: z.string().email({ message: 'Invalid email address' }),
-  phone1: z.string().min(10, { message: 'Phone Number should have 10' }),
-  address1: z.string(),
-  address2: z.string(),
-  city: z.string(),
-  state: z.string(),
-  county: z.string(),
-  country: z.string(),
-  zip: z.string(),
+  // onboarding_activity_id: z.number(),
+  default_task: z.string(),
+  status: z.string(),
 })
 
 // contacts edit
 
 const zTaskEdit = z.object({
-  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email1: z.string().email({ message: 'Invalid email address' }),
-  phone1: z.string().min(10, { message: 'Phone Number should have 10' }),
-  address1: z.string(),
-  address2: z.string(),
-  city: z.string(),
-  state: z.string(),
-  county: z.string(),
-  country: z.string(),
-  zip: z.string(),
-  uuid: z.string(),
-  id: z.number(),
+  // onboarding_activity_id: z.number(),
+  created_by: z.number(),
+  default_task: z.string(),
+  status: z.string(),
 })
 
 // extend array of objects Activity
@@ -119,6 +96,12 @@ interface TActivityFindById {
   ok: boolean
 }
 
+interface TTaskFindById {
+  data: TTasks[]
+  message: string
+  ok: boolean
+}
+
 interface IFindTasksByActivityId {
   data: TTasks[]
   ok: boolean
@@ -138,6 +121,7 @@ export type {
   TTasks,
   TTaskCreate,
   TTaskEdit,
+  TTaskFindById,
 }
 
 // export ZOD
