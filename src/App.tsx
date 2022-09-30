@@ -169,6 +169,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/activity" element={<Activity />} />
             {/* </Route> */}
           </Route>
         </Routes>

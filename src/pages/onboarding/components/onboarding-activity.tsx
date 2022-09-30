@@ -46,7 +46,10 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
         {data?.map((activity) => {
           return (
             <Group key={activity.id}>
-              <p onClick={() => onPressed(activity.id)}>
+              <p
+                onClick={() => onPressed(activity.id)}
+                style={{ cursor: 'pointer' }}
+              >
                 Assigned To: {activity.assigned_to}
               </p>
               <p>Assigned By: {activity.assigned_by}</p>
