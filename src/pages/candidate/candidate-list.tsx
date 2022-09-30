@@ -365,7 +365,7 @@ export function CandidateList({ data }: ICandidateProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Inactive Employees
+              Candidates
             </Text>
             <IconFilter
               className={classes.filterIcon}

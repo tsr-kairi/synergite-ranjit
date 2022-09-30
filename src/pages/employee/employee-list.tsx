@@ -366,7 +366,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Active Employees
+              Employees
             </Text>
             <IconFilter
               className={classes.filterIcon}
