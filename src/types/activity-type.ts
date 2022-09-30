@@ -56,7 +56,7 @@ const zTask = z.object({
 const zTaskCreate = z.object({
   // onboarding_activity_id: z.number(),
   default_task: z.string(),
-  status: z.string(),
+  onboarding_activity_id: z.number().optional(),
 })
 
 // contacts edit

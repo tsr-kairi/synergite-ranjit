@@ -20,7 +20,7 @@ const findTaskByActivityId = async (
   id: number
 ): Promise<IFindTasksByActivityId> => {
   const { data } = await axiosPrivate.get<IFindTasksByActivityId>(
-    `/default/task/${id}`
+    `/contact/vendor/${id}`
   )
   return data
 }

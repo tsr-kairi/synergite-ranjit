@@ -1,28 +1,33 @@
-import { vendorQueryKeys } from '@/react-query/queryKeys'
-import VendorService from '@/services/vendorService'
-import { TTasks, IFindTasksByActivityId } from '@/types/activity-type'
 import { Loader } from '@mantine/core'
-import { useState } from 'react'
-import { useQuery } from 'react-query'
 import TasksTable from './tasksTable'
+import { useParams } from 'react-router-dom'
+import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
+import { TTaskFindById, TTasks } from '@/types/activity-type'
+import { useQuery } from 'react-query'
+import { useSetState } from '@mantine/hooks'
 
 const Tasks = () => {
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
+  const { activityId } = useParams()
+  console.log('activityId', activityId)
+  const [taskData, setTaskData] = useSetState<TTasks[]>([] as TTasks[])
 
-  const [TaskData, setTaskData] = useState<TTasks[]>([] as TTasks[])
+  const findGetAllTaskByActivityId = async (idActivity: number) => {
+    const response = await axiosPrivate.get<TTaskFindById>(
+      `/default/task/${idActivity}`
+    )
+    return response.data
+  }
 
-  const { isError, error, isLoading } = useQuery<IFindTasksByActivityId, Error>(
-    [vendorQueryKeys.contactList, id],
-    async () => await VendorService.findTaskByActivityId(Number(id)),
+  const { isError, error, isLoading } = useQuery<TTaskFindById, Error>(
+    [defaultActivityQueryKeys.taskList, activityId],
+    async () => await findGetAllTaskByActivityId(Number(activityId)),
     {
       onSuccess: (data) => {
         setTaskData(data.data)
       },
     }
   )
-
   if (isError) {
     console.log(error)
     return <h1>An Error Occurred</h1>
@@ -36,7 +41,7 @@ const Tasks = () => {
     )
   }
 
-  return <TasksTable data={TaskData} />
+  return <TasksTable data={taskData} />
 }
 
 export default Tasks

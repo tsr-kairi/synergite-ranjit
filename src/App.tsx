@@ -58,10 +58,10 @@ function App() {
 
               <Route path="/onboarding" element={<OnboardingList />} />
               <Route path="/admin-activity" element={<AdminActivity />} />
-              <Route
+              {/* <Route
                 path="/admin-activity/:activityId"
                 element={<AdminActivityDetails />}
-              />
+              /> */}
 
               <Route path="/client" element={<Client />} />
               <Route path="/vendor" element={<Vendor />} />

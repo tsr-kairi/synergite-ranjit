@@ -1,5 +1,5 @@
 import useEditContact from '@/pages/vendor/hooks/useEditContact'
-import { TVContacts, zContactEdit } from '@/types'
+import { TVContacts } from '@/types'
 import {
   TextInput,
   Button,
@@ -8,7 +8,7 @@ import {
   Paper,
   FileInput,
 } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
   paper: {
@@ -18,7 +18,7 @@ const useStyles = createStyles(() => ({
 
 export default function EditForm(contactData: TVContacts) {
   const { classes } = useStyles()
-  const { mutate: editContact, isSuccess, isError } = useEditContact()
+  const { mutate: editContact } = useEditContact()
   const search = window.location.search
   const params = new URLSearchParams(search)
   const id = params.get('id')
@@ -38,7 +38,7 @@ export default function EditForm(contactData: TVContacts) {
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = editContact(contactEditData)
+    editContact(contactEditData)
 
     showNotification({
       title: 'Success!!',

@@ -1,21 +1,20 @@
 import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TTaskCreate, TTaskFindById } from '@/types/activity-type'
+import { TTasks, TTaskFindById } from '@/types/activity-type'
 import { useMutation, useQueryClient } from 'react-query'
 
-const createTask = async (data: TTaskCreate): Promise<TTaskFindById> => {
-  console.log('createTask', createTask)
+const editTask = async (data: TTasks): Promise<TTaskFindById> => {
   return await axiosPrivate.post('/default/task', data)
 }
 
-const useCreateTask = () => {
+const useEditTask = () => {
   const queryClient = useQueryClient()
 
-  return useMutation(createTask, {
+  return useMutation(editTask, {
     onSuccess: () => {
       void queryClient.resetQueries(defaultActivityQueryKeys.taskList)
     },
   })
 }
 
-export default useCreateTask
+export default useEditTask

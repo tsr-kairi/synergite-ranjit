@@ -14,25 +14,25 @@ export default function CreateForm() {
   const params = new URLSearchParams(search)
   const id = params.get('id')
   const { classes } = useStyles()
-  const { mutate: addContact } = useCreateTask()
+  const { mutate: addTask } = useCreateTask()
 
   const form = useForm<TTaskCreate>({
     validate: zodResolver(zTaskCreate),
     initialValues: {
       default_task: '',
-      status: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
-
   const handleSubmit = (values: TTaskCreate) => {
+    console.log(values)
     const taskCreateData = {
       ...values,
       onboarding_activity_id: Number(id),
     }
 
-    addContact(taskCreateData)
+    const dataNew = addTask(taskCreateData)
+    console.log(dataNew)
 
     showNotification({
       title: 'Success!!',
@@ -51,14 +51,6 @@ export default function CreateForm() {
             placeholder="Default Task"
             mt="md"
             {...form.getInputProps('default_task')}
-          />
-          <TextInput
-            required
-            label="Status"
-            type={'text'}
-            placeholder="Status"
-            mt="md"
-            {...form.getInputProps('status')}
           />
           <div>
             <Button fullWidth type="submit" mt="md" mb="lg">

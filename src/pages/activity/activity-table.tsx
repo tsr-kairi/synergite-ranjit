@@ -249,7 +249,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
       {/* <td>{row?.role_uuid}</td> */}
       <td>
         <Link
-          to={`/activity-details/${row?.uuid}?id=${row?.onboardingActivityId}
+          to={`/activity-details/${row?.onboardingActivityId}}
           `}
           className={classes.userLink}
         >

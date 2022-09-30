@@ -27,7 +27,7 @@ import { TTasks } from '@/types/activity-type'
 import CreateTask from '@/components/form/defaultActivity/task/createForm'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
-import EditContact from '@/components/form/vendor/contact/editForm'
+import EditTask from '@/components/form/defaultActivity/task/editForm'
 import useDeleteTaskById from '../../hooks/useDeleteTaskById'
 
 // Style for the Page
@@ -194,7 +194,7 @@ export default function TasksTable({ data }: TasksProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
-  const [contactEditData, setContactEditData] = useState({} as TTasks)
+  const [taskEditData, setTaskEditData] = useState({} as TTasks)
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TTasks | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
@@ -324,7 +324,7 @@ export default function TasksTable({ data }: TasksProps) {
                       cursor="pointer"
                       onClick={() => {
                         setIsOpened(true)
-                        setContactEditData(row)
+                        setTaskEditData(row)
                       }}
                     />
                     <IconTrash
@@ -367,7 +367,7 @@ export default function TasksTable({ data }: TasksProps) {
         size="xl"
         position="right"
       >
-        {/* <EditContact {...contactEditData} /> */}
+        <EditTask {...taskEditData} />
       </Drawer>
     </ScrollArea>
   )

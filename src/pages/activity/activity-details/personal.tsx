@@ -1,7 +1,7 @@
 import { Text, createStyles, Group, Loader, Avatar } from '@mantine/core'
 import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
-import useGetDefaultActivityById from '../hooks/useGetDefaultActivityById'
+// import useGetDefaultActivityById from '../hooks/useGetDefaultActivityById'
 
 const useStyles = createStyles((theme) => ({
   ClientUserCard: {
@@ -56,25 +56,25 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Personal() {
-  const { activityId } = useParams()
+  // const { activityId } = useParams()
   const { classes } = useStyles()
 
-  const { data, isError, error, isLoading } = useGetDefaultActivityById(
-    Number(activityId)
-  )
+  // const { data, isError, error, isLoading } = useGetDefaultActivityById(
+  //   Number(activityId)
+  // )
 
-  if (isError) {
-    console.log(error)
-    return <h1>An Error Occurred</h1>
-  }
+  // if (isError) {
+  //   console.log(error)
+  //   return <h1>An Error Occurred</h1>
+  // }
 
-  if (isLoading) {
-    return (
-      <div>
-        <Loader variant="dots" />
-      </div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <Loader variant="dots" />
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className={classes.activityInnerProfile}>
@@ -99,10 +99,11 @@ export default function Personal() {
             A
           </Avatar>
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data[0]?.immigration_status}
+            {/* {data?.data[0]?.immigration_status} */}
+            No APIs
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data[0]?.employee_type}
+            {/* {data?.data[0]?.employee_type} */}
           </Text>
         </div>
       </div>
@@ -124,7 +125,7 @@ export default function Personal() {
             <b>Immigration Status :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.immigration_status}
+            {/* {data?.data[0]?.immigration_status} */}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -132,7 +133,7 @@ export default function Personal() {
             <b>Type of Employee :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.employee_type}
+            {/* {data?.data[0]?.employee_type} */}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -140,7 +141,7 @@ export default function Personal() {
             <b>New Client :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.new_client}
+            {/* {data?.data[0]?.new_client} */}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -148,7 +149,7 @@ export default function Personal() {
             <b>New Subvendor :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.new_subvendor}
+            {/* {data?.data[0]?.new_subvendor} */}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -156,7 +157,7 @@ export default function Personal() {
             <b>Default Activity :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.default_activity}
+            {/* {data?.data[0]?.default_activity} */}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -164,7 +165,7 @@ export default function Personal() {
             <b>Department :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.department_uuid}
+            {/* {data?.data[0]?.department_uuid} */}
           </Text>
         </Group>
       </div>
