@@ -3,6 +3,7 @@ import { TTasks } from '@/types/activity-type'
 import { TextInput, Button, createStyles, Paper } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -12,9 +13,7 @@ const useStyles = createStyles(() => ({
 export default function EditForm(taskData: TTasks) {
   const { classes } = useStyles()
   const { mutate: editTask } = useEditTask()
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
+  const { activityId } = useParams()
 
   const form = useForm<TTasks>({
     // validate: zodResolver(zContactEdit),
@@ -27,7 +26,7 @@ export default function EditForm(taskData: TTasks) {
     const taskEditData = {
       ...values,
       // status: 'published',
-      onboarding_activity_id: Number(id),
+      onboarding_activity_id: parseInt(activityId ? activityId : '', 10),
     }
 
     editTask(taskEditData)

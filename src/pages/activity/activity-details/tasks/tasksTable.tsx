@@ -189,8 +189,6 @@ interface TasksProps {
 // Exporting Default ClientTable Component
 
 export default function TasksTable({ data }: TasksProps) {
-  // console.log('contacts', data)
-
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')

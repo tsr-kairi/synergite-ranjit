@@ -3,31 +3,28 @@ import TasksTable from './tasksTable'
 import { useParams } from 'react-router-dom'
 import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TTaskFindById, TTasks } from '@/types/activity-type'
+import { TTaskFindById } from '@/types/activity-type'
 import { useQuery } from 'react-query'
-import { useSetState } from '@mantine/hooks'
 
 const Tasks = () => {
   const { activityId } = useParams()
-  console.log('activityId', activityId)
-  const [taskData, setTaskData] = useSetState<TTasks[]>([] as TTasks[])
 
   const findGetAllTaskByActivityId = async (idActivity: number) => {
     const response = await axiosPrivate.get<TTaskFindById>(
       `/default/task/${idActivity}`
     )
+
     return response.data
   }
 
-  const { isError, error, isLoading } = useQuery<TTaskFindById, Error>(
+  const { data, isError, error, isLoading } = useQuery<TTaskFindById, Error>(
     [defaultActivityQueryKeys.taskList, activityId],
-    async () => await findGetAllTaskByActivityId(Number(activityId)),
-    {
-      onSuccess: (data) => {
-        setTaskData(data.data)
-      },
-    }
+    async () =>
+      await findGetAllTaskByActivityId(
+        parseInt(activityId ? activityId : '', 10)
+      )
   )
+
   if (isError) {
     console.log(error)
     return <h1>An Error Occurred</h1>
@@ -41,7 +38,11 @@ const Tasks = () => {
     )
   }
 
-  return <TasksTable data={taskData} />
+  if (data) {
+    return <TasksTable data={data?.data} />
+  } else {
+    return <div>Error getting tasklist</div>
+  }
 }
 
 export default Tasks

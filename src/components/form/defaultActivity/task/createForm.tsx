@@ -3,6 +3,7 @@ import { TTaskCreate, zTaskCreate } from '@/types/activity-type'
 import { TextInput, Button, createStyles, Paper } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -10,11 +11,9 @@ const useStyles = createStyles(() => ({
 }))
 
 export default function CreateForm() {
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
   const { classes } = useStyles()
   const { mutate: addTask } = useCreateTask()
+  const { activityId } = useParams()
 
   const form = useForm<TTaskCreate>({
     validate: zodResolver(zTaskCreate),
@@ -28,7 +27,7 @@ export default function CreateForm() {
     console.log(values)
     const taskCreateData = {
       ...values,
-      onboarding_activity_id: Number(id),
+      onboarding_activity_id: parseInt(activityId ? activityId : '', 10),
     }
 
     const dataNew = addTask(taskCreateData)
