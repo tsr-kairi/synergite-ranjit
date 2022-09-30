@@ -35,7 +35,7 @@ const mockdata = [
   { label: 'Employees', icon: IconUsers, url: '/employee' },
   { label: 'Activities', icon: IconActivity },
   { label: 'Contacts', icon: IconFileAnalytics },
-  { label: 'On Boarding', icon: IconContrast2, url: '/onboarding' },
+  { label: 'On Boarding List', icon: IconContrast2, url: '/onboarding-list' },
   { label: 'Settings', icon: IconSettings },
 ]
 
