@@ -10,7 +10,6 @@ import {
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -18,7 +17,6 @@ const useStyles = createStyles(() => ({
 }))
 
 export default function CreateForm() {
-  const { vendorId } = useParams()
   const search = window.location.search
   const params = new URLSearchParams(search)
   const id = params.get('id')
@@ -28,12 +26,6 @@ export default function CreateForm() {
   const form = useForm<TContactCreate>({
     validate: zodResolver(zContactCreate),
     initialValues: {
-      // first_name: '',
-      // last_name: '',
-      // email: '',
-      // phone: '',
-      // city: '',
-      // country: '',
       fname: '',
       lname: '',
       email1: '',

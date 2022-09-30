@@ -33,7 +33,7 @@ const mockdata = [
     links: [{ label: 'Activity', link: '/admin-activity' }],
   },
   { label: 'Employees', icon: IconUsers, url: '/employee' },
-  { label: 'Activities', icon: IconActivity },
+  { label: 'Activities', icon: IconActivity, url: '/activity' },
   { label: 'Contacts', icon: IconFileAnalytics },
   { label: 'On Boarding List', icon: IconContrast2, url: '/onboarding-list' },
   { label: 'Settings', icon: IconSettings },

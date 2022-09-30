@@ -134,7 +134,7 @@ export const AdminActivityDetails = () => {
                         >
                           <Group spacing="sm">
                             <Avatar color="cyan" size={26} radius={26}>
-                              C
+                              T
                             </Avatar>
                             <Text size="sm" weight={500}>
                               Vishal
