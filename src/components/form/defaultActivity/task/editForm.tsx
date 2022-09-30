@@ -23,9 +23,10 @@ export default function EditForm(taskData: TTasks) {
   })
 
   const handleSubmit = (values: TTasks) => {
+    console.log('TaskEditValue', values)
+
     const taskEditData = {
       ...values,
-      // status: 'published',
       onboarding_activity_id: parseInt(activityId ? activityId : '', 10),
     }
 

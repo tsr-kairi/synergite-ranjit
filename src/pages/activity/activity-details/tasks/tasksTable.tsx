@@ -288,13 +288,13 @@ export default function TasksTable({ data }: TasksProps) {
             >
               Status
             </Th>
-            <Th
+            {/* <Th
               sorted={sortBy === 'created_by'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('created_by')}
             >
               Created By
-            </Th>
+            </Th> */}
             <th className={classes.action}>Action</th>
           </tr>
         </thead>
@@ -314,7 +314,7 @@ export default function TasksTable({ data }: TasksProps) {
                 </td>
                 <td>{row?.default_task}</td>
                 <td>{row?.status}</td>
-                <td>{row?.created_by}</td>
+                {/* <td>{row?.created_by}</td> */}
                 <td>
                   <Group spacing="sm">
                     <IconEdit

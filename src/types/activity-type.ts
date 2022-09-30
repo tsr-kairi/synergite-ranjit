@@ -12,9 +12,9 @@ const zActivity = z.object({
   department_uuid: z.string(),
   new_subvendor: z.string(),
   // isActiveStatus: z.string(),
-  createdDate: z.string().optional(),
-  modifiedBy: z.string().optional(),
-  modifiedDate: z.string().optional(),
+  // createdDate: z.string().optional(),
+  // modifiedBy: z.string().optional(),
+  // modifiedDate: z.string().optional(),
   uuid: z.string(),
 })
 
@@ -44,13 +44,13 @@ const zActivityEdit = z.object({
 const zTask = z.object({
   id: z.number(),
   onboarding_activity_id: z.number(),
-  created_by: z.number(),
+  // created_by: z.number(),
   default_task: z.string(),
   status: z.string(),
-  created_date: z.string(),
-  modified_by: z.string(),
-  modified_date: z.string().optional(),
-  delete_date: z.string().optional(),
+  // created_date: z.string(),
+  // modified_by: z.string(),
+  // modified_date: z.string().optional(),
+  // delete_date: z.string().optional(),
 })
 
 const zTaskCreate = z.object({
@@ -91,7 +91,7 @@ interface TActivityCreateResponse {
 }
 
 interface TActivityFindById {
-  data: TActivity[]
+  data: TActivity
   message: string
   ok: boolean
 }
