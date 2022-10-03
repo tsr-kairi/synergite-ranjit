@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
-  id: z.number(),
+  id: z.number().optional(),
   created_by: z.string(),
   created_date: z.date(),
   modified_by: z.string(),
@@ -30,6 +30,7 @@ const zOnboarding = z.object({
   account_manager_commission: z.string(),
   recruitment_manager_commission: z.string(),
   recruitment_commission: z.string(),
+  additional_information: z.string(),
   additional_commission: z.string(),
   remarks: z.string(),
   vendor: z.string(), // Dropdown

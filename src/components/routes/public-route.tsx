@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // Third party packages
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 interface PublicRouteProps {
   isAuth: boolean
@@ -9,6 +9,7 @@ interface PublicRouteProps {
 
 const PublicRoute: React.FC<PublicRouteProps> = (props) => {
   const { isAuth, children } = props
+  const navigate = useNavigate()
 
   console.log('[PublicRoute] isAuth =', isAuth)
 

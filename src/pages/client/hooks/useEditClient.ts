@@ -4,7 +4,9 @@ import { TClient, TClientFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editClient = async (data: TClient): Promise<TClientFindById> => {
-  return await axiosPrivate.post(`/client/save`, data)
+  // return await axiosPrivate.patch(`/client/save`, data)
+
+  return await axiosPrivate.patch(`/client/client/${data.uuid}`, data)
 }
 
 const useEditClient = () => {

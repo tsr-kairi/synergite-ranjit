@@ -1,4 +1,5 @@
 import { createStyles, Grid } from '@mantine/core'
+import { useLocation } from 'react-router-dom'
 import Contacts from './contacts'
 import Jobs from './jobs'
 import Personal from './personal'
@@ -34,6 +35,8 @@ const useStyles = createStyles(() => ({
 
 export const ClientDetails = () => {
   const { classes } = useStyles()
+  const { state } = useLocation()
+  console.log('[ClientDetails] state =', state)
 
   return (
     <>

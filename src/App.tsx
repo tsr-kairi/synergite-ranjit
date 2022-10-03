@@ -22,6 +22,7 @@ import OnboardingList from './pages/onboarding/components/onboarding-list'
 import { AdminActivity } from './pages/admin/activity'
 import AdminActivityDetails from './pages/admin/activity-details'
 import { useAuth } from './store/auth.strore'
+import Onboarding from './pages/onboarding'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -69,10 +70,19 @@ function App() {
             />
 
             <Route
-              path="/onboarding"
+              path="/onboarding-list"
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <OnboardingList />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/onboarding"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Onboarding />
                 </ProtectedRoute>
               }
             />

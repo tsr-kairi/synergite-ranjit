@@ -5,7 +5,7 @@ import { useQuery } from 'react-query'
 
 const findClientById = async (uuid: string) => {
   const response = await axiosPrivate.get<TClientFindById>(
-    `/client/getclient/${uuid}`
+    `/client/client/${uuid}`
   )
   return response.data
 }

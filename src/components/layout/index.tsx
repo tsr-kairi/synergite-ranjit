@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useEffect } from 'react'
 
 import NavBar from '@/components/layout/navBar/NavBar'
 // import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
@@ -27,7 +27,14 @@ const useStyles = createStyles((theme) => ({
 const AppShellMain = () => {
   const { classes } = useStyles()
 
-  const user = useAuth((state) => state.user)
+  const { user, autoLogin } = useAuth((state) => ({
+    user: state.user,
+    autoLogin: state.autoLogin,
+  }))
+
+  useEffect(() => {
+    autoLogin().catch((error) => console.log(error))
+  }, [])
 
   // useEffect(() => {
   //   void ApiCall()

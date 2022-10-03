@@ -33,6 +33,7 @@ import useDeleteClientById from './hooks/useDeleteClientById'
 import { showNotification } from '@mantine/notifications'
 import EditClient from '@/components/form/client/editForm'
 import CreateClient from '@/components/form/client/createForm'
+import { useOnboarding } from '@/store/onboarding.store'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -206,6 +207,8 @@ export function ClientTable({ data }: IClientTableProps) {
   const { mutate: deleteClient } = useDeleteClientById()
   const [clientEditData, setClientEditData] = useState({} as TClient)
 
+  const setClient = useOnboarding((state) => state.setClient)
+
   const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
@@ -250,7 +253,9 @@ export function ClientTable({ data }: IClientTableProps) {
       <td>
         <Link
           to={`/client-details/${row?.uuid}?id=${row?.id}`}
+          // state={{ user: row }}
           className={classes.userLink}
+          onClick={() => setClient(row)}
         >
           <Tooltip
             label="Click to view"
