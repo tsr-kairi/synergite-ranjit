@@ -41,18 +41,19 @@ export const ClientDetails = () => {
   return (
     <>
       <Grid>
-        <Grid.Col span={4}>
+        {/* <Grid.Col span={4}>
           <div className={classes.clientDetails}>
             <div className={classes.clientProProfile}>
               <Personal />
             </div>
           </div>
-        </Grid.Col>
-        <Grid.Col span={8}>
+        </Grid.Col> */}
+        <Grid.Col span={12}>
           <div className={classes.clientDetails}>
             <div className={classes.clientContactJobs}>
               <div>
-                <Contacts />
+                {/* <Contacts /> */}
+                <Personal />
               </div>
               <Jobs />
             </div>

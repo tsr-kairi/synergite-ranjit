@@ -1,5 +1,18 @@
-import { Avatar, Text, createStyles, Group, Loader } from '@mantine/core'
-import { IconArrowBackUp, IconListDetails } from '@tabler/icons'
+import {
+  Avatar,
+  Text,
+  createStyles,
+  Group,
+  Loader,
+  Grid,
+  Button,
+} from '@mantine/core'
+import {
+  IconArrowBackUp,
+  IconListDetails,
+  IconPlus,
+  IconView360,
+} from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
 import useGetClientById from '../hooks/useGetClientById'
 
@@ -16,10 +29,20 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: '20px',
   },
   clientInnerProfile: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    gap: '15px',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // flexDirection: 'row',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
+    border: `1px solid ${theme.colors.blue[0]}`,
+    // width: '100%',
+    // gap: '15px',
+  },
+  heading: {
+    paddingLeft: '20px',
+    paddingTop: '20px',
+  },
+  colalign: {
+    paddingTop: '20px',
   },
   personalDetails: {
     display: 'flex',
@@ -37,6 +60,7 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: '20px',
     paddingRight: '20px',
     borderRadius: '5px',
+    width: '25%',
   },
   detailsIcon: {
     '&:hover': {
@@ -75,8 +99,7 @@ export default function Personal() {
   }
 
   return (
-    <div className={classes.clientInnerProfile}>
-      {/* back to Client table list */}
+    <>
       <Group grow className={classes.detailHead}>
         <Text size="md" color="blue" weight={600}>
           Back to Client List
@@ -91,7 +114,109 @@ export default function Personal() {
           </Text>
         </Link>
       </Group>
-      <div className={classes.ClientUserCard}>
+      <div className={classes.clientInnerProfile}>
+        <Grid>
+          <Grid.Col span={4}>
+            <Group grow className={classes.heading}>
+              <Text size="lg" color="blue" weight={600}>
+                Client Details
+              </Text>
+            </Group>
+            <Avatar
+              src={`https://cdn4.vectorstock.com/i/1000x1000/17/28/color-letter-c-logo-icon-design-vector-22731728.jpg`}
+              size={120}
+              radius={120}
+              mx="auto"
+            />
+          </Grid.Col>
+          <Grid.Col span={8}>
+            <div className={classes.colalign}>
+              <Grid>
+                <Grid.Col span={4}>
+                  <Text size="lg" color="#686969" weight={400}>
+                    <b>Client Name :</b>
+                  </Text>
+                  <Text size="lg" color="#686969" weight={400}>
+                    {data?.data?.first_name} {data?.data?.last_name}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                  <Text size="lg" color="#686969" weight={400}>
+                    <b>Email :</b>
+                  </Text>
+                  <Text size="lg" color="#686969" weight={400}>
+                    {data?.data?.primary_email}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                  <Text size="lg" color="#686969" weight={400}>
+                    <b>Phone :</b>
+                  </Text>
+                  <Text size="lg" color="#686969" weight={400}>
+                    {data?.data?.primary_phone}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                  <Text size="lg" color="#686969" weight={400}>
+                    <b>City :</b>
+                  </Text>
+                  <Text size="lg" color="#686969" weight={400}>
+                    {data?.data?.city}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                  <Text size="lg" color="#686969" weight={400}>
+                    <b>State :</b>
+                  </Text>
+                  <Text size="lg" color="#686969" weight={400}>
+                    {data?.data?.state}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                  <Text size="lg" color="#686969" weight={400}>
+                    <b>Country :</b>
+                  </Text>
+                  <Text size="lg" color="#686969" weight={400}>
+                    {data?.data?.country}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={4}></Grid.Col>
+                <Grid.Col span={4}>
+                  <Button>
+                    <Group spacing="sm" align="center">
+                      <IconView360 color="white" />
+                      <Text weight={400}>View Contacts</Text>
+                    </Group>
+                  </Button>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                  <Button>
+                    <Group spacing="sm" align="center">
+                      <IconPlus color="white" />
+                      <Text weight={400}>Add New Contact</Text>
+                    </Group>
+                  </Button>
+                </Grid.Col>
+              </Grid>
+            </div>
+          </Grid.Col>
+        </Grid>
+        {/* back to Client table list */}
+        {/* <Group grow className={classes.detailHead}>
+        <Text size="md" color="blue" weight={600}>
+          Back to Client List
+        </Text>
+        <Link to={`/client`} className={classes.userLink}>
+          <Text align="right">
+            <IconArrowBackUp
+              size={24}
+              color="blue"
+              className={classes.detailsIcon}
+            />
+          </Text>
+        </Link>
+      </Group> */}
+        {/* <div className={classes.ClientUserCard}>
         <div className={classes.UserCardInner}>
           <Avatar
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -161,14 +286,6 @@ export default function Personal() {
             {data?.data[0]?.state}
           </Text>
         </Group>
-        {/* <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Zip Code :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.zip}
-          </Text>
-        </Group> */}
         <Group spacing="xl">
           <Text size="sm" color="#686969" weight={400}>
             <b>Country :</b>
@@ -177,31 +294,8 @@ export default function Personal() {
             {data?.data[0]?.country}
           </Text>
         </Group>
-        {/* <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Fax :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.fax}
-          </Text>
-        </Group> */}
-        {/* <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Status :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.status}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Created Date :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.created_date}
-          </Text>
-        </Group> */}
+      </div> */}
       </div>
-    </div>
+    </>
   )
 }
