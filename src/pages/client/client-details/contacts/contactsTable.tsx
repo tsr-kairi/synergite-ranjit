@@ -244,7 +244,7 @@ export default function ContactsTable({ data }: ContactProps) {
           Contacts
         </Text>
         <TextInput
-          placeholder="Search by any field"
+          placeholder="Search..."
           icon={<IconSearch size={14} stroke={1.5} />}
           value={search}
           onChange={handleSearchChange}
@@ -274,13 +274,13 @@ export default function ContactsTable({ data }: ContactProps) {
             >
               Name
             </Th>
-            <Th
+            {/* <Th
               sorted={sortBy === 'email1'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('email1')}
             >
               Email
-            </Th>
+            </Th> */}
             <Th
               sorted={sortBy === 'phone1'}
               reversed={reverseSortDirection}
@@ -288,7 +288,7 @@ export default function ContactsTable({ data }: ContactProps) {
             >
               Phone
             </Th>
-            <Th
+            {/* <Th
               sorted={sortBy === 'city'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('city')}
@@ -308,7 +308,7 @@ export default function ContactsTable({ data }: ContactProps) {
               onSort={() => setSorting('country')}
             >
               Country
-            </Th>
+            </Th> */}
             <th className={classes.action}>Action</th>
           </tr>
         </thead>
@@ -328,11 +328,11 @@ export default function ContactsTable({ data }: ContactProps) {
                     </Text>
                   </Group>
                 </td>
-                <td>{row?.email1}</td>
+                {/* <td>{row?.email1}</td> */}
                 <td>{row?.phone1}</td>
-                <td>{row?.city}</td>
+                {/* <td>{row?.city}</td>
                 <td>{row?.state}</td>
-                <td>{row?.country}</td>
+                <td>{row?.country}</td> */}
                 <td>
                   <Group spacing="sm">
                     <IconEdit
