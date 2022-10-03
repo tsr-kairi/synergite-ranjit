@@ -7,7 +7,7 @@ const findEmployeeById = async (uuid: string) => {
   // const response = await apiClient.get<TAEmployeeFindById>(`/employees/${id}`)
   // return response.data
   const response = await axiosPrivate.get<TAEmployeeFindById>(
-    `/employee/get/${uuid}`
+    `/employee/${uuid}`
   )
   return response.data
 }

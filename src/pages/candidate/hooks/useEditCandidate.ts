@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query'
 //   return await apiClient.patch(`/employees/${data.id}`, data)
 // }
 const editCandidate = async (data: TCandidate): Promise<TCandidateFindById> => {
-  return await axiosPrivate.post(`/employee/save`, data)
+  return await axiosPrivate.patch(`/employee/${data?.uuid}`, data)
 }
 // const editCandidate = async (
 //   employee: TCandidate

@@ -76,7 +76,7 @@ interface TAEmployeeFindAll {
 }
 
 interface TAEmployeeFindById {
-  data: TAEmployee[]
+  data: TAEmployee
   message: string
   ok: boolean
 }
