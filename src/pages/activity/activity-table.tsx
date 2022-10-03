@@ -8,12 +8,11 @@ import {
   Text,
   Center,
   TextInput,
+  Avatar,
   Button,
   Drawer,
   Pagination,
   Tooltip,
-  Checkbox,
-  Avatar,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -26,15 +25,15 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TAEmployee } from '@/types/employee-type'
+import { TActivity } from '@/types/activity-type'
 import { openConfirmModal } from '@mantine/modals'
+import CreateForm from '@/components/form/defaultActivity/createForm'
+import EditForm from '@/components/form/defaultActivity/editForm'
 import { showNotification } from '@mantine/notifications'
-import EditEmployee from '@/components/form/employee/editForm'
-import CreateEmployee from '@/components/form/employee/createForm'
-import useDeleteEmployeeById from './hooks/useDeleteEmployeeById'
 import { Link } from 'react-router-dom'
+import useDeleteActivityById from './hooks/useDeleteActivityById'
 
-// Style for the Page
+// Style for the activity Page
 const useStyles = createStyles((theme) => ({
   th: {
     padding: '0 !important',
@@ -49,7 +48,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  employeeRowData: {
+  companyDetails: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -126,12 +125,13 @@ const useStyles = createStyles((theme) => ({
 // Table Heading Props
 interface ThProps {
   children: React.ReactNode
-  reversed?: boolean
-  sorted?: boolean
+  reversed: boolean
+  sorted: boolean
   onSort(): void
 }
+
 // Table Heading Component
-export function Th({ children, reversed, sorted, onSort }: ThProps) {
+function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles()
   const Icon = sorted
     ? reversed
@@ -155,7 +155,7 @@ export function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TAEmployee[], search: string) {
+function filterData(data: TActivity[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -164,9 +164,9 @@ function filterData(data: TAEmployee[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TAEmployee[],
+  data: TActivity[],
   payload: {
-    sortBy: keyof TAEmployee | null
+    sortBy: keyof TActivity | null
     reversed: boolean
     search: string
   }
@@ -190,23 +190,23 @@ function sortData(
   )
 }
 
-interface IEmployeeProps {
-  data: TAEmployee[]
+interface IActivityTableProps {
+  data: TActivity[]
 }
 
 // Exporting Default ClientTable Component
-export function EmployeeList({ data }: IEmployeeProps) {
+export default function ActivityTable({ data }: IActivityTableProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
+  const [activityEditData, setActivityEditData] = useState({} as TActivity)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TAEmployee | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TActivity | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const { mutate: deleteEmployee } = useDeleteEmployeeById()
-  const [employeeEditData, setEmployeeEditData] = useState({} as TAEmployee)
+  const { mutate: deleteActivity } = useDeleteActivityById()
 
-  const setSorting = (field: keyof TAEmployee) => {
+  const setSorting = (field: keyof TActivity) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -221,79 +221,23 @@ export function EmployeeList({ data }: IEmployeeProps) {
     )
   }
 
-  // employee data Delete handler
-  const openModalForDelete = (Employee: TAEmployee) => {
+  // activity data Delete handler
+  const openModalForDelete = (activity: TActivity) => {
     openConfirmModal({
-      title: 'Do You want to delete this Employee?',
+      title: 'Do You want to delete this activity?',
       children: (
         <Text size="sm">
-          After deleting an active employee, You cannot recover them back. So,
-          please choose your action carefully.
+          After deleting a activity, You cannot recover them back. So, Please
+          take your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteEmployee(Employee.uuid)
-        console.log('delete')
+        deleteActivity(activity.onboardingActivityId)
         showNotification({
-          title: 'Employee Deleted !!',
-          // message: `${Employee.fname} has been deleted successfully.`,
-          message: `Employee has been deleted successfully.`,
-        })
-      },
-    })
-  }
-
-  // employee data filter handler
-  const openModalForFilter = () => {
-    openConfirmModal({
-      title: 'Select Filter?',
-      children: (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            marginBottom: '30px',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <Text size="sm" color="blue">
-              Payment Type
-            </Text>
-            <Checkbox size="xs" label="Billable" />
-            <Checkbox size="xs" label="Non Billable" />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <Text size="sm" color="blue">
-              Employee Type
-            </Text>
-            <Checkbox size="xs" label="W2" />
-            <Checkbox size="xs" label="C2C" />
-            <Checkbox size="xs" label="1099" />
-            <Checkbox size="xs" label="Internal" />
-          </div>
-        </div>
-      ),
-      labels: { confirm: 'Submit', cancel: 'Cancel' },
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () => {
-        console.log('Filtered')
-        showNotification({
-          title: 'EmployeeType Filtered !!',
-          message: 'EmployeeType has been filtered successfully.',
+          title: 'Activity Deleted !!',
+          message: `Activity has been deleted successfully.`,
         })
       },
     })
@@ -301,12 +245,11 @@ export function EmployeeList({ data }: IEmployeeProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.id} className={classes.employeeRowData}>
-      {/* <td>{row?.employee_id}</td> */}
-      <td>{row?.id}</td>
+    <tr key={row?.onboardingActivityId} className={classes.companyDetails}>
+      {/* <td>{row?.role_uuid}</td> */}
       <td>
         <Link
-          to={`/employee-details/${row?.uuid}`}
+          to={`/activity-details/${row?.onboardingActivityId}`}
           className={classes.userLink}
         >
           <Tooltip
@@ -317,28 +260,21 @@ export function EmployeeList({ data }: IEmployeeProps) {
             transitionDuration={300}
           >
             <Group spacing="sm">
-              {/* <Avatar
-                size={26}
-                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.fname}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-                radius={26}
-              /> */}
-              <Avatar color="cyan" size={26} radius={26}>
-                E
+              <Avatar color="cyan" radius={26} size={26}>
+                A
               </Avatar>
               <Text size="sm" weight={500}>
-                {row?.fname} {row?.lname}
+                {row?.immigration_status}
               </Text>
             </Group>
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.email}</td>
-      <td>{row?.phone}</td>
-      <td>{row?.dob}</td>
-      <td>{row?.gender}</td>
-      <td>{row?.city}</td>
-      <td>{row?.state}</td>
-      <td>{row?.country}</td>
+      <td>{row?.employee_type}</td>
+      <td>{row?.new_client}</td>
+      <td>{row?.new_subvendor}</td>
+      <td>{row?.default_activity}</td>
+      <td>{row?.department_uuid}</td>
       <td>
         <Group spacing="sm">
           <IconEdit
@@ -346,7 +282,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
-              setEmployeeEditData(row)
+              setActivityEditData(row)
             }}
           />
           <IconTrash
@@ -366,13 +302,9 @@ export function EmployeeList({ data }: IEmployeeProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Employees
+              Activity List
             </Text>
-            <IconFilter
-              className={classes.filterIcon}
-              onClick={() => openModalForFilter()}
-              cursor="pointer"
-            />
+            <IconFilter className={classes.filterIcon} />
           </Group>
           <TextInput
             placeholder="Search by any field"
@@ -390,6 +322,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
             </Group>
           </Button>
         </div>
+
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
@@ -398,68 +331,55 @@ export function EmployeeList({ data }: IEmployeeProps) {
         >
           <thead>
             <tr>
-              <Th
-                sorted={sortBy === 'employee_id'}
+              {/* <Th
+                sorted={sortBy === 'role_uuid'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('employee_id')}
+                onSort={() => setSorting('role_uuid')}
               >
-                Employee Id
+                Id
+              </Th> */}
+              <Th
+                sorted={sortBy === 'immigration_status'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('immigration_status')}
+              >
+                Immigration Status
+              </Th>
+
+              <Th
+                sorted={sortBy === 'employee_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('employee_type')}
+              >
+                Type of Employee
               </Th>
               <Th
-                sorted={sortBy === 'fname'}
+                sorted={sortBy === 'new_client'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('fname')}
+                onSort={() => setSorting('new_client')}
               >
-                Name
+                New Client
               </Th>
               <Th
-                sorted={sortBy === 'email'}
+                sorted={sortBy === 'new_subvendor'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('email')}
+                onSort={() => setSorting('new_subvendor')}
               >
-                Email
+                New Sub Vendor
               </Th>
               <Th
-                sorted={sortBy === 'phone'}
+                sorted={sortBy === 'default_activity'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('phone')}
+                onSort={() => setSorting('default_activity')}
               >
-                Phone
+                Default Activity
               </Th>
               <Th
-                sorted={sortBy === 'dob'}
+                sorted={sortBy === 'department_uuid'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('dob')}
+                onSort={() => setSorting('department_uuid')}
               >
-                DOB
-              </Th>
-              <Th
-                sorted={sortBy === 'gender'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('gender')}
-              >
-                Gender
-              </Th>
-              <Th
-                sorted={sortBy === 'city'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('city')}
-              >
-                City
-              </Th>
-              <Th
-                sorted={sortBy === 'state'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('state')}
-              >
-                State
-              </Th>
-              <Th
-                sorted={sortBy === 'country'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('country')}
-              >
-                Country
+                Department
               </Th>
               <th className={classes.action}>Action</th>
             </tr>
@@ -486,28 +406,28 @@ export function EmployeeList({ data }: IEmployeeProps) {
         </div>
       </ScrollArea>
 
-      {/* Add New - employee Form Drawer*/}
+      {/* Add New - Vendor Form Drawer*/}
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add New Employee"
+        title="Add New Activity"
         padding="xl"
         size="xl"
         position="right"
       >
-        <CreateEmployee />
+        <CreateForm />
       </Drawer>
 
-      {/* Edit Employee - Employee Edit Form Drawer*/}
+      {/* Edit Vendor - Vendor Edit Form Drawer*/}
       <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
-        title="Edit Employee"
+        title="Edit Activity"
         padding="xl"
         size="xl"
         position="right"
       >
-        <EditEmployee {...employeeEditData} />
+        <EditForm {...activityEditData} />
       </Drawer>
     </>
   )

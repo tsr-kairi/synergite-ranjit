@@ -3,6 +3,7 @@ import {
   TContactCreate,
   TContactCreateResponse,
 } from '@/types'
+import { IFindTasksByActivityId } from '@/types/activity-type'
 import axiosPrivate from './axiosPrivate'
 import apiClient from './base'
 
@@ -10,6 +11,15 @@ const findContactsByVendorId = async (
   id: number
 ): Promise<IFindContactsByVendorId> => {
   const { data } = await axiosPrivate.get<IFindContactsByVendorId>(
+    `/contact/vendor/${id}`
+  )
+  return data
+}
+
+const findTaskByActivityId = async (
+  id: number
+): Promise<IFindTasksByActivityId> => {
+  const { data } = await axiosPrivate.get<IFindTasksByActivityId>(
     `/contact/vendor/${id}`
   )
   return data
@@ -28,6 +38,7 @@ const createContact = async (
 const VendorService = {
   findContactsByVendorId,
   createContact,
+  findTaskByActivityId,
 }
 
 export default VendorService

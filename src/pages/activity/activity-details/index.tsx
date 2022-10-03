@@ -1,11 +1,9 @@
 import { createStyles, Grid } from '@mantine/core'
-import { useLocation } from 'react-router-dom'
-import Contacts from './contacts'
-import Jobs from './jobs'
 import Personal from './personal'
+import Tasks from './tasks'
 
 const useStyles = createStyles(() => ({
-  clientDetails: {
+  activityDetails: {
     // display: 'flex',
     paddingLeft: '20px',
     paddingRight: '20px',
@@ -13,7 +11,7 @@ const useStyles = createStyles(() => ({
     width: '100%',
     // placeItems: 'center',
   },
-  clientProProfile: {
+  activityProProfile: {
     // display: 'flex',
     // height: '88.5vh',
     width: '100%',
@@ -21,7 +19,7 @@ const useStyles = createStyles(() => ({
     borderRadius: '10px',
     padding: '20px',
   },
-  clientContactJobs: {
+  activityContactJobs: {
     height: '88.5vh',
     display: 'flex',
     flexDirection: 'column',
@@ -33,29 +31,25 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export const ClientDetails = () => {
+export const ActivityDetails = () => {
   const { classes } = useStyles()
-  const { state } = useLocation()
-  console.log('[ClientDetails] state =', state)
 
   return (
     <>
       <Grid>
-        {/* <Grid.Col span={4}>
-          <div className={classes.clientDetails}>
-            <div className={classes.clientProProfile}>
+        <Grid.Col span={4}>
+          <div className={classes.activityDetails}>
+            <div className={classes.activityProProfile}>
               <Personal />
             </div>
           </div>
-        </Grid.Col> */}
-        <Grid.Col span={12}>
-          <div className={classes.clientDetails}>
-            <div className={classes.clientContactJobs}>
+        </Grid.Col>
+        <Grid.Col span={8}>
+          <div className={classes.activityDetails}>
+            <div className={classes.activityContactJobs}>
               <div>
-                {/* <Contacts /> */}
-                <Personal />
+                <Tasks />
               </div>
-              <Jobs />
             </div>
           </div>
         </Grid.Col>
@@ -64,4 +58,4 @@ export const ClientDetails = () => {
   )
 }
 
-export default ClientDetails
+export default ActivityDetails

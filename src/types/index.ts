@@ -230,7 +230,7 @@ interface TJobsFindById {
 }
 
 interface TClientFindById {
-  data: TClient[]
+  data: TClient
   ok: boolean
   message: string
 }

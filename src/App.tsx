@@ -23,6 +23,9 @@ import { AdminActivity } from './pages/admin/activity'
 import AdminActivityDetails from './pages/admin/activity-details'
 import { useAuth } from './store/auth.strore'
 import Onboarding from './pages/onboarding'
+import Activity from './pages/activity'
+import ActivityDetails from './pages/activity/activity-details'
+import Candidate from './pages/candidate'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -152,6 +155,14 @@ function App() {
               }
             />
             <Route
+              path="/activity-details/:activityId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <ActivityDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/submissions/:jobId"
               element={
                 <ProtectedRoute isAuth={isAuth}>
@@ -159,6 +170,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/activity" element={<Activity />} />
+            <Route path="/candidate" element={<Candidate />} />
             {/* </Route> */}
           </Route>
         </Routes>

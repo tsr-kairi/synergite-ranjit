@@ -27,13 +27,23 @@ const mockdata = [
     ],
   },
   {
-    label: 'Admin',
+    label: 'Resources',
     icon: IconWallet,
     initiallyOpened: false,
-    links: [{ label: 'Activity', link: '/admin-activity' }],
+    links: [
+      { label: 'Employees', link: '/employee' },
+      { label: 'Candidates', link: '/candidate' },
+    ],
   },
-  { label: 'Employees', icon: IconUsers, url: '/employee' },
-  { label: 'Activities', icon: IconActivity },
+  {
+    label: 'Admin',
+    icon: IconActivity,
+    initiallyOpened: false,
+    links: [{ label: 'Activities', link: '/activity' }],
+  },
+
+  // { label: 'Employees', icon: IconUsers, url: '/employee' },
+  // { label: 'Activities', icon: IconActivity, url: '/activity' },
   { label: 'Contacts', icon: IconFileAnalytics },
   { label: 'On Boarding List', icon: IconContrast2, url: '/onboarding-list' },
   { label: 'Settings', icon: IconSettings },
