@@ -30,7 +30,7 @@
     "@mantine/hooks": "^5.1.4",
     "@mantine/modals": "^5.2.0",
     "@mantine/notifications": "^5.2.0",
-    "@table-library/react-table-library": "^4.0.11",
+    "@table-library/react-table-library": "^4.0.18",
     "@tabler/icons": "^1.82.0",
     "axios": "^0.27.2",
     "json-server": "^0.17.0",
@@ -40,7 +40,8 @@
     "react-query": "^3.39.2",
     "react-router-dom": "^6.3.0",
     "serve-json": "^1.0.4",
-    "zod": "^3.18.0"
+    "zod": "^3.18.0",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "-": "^0.0.1",
