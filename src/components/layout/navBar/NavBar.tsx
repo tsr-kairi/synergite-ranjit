@@ -39,7 +39,10 @@ const mockdata = [
     label: 'Admin',
     icon: IconActivity,
     initiallyOpened: false,
-    links: [{ label: 'Activities', link: '/activity' }],
+    links: [
+      { label: 'Activities', link: '/activity' },
+      { label: 'Departments', link: '/department' },
+    ],
   },
 
   // { label: 'Employees', icon: IconUsers, url: '/employee' },

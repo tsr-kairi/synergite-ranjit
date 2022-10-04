@@ -26,6 +26,7 @@ import Onboarding from './pages/onboarding'
 import Activity from './pages/activity'
 import ActivityDetails from './pages/activity/activity-details'
 import Candidate from './pages/candidate'
+import Department from './pages/department'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -172,6 +173,7 @@ function App() {
             />
             <Route path="/activity" element={<Activity />} />
             <Route path="/candidate" element={<Candidate />} />
+            <Route path="/department" element={<Department />} />
             {/* </Route> */}
           </Route>
         </Routes>

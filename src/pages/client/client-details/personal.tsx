@@ -6,15 +6,13 @@ import {
   Loader,
   Grid,
   Button,
+  Drawer,
 } from '@mantine/core'
-import {
-  IconArrowBackUp,
-  IconListDetails,
-  IconPlus,
-  IconView360,
-} from '@tabler/icons'
+import { IconArrowBackUp, IconPlus, IconView360 } from '@tabler/icons'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useGetClientById from '../hooks/useGetClientById'
+import Contacts from './contacts'
 
 const useStyles = createStyles((theme) => ({
   ClientUserCard: {
@@ -56,19 +54,6 @@ const useStyles = createStyles((theme) => ({
   detailHead: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
     border: `1px solid ${theme.colors.blue[0]}`,
-    padding: '10px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    borderRadius: '5px',
-    width: '25%',
-  },
-  detailsIcon: {
-    '&:hover': {
-      backgroundColor: theme.colors.blue[1],
-      cursor: 'pointer',
-      padding: '2px',
-      borderRadius: '2px',
-    },
   },
   userLink: {
     textDecoration: 'none',
@@ -80,6 +65,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Personal() {
+  const [opened, setOpened] = useState(false)
   const { clientId } = useParams()
   const { classes } = useStyles()
 
@@ -100,19 +86,27 @@ export default function Personal() {
 
   return (
     <>
-      <Group grow className={classes.detailHead}>
-        <Text size="md" color="blue" weight={600}>
-          Back to Client List
-        </Text>
-        <Link to={`/client`} className={classes.userLink}>
-          <Text align="right">
-            <IconArrowBackUp
-              size={24}
-              color="blue"
-              className={classes.detailsIcon}
-            />
-          </Text>
-        </Link>
+      <Group position="apart" mb={'md'}>
+        <Button
+          className={classes.detailHead}
+          rightIcon={<IconArrowBackUp />}
+          onClick={() => {
+            setOpened(true)
+          }}
+          variant="subtle"
+        >
+          <Link to={`/client`} className={classes.userLink}>
+            Back to Client List
+          </Link>
+        </Button>
+        <Button
+          leftIcon={<IconView360 />}
+          onClick={() => {
+            setOpened(true)
+          }}
+        >
+          View Contacts
+        </Button>
       </Group>
       <div className={classes.clientInnerProfile}>
         <Grid>
@@ -181,26 +175,20 @@ export default function Personal() {
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={4}></Grid.Col>
-                <Grid.Col span={4}>
-                  <Button>
-                    <Group spacing="sm" align="center">
-                      <IconView360 color="white" />
-                      <Text weight={400}>View Contacts</Text>
-                    </Group>
-                  </Button>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                  <Button>
-                    <Group spacing="sm" align="center">
-                      <IconPlus color="white" />
-                      <Text weight={400}>Add New Contact</Text>
-                    </Group>
-                  </Button>
-                </Grid.Col>
               </Grid>
             </div>
           </Grid.Col>
         </Grid>
+        <Drawer
+          // title="Contacts"
+          opened={opened}
+          onClose={() => setOpened(false)}
+          padding="md"
+          size="xl"
+          position="right"
+        >
+          <Contacts />
+        </Drawer>
         {/* back to Client table list */}
         {/* <Group grow className={classes.detailHead}>
         <Text size="md" color="blue" weight={600}>

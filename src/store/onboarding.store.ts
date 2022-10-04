@@ -8,12 +8,12 @@ import { TClient, TVendor, TJobs } from '../types/index'
 
 interface IOnboarding {
   client?: TClient
-  employee?: any
+  employee?: never
   vendor?: TVendor
   job?: TJobs
   submission?: TSubmission
   setClient: (client: TClient) => void
-  setEmployee: (employee: any) => void
+  setEmployee: (employee: never) => void
   setVendor: (vendor: TVendor) => void
   setJob: (job: TJobs) => void
   setSubmission: (submission: TSubmission) => void
