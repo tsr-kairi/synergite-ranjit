@@ -1,4 +1,4 @@
-import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
+import { departmentQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -16,9 +16,7 @@ const useDeleteActivityById = () => {
       deleteActivityById(onboardingActivityId),
     {
       onSuccess: () => {
-        void queryClient.resetQueries(
-          defaultActivityQueryKeys.allDefaultActivity
-        )
+        void queryClient.resetQueries(departmentQueryKeys.allDepartment)
       },
     }
   )

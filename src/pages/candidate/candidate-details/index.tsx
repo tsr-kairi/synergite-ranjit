@@ -1,4 +1,4 @@
-import { createStyles, Grid } from '@mantine/core'
+import { createStyles } from '@mantine/core'
 import Personal from './personal'
 
 const useStyles = createStyles((theme) => ({
@@ -11,10 +11,8 @@ const useStyles = createStyles((theme) => ({
     // placeItems: 'center',
   },
   candidateProProfile: {
-    // display: 'flex',
-    // height: '88.5vh',
     width: '100%',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
     borderRadius: '10px',
     padding: '20px',
     [theme.fn.smallerThan('xs')]: {
@@ -28,16 +26,11 @@ export const CandidateDetails = () => {
 
   return (
     <>
-      <Grid>
-        <Grid.Col span={4}>
-          <div className={classes.candidateDetails}>
-            <div className={classes.candidateProProfile}>
-              <Personal />
-            </div>
-          </div>
-        </Grid.Col>
-        <Grid.Col span={8}></Grid.Col>
-      </Grid>
+      <div className={classes.candidateDetails}>
+        <div className={classes.candidateProProfile}>
+          <Personal />
+        </div>
+      </div>
     </>
   )
 }

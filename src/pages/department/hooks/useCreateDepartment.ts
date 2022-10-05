@@ -1,4 +1,4 @@
-import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
+import { departmentQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { TDepartmentCreate, TDepartmentFindById } from '@/types/department-type'
 import { useMutation, useQueryClient } from 'react-query'
@@ -14,7 +14,7 @@ const useCreateDefaultActivity = () => {
 
   return useMutation(createDefaultActivity, {
     onSuccess: () => {
-      void queryClient.resetQueries(defaultActivityQueryKeys.allDefaultActivity)
+      void queryClient.resetQueries(departmentQueryKeys.allDepartment)
     },
   })
 }

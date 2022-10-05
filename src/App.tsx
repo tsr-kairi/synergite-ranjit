@@ -27,6 +27,8 @@ import Activity from './pages/activity'
 import ActivityDetails from './pages/activity/activity-details'
 import Candidate from './pages/candidate'
 import Department from './pages/department'
+import CandidateDetails from './pages/candidate/candidate-details'
+import Roles from './pages/roles'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -156,6 +158,14 @@ function App() {
               }
             />
             <Route
+              path="/candidate-details/:candidateId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <CandidateDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/activity-details/:activityId"
               element={
                 <ProtectedRoute isAuth={isAuth}>
@@ -174,6 +184,7 @@ function App() {
             <Route path="/activity" element={<Activity />} />
             <Route path="/candidate" element={<Candidate />} />
             <Route path="/department" element={<Department />} />
+            <Route path="/roles" element={<Roles />} />
             {/* </Route> */}
           </Route>
         </Routes>

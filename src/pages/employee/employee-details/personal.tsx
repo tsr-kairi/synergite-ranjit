@@ -1,36 +1,47 @@
-import { Text, createStyles, Group, Loader } from '@mantine/core'
+import {
+  Text,
+  createStyles,
+  Group,
+  Loader,
+  Avatar,
+  Button,
+} from '@mantine/core'
 import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
 import useGetEmployeeById from '../hooks/useGetEmployeeById'
 
 const useStyles = createStyles((theme) => ({
+  main: {
+    display: 'flex',
+    gap: '20px',
+  },
+  leftSide: {
+    // width: '20%',
+  },
   employeeUserCard: {
     display: 'flex',
-    width: '100%',
     justifyContent: 'center',
     border: `1px solid ${theme.colors.blue[1]}`,
     borderRadius: '5px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    marginTop: '10px',
   },
   UserCardInner: {
     paddingTop: '20px',
     paddingBottom: '20px',
   },
-  employeeInnerProfile: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    gap: '15px',
-  },
   personalDetails: {
     display: 'flex',
-    // flexDirection: 'column',
-    padding: '20px',
+    padding: '10px',
     gap: '50px',
     borderRadius: '5px',
     border: `1px solid ${theme.colors.blue[1]}`,
   },
 
   leftDT: {
+    // display: 'flex',
+    // flexDirection: 'column',
     gap: '5px',
   },
   detailHead: {
@@ -87,37 +98,30 @@ export default function Personal() {
   }
 
   return (
-    <div className={classes.employeeInnerProfile}>
+    <div className={classes.main}>
       {/* back to Employ table list */}
-      <Group grow className={classes.detailHead}>
-        <Text size="md" color="blue" weight={600}>
-          Back to Employee List
-        </Text>
+      <div className={classes.leftSide}>
         <Link to={`/employee`} className={classes.userLink}>
-          <Text align="right">
-            <IconArrowBackUp
-              size={24}
-              color="blue"
-              className={classes.detailsIcon}
-            />
-          </Text>
+          <Button
+            className={classes.detailHead}
+            rightIcon={<IconArrowBackUp />}
+            variant="subtle"
+          >
+            Back to Employee List
+          </Button>
         </Link>
-      </Group>
-      <div className={classes.employeeUserCard}>
-        <div className={classes.UserCardInner}>
-          {/* <Avatar
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            src={`https://gokv9osl.directus.app/assets/${data?.data.profile_image}/${data?.data.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-            size={120}
-            radius={120}
-            mx="auto"
-          /> */}
-          <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data?.fname} {data?.data?.lname}
-          </Text>
-          <Text align="center" color="dimmed" size="sm">
-            {data?.data?.id}
-          </Text>
+        <div className={classes.employeeUserCard}>
+          <div className={classes.UserCardInner}>
+            <Avatar size={80} radius={120} mx="auto" color="cyan">
+              E
+            </Avatar>
+            <Text align="center" color="blue" size="xl" weight={700} mt="md">
+              {data?.data?.fname} {data?.data?.lname}
+            </Text>
+            <Text align="center" color="dimmed" size="sm">
+              {data?.data?.id}
+            </Text>
+          </div>
         </div>
       </div>
       <div className={classes.personalDetails}>
@@ -130,68 +134,134 @@ export default function Personal() {
           >
             Personal Information
           </Text>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Employee Id :</b>
-            </Text>
-            <Text
-              align="center"
-              color="dimmed"
-              size="sm"
-              transform="capitalize"
-            >
-              {data?.data?.id}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Name :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data?.fname} {data?.data?.lname}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Email :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data?.email}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Phone :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data?.phone}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Ssn :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data?.ssn_no}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Date of Birth :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data?.dob}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Gender :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data?.gender}
-            </Text>
-          </Group>
-          {/* <Group spacing="xl">
+          <div className={classes.leftDT}>
+            <Group spacing="xl">
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                <b>Employee Id :</b>
+              </Text>
+              <Text
+                align="center"
+                color="dimmed"
+                size="sm"
+                transform="capitalize"
+              >
+                {data?.data?.id}
+              </Text>
+            </Group>
+            <Group spacing="xl">
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                <b>Name :</b>
+              </Text>
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                {data?.data?.fname} {data?.data?.lname}
+              </Text>
+            </Group>
+            <Group spacing="xl">
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                <b>Email :</b>
+              </Text>
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                {data?.data?.email}
+              </Text>
+            </Group>
+            <Group spacing="xl">
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                <b>Phone :</b>
+              </Text>
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                {data?.data?.phone}
+              </Text>
+            </Group>
+            <Group spacing="xl">
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                <b>Ssn :</b>
+              </Text>
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                {data?.data?.ssn_no}
+              </Text>
+            </Group>
+            <Group spacing="xl">
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                <b>Date of Birth :</b>
+              </Text>
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                {data?.data?.dob}
+              </Text>
+            </Group>
+            <Group spacing="xl">
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                <b>Gender :</b>
+              </Text>
+              <Text
+                size="sm"
+                color="#686969"
+                weight={400}
+                transform="capitalize"
+              >
+                {data?.data?.gender}
+              </Text>
+            </Group>
+            {/* <Group spacing="xl">
             <Text size="sm" color="#686969" weight={400}>
               <b>Ethnic Origin :</b>
             </Text>
@@ -199,15 +269,17 @@ export default function Personal() {
               {data?.data[0]?.ethnic_origin}
             </Text>
           </Group> */}
-          {/* 2nd phase */}
+            {/* 2nd phase */}
+          </div>
+        </div>
+        <div className={classes.leftDT}>
           <Text
             size="md"
             color="blue"
-            mt={'5px'}
             weight={600}
             className={classes.detailBottom}
           >
-            Address Details
+            Address Information
           </Text>
           <Group spacing="xl">
             <Text size="sm" color="#686969" weight={400} transform="capitalize">

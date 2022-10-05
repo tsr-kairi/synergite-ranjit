@@ -42,6 +42,7 @@ const mockdata = [
     links: [
       { label: 'Activities', link: '/activity' },
       { label: 'Departments', link: '/department' },
+      { label: 'Roles', link: '/roles' },
     ],
   },
 
