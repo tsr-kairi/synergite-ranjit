@@ -1,27 +1,25 @@
-import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
+import { departmentQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
-const deleteActivityById = async (
+const deleteDepartmentById = async (
   onboardingActivityId: number
 ): Promise<void> => {
   await axiosPrivate.post(`/default/activity/delete/${onboardingActivityId}`)
 }
 
-const useDeleteActivityById = () => {
+const useDeleteDepartmentById = () => {
   const queryClient = useQueryClient()
 
   return useMutation(
     async (onboardingActivityId: number) =>
-      deleteActivityById(onboardingActivityId),
+      deleteDepartmentById(onboardingActivityId),
     {
       onSuccess: () => {
-        void queryClient.resetQueries(
-          defaultActivityQueryKeys.allDefaultActivity
-        )
+        void queryClient.resetQueries(departmentQueryKeys.allDepartment)
       },
     }
   )
 }
 
-export default useDeleteActivityById
+export default useDeleteDepartmentById

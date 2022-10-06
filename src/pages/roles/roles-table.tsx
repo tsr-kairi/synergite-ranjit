@@ -25,13 +25,13 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TActivity } from '@/types/activity-type'
+import { TRoles } from '@/types/roles-type'
 import { openConfirmModal } from '@mantine/modals'
-import CreateForm from '@/components/form/defaultActivity/createForm'
-import EditForm from '@/components/form/defaultActivity/editForm'
+import CreateForm from '@/components/form/roles/createForm'
+import EditForm from '@/components/form/roles/editForm'
 import { showNotification } from '@mantine/notifications'
+import useDeleteRolesById from './hooks/useDeleteRolesById'
 import { Link } from 'react-router-dom'
-import useDeleteActivityById from './hooks/useDeleteActivityById'
 
 // Style for the activity Page
 const useStyles = createStyles((theme) => ({
@@ -48,7 +48,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  companyDetails: {
+  rolesDetails: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -155,7 +155,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TActivity[], search: string) {
+function filterData(data: TRoles[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -164,9 +164,9 @@ function filterData(data: TActivity[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TActivity[],
+  data: TRoles[],
   payload: {
-    sortBy: keyof TActivity | null
+    sortBy: keyof TRoles | null
     reversed: boolean
     search: string
   }
@@ -190,23 +190,23 @@ function sortData(
   )
 }
 
-interface IActivityTableProps {
-  data: TActivity[]
+interface IRolesTableProps {
+  data: TRoles[]
 }
 
-// Exporting Default ClientTable Component
-export default function ActivityTable({ data }: IActivityTableProps) {
+// Exporting Default RolesTable Component
+export default function RolesTable({ data }: IRolesTableProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
-  const [activityEditData, setActivityEditData] = useState({} as TActivity)
+  const [rolesEditData, setRolesEditData] = useState({} as TRoles)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TActivity | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TRoles | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const { mutate: deleteActivity } = useDeleteActivityById()
+  const { mutate: deleteRoles } = useDeleteRolesById()
 
-  const setSorting = (field: keyof TActivity) => {
+  const setSorting = (field: keyof TRoles) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -222,22 +222,22 @@ export default function ActivityTable({ data }: IActivityTableProps) {
   }
 
   // activity data Delete handler
-  const openModalForDelete = (activity: TActivity) => {
+  const openModalForDelete = (roles: TRoles) => {
     openConfirmModal({
-      title: 'Do You want to delete this activity?',
+      title: 'Do You want to delete this roles?',
       children: (
         <Text size="sm">
-          After deleting a activity, You cannot recover them back. So, Please
-          take your Action Carefully.
+          After deleting a roles, You cannot recover them back. So, Please take
+          your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteActivity(activity.onboardingActivityId)
+        deleteRoles(roles.onboardingActivityId)
         showNotification({
-          title: 'Activity Deleted !!',
-          message: `Activity has been deleted successfully.`,
+          title: 'Roles Deleted !!',
+          message: `Roles has been deleted successfully.`,
         })
       },
     })
@@ -245,11 +245,11 @@ export default function ActivityTable({ data }: IActivityTableProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.onboardingActivityId} className={classes.companyDetails}>
+    <tr key={row?.onboardingActivityId} className={classes.rolesDetails}>
       {/* <td>{row?.role_uuid}</td> */}
       <td>
         <Link
-          to={`/activity-details/${row?.onboardingActivityId}`}
+          to={`/roles-details/${row?.onboardingActivityId}`}
           className={classes.userLink}
         >
           <Tooltip
@@ -261,7 +261,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
           >
             <Group spacing="sm">
               <Avatar color="cyan" radius={26} size={26}>
-                A
+                R
               </Avatar>
               <Text size="sm" weight={500}>
                 {row?.immigration_status}
@@ -282,7 +282,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
-              setActivityEditData(row)
+              setRolesEditData(row)
             }}
           />
           <IconTrash
@@ -302,7 +302,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Activity
+              Roles
             </Text>
             <IconFilter className={classes.filterIcon} />
           </Group>
@@ -427,7 +427,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
         size="xl"
         position="right"
       >
-        <EditForm {...activityEditData} />
+        <EditForm {...rolesEditData} />
       </Drawer>
     </>
   )

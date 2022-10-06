@@ -39,6 +39,15 @@ const defaultActivityQueryKeys = {
   taskList: 'task-list',
 }
 
+const rolesQueryKeys = {
+  allRoles: 'all-roles',
+  rolesDetails: 'roles-details',
+}
+const departmentQueryKeys = {
+  allDepartment: 'all-department',
+  departmentDetails: 'department-details',
+}
+
 export {
   clientQueryKeys,
   vendorQueryKeys,
@@ -47,4 +56,6 @@ export {
   submissionQueryKeys,
   onboardingQueryKeys,
   defaultActivityQueryKeys,
+  departmentQueryKeys,
+  rolesQueryKeys,
 }

@@ -113,6 +113,11 @@ const useStyles = createStyles((theme) => ({
     borderCollapse: 'collapse',
     border: 'none',
   },
+  iconPlus: {
+    color: theme.colors.blue[6],
+    backgroundColor: theme.colors.blue[1],
+    borderRadius: '5px',
+  },
 }))
 
 // Table Heading Props
@@ -240,7 +245,7 @@ export default function ContactsTable({ data }: ContactProps) {
   return (
     <ScrollArea>
       <div className={classes.tableHead}>
-        <Text size={'xl'} weight="600" className={classes.text}>
+        <Text size={'md'} weight="600" className={classes.text}>
           Contacts
         </Text>
         <TextInput
@@ -252,12 +257,10 @@ export default function ContactsTable({ data }: ContactProps) {
           className={classes.searchField}
         />
         {/* Add New - Client Button*/}
-        <Button onClick={() => setOpened(true)}>
-          <Group spacing="sm" align="center">
-            <IconPlus color="white" />
-            <Text weight={400}>Add New</Text>
-          </Group>
-        </Button>
+        <IconPlus
+          className={classes.iconPlus}
+          onClick={() => setOpened(true)}
+        />
       </div>
       <Table
         horizontalSpacing="md"

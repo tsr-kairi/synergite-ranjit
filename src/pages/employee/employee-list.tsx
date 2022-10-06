@@ -334,7 +334,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
       </td>
       <td>{row?.email}</td>
       <td>{row?.phone}</td>
-      <td>{row?.dob}</td>
+      {/* <td>{row?.dob}</td> */}
       <td>{row?.gender}</td>
       <td>{row?.city}</td>
       <td>{row?.state}</td>
@@ -426,13 +426,13 @@ export function EmployeeList({ data }: IEmployeeProps) {
               >
                 Phone
               </Th>
-              <Th
+              {/* <Th
                 sorted={sortBy === 'dob'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('dob')}
               >
                 DOB
-              </Th>
+              </Th> */}
               <Th
                 sorted={sortBy === 'gender'}
                 reversed={reverseSortDirection}

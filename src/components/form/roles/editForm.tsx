@@ -1,5 +1,5 @@
-import useEditDepartment from '@/pages/department/hooks/useEditDepartment'
-import { TDepartment } from '@/types/department-type'
+import useEditRoles from '@/pages/roles/hooks/useEditRoles'
+import { TRoles } from '@/types/roles-type'
 import { TextInput, Button, createStyles, Paper, Select } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
@@ -9,27 +9,27 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(departmentData: TDepartment) {
+export default function EditForm(rolesData: TRoles) {
   const { classes } = useStyles()
-  const { mutate: editDepartment } = useEditDepartment()
+  const { mutate: editRoles } = useEditRoles()
 
-  const form = useForm<TDepartment>({
-    // validate: zodResolver(zActivityEdit),
-    initialValues: departmentData,
+  const form = useForm<TRoles>({
+    // validate: zodResolver(zRolesEdit),
+    initialValues: rolesData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TDepartment) => {
-    const departmentCreateData = {
+  const handleSubmit = (values: TRoles) => {
+    const rolesCreateData = {
       ...values,
     }
 
-    editDepartment(departmentCreateData)
+    editRoles(rolesCreateData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Department Edited successfully.',
+      message: 'Roles Edited successfully.',
     })
   }
 

@@ -8,14 +8,17 @@ import {
 } from '@mantine/core'
 import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
-import useGetDefaultActivityById from '../hooks/useGetDefaultActivityById'
+import useGetRolesById from '../hooks/useGetRolesById'
 
 const useStyles = createStyles((theme) => ({
   main: {
     display: 'flex',
     gap: '20px',
   },
-  activityUserCard: {
+  leftSide: {
+    // width: '20%',
+  },
+  employeeUserCard: {
     display: 'flex',
     justifyContent: 'center',
     border: `1px solid ${theme.colors.blue[1]}`,
@@ -74,13 +77,11 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Personal() {
-  const { activityId } = useParams()
+  const { rolesId } = useParams()
   const { classes } = useStyles()
-  console.log('Personal', activityId)
+  console.log('Personal', rolesId)
 
-  const { data, isError, error, isLoading } = useGetDefaultActivityById(
-    Number(activityId)
-  )
+  const { data, isError, error, isLoading } = useGetRolesById(Number(rolesId))
 
   if (isError) {
     console.log(error)
@@ -97,21 +98,22 @@ export default function Personal() {
 
   return (
     <div className={classes.main}>
-      {/* back to Activity table list */}
-      <div>
-        <Link to={`/activity`} className={classes.userLink}>
+      {/* back to Roles table list */}
+      {/*  */}
+      <div className={classes.leftSide}>
+        <Link to={`/roles`} className={classes.userLink}>
           <Button
             className={classes.detailHead}
             rightIcon={<IconArrowBackUp />}
             variant="subtle"
           >
-            Back to Activity List
+            Back to Roles List
           </Button>
         </Link>
-        <div className={classes.activityUserCard}>
+        <div className={classes.employeeUserCard}>
           <div className={classes.UserCardInner}>
             <Avatar size={40} radius={120} mx="auto" color="cyan">
-              A
+              R
             </Avatar>
             <Text align="center" color="blue" size="xl" weight={700} mt="sm">
               {data?.data?.immigration_status}
@@ -119,10 +121,11 @@ export default function Personal() {
           </div>
         </div>
       </div>
+      {/*  */}
       <div className={classes.personalDetails}>
         <div>
           <Text size="md" color="blue" weight={600} mb="xs">
-            Activity Details
+            Roles Details
           </Text>
           {/* <Text align="right">
             <IconListDetails
@@ -132,7 +135,7 @@ export default function Personal() {
             />
           </Text> */}
           <div className={classes.personalDetails}>
-            <Group spacing="sm">
+            <Group spacing="md">
               <Text
                 size="sm"
                 color="#686969"
@@ -150,7 +153,7 @@ export default function Personal() {
                 {data?.data?.immigration_status}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="md">
               <Text
                 size="sm"
                 color="#686969"
@@ -163,7 +166,7 @@ export default function Personal() {
                 {data?.data?.employee_type}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="md">
               <Text
                 size="sm"
                 color="#686969"
@@ -181,7 +184,7 @@ export default function Personal() {
                 {data?.data?.new_client}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="md">
               <Text
                 size="sm"
                 color="#686969"
@@ -199,7 +202,7 @@ export default function Personal() {
                 {data?.data?.new_subvendor}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="md">
               <Text
                 size="sm"
                 color="#686969"
@@ -217,7 +220,7 @@ export default function Personal() {
                 {data?.data?.default_activity}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="md">
               <Text
                 size="sm"
                 color="#686969"

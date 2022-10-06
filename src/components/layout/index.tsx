@@ -7,7 +7,7 @@ import { AppShell, createStyles } from '@mantine/core'
 // import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import HeaderBar from './HeaderBar'
-import { useAuth } from '@/store/auth.strore'
+import { useAuth } from '@/store/auth.store'
 const useStyles = createStyles((theme) => ({
   outletStyle: {
     backgroundColor: theme.colors.grey[0],

@@ -1,33 +1,32 @@
-import { createStyles, Grid } from '@mantine/core'
+import { createStyles } from '@mantine/core'
 import Personal from './personal'
 import Tasks from './tasks'
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   activityDetails: {
-    // display: 'flex',
     paddingLeft: '20px',
     paddingRight: '20px',
-    // gap: '20px',
     width: '100%',
-    // placeItems: 'center',
   },
   activityProProfile: {
-    // display: 'flex',
-    // height: '88.5vh',
     width: '100%',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
     borderRadius: '10px',
     padding: '20px',
+    [theme.fn.smallerThan('xs')]: {
+      width: '100%',
+    },
   },
-  activityContactJobs: {
-    height: '88.5vh',
+  activityTask: {
     display: 'flex',
     flexDirection: 'column',
     gap: '20px',
     flex: 1,
   },
-  contacts: {
-    height: '40vh',
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '30px',
   },
 }))
 
@@ -36,24 +35,24 @@ export const ActivityDetails = () => {
 
   return (
     <>
-      <Grid>
-        <Grid.Col span={4}>
-          <div className={classes.activityDetails}>
-            <div className={classes.activityProProfile}>
-              <Personal />
+      <div className={classes.main}>
+        {/* <Grid.Col span={4}> */}
+        <div className={classes.activityDetails}>
+          <div className={classes.activityProProfile}>
+            <Personal />
+          </div>
+        </div>
+        {/* </Grid.Col>
+        <Grid.Col span={8}> */}
+        <div className={classes.activityDetails}>
+          <div className={classes.activityTask}>
+            <div>
+              <Tasks />
             </div>
           </div>
-        </Grid.Col>
-        <Grid.Col span={8}>
-          <div className={classes.activityDetails}>
-            <div className={classes.activityContactJobs}>
-              <div>
-                <Tasks />
-              </div>
-            </div>
-          </div>
-        </Grid.Col>
-      </Grid>
+        </div>
+        {/* </Grid.Col> */}
+      </div>
     </>
   )
 }

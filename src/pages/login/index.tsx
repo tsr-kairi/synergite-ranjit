@@ -20,7 +20,7 @@ import { useForm, zodResolver } from '@mantine/form'
 import useLogin, { ILoginRequest } from './hooks/useLogin'
 import { zLoginValidation } from '@/types/login-type'
 import { AxiosError } from 'axios'
-import { useAuth } from '@/store/auth.strore'
+import { useAuth } from '@/store/auth.store'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {

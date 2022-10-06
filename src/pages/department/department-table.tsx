@@ -12,6 +12,7 @@ import {
   Button,
   Drawer,
   Pagination,
+  Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -30,6 +31,7 @@ import CreateForm from '@/components/form/department/createForm'
 import EditForm from '@/components/form/department/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteActivityById from './hooks/useDeleteDepartmentById'
+import { Link } from 'react-router-dom'
 
 // Style for the activity Page
 const useStyles = createStyles((theme) => ({
@@ -192,7 +194,7 @@ interface IDepartmentTableProps {
   data: TDepartment[]
 }
 
-// Exporting Default ClientTable Component
+// Exporting Default DepartmentTable Component
 export default function DepartmentTable({ data }: IDepartmentTableProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
@@ -248,7 +250,7 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
     <tr key={row?.onboardingActivityId} className={classes.companyDetails}>
       {/* <td>{row?.role_uuid}</td> */}
       <td>
-        {/* <Link
+        <Link
           to={`/department-details/${row?.onboardingActivityId}`}
           className={classes.userLink}
         >
@@ -258,17 +260,17 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
             withArrow
             transition="pop-top-right"
             transitionDuration={300}
-          > */}
-        <Group spacing="sm">
-          <Avatar color="cyan" radius={26} size={26}>
-            A
-          </Avatar>
-          <Text size="sm" weight={500}>
-            {row?.immigration_status}
-          </Text>
-        </Group>
-        {/* </Tooltip>
-        </Link> */}
+          >
+            <Group spacing="sm">
+              <Avatar color="cyan" radius={26} size={26}>
+                D
+              </Avatar>
+              <Text size="sm" weight={500}>
+                {row?.immigration_status}
+              </Text>
+            </Group>
+          </Tooltip>
+        </Link>
       </td>
       <td>{row?.employee_type}</td>
       <td>{row?.new_client}</td>
@@ -302,7 +304,7 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Department List
+              Department
             </Text>
             <IconFilter className={classes.filterIcon} />
           </Group>

@@ -1,7 +1,7 @@
-import useEditDepartment from '@/pages/department/hooks/useEditDepartment'
-import { TDepartment } from '@/types/department-type'
+import useCreateRoles from '@/pages/roles/hooks/useCreateRoles'
+import { TRolesCreate, zRolesCreate } from '@/types/roles-type'
 import { TextInput, Button, createStyles, Paper, Select } from '@mantine/core'
-import { useForm } from '@mantine/form'
+import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
   paper: {
@@ -9,27 +9,34 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(departmentData: TDepartment) {
+export default function CreateForm() {
   const { classes } = useStyles()
-  const { mutate: editDepartment } = useEditDepartment()
+  const { mutate: addRoles } = useCreateRoles()
 
-  const form = useForm<TDepartment>({
-    // validate: zodResolver(zActivityEdit),
-    initialValues: departmentData,
+  const form = useForm<TRolesCreate>({
+    validate: zodResolver(zRolesCreate),
+    initialValues: {
+      immigration_status: '',
+      employee_type: '',
+      new_client: '',
+      new_subvendor: '',
+      default_activity: '',
+      department_uuid: '',
+    },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TDepartment) => {
-    const departmentCreateData = {
+  const handleSubmit = (values: TRolesCreate) => {
+    const rolesCreateData = {
       ...values,
     }
 
-    editDepartment(departmentCreateData)
+    addRoles(rolesCreateData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Department Edited successfully.',
+      message: 'Roles Created successfully.',
     })
   }
 
@@ -75,8 +82,8 @@ export default function EditForm(departmentData: TDepartment) {
           />
           <Select
             mb={16}
-            label="New Sub Activity*"
-            placeholder="New Sub Activity"
+            label="New Sub Vendor*"
+            placeholder="New Sub Vendor"
             data={[
               { label: 'Yes', value: 'Yes' },
               { label: 'NO', value: 'NO' },
@@ -108,7 +115,7 @@ export default function EditForm(departmentData: TDepartment) {
             {...form.getInputProps('assigneeRole')}
           /> */}
           <Button fullWidth type="submit" mt="md" mb="lg">
-            Edit New
+            Add New
           </Button>
         </form>
       </Paper>
