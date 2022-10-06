@@ -15,17 +15,19 @@ import apiClient from './base'
 
 // for client contact
 const findContactsByClientId = async (
-  id: number
+  uuid: string
 ): Promise<IFindContactsByClientId> => {
   const { data } = await axiosPrivate.get<IFindContactsByClientId>(
-    `/contact/client/${id}`
+    `/contact/client/${uuid}`
   )
   return data
 }
 
-const findJobsByClientId = async (id: number): Promise<IFindJobsByClientId> => {
+const findJobsByClientId = async (
+  uuid: string
+): Promise<IFindJobsByClientId> => {
   const { data } = await axiosPrivate.get<IFindJobsByClientId>(
-    `/jobs/client/${id}`
+    `/jobs/client/${uuid}`
   )
   return data
 }

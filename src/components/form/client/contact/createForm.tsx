@@ -18,10 +18,10 @@ const useStyles = createStyles(() => ({
 }))
 
 export default function CreateForm() {
-  // const { clientId } = useParams()
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
+  const { clientId } = useParams()
+  // const search = window.location.search
+  // const params = new URLSearchParams(search)
+  // const id = params.get('id')
   const { classes } = useStyles()
   const { mutate: addContact, isSuccess, isError } = useCreateContact()
 
@@ -49,7 +49,7 @@ export default function CreateForm() {
       ...values,
       // status: 'published',
       // clients: Number(clientId),
-      client_id: Number(id),
+      client_uuid: String(clientId),
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 

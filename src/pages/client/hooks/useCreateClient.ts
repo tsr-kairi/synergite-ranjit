@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query'
 const createClient = async (
   client: TClientCreate
 ): Promise<TClientFindById> => {
-  return await axiosPrivate.post('/client/client', client)
+  return await axiosPrivate.post('/client', client)
 }
 
 const useCreateClient = () => {

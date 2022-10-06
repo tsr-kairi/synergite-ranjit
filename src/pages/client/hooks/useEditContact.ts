@@ -4,7 +4,7 @@ import { TContacts, TContactsFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editContact = async (data: TContacts): Promise<TContactsFindById> => {
-  return await axiosPrivate.post(`/contact/save`, data)
+  return await axiosPrivate.patch(`/contact/${data?.uuid}`, data)
 }
 
 const useEditContact = () => {

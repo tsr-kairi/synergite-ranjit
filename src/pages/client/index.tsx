@@ -10,7 +10,7 @@ export const Client = () => {
     return <h1>An Error Occurred</h1>
   }
 
-  if (data?.data.length) {
+  if (data && data?.data.length > 0) {
     return <ClientTable data={data.data} />
   } else {
     return <Loader variant="dots" />
