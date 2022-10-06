@@ -1,4 +1,4 @@
-import useEditDefaultActivity from '@/pages/activity/hooks/useEditDefaultActivity'
+import useEditDepartment from '@/pages/department/hooks/useEditDepartment'
 import { TDepartment } from '@/types/department-type'
 import { TextInput, Button, createStyles, Paper, Select } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -11,7 +11,7 @@ const useStyles = createStyles(() => ({
 
 export default function EditForm(departmentData: TDepartment) {
   const { classes } = useStyles()
-  const { mutate: editDepartment } = useEditDefaultActivity()
+  const { mutate: editDepartment } = useEditDepartment()
 
   const form = useForm<TDepartment>({
     // validate: zodResolver(zActivityEdit),

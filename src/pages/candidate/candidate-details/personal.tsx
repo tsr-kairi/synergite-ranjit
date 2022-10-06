@@ -15,8 +15,10 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     gap: '20px',
   },
-  leftSide: {
-    // width: '20%',
+  mainInner: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
   },
   candidateUserCard: {
     display: 'flex',
@@ -38,26 +40,12 @@ const useStyles = createStyles((theme) => ({
     borderRadius: '5px',
     border: `1px solid ${theme.colors.blue[1]}`,
   },
-
-  leftDT: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    gap: '5px',
-  },
   detailHead: {
     border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
     paddingLeft: '20px',
     paddingRight: '20px',
     borderRadius: '5px',
-  },
-  detailBottom: {
-    marginBottom: '5px',
-    borderBottom: `1px solid transparent`,
-
-    '&:hover': {
-      borderBottom: `1px solid blue`,
-    },
   },
   detailsIcon: {
     '&:hover': {
@@ -100,7 +88,7 @@ export default function Personal() {
   return (
     <div className={classes.main}>
       {/* back to Employ table list */}
-      <div className={classes.leftSide}>
+      <div>
         <Link to={`/candidate`} className={classes.userLink}>
           <Button
             className={classes.detailHead}
@@ -112,222 +100,285 @@ export default function Personal() {
         </Link>
         <div className={classes.candidateUserCard}>
           <div className={classes.UserCardInner}>
-            <Avatar size={80} radius={120} mx="auto" color="cyan">
+            <Avatar size={40} radius={120} mx="auto" color="cyan">
               C
             </Avatar>
-            <Text align="center" color="blue" size="xl" weight={700} mt="md">
+            <Text align="center" color="blue" size="xl" weight={700} mt="sm">
               {data?.data[0]?.fname} {data?.data[0]?.lname}
-            </Text>
-            <Text align="center" color="dimmed" size="sm">
-              {data?.data[0]?.id}
             </Text>
           </div>
         </div>
       </div>
-      <div className={classes.personalDetails}>
-        <div className={classes.leftDT}>
-          <Text
-            size="md"
-            color="blue"
-            weight={600}
-            className={classes.detailBottom}
-          >
-            Personal Information
-          </Text>
-          <div className={classes.leftDT}>
-            <Group spacing="xl">
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                <b>Employee Id :</b>
-              </Text>
-              <Text
-                align="center"
-                color="dimmed"
-                size="sm"
-                transform="capitalize"
-              >
-                {data?.data[0]?.id}
-              </Text>
-            </Group>
-            <Group spacing="xl">
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                <b>Name :</b>
-              </Text>
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                {data?.data[0]?.fname} {data?.data[0]?.lname}
-              </Text>
-            </Group>
-            <Group spacing="xl">
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                <b>Email :</b>
-              </Text>
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                {data?.data[0]?.email}
-              </Text>
-            </Group>
-            <Group spacing="xl">
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                <b>Phone :</b>
-              </Text>
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                {data?.data[0]?.phone}
-              </Text>
-            </Group>
-            <Group spacing="xl">
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                <b>Ssn :</b>
-              </Text>
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                {data?.data[0]?.ssn_no}
-              </Text>
-            </Group>
-            <Group spacing="xl">
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                <b>Date of Birth :</b>
-              </Text>
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                {data?.data[0]?.dob}
-              </Text>
-            </Group>
-            <Group spacing="xl">
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                <b>Gender :</b>
-              </Text>
-              <Text
-                size="sm"
-                color="#686969"
-                weight={400}
-                transform="capitalize"
-              >
-                {data?.data[0]?.gender}
-              </Text>
-            </Group>
+      <div className={classes.mainInner}>
+        <div className={classes.personalDetails}>
+          <div>
+            <Text size="md" color="blue" weight={600} mb="xs">
+              Personal Information
+            </Text>
+            <div className={classes.personalDetails}>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Employee Id :</b>
+                </Text>
+                <Text
+                  align="center"
+                  color="dimmed"
+                  size="sm"
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.id}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Name :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.fname} {data?.data[0]?.lname}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Email :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.email}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Phone :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.phone}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Ssn :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.ssn_no}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Date of Birth :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.dob}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Gender :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.gender}
+                </Text>
+              </Group>
+            </div>
           </div>
         </div>
-        <div className={classes.leftDT}>
-          <Text
-            size="md"
-            color="blue"
-            weight={600}
-            className={classes.detailBottom}
-          >
-            Address Information
-          </Text>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Address Line 1 :</b>
+        <div className={classes.personalDetails}>
+          <div>
+            <Text size="md" color="blue" weight={600} mb="xs">
+              Address Information
             </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data[0]?.address1}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Address line 2 :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data[0]?.address2}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>City :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data[0]?.city}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>State :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data[0]?.state}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>County :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data[0]?.county}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Country :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data[0]?.country}
-            </Text>
-          </Group>
-          <Group spacing="xl">
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              <b>Zip Code :</b>
-            </Text>
-            <Text size="sm" color="#686969" weight={400} transform="capitalize">
-              {data?.data[0]?.zip}
-            </Text>
-          </Group>
+            <div className={classes.personalDetails}>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Address Line 1 :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.address1}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Address line 2 :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.address2}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>City :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.city}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>State :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.state}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>County :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.county}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Country :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.country}
+                </Text>
+              </Group>
+              <Group spacing="xs">
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  <b>Zip Code :</b>
+                </Text>
+                <Text
+                  size="sm"
+                  color="#686969"
+                  weight={400}
+                  transform="capitalize"
+                >
+                  {data?.data[0]?.zip}
+                </Text>
+              </Group>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -3,20 +3,20 @@ import axiosPrivate from '@/services/axiosPrivate'
 import { TDepartment, TDepartmentFindById } from '@/types/department-type'
 import { useMutation, useQueryClient } from 'react-query'
 
-const editDefaultActivity = async (
+const editDepartment = async (
   data: TDepartment
 ): Promise<TDepartmentFindById> => {
   return await axiosPrivate.post(`/default/activity`, data)
 }
 
-const useEditDefaultActivity = () => {
+const useEditDepartment = () => {
   const queryClient = useQueryClient()
 
-  return useMutation(editDefaultActivity, {
+  return useMutation(editDepartment, {
     onSuccess: () => {
       void queryClient.resetQueries(departmentQueryKeys.allDepartment)
     },
   })
 }
 
-export default useEditDefaultActivity
+export default useEditDepartment

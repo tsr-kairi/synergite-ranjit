@@ -25,7 +25,7 @@ import Logo from '../logo'
 import { Link, useNavigate } from 'react-router-dom'
 import useLogout from '@/pages/login/hooks/useLogout'
 import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
-import { useAuth } from '@/store/auth.strore'
+import { useAuth } from '@/store/auth.store'
 
 const useStyles = createStyles((theme) => ({
   header: {

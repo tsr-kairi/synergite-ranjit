@@ -1,4 +1,4 @@
-import useCreateDefaultActivity from '@/pages/activity/hooks/useCreateDefaultActivity'
+import useCreateDepartment from '@/pages/department/hooks/useCreateDepartment'
 import { TDepartmentCreate, zDepartmentCreate } from '@/types/department-type'
 import { TextInput, Button, createStyles, Paper, Select } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
@@ -11,7 +11,7 @@ const useStyles = createStyles(() => ({
 
 export default function CreateForm() {
   const { classes } = useStyles()
-  const { mutate: addDepartment } = useCreateDefaultActivity()
+  const { mutate: addDepartment } = useCreateDepartment()
 
   const form = useForm<TDepartmentCreate>({
     validate: zodResolver(zDepartmentCreate),

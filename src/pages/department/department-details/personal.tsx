@@ -8,14 +8,14 @@ import {
 } from '@mantine/core'
 import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
-import useGetDefaultActivityById from '../hooks/useGetDefaultActivityById'
+import useGetDepartmentById from '../hooks/useGetDepartmentById'
 
 const useStyles = createStyles((theme) => ({
   main: {
     display: 'flex',
     gap: '20px',
   },
-  activityUserCard: {
+  departmentUserCard: {
     display: 'flex',
     justifyContent: 'center',
     border: `1px solid ${theme.colors.blue[1]}`,
@@ -74,12 +74,12 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Personal() {
-  const { activityId } = useParams()
+  const { departmentId } = useParams()
   const { classes } = useStyles()
-  console.log('Personal', activityId)
+  console.log('Personal', departmentId)
 
-  const { data, isError, error, isLoading } = useGetDefaultActivityById(
-    Number(activityId)
+  const { data, isError, error, isLoading } = useGetDepartmentById(
+    Number(departmentId)
   )
 
   if (isError) {
@@ -97,21 +97,22 @@ export default function Personal() {
 
   return (
     <div className={classes.main}>
-      {/* back to Activity table list */}
+      {/* back to Department table list */}
+      {/*  */}
       <div>
-        <Link to={`/activity`} className={classes.userLink}>
+        <Link to={`/department`} className={classes.userLink}>
           <Button
             className={classes.detailHead}
             rightIcon={<IconArrowBackUp />}
             variant="subtle"
           >
-            Back to Activity List
+            Back to Department List
           </Button>
         </Link>
-        <div className={classes.activityUserCard}>
+        <div className={classes.departmentUserCard}>
           <div className={classes.UserCardInner}>
             <Avatar size={40} radius={120} mx="auto" color="cyan">
-              A
+              D
             </Avatar>
             <Text align="center" color="blue" size="xl" weight={700} mt="sm">
               {data?.data?.immigration_status}
@@ -119,10 +120,11 @@ export default function Personal() {
           </div>
         </div>
       </div>
+      {/*  */}
       <div className={classes.personalDetails}>
         <div>
           <Text size="md" color="blue" weight={600} mb="xs">
-            Activity Details
+            Department Details
           </Text>
           {/* <Text align="right">
             <IconListDetails
@@ -132,7 +134,7 @@ export default function Personal() {
             />
           </Text> */}
           <div className={classes.personalDetails}>
-            <Group spacing="sm">
+            <Group spacing="xs">
               <Text
                 size="sm"
                 color="#686969"
@@ -150,7 +152,7 @@ export default function Personal() {
                 {data?.data?.immigration_status}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="xs">
               <Text
                 size="sm"
                 color="#686969"
@@ -163,7 +165,7 @@ export default function Personal() {
                 {data?.data?.employee_type}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="xs">
               <Text
                 size="sm"
                 color="#686969"
@@ -181,7 +183,7 @@ export default function Personal() {
                 {data?.data?.new_client}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="xs">
               <Text
                 size="sm"
                 color="#686969"
@@ -199,7 +201,7 @@ export default function Personal() {
                 {data?.data?.new_subvendor}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="xs">
               <Text
                 size="sm"
                 color="#686969"
@@ -217,7 +219,7 @@ export default function Personal() {
                 {data?.data?.default_activity}
               </Text>
             </Group>
-            <Group spacing="sm">
+            <Group spacing="xs">
               <Text
                 size="sm"
                 color="#686969"

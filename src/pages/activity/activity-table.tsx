@@ -302,7 +302,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Activity List
+              Activity
             </Text>
             <IconFilter className={classes.filterIcon} />
           </Group>

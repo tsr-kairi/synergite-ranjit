@@ -21,7 +21,7 @@ import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess
 import OnboardingList from './pages/onboarding/components/onboarding-list'
 import { AdminActivity } from './pages/admin/activity'
 import AdminActivityDetails from './pages/admin/activity-details'
-import { useAuth } from './store/auth.strore'
+import { useAuth } from './store/auth.store'
 import Onboarding from './pages/onboarding'
 import Activity from './pages/activity'
 import ActivityDetails from './pages/activity/activity-details'
@@ -29,11 +29,12 @@ import Candidate from './pages/candidate'
 import Department from './pages/department'
 import CandidateDetails from './pages/candidate/candidate-details'
 import Roles from './pages/roles'
+import DepartmentDetails from './pages/department/department-details'
+import RolesDetails from './pages/roles/roles-details'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
   const isAuth = useAuth((state) => state.isAuth)
-
   return (
     <BrowserRouter>
       <React.Suspense fallback={<Loader variant="dots" />}>
@@ -166,6 +167,14 @@ function App() {
               }
             />
             <Route
+              path="/submissions/:jobId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <SubmissionMain />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/activity-details/:activityId"
               element={
                 <ProtectedRoute isAuth={isAuth}>
@@ -174,10 +183,18 @@ function App() {
               }
             />
             <Route
-              path="/submissions/:jobId"
+              path="/department-details/:departmentId"
               element={
                 <ProtectedRoute isAuth={isAuth}>
-                  <SubmissionMain />
+                  <DepartmentDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/roles-details/:rolesId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <RolesDetails />
                 </ProtectedRoute>
               }
             />

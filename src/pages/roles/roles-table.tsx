@@ -12,6 +12,7 @@ import {
   Button,
   Drawer,
   Pagination,
+  Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -30,6 +31,7 @@ import CreateForm from '@/components/form/roles/createForm'
 import EditForm from '@/components/form/roles/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteRolesById from './hooks/useDeleteRolesById'
+import { Link } from 'react-router-dom'
 
 // Style for the activity Page
 const useStyles = createStyles((theme) => ({
@@ -246,8 +248,8 @@ export default function RolesTable({ data }: IRolesTableProps) {
     <tr key={row?.onboardingActivityId} className={classes.rolesDetails}>
       {/* <td>{row?.role_uuid}</td> */}
       <td>
-        {/* <Link
-          to={`/department-details/${row?.onboardingActivityId}`}
+        <Link
+          to={`/roles-details/${row?.onboardingActivityId}`}
           className={classes.userLink}
         >
           <Tooltip
@@ -256,17 +258,17 @@ export default function RolesTable({ data }: IRolesTableProps) {
             withArrow
             transition="pop-top-right"
             transitionDuration={300}
-          > */}
-        <Group spacing="sm">
-          <Avatar color="cyan" radius={26} size={26}>
-            R
-          </Avatar>
-          <Text size="sm" weight={500}>
-            {row?.immigration_status}
-          </Text>
-        </Group>
-        {/* </Tooltip>
-        </Link> */}
+          >
+            <Group spacing="sm">
+              <Avatar color="cyan" radius={26} size={26}>
+                R
+              </Avatar>
+              <Text size="sm" weight={500}>
+                {row?.immigration_status}
+              </Text>
+            </Group>
+          </Tooltip>
+        </Link>
       </td>
       <td>{row?.employee_type}</td>
       <td>{row?.new_client}</td>
@@ -300,7 +302,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Roles List
+              Roles
             </Text>
             <IconFilter className={classes.filterIcon} />
           </Group>
