@@ -19,11 +19,14 @@ const useStyles = createStyles(() => ({
 }))
 
 export default function CreateForm() {
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
+  const { clientId } = useParams()
+  // const search = window.location.search
+  // const params = new URLSearchParams(search)
+  // const id = params.get('id')
   const { classes } = useStyles()
   const { mutate: addJob, isSuccess, isError } = useCreateJob()
+
+  console.log('clientId', clientId)
 
   const form = useForm<TJobCreate>({
     validate: zodResolver(zJobCreate),
@@ -49,7 +52,7 @@ export default function CreateForm() {
       ...values,
       // status: 'published',
       // clients: Number(clientId),
-      client_id: Number(id),
+      client_uuid: String(clientId),
     }
 
     const data = addJob(jobCreateData)

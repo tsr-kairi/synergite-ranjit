@@ -252,7 +252,7 @@ export function ClientTable({ data }: IClientTableProps) {
       <td>{row?.id}</td>
       <td>
         <Link
-          to={`/client-details/${row?.uuid}?id=${row?.id}`}
+          to={`/client-details/${row?.uuid}`}
           // state={{ user: row }}
           className={classes.userLink}
           onClick={() => setClient(row)}
