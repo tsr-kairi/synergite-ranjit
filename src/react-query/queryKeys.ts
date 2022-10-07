@@ -25,7 +25,7 @@ const candidateQueryKeys = {
 const submissionQueryKeys = {
   allSubmission: 'all-submissions',
   submissionDetails: 'submission-details',
-  getAllSubmissionByJobId: 'get-all-submission-by-job-id',
+  getAllSubmissionByClientIdJobId: 'get-all-submission-by-client_id_job-id',
 }
 
 const onboardingQueryKeys = {

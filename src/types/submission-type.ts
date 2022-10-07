@@ -2,34 +2,47 @@ import { z } from 'zod'
 
 // Submission Validation
 const zSubmission = z.object({
-  id: z.number(),
-  created_by: z.string(),
-  created_date: z.date(),
-  modified_by: z.string(),
-  modified_date: z.date(),
-  delete_date: z.date(),
-  client_id: z.number(),
+  first_name: z.string(),
+  last_name: z.string(),
+  city: z.string(),
+  state: z.string(),
+  country: z.string(),
   submission_status: z.string(),
   remarks: z.string(),
-  employee_id: z.number(),
-  vendor_id: z.number(),
+  rejection_reason: z.string(),
+  recruiters: z.string(),
+  recruitment_mgr_id: z.string(),
+  acct_mgr_id: z.string(),
+  client_id: z.string(),
+  employee_id: z.string(),
+  vendor_id: z.string(),
   uuid: z.string(),
 })
 
 // new Submission crate
 const zSubmissionCreate = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  city: z.string(),
+  state: z.string(),
+  country: z.string(),
   submission_status: z.string(),
   remarks: z.string(),
-  employee_id: z.number(),
-  vendor_id: z.number(),
+  rejection_reason: z.string(),
+  recruiters: z.string(),
 })
 
 // Submission update
 const zSubmissionEdit = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  city: z.string(),
+  state: z.string(),
+  country: z.string(),
   submission_status: z.string(),
   remarks: z.string(),
-  employee_id: z.string(),
-  vendor_id: z.string(),
+  rejection_reason: z.string(),
+  recruiters: z.string(),
 })
 
 // submission zod types define
@@ -64,15 +77,3 @@ export type {
 
 // export ZOD submission
 export { zSubmissionEdit, zSubmissionCreate }
-
-// // "employee_id": 1,
-// // "vendor_id": 2,
-// // "job_id": 2,
-// "start_date": null,
-// "end_date": null,
-// "employee_type": "Internal",
-// "others": "comments",
-// "recruitment_mgr_id": null,
-// "acct_mgr_id": null,
-// "status": "Y",
-// "sub_status": null,

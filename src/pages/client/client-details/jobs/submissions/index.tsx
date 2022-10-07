@@ -1,5 +1,5 @@
 import { createStyles, Grid } from '@mantine/core'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import Personal from './personal'
 import Submission from './submission'
 
@@ -33,6 +33,11 @@ const useStyles = createStyles(() => ({
 }))
 
 export const SubmissionMain = () => {
+  const [searchParams] = useSearchParams()
+  // console.log('searchParams', searchParams.get('client_id'))
+  // const params = useParams()
+  // console.log('NewClient', params)
+
   const { classes } = useStyles()
 
   return (
@@ -49,7 +54,10 @@ export const SubmissionMain = () => {
           <div className={classes.submissionDetails}>
             <div className={classes.submissionContactJobs}>
               <div>
-                <Submission />
+                <Submission
+                  client_id={searchParams.get('client_id') || ''}
+                  job_id={searchParams.get('job_id') || ''}
+                />
               </div>
             </div>
           </div>
