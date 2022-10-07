@@ -5,7 +5,7 @@ import { TJobsFindById } from '@/types'
 import { useQuery } from 'react-query'
 
 const findJobById = async (id: string) => {
-  const response = await axiosPrivate.get<TJobsFindById>(`/jobs/get/${id}`)
+  const response = await axiosPrivate.get<TJobsFindById>(`/jobs/${id}`)
   return response.data
 }
 

@@ -4,14 +4,14 @@ import { IFindContactsByClientId, TContacts } from '@/types'
 import { Loader } from '@mantine/core'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import ContactsTable from './contactsTable'
 
 const Contacts = () => {
-  // const { clientId } = useParams()
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
+  const { clientId } = useParams()
+  // const search = window.location.search
+  // const params = new URLSearchParams(search)
+  // const id = params.get('id')
   const [contactsData, setContactsData] = useState<TContacts[]>(
     [] as TContacts[]
   )
@@ -20,8 +20,8 @@ const Contacts = () => {
     IFindContactsByClientId,
     Error
   >(
-    [clientQueryKeys.contactList, id],
-    async () => await ClientService.findContactsByClientId(Number(id)),
+    [clientQueryKeys.contactList, clientId],
+    async () => await ClientService.findContactsByClientId(String(clientId)),
     {
       onSuccess: (data) => {
         setContactsData(data.data)

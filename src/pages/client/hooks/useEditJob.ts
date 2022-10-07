@@ -5,7 +5,7 @@ import { TJobs, TJobsFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editJob = async (data: TJobs): Promise<TJobsFindById> => {
-  return await axiosPrivate.post(`/jobs/save`, data)
+  return await axiosPrivate.patch(`/jobs/${data?.uuid}`, data)
 }
 
 const useEditJob = () => {

@@ -4,7 +4,7 @@ import apiClient from '@/services/base'
 import { useMutation, useQueryClient } from 'react-query'
 
 const deleteJobById = async (uuid: string): Promise<void> => {
-  await axiosPrivate.post(`/jobs/delete/${uuid}`)
+  await axiosPrivate.delete(`/jobs/${uuid}`)
 }
 
 const useDeleteJobById = () => {
