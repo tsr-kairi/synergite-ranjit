@@ -4,7 +4,7 @@ import { TTasks, TTaskFindById } from '@/types/activity-type'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editTask = async (data: TTasks): Promise<TTaskFindById> => {
-  return await axiosPrivate.post('/default/task', data)
+  return await axiosPrivate.patch('/default/task', data)
 }
 
 const useEditTask = () => {

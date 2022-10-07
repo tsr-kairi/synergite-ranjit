@@ -119,7 +119,7 @@ interface OnboardingTileProps {
   onActionPressed?: () => any
 }
 
-const OnboardingTile: React.FC<OnboardingTileProps> = (props) => {
+const OnboardingTileProps: React.FC<OnboardingTileProps> = (props) => {
   const { onAddNotePressed, onActionPressed } = props
 
   return (

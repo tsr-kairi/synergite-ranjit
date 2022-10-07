@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 // Activity List Data
 const zActivity = z.object({
-  onboardingActivityId: z.number(),
+  uuid: z.string(),
   role_uuid: z.string(),
   immigration_status: z.string(),
   employee_type: z.string(),
@@ -15,7 +15,6 @@ const zActivity = z.object({
   // createdDate: z.string().optional(),
   // modifiedBy: z.string().optional(),
   // modifiedDate: z.string().optional(),
-  uuid: z.string(),
 })
 
 // new Activity add
@@ -42,8 +41,8 @@ const zActivityEdit = z.object({
 
 // Activity task
 const zTask = z.object({
-  id: z.number(),
-  onboarding_activity_id: z.number(),
+  uuid: z.string(),
+  activity_id: z.string(),
   // created_by: z.number(),
   default_task: z.string(),
   status: z.string(),

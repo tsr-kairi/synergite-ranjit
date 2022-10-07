@@ -234,7 +234,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteActivity(activity.onboardingActivityId)
+        deleteActivity(activity.uuid)
         showNotification({
           title: 'Activity Deleted !!',
           message: `Activity has been deleted successfully.`,
@@ -245,11 +245,11 @@ export default function ActivityTable({ data }: IActivityTableProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.onboardingActivityId} className={classes.companyDetails}>
+    <tr key={row?.uuid} className={classes.companyDetails}>
       {/* <td>{row?.role_uuid}</td> */}
       <td>
         <Link
-          to={`/activity-details/${row?.onboardingActivityId}`}
+          to={`/activity-details/${row?.uuid}`}
           className={classes.userLink}
         >
           <Tooltip

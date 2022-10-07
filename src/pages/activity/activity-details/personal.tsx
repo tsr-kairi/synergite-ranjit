@@ -79,7 +79,7 @@ export default function Personal() {
   console.log('Personal', activityId)
 
   const { data, isError, error, isLoading } = useGetDefaultActivityById(
-    Number(activityId)
+    String(activityId)
   )
 
   if (isError) {

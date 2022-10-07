@@ -117,6 +117,7 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.blue[6],
     backgroundColor: theme.colors.blue[1],
     borderRadius: '5px',
+    cursor: 'pointer',
   },
 }))
 
@@ -277,13 +278,13 @@ export default function ContactsTable({ data }: ContactProps) {
             >
               Name
             </Th>
-            {/* <Th
+            <Th
               sorted={sortBy === 'email1'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('email1')}
             >
               Email
-            </Th> */}
+            </Th>
             <Th
               sorted={sortBy === 'phone1'}
               reversed={reverseSortDirection}
@@ -331,7 +332,7 @@ export default function ContactsTable({ data }: ContactProps) {
                     </Text>
                   </Group>
                 </td>
-                {/* <td>{row?.email1}</td> */}
+                <td>{row?.email1}</td>
                 <td>{row?.phone1}</td>
                 {/* <td>{row?.city}</td>
                 <td>{row?.state}</td>
