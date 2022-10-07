@@ -83,13 +83,13 @@ export default function Onboarding() {
     if (vendor) {
       setVendorDetailsData(vendor)
     }
-  }, [client])
+  }, [client, vendor])
 
   useEffect(() => {
     if (active === 4) {
       setOnboardingStepperData(form.values)
     }
-  }, [active])
+  }, [])
 
   // onboarding flow states
 

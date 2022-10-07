@@ -2,14 +2,14 @@ import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
-const deleteTaskById = async (id: number): Promise<void> => {
-  await axiosPrivate.post(`/default/task/delete/${id}`)
+const deleteTaskById = async (uuid: string): Promise<void> => {
+  await axiosPrivate.delete(`/default/task/${uuid}`)
 }
 
 const useDeleteTaskById = () => {
   const queryClient = useQueryClient()
 
-  return useMutation(async (id: number) => deleteTaskById(id), {
+  return useMutation(async (uuid: string) => deleteTaskById(uuid), {
     onSuccess: () => {
       void queryClient.resetQueries(defaultActivityQueryKeys.taskList)
     },

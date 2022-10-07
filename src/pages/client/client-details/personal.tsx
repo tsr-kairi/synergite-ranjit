@@ -4,56 +4,72 @@ import {
   createStyles,
   Group,
   Loader,
-  Grid,
   Button,
   Drawer,
 } from '@mantine/core'
-import { IconArrowBackUp, IconPlus, IconView360 } from '@tabler/icons'
+import { IconArrowBackUp, IconView360 } from '@tabler/icons'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useGetClientById from '../hooks/useGetClientById'
 import Contacts from './contacts'
 
 const useStyles = createStyles((theme) => ({
-  ClientUserCard: {
+  main: {
     display: 'flex',
-    width: '100%',
-    justifyContent: 'center',
-    border: `1px solid ${theme.colors.blue[0]}`,
+    flexDirection: 'column',
+    gap: '10px',
+  },
+  clientUserCard: {
+    border: `1px solid ${theme.colors.blue[1]}`,
     borderRadius: '5px',
-  },
-  UserCardInner: {
-    paddingTop: '20px',
-    paddingBottom: '20px',
-  },
-  clientInnerProfile: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // flexDirection: 'row',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
-    border: `1px solid ${theme.colors.blue[0]}`,
-    // width: '100%',
-    // gap: '15px',
-  },
-  heading: {
     paddingLeft: '20px',
-    paddingTop: '20px',
-  },
-  colalign: {
-    paddingTop: '20px',
+    paddingRight: '20px',
+    paddingTop: '13px',
+    paddingBottom: '13px',
   },
   personalDetails: {
     display: 'flex',
-    flexDirection: 'column',
-    padding: '20px',
-    gap: '5px',
+    padding: '10px',
+    gap: '40px',
     borderRadius: '5px',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
-    border: `1px solid ${theme.colors.blue[0]}`,
+    border: `1px solid ${theme.colors.blue[1]}`,
   },
+  personalDetailsInner: {
+    borderRadius: '5px',
+    border: `1px solid ${theme.colors.blue[1]}`,
+    padding: '10px',
+  },
+  personalDetailsMain: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px',
+    gap: '10px',
+    borderRadius: '5px',
+    border: `1px solid ${theme.colors.blue[1]}`,
+  },
+
   detailHead: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
-    border: `1px solid ${theme.colors.blue[0]}`,
+    border: `1px solid ${theme.colors.blue[1]}`,
+    padding: '10px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    borderRadius: '5px',
+  },
+  detailBottom: {
+    marginBottom: '5px',
+    borderBottom: `1px solid transparent`,
+
+    '&:hover': {
+      borderBottom: `1px solid blue`,
+    },
+  },
+  detailsIcon: {
+    '&:hover': {
+      backgroundColor: theme.colors.blue[1],
+      cursor: 'pointer',
+      padding: '2px',
+      borderRadius: '2px',
+    },
   },
   userLink: {
     textDecoration: 'none',
@@ -86,203 +102,107 @@ export default function Personal() {
 
   return (
     <>
-      <Group position="apart" mb={'md'}>
-        <Button
-          className={classes.detailHead}
-          rightIcon={<IconArrowBackUp />}
-          onClick={() => {
-            setOpened(true)
-          }}
-          variant="subtle"
-        >
-          <Link to={`/client`} className={classes.userLink}>
-            Back to Client List
-          </Link>
-        </Button>
-        <Button
-          leftIcon={<IconView360 />}
-          onClick={() => {
-            setOpened(true)
-          }}
-        >
-          View Contacts
-        </Button>
-      </Group>
-      <div className={classes.clientInnerProfile}>
-        <Grid>
-          <Grid.Col span={4}>
-            <Group grow className={classes.heading}>
-              <Text size="lg" color="blue" weight={600}>
-                Client Details
-              </Text>
-            </Group>
-            <Avatar
-              src={`https://cdn4.vectorstock.com/i/1000x1000/17/28/color-letter-c-logo-icon-design-vector-22731728.jpg`}
-              size={120}
-              radius={120}
-              mx="auto"
-            />
-          </Grid.Col>
-          <Grid.Col span={8}>
-            <div className={classes.colalign}>
-              <Grid>
-                <Grid.Col span={4}>
-                  <Text size="lg" color="#686969" weight={400}>
-                    <b>Client Name :</b>
-                  </Text>
-                  <Text size="lg" color="#686969" weight={400}>
-                    {data?.data?.first_name} {data?.data?.last_name}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                  <Text size="lg" color="#686969" weight={400}>
-                    <b>Email :</b>
-                  </Text>
-                  <Text size="lg" color="#686969" weight={400}>
-                    {data?.data?.primary_email}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                  <Text size="lg" color="#686969" weight={400}>
-                    <b>Phone :</b>
-                  </Text>
-                  <Text size="lg" color="#686969" weight={400}>
-                    {data?.data?.primary_phone}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                  <Text size="lg" color="#686969" weight={400}>
-                    <b>City :</b>
-                  </Text>
-                  <Text size="lg" color="#686969" weight={400}>
-                    {data?.data?.city}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                  <Text size="lg" color="#686969" weight={400}>
-                    <b>State :</b>
-                  </Text>
-                  <Text size="lg" color="#686969" weight={400}>
-                    {data?.data?.state}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                  <Text size="lg" color="#686969" weight={400}>
-                    <b>Country :</b>
-                  </Text>
-                  <Text size="lg" color="#686969" weight={400}>
-                    {data?.data?.country}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={4}></Grid.Col>
-              </Grid>
+      <div className={classes.main}>
+        <div>
+          <Group position="apart">
+            <Link to={`/client`} className={classes.userLink}>
+              <Button
+                className={classes.detailHead}
+                rightIcon={<IconArrowBackUp />}
+                onClick={() => {
+                  setOpened(true)
+                }}
+                variant="subtle"
+              >
+                Back to Client List
+              </Button>
+            </Link>
+
+            <Button
+              leftIcon={<IconView360 />}
+              onClick={() => {
+                setOpened(true)
+              }}
+            >
+              View Contacts
+            </Button>
+          </Group>
+        </div>
+        <div className={classes.personalDetailsMain}>
+          <div className={classes.clientUserCard}>
+            <Avatar size={40} radius={120} mx="auto" color="cyan">
+              C
+            </Avatar>
+            <Text align="center" color="blue" size="xl" weight={700} mt="sm">
+              {data?.data?.first_name} {data?.data?.last_name}
+            </Text>
+          </div>
+          <div className={classes.personalDetailsInner}>
+            <Text size="lg" color="blue" weight={600} mb="xs">
+              Client Details
+            </Text>
+
+            <div className={classes.personalDetails}>
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
+                  <b>Client Name :</b>
+                </Text>
+                <Text size="lg" color="#686969" weight={400}>
+                  {data?.data?.first_name} {data?.data?.last_name}
+                </Text>
+              </Group>
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
+                  <b>Email :</b>
+                </Text>
+                <Text size="lg" color="#686969" weight={400}>
+                  {data?.data?.primary_email}
+                </Text>
+              </Group>
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
+                  <b>Phone :</b>
+                </Text>
+                <Text size="lg" color="#686969" weight={400}>
+                  {data?.data?.primary_phone}
+                </Text>
+              </Group>
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
+                  <b>City :</b>
+                </Text>
+                <Text size="lg" color="#686969" weight={400}>
+                  {data?.data?.city}
+                </Text>
+              </Group>
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
+                  <b>State :</b>
+                </Text>
+                <Text size="lg" color="#686969" weight={400}>
+                  {data?.data?.state}
+                </Text>
+              </Group>
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
+                  <b>Country :</b>
+                </Text>
+                <Text size="lg" color="#686969" weight={400}>
+                  {data?.data?.country}
+                </Text>
+              </Group>
             </div>
-          </Grid.Col>
-        </Grid>
+          </div>
+        </div>
         <Drawer
-          // title="Contacts"
           opened={opened}
           onClose={() => setOpened(false)}
           padding="md"
-          size="xl"
+          size="600px"
           position="right"
         >
           <Contacts />
         </Drawer>
-        {/* back to Client table list */}
-        {/* <Group grow className={classes.detailHead}>
-        <Text size="md" color="blue" weight={600}>
-          Back to Client List
-        </Text>
-        <Link to={`/client`} className={classes.userLink}>
-          <Text align="right">
-            <IconArrowBackUp
-              size={24}
-              color="blue"
-              className={classes.detailsIcon}
-            />
-          </Text>
-        </Link>
-      </Group> */}
-        {/* <div className={classes.ClientUserCard}>
-        <div className={classes.UserCardInner}>
-          <Avatar
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            src={`https://cdn4.vectorstock.com/i/1000x1000/17/28/color-letter-c-logo-icon-design-vector-22731728.jpg`}
-            size={120}
-            radius={120}
-            mx="auto"
-          />
-          <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
-          </Text>
-          <Text align="center" color="dimmed" size="sm">
-            {data?.data[0]?.primary_email}
-          </Text>
-        </div>
-      </div>
-      <Group grow className={classes.detailHead}>
-        <Text size="md" color="blue" weight={600}>
-          Client Details
-        </Text>
-        <Text align="right">
-          <IconListDetails
-            size={24}
-            color="blue"
-            className={classes.detailsIcon}
-          />
-        </Text>
-      </Group>
-      <div className={classes.personalDetails}>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Name :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Email :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.primary_email}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Phone :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.primary_phone}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>City :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.city}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>State :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.state}
-          </Text>
-        </Group>
-        <Group spacing="xl">
-          <Text size="sm" color="#686969" weight={400}>
-            <b>Country :</b>
-          </Text>
-          <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.country}
-          </Text>
-        </Group>
-      </div> */}
       </div>
     </>
   )

@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query'
 const editDefaultActivity = async (
   data: TActivity
 ): Promise<TActivityFindById> => {
-  return await axiosPrivate.post(`/default/activity`, data)
+  return await axiosPrivate.patch(`/default/activity`, data)
 }
 
 const useEditDefaultActivity = () => {

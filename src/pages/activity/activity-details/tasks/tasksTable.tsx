@@ -228,7 +228,7 @@ export default function TasksTable({ data }: TasksProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteTask(task.id)
+        deleteTask(task.uuid)
         showNotification({
           title: 'Contact Deleted !!',
           message: `Task has been deleted successfully.`,
@@ -268,13 +268,6 @@ export default function TasksTable({ data }: TasksProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'onboarding_activity_id'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('onboarding_activity_id')}
-            >
-              Onboarding Activity
-            </Th>
-            <Th
               sorted={sortBy === 'default_task'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('default_task')}
@@ -301,17 +294,7 @@ export default function TasksTable({ data }: TasksProps) {
         <tbody>
           {data && data?.length > 0 ? (
             sortedData.map((row) => (
-              <tr key={row?.id} className={classes.companyDetails}>
-                <td>
-                  <Group spacing="sm">
-                    <Avatar size={26} color="cyan" radius={26}>
-                      T
-                    </Avatar>
-                    <Text size="sm" weight={500}>
-                      {row?.onboarding_activity_id}
-                    </Text>
-                  </Group>
-                </td>
+              <tr key={row?.uuid} className={classes.companyDetails}>
                 <td>{row?.default_task}</td>
                 <td>{row?.status}</td>
                 {/* <td>{row?.created_by}</td> */}

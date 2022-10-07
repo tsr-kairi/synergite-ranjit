@@ -8,10 +8,11 @@ import { useQuery } from 'react-query'
 
 const Tasks = () => {
   const { activityId } = useParams()
+  console.log('task', activityId)
 
-  const findGetAllTaskByActivityId = async (idActivity: number) => {
+  const findGetAllTaskByActivityId = async (activityId: string) => {
     const response = await axiosPrivate.get<TTaskFindById>(
-      `/default/task/${idActivity}`
+      `/default/task/activity/${activityId}`
     )
 
     return response.data
@@ -19,10 +20,7 @@ const Tasks = () => {
 
   const { data, isError, error, isLoading } = useQuery<TTaskFindById, Error>(
     [defaultActivityQueryKeys.taskList, activityId],
-    async () =>
-      await findGetAllTaskByActivityId(
-        parseInt(activityId ? activityId : '', 10)
-      )
+    async () => await findGetAllTaskByActivityId(String(activityId))
   )
 
   if (isError) {

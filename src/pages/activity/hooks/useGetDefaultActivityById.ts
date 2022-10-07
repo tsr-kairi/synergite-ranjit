@@ -3,14 +3,14 @@ import axiosPrivate from '@/services/axiosPrivate'
 import { TActivityFindById } from '@/types/activity-type'
 import { useQuery } from 'react-query'
 
-const findDefaultActivityById = async (activityId: number) => {
+const findDefaultActivityById = async (activityId: string) => {
   const response = await axiosPrivate.get<TActivityFindById>(
-    `/default/activity/activity_id/${activityId}`
+    `/default/activity/${activityId}`
   )
   return response.data
 }
 
-const useGetDefaultActivityById = (activityId: number) => {
+const useGetDefaultActivityById = (activityId: string) => {
   return useQuery<TActivityFindById, Error>(
     [defaultActivityQueryKeys.defaultActivityDetails, activityId],
     async () => await findDefaultActivityById(activityId),
