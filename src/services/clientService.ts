@@ -27,7 +27,7 @@ const findJobsByClientId = async (
   uuid: string
 ): Promise<IFindJobsByClientId> => {
   const { data } = await axiosPrivate.get<IFindJobsByClientId>(
-    `/jobs/client/${uuid}`
+    `/jobs/?client-uuid=${uuid}`
   )
   return data
 }

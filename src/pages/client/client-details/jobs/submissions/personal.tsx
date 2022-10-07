@@ -95,11 +95,10 @@ export default function Personal() {
         <div className={classes.UserCardInner}>
           <Avatar size={120} radius={120} mx="auto" />
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data[0]?.title}
+            {data?.data?.title}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data[0]?.city},{data?.data[0]?.state},
-            {data?.data[0]?.country}
+            {data?.data?.city},{data?.data?.state},{data?.data?.country}
           </Text>
         </div>
       </div>
@@ -121,7 +120,7 @@ export default function Personal() {
             <b>Job Title :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.title}
+            {data?.data?.title}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -129,7 +128,7 @@ export default function Personal() {
             <b>City :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.city}
+            {data?.data?.city}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -137,7 +136,7 @@ export default function Personal() {
             <b>State :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.state}
+            {data?.data?.state}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -145,7 +144,7 @@ export default function Personal() {
             <b>Country :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.country}
+            {data?.data?.country}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -153,7 +152,7 @@ export default function Personal() {
             <b>Primary Skills :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.primary_skills}
+            {data?.data?.primary_skills}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -161,7 +160,7 @@ export default function Personal() {
             <b>Secondary Skills :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.secondary_skills}
+            {data?.data?.secondary_skills}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -169,7 +168,7 @@ export default function Personal() {
             <b>Visa Status :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.visa_status}
+            {data?.data?.visa_status}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -177,7 +176,7 @@ export default function Personal() {
             <b>Start Date :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.start_date}
+            {data?.data?.start_date}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -185,7 +184,7 @@ export default function Personal() {
             <b>Pay Rate :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.pay_rate}
+            {data?.data?.pay_rate}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -193,7 +192,7 @@ export default function Personal() {
             <b>Status :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.job_status}
+            {data?.data?.job_status}
           </Text>
         </Group>
       </div>

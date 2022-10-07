@@ -224,7 +224,7 @@ interface TJobsFindAll {
 }
 
 interface TJobsFindById {
-  data: TJobs[]
+  data: TJobs
   ok: boolean
   message: string
 }
