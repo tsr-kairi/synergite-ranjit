@@ -1,16 +1,25 @@
 import { Loader } from '@mantine/core'
-import useGetAllSubmissionsByJobId from '../hooks/useGetAllSubmissionsByJobId'
+import { FC } from 'react'
+import useGetAllSubmissionsByClientIdJobId from '../hooks/useGetAllSubmissionsByClientIdJobId'
 import { SubmissionList } from './submission-list'
 
-export const Submission = () => {
-  const { data, isError, error } = useGetAllSubmissionsByJobId()
+interface SubmissionProps {
+  client_id: string
+  job_id: string
+}
+
+export const Submission: FC<SubmissionProps> = ({ client_id, job_id }) => {
+  const { data, isError, error } = useGetAllSubmissionsByClientIdJobId(
+    client_id,
+    job_id
+  )
 
   if (isError) {
     console.log(error)
     return <h1>An Error Occurred</h1>
   }
 
-  if (data?.data.length) {
+  if (data?.data?.length) {
     return <SubmissionList data={data.data} />
   } else {
     return <Loader variant="dots" />

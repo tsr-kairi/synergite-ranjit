@@ -245,7 +245,7 @@ export function ClientTable({ data }: IClientTableProps) {
       },
     })
   }
-
+  console.log('dataShorted', sortedData)
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>

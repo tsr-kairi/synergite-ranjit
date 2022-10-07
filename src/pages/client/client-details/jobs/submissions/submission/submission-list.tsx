@@ -33,7 +33,6 @@ import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
-import { useLocation } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
 
 // Style for the Page
@@ -51,7 +50,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  employeeRowData: {
+  submissionRowData: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -228,7 +227,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
     )
   }
 
-  // employee data Delete handler
+  // submission data Delete handler
   const openModalForDelete = (Submission: TSubmission) => {
     openConfirmModal({
       title: 'Do You want to delete this Submission?',
@@ -254,7 +253,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
   // Create Rows
   console.log(sortedData)
   const rows = sortedData?.map((row) => (
-    <tr key={row?.id} className={classes.employeeRowData}>
+    <tr key={row?.uuid} className={classes.submissionRowData}>
       <td>
         <Group spacing="sm">
           {/* <Avatar

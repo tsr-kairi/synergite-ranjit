@@ -30,8 +30,9 @@ import EditJob from '@/components/form/client/job/editForm'
 import { showNotification } from '@mantine/notifications'
 
 import useDeleteJobById from '../../hooks/useDeleteJobById'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
+// import { useQuery } from 'react-query'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -248,6 +249,7 @@ export default function JobsTable({ data }: JobsProps) {
       },
     })
   }
+  const { clientId } = useParams()
 
   return (
     <ScrollArea>
@@ -323,8 +325,9 @@ export default function JobsTable({ data }: JobsProps) {
               <tr key={row.id} className={classes.companyDetails}>
                 <td>
                   <Link
-                    to={`/submissions/${row?.uuid}`}
-                    // /${String(clientId)}
+                    to={`/submissions/${row?.uuid}?client_id=${String(
+                      clientId
+                    )}&job_id=${String(row.uuid)}`}
                     className={classes.userLink}
                     onClick={() => setJob(row)}
                   >
