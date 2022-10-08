@@ -249,9 +249,8 @@ export function SubmissionList({ data }: ISubmissionProps) {
       },
     })
   }
-
   // Create Rows
-  console.log(sortedData)
+  console.log('sortedDataNew', sortedData)
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
       <td>
@@ -386,7 +385,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
               rows
             ) : (
               <tr>
-                <td colSpan={Object.keys(data[0]).length}>
+                <td colSpan={Object.keys(data[0] || {}).length}>
                   <Text weight={500} align="center">
                     No records found
                   </Text>
