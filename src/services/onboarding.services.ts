@@ -25,7 +25,6 @@ export interface ITaskResponse {
 
 export const createOnboarding = async (onboarding: TOnboarding) => {
   delete onboarding.id
-
   try {
     const { data } = await axiosPrivate.post<{
       data: { uuid: string }

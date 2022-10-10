@@ -138,6 +138,10 @@ export default function Onboarding() {
       submission_uuid: '',
     }
 
+    if (draft_onboarding_uuid) {
+      onboardingData.uuid = draft_onboarding_uuid
+    }
+
     // void onboardingFlow(onboardingStepperData)
     // calling API
 
