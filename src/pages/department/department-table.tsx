@@ -236,7 +236,7 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteDepartment(department.onboardingActivityId)
+        deleteDepartment(department.uuid)
         showNotification({
           title: 'Department Deleted !!',
           message: `Department has been deleted successfully.`,
@@ -247,11 +247,11 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.onboardingActivityId} className={classes.companyDetails}>
+    <tr key={row?.uuid} className={classes.companyDetails}>
       {/* <td>{row?.role_uuid}</td> */}
       <td>
         <Link
-          to={`/department-details/${row?.onboardingActivityId}`}
+          to={`/department-details/${row?.uuid}`}
           className={classes.userLink}
         >
           <Tooltip
@@ -266,27 +266,22 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
                 D
               </Avatar>
               <Text size="sm" weight={500}>
-                {row?.immigration_status}
+                {row?.name}
               </Text>
             </Group>
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.employee_type}</td>
-      <td>{row?.new_client}</td>
-      <td>{row?.new_subvendor}</td>
-      <td>{row?.default_activity}</td>
-      <td>{row?.department_uuid}</td>
       <td>
         <Group spacing="sm">
-          <IconEdit
+          {/* <IconEdit
             className={classes.editIcon}
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
               setDepartmentEditData(row)
             }}
-          />
+          /> */}
           <IconTrash
             className={classes.deleteIcon}
             cursor="pointer"
@@ -341,48 +336,13 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
                 Id
               </Th> */}
               <Th
-                sorted={sortBy === 'immigration_status'}
+                sorted={sortBy === 'name'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('immigration_status')}
+                onSort={() => setSorting('name')}
               >
-                Immigration Status
+                Department Name
               </Th>
 
-              <Th
-                sorted={sortBy === 'employee_type'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('employee_type')}
-              >
-                Type of Employee
-              </Th>
-              <Th
-                sorted={sortBy === 'new_client'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('new_client')}
-              >
-                New Client
-              </Th>
-              <Th
-                sorted={sortBy === 'new_subvendor'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('new_subvendor')}
-              >
-                New Sub Vendor
-              </Th>
-              <Th
-                sorted={sortBy === 'default_activity'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('default_activity')}
-              >
-                Default Activity
-              </Th>
-              <Th
-                sorted={sortBy === 'department_uuid'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('department_uuid')}
-              >
-                Department
-              </Th>
               <th className={classes.action}>Action</th>
             </tr>
           </thead>
@@ -412,7 +372,7 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add New Activity"
+        title="Add Department"
         padding="xl"
         size="xl"
         position="right"

@@ -1,9 +1,9 @@
 import { Loader } from '@mantine/core'
 import DepartmentTable from './department-table'
-import useGetAllDefaultActivity from './hooks/useGetAllDepartment'
+import useGetAllDepartment from './hooks/useGetAllDepartment'
 
 export const Department = () => {
-  const { data, isError, error } = useGetAllDefaultActivity()
+  const { data, isError, error } = useGetAllDepartment()
 
   if (isError) {
     console.log(error)
