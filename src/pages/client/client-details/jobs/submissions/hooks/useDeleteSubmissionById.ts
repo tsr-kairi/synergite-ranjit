@@ -3,7 +3,7 @@ import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
 const deleteSubmissionById = async (uuid: string): Promise<void> => {
-  await axiosPrivate.post(`submission/delete/${uuid}`)
+  await axiosPrivate.delete(`submission/${uuid}`)
 }
 
 const useDeleteSubmissionById = () => {

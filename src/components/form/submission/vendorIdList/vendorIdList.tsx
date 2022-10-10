@@ -1,53 +1,56 @@
 import { useState } from 'react'
 import {
-  createStyles,
+  // createStyles,
   Table,
-  Checkbox,
   ScrollArea,
   // Group,
   Text,
   Radio,
 } from '@mantine/core'
-import { IconCheck, IconCircleCheck } from '@tabler/icons'
+import { IconCircleCheck } from '@tabler/icons'
 
-const useStyles = createStyles((theme) => ({
-  rowSelected: {
-    backgroundColor:
-      theme.colorScheme === 'dark'
-        ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
-        : theme.colors[theme.primaryColor][0],
-  },
-}))
+// const useStyles = createStyles((theme) => ({
+//   rowSelected: {
+//     backgroundColor:
+//       theme.colorScheme === 'dark'
+//         ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
+//         : theme.colors[theme.primaryColor][0],
+//   },
+// }))
 
-interface EmployeeIdProps {
-  data: {
-    name: string
-    id: number
-  }[]
-  setEmpId: (value: number) => void
+export type vendor = {
+  vendor_name: string
+  vendor_uuid: string
+}
+interface VendorIdProps {
+  data: vendor[]
+  setVendor: (value: vendor) => void
 }
 
-export function EmployeeId({ data, setEmpId }: EmployeeIdProps) {
+export function VendorId({ data, setVendor }: VendorIdProps) {
   // const { classes, cx } = useStyles()
 
   const rows = data.map((item) => {
     return (
-      <tr key={item.id}>
+      <tr key={item.vendor_name}>
         <td>
-          <Radio value={item.id.toString()} onClick={() => setEmpId(item.id)} />
+          <Radio
+            value={item.vendor_name.toString()}
+            onClick={() => setVendor(item)}
+          />
         </td>
 
         <td>
           <Text size="sm" weight={500}>
-            {item.id}
+            {item.vendor_name}
           </Text>
         </td>
 
-        <td>
+        {/* <td>
           <Text size="sm" weight={500}>
             {item.name}
           </Text>
-        </td>
+        </td> */}
       </tr>
     )
   })
@@ -65,8 +68,8 @@ export function EmployeeId({ data, setEmpId }: EmployeeIdProps) {
                   }}
                 />
               </th>
-              <th>Employee Id</th>
-              <th>Name</th>
+              <th>Vendor Name</th>
+              {/* <th>Name</th> */}
             </tr>
           </thead>
           <tbody>{rows}</tbody>
