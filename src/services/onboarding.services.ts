@@ -48,7 +48,7 @@ export const getOnboardingList = async () => {
 
 export const getOnboardingByUUID = async (onboardingUUID: string) => {
   try {
-    const { data } = await axiosPrivate.get<{ data: IOnboardingResponse }>(
+    const { data } = await axiosPrivate.get<{ data: TOnboarding }>(
       `/onboarding/${onboardingUUID}`
     )
     return data.data

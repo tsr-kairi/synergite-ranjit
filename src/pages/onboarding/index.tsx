@@ -84,7 +84,7 @@ export default function Onboarding() {
   )
 
   const [onboardingStepperData, setOnboardingStepperData] =
-    useState<TOnboarding>({} as TOnboarding)
+    useState<TOnboarding>((onboardingData || {}) as TOnboarding)
 
   const [isOnboardingInitiated, setIsOnboardingInitiated] =
     useState<boolean>(false)
@@ -101,7 +101,7 @@ export default function Onboarding() {
       )
   )
 
-  console.log('onboardingData =', onboardingData)
+  // console.log('onboardingData =', onboardingData)
 
   useEffect(() => {
     console.log('client =', client)
@@ -119,13 +119,20 @@ export default function Onboarding() {
     }
   }, [])
 
-  // onboarding flow states
+  useEffect(() => {
+    if (onboardingData) {
+      setOnboardingStepperData(onboardingData || {})
+    }
+  }, [onboardingData])
 
+  // onboarding flow states
   const form = useForm<TOnboarding>({
-    initialValues: { ...onboardingStepperData },
+    initialValues: onboardingStepperData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  console.log('onboardingStepperData =', onboardingStepperData)
 
   const handleSave = (values: TOnboarding) => {
     const onboardingData = {
@@ -371,7 +378,7 @@ export default function Onboarding() {
           >
             <Stepper.Step label="Job" description="Job Info...">
               {/* client and vendor */}
-              <Accordion defaultValue="client">
+              <Accordion defaultValue="">
                 {/* Client */}
                 <Accordion.Item value="client">
                   <Accordion.Control>Client</Accordion.Control>
