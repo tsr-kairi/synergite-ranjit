@@ -58,6 +58,8 @@ const AppShellMain = () => {
   //   }
   // }
 
+  console.log('user =', user)
+
   return (
     <AppShell
       navbar={<NavBar />}

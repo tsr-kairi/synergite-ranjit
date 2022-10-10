@@ -2,7 +2,17 @@ import { useEffect } from 'react'
 import { TClient, TVendor } from '@/types'
 import { TAEmployee } from '@/types/employee-type'
 import { TOnboarding } from '@/types/onboarding-flow-type'
-import { Button, Group, createStyles, Stepper, Tabs } from '@mantine/core'
+import {
+  Button,
+  Group,
+  createStyles,
+  Stepper,
+  Tabs,
+  TextInput,
+  Accordion,
+  Select,
+  Text,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
@@ -18,7 +28,12 @@ import Profile from './onboarding-flow/profile'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
 import Review from './onboarding-flow/review'
-import { createOnboarding } from '@/services/onboarding.services'
+import {
+  createOnboarding,
+  getOnboardingByUUID,
+} from '@/services/onboarding.services'
+import { useQuery } from 'react-query'
+import { getEmployeeByUUID } from '@/services/employee.services'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -36,10 +51,11 @@ const useStyles = createStyles((theme) => ({
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.35)',
     flex: 1,
     height: '88vh',
+    display: 'none',
   },
   stepperMain: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.35)',
-    width: '70%',
+    width: '100%',
     padding: 20,
     borderRadius: 'sm',
     [theme.fn.smallerThan('xs')]: {
@@ -57,23 +73,35 @@ export default function Onboarding() {
   // details states
   const [active, setActive] = useState(0)
   const [clientDetailsData, setClientDetailsData] = useState({} as TClient)
-  const [employeeDetailsData, setEmployeeDetailsData] = useState(
-    {} as TAEmployee
-  )
   const [vendorDetailsData, setVendorDetailsData] = useState({} as TVendor)
+
+  const draft_onboarding_uuid =
+    localStorage.getItem('draft_onboarding_uuid') || ''
+  const { data: onboardingData } = useQuery(
+    `/onboarding/${draft_onboarding_uuid}`,
+    () =>
+      draft_onboarding_uuid ? getOnboardingByUUID(draft_onboarding_uuid) : null
+  )
+
   const [onboardingStepperData, setOnboardingStepperData] =
     useState<TOnboarding>({} as TOnboarding)
 
   const [isOnboardingInitiated, setIsOnboardingInitiated] =
     useState<boolean>(false)
 
-  const { state } = useLocation()
   const navigate = useNavigate()
-  console.log('state =', state)
 
-  // const { client, vendor, job, employee, submission } = useOnboarding()
   const { client, vendor } = useOnboarding()
-  // console.log({ client, vendor, job, employee, submission })
+
+  const { data: employeeData } = useQuery(
+    `/employee/5AF30301:443B:A578:5869:97232E7CC958642245153ED8B5B3158441F92734`,
+    () =>
+      getEmployeeByUUID(
+        '5AF30301:443B:A578:5869:97232E7CC958642245153ED8B5B3158441F92734'
+      )
+  )
+
+  console.log('onboardingData =', onboardingData)
 
   useEffect(() => {
     console.log('client =', client)
@@ -94,7 +122,7 @@ export default function Onboarding() {
   // onboarding flow states
 
   const form = useForm<TOnboarding>({
-    initialValues: onboardingStepperData,
+    initialValues: { ...onboardingStepperData },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
@@ -102,9 +130,12 @@ export default function Onboarding() {
   const handleSave = (values: TOnboarding) => {
     const onboardingData = {
       ...clientDetailsData,
-      ...employeeDetailsData,
       ...vendorDetailsData,
       ...values,
+      employee_uuid: employeeData?.uuid,
+      vendor_uuid: vendorDetailsData.uuid,
+      client_uuid: clientDetailsData.uuid,
+      submission_uuid: '',
     }
 
     // void onboardingFlow(onboardingStepperData)
@@ -112,7 +143,16 @@ export default function Onboarding() {
 
     setIsOnboardingInitiated(true)
     createOnboarding(onboardingData)
-      .then(() => {
+      .then((data) => {
+        if (active >= 4) {
+          localStorage.removeItem('draft_onboarding_uuid')
+        } else {
+          localStorage.setItem(
+            'draft_onboarding_uuid',
+            data?.uuid ? data.uuid : ''
+          )
+        }
+
         showNotification({
           title: 'Success!!',
           message: 'Onboarding save called successfully.',
@@ -144,6 +184,7 @@ export default function Onboarding() {
         radius="sm"
         defaultValue="Client"
         className={classes.tabs}
+        style={{ display: 'none' }}
       >
         <Tabs.List position="apart">
           <Tabs.Tab
@@ -226,7 +267,7 @@ export default function Onboarding() {
         </Tabs.Panel>
 
         <Tabs.Panel value="Employee" pt="xs">
-          <OnboardEmployeeDetails {...employeeDetailsData} />
+          <OnboardEmployeeDetails {...(employeeData as TAEmployee)} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Vendor" pt="xs">
@@ -240,13 +281,112 @@ export default function Onboarding() {
       {/* Onboarding flow stepper */}
       <div className={classes.stepperMain}>
         <form onSubmit={form.onSubmit(handleSave)}>
+          {/* Employee */}
+          <div>
+            <Text mb="md">Employee</Text>
+            <Group grow align="center" mb="lg">
+              <TextInput
+                readOnly={true}
+                label="First Name"
+                type={'text'}
+                placeholder="First Name"
+                value={employeeData?.fname}
+              />
+              <TextInput
+                readOnly={true}
+                label="Last Name"
+                type={'text'}
+                placeholder="Last Name"
+                value={employeeData?.lname}
+              />
+              <TextInput
+                readOnly={true}
+                label="Email"
+                type={'text'}
+                placeholder="Email"
+                value={employeeData?.email}
+              />
+              <TextInput
+                readOnly={true}
+                label="Phone"
+                type={'text'}
+                placeholder="Phone"
+                value={employeeData?.phone}
+              />
+              <TextInput
+                readOnly={true}
+                label="SSN"
+                type={'text'}
+                placeholder="SSN"
+                value={employeeData?.ssn_no}
+              />
+            </Group>
+
+            <Group grow align="center" mb="lg">
+              <Select
+                readOnly={true}
+                label="Employment Type"
+                placeholder="Employment Type"
+                data={[
+                  { label: 'H1', value: 'h1' },
+                  { label: 'Green Card/Citizen', value: 'Green Card/Citizen' },
+                  { label: 'Green Card/USC', value: 'Green Card/USC' },
+                  { label: 'NA', value: 'na' },
+                ]}
+                {...form.getInputProps('employee_type')}
+              />
+              <TextInput
+                readOnly={true}
+                label="Date of birth"
+                type={'date'}
+                placeholder="Date of birth"
+                value={employeeData?.dob}
+              />
+              <TextInput
+                readOnly={true}
+                label="City"
+                type={'text'}
+                placeholder="City"
+                value={employeeData?.city}
+              />
+              <TextInput
+                readOnly={true}
+                label="State"
+                type={'text'}
+                placeholder="State"
+                value={employeeData?.state}
+              />
+            </Group>
+          </div>
+
           <Stepper
             active={active}
             onStepClick={setActive}
             breakpoint="sm"
             className={classes.stepper}
           >
-            <Stepper.Step label="Profile" description="Profile Info...">
+            <Stepper.Step label="Job" description="Job Info...">
+              {/* client and vendor */}
+              <Accordion defaultValue="client">
+                {/* Client */}
+                <Accordion.Item value="client">
+                  <Accordion.Control>Client</Accordion.Control>
+                  <Accordion.Panel>
+                    <OnboardClientDetails
+                      key={clientDetailsData.id}
+                      {...clientDetailsData}
+                    />
+                  </Accordion.Panel>
+                </Accordion.Item>
+
+                {/* Vendor */}
+                <Accordion.Item value="vendor">
+                  <Accordion.Control>Vendor</Accordion.Control>
+                  <Accordion.Panel>
+                    <OnboardEmployeeDetails {...(employeeData as TAEmployee)} />
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
               <Profile form={form} />
             </Stepper.Step>
             <Stepper.Step label="Account" description="Account Info...">
@@ -268,14 +408,12 @@ export default function Onboarding() {
           </Stepper>
 
           <Group position="center" mt="5rem">
-            <Button variant="default" onClick={prevStep}>
-              Back
+            <Button variant="default" disabled={active <= 0} onClick={prevStep}>
+              Previous
             </Button>
-            {active === 4 && (
-              <Button variant="light" type="submit">
-                {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
-              </Button>
-            )}
+            <Button variant="light" type="submit">
+              {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
+            </Button>
             {active <= 3 && <Button onClick={nextStep}>Next</Button>}
           </Group>
         </form>

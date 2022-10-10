@@ -27,8 +27,10 @@ export const createOnboarding = async (onboarding: TOnboarding) => {
   delete onboarding.id
 
   try {
-    await axiosPrivate.post('/onboarding', onboarding)
-    // console.log('data data =', data)
+    const { data } = await axiosPrivate.post<{
+      data: { uuid: string }
+    }>('/onboarding', onboarding)
+    return data.data
   } catch (error) {
     console.log(error)
   }
@@ -44,6 +46,17 @@ export const getOnboardingList = async () => {
     console.log(error)
   }
 } // End of getOnboardingList
+
+export const getOnboardingByUUID = async (onboardingUUID: string) => {
+  try {
+    const { data } = await axiosPrivate.get<{ data: IOnboardingResponse }>(
+      `/onboarding/${onboardingUUID}`
+    )
+    return data.data
+  } catch (error) {
+    console.log(error)
+  }
+} // End of getOnboardingByUUID
 
 export const getActivitiesByOnboardingId = async (
   onboardingId: string,

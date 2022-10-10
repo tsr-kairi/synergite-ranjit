@@ -7,9 +7,12 @@ import {
   Box,
   Select,
   Autocomplete,
+  Card,
+  Accordion,
 } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
 import { IconChevronsRight } from '@tabler/icons'
+import OnboardClientDetails from '../details/onboard-client-details'
 const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
@@ -120,7 +123,7 @@ export default function Profile({ form }: onboardingStepperProps) {
           <Autocomplete
             label="Client Location"
             placeholder="Client Location"
-            {...form.getInputProps('client_location')}
+            // {...form.getInputProps('client_location')}
             limit={30}
             maxDropdownHeight={200}
             nothingFound="No location found"
