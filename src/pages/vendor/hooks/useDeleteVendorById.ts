@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from 'react-query'
 
 const deleteVendorById = async (uuid: string): Promise<void> => {
   // await apiClient.delete(`/vendors/${id}`)
-  await axiosPrivate.post(`/vendor/delete/${uuid}`)
+  await axiosPrivate.delete(`/vendor/${uuid}`)
 }
 
 const useDeleteVendorById = () => {
