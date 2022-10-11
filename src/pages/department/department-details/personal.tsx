@@ -79,7 +79,7 @@ export default function Personal() {
   console.log('Personal', departmentId)
 
   const { data, isError, error, isLoading } = useGetDepartmentById(
-    Number(departmentId)
+    String(departmentId)
   )
 
   if (isError) {
@@ -115,7 +115,7 @@ export default function Personal() {
               D
             </Avatar>
             <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              {data?.data?.immigration_status}
+              {data?.data?.name}
             </Text>
           </div>
         </div>
@@ -141,7 +141,7 @@ export default function Personal() {
                 weight={400}
                 transform="capitalize"
               >
-                <b>Immigration Status :</b>
+                <b>Department Name :</b>
               </Text>
               <Text
                 size="sm"
@@ -149,7 +149,7 @@ export default function Personal() {
                 weight={400}
                 transform="capitalize"
               >
-                {data?.data?.immigration_status}
+                {data?.data?.name}
               </Text>
             </Group>
             <Group spacing="xs">
@@ -158,12 +158,8 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>Type of Employee :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.employee_type}
-              </Text>
+              ></Text>
+              <Text size="sm" color="#686969" weight={400}></Text>
             </Group>
             <Group spacing="xs">
               <Text
@@ -171,17 +167,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>New Client :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.new_client}
-              </Text>
+              ></Text>
             </Group>
             <Group spacing="xs">
               <Text
@@ -189,17 +181,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>New Subvendor :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.new_subvendor}
-              </Text>
+              ></Text>
             </Group>
             <Group spacing="xs">
               <Text
@@ -207,17 +195,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>Default Activity :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.default_activity}
-              </Text>
+              ></Text>
             </Group>
             <Group spacing="xs">
               <Text
@@ -225,17 +209,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>Department :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.department_uuid}
-              </Text>
+              ></Text>
             </Group>
           </div>
         </div>

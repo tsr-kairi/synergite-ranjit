@@ -8,7 +8,7 @@ import axiosPrivate from './axiosPrivate'
 import apiClient from './base'
 
 const findContactsByVendorId = async (
-  id: number
+  id: string
 ): Promise<IFindContactsByVendorId> => {
   const { data } = await axiosPrivate.get<IFindContactsByVendorId>(
     `/contact/vendor/${id}`

@@ -5,7 +5,7 @@ import { TVendor, TVendorFindById } from '@/types'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editVendor = async (data: TVendor): Promise<TVendorFindById> => {
-  return await axiosPrivate.post(`/vendor/save`, data)
+  return await axiosPrivate.patch(`/vendor/${data.uuid}`, data)
 }
 
 const useEditVendor = () => {

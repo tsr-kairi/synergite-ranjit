@@ -2,35 +2,38 @@ import { z } from 'zod'
 
 // Roles List Data
 const zRoles = z.object({
-  onboardingActivityId: z.number(),
-  role_uuid: z.string(),
-  immigration_status: z.string(),
-  employee_type: z.string(),
-  new_client: z.string(),
-  default_activity: z.string(),
-  department_uuid: z.string(),
-  new_subvendor: z.string(),
+  // onboardingActivityId: z.number(),
+  // role_uuid: z.string(),
+  // immigration_status: z.string(),
+  // employee_type: z.string(),
+  // new_client: z.string(),
+  // default_activity: z.string(),
+  // department_uuid: z.string(),
+  // new_subvendor: z.string(),
+  name: z.string(),
   uuid: z.string(),
 })
 
 // new Roles add
 const zRolesCreate = z.object({
-  immigration_status: z.string(),
-  employee_type: z.string(),
-  new_client: z.string(),
-  default_activity: z.string(),
-  new_subvendor: z.string(),
-  department_uuid: z.string(),
+  // immigration_status: z.string(),
+  // employee_type: z.string(),
+  // new_client: z.string(),
+  // default_activity: z.string(),
+  // new_subvendor: z.string(),
+  // department_uuid: z.string(),
+  name: z.string(),
 })
 
 // Roles edit
 const zRolesEdit = z.object({
-  immigration_status: z.string(),
-  employee_type: z.string(),
-  new_client: z.string(),
-  default_activity: z.string(),
-  department_uuid: z.string(),
-  new_subvendor: z.string(),
+  // immigration_status: z.string(),
+  // employee_type: z.string(),
+  // new_client: z.string(),
+  // default_activity: z.string(),
+  // department_uuid: z.string(),
+  // new_subvendor: z.string(),
+  name: z.string(),
 })
 
 // // extend array of objects Roles
