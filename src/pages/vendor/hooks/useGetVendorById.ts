@@ -7,9 +7,7 @@ import { useQuery } from 'react-query'
 const findVendorById = async (uuid: string) => {
   // const response = await apiClient.get<TVendorFindById>(`/vendors/${uuid}`)
   // return response.data
-  const response = await axiosPrivate.get<TVendorFindById>(
-    `/vendor/getvendor/${uuid}`
-  )
+  const response = await axiosPrivate.get<TVendorFindById>(`/vendor/${uuid}`)
   return response.data
 }
 

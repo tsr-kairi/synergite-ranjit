@@ -6,7 +6,7 @@ import { useQuery } from 'react-query'
 const findAllVendors = async () => {
   // const response = await apiClient.get<TVendorFindAll>('/vendors')
   // return response.data
-  const response = await axiosPrivate.get<TVendorFindAll>('/vendor?all=true')
+  const response = await axiosPrivate.get<TVendorFindAll>('/vendor')
   return response.data
 }
 

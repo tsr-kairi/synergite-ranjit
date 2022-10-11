@@ -252,10 +252,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
     <tr key={row?.id} className={classes.companyDetails}>
       {/* <td>{row?.id}</td> */}
       <td>
-        <Link
-          to={`/vendor-details/${row?.uuid}?id=${row?.id}`}
-          className={classes.userLink}
-        >
+        <Link to={`/vendor-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
             color="blue"
