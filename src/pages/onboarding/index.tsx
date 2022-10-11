@@ -133,6 +133,8 @@ export default function Onboarding() {
   })
 
   const handleSave = (values: TOnboarding) => {
+    const d = new Date(values.start_date)
+    d.setHours(0, 0, 0, 0)
     const onboardingData = {
       ...values,
       employee_uuid: employeeData?.data?.uuid,
@@ -141,6 +143,12 @@ export default function Onboarding() {
       submission_uuid: '',
     }
 
+    // console.log(typeof values.start_date)
+    // const d = new Date(values.start_date)
+    // d.setHours(0, 0, 0, 0)
+    // console.log(d)
+
+    // return
 
     if (draft_onboarding_uuid) {
       onboardingData.uuid = draft_onboarding_uuid

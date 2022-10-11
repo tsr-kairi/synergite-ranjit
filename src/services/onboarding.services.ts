@@ -23,12 +23,31 @@ export interface ITaskResponse {
   need_by_datetime: string
 }
 
+const getFormattedDate = (date: Date): string => {
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const day = date.getDay()
+
+  return `${year}-${month > 9 ? month : '0' + month.toString()}-${
+    day > 9 ? day : '0' + day.toString()
+  } 00:00:00`
+}
+
 export const createOnboarding = async (onboarding: TOnboarding) => {
   delete onboarding.id
+
+  const onboardingData: { start_date?: string; end_date?: string } = {}
+  if (onboarding.start_date) {
+    onboardingData.start_date = getFormattedDate(onboarding.start_date)
+  }
+  if (onboarding.end_date) {
+    onboardingData.end_date = getFormattedDate(onboarding.end_date)
+  }
+
   try {
     const { data } = await axiosPrivate.post<{
       data: { uuid: string }
-    }>('/onboarding', onboarding)
+    }>('/onboarding', { ...onboardingData, ...onboardingData })
     return data.data
   } catch (error) {
     console.log(error)
