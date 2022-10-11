@@ -1,34 +1,33 @@
-import { createStyles, Grid } from '@mantine/core'
+import { createStyles } from '@mantine/core'
 import { useSearchParams } from 'react-router-dom'
 import Personal from './personal'
 import Submission from './submission'
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   submissionDetails: {
-    // display: 'flex',
     paddingLeft: '20px',
     paddingRight: '20px',
-    // gap: '20px',
     width: '100%',
-    // placeItems: 'center',
   },
-  submissionProProfile: {
-    // display: 'flex',
-    // height: '88.5vh',
+  submissionInner: {
     width: '100%',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
     borderRadius: '10px',
     padding: '20px',
+    [theme.fn.smallerThan('xs')]: {
+      width: '100%',
+    },
   },
-  submissionContactJobs: {
-    height: '88.5vh',
+  submission: {
     display: 'flex',
     flexDirection: 'column',
     gap: '20px',
     flex: 1,
   },
-  contacts: {
-    height: '40vh',
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
   },
 }))
 
@@ -41,29 +40,21 @@ export const SubmissionMain = () => {
   const { classes } = useStyles()
 
   return (
-    <>
-      <Grid>
-        <Grid.Col span={4}>
-          <div className={classes.submissionDetails}>
-            <div className={classes.submissionProProfile}>
-              <Personal />
-            </div>
-          </div>
-        </Grid.Col>
-        <Grid.Col span={8}>
-          <div className={classes.submissionDetails}>
-            <div className={classes.submissionContactJobs}>
-              <div>
-                <Submission
-                  client_id={searchParams.get('client_id') || ''}
-                  job_id={searchParams.get('job_id') || ''}
-                />
-              </div>
-            </div>
-          </div>
-        </Grid.Col>
-      </Grid>
-    </>
+    <div className={classes.main}>
+      <div className={classes.submissionDetails}>
+        <div className={classes.submissionInner}>
+          <Personal />
+        </div>
+      </div>
+      <div className={classes.submissionDetails}>
+        <div className={classes.submission}>
+          <Submission
+            client_id={searchParams.get('client_id') || ''}
+            job_id={searchParams.get('job_id') || ''}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 
