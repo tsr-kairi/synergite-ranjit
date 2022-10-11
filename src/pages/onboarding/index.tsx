@@ -7,18 +7,17 @@ import {
   Group,
   createStyles,
   Stepper,
-  Tabs,
   TextInput,
   Accordion,
   Select,
   Text,
   Divider,
   Box,
+  Card,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
-import OnboardEmployeeDetails from './details/employee-details'
 import OnboardClientDetails from './details/onboard-client-details'
 import OnboardVendorDetails from './details/vendor-details'
 // import useSaveOnboarding from './hooks/useSaveOnboarding'
@@ -27,7 +26,7 @@ import Documents from './onboarding-flow/document'
 import Immigration from './onboarding-flow/immigration'
 import Profile from './onboarding-flow/profile'
 
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
 import Review from './onboarding-flow/review'
 import {
@@ -81,8 +80,6 @@ export default function Onboarding() {
 
   // details states
   const [active, setActive] = useState(0)
-  const [clientDetailsData, setClientDetailsData] = useState({} as TClient)
-  const [vendorDetailsData, setVendorDetailsData] = useState({} as TVendor)
 
   const draft_onboarding_uuid =
     localStorage.getItem('draft_onboarding_uuid') || ''
@@ -105,25 +102,16 @@ export default function Onboarding() {
   const employeeId = searchParams.get('employee_id')
 
   const { data: clientData } = useGetClientById(clientId || '')
-  const { data: vendorData } = useGetVendorById(vendorId || '')
+  const { data: vendorData } = useGetVendorById(
+    '4F12C1FA:A71F:6CC6:DAB0:DAD372626FE215E5A6DA8B3835AE6FF4994D21E62' ||
+      vendorId ||
+      ''
+  )
   const { data: employeeData } = useGetEmployeeById(
     '5AF30301:443B:A578:5869:97232E7CC958642245153ED8B5B3158441F92734' ||
       employeeId ||
       ''
   )
-
-  const { client, vendor } = useOnboarding()
-  console.log('vendor =', vendor, vendorData)
-
-  useEffect(() => {
-    console.log('client =', client)
-    if (client) {
-      setClientDetailsData(client)
-    }
-    if (vendor) {
-      setVendorDetailsData(vendor)
-    }
-  }, [client, vendor])
 
   useEffect(() => {
     if (active === 4) {
@@ -146,12 +134,10 @@ export default function Onboarding() {
 
   const handleSave = (values: TOnboarding) => {
     const onboardingData = {
-      ...clientDetailsData,
-      ...vendorDetailsData,
       ...values,
       employee_uuid: employeeData?.data?.uuid,
-      vendor_uuid: vendorDetailsData.uuid,
-      client_uuid: clientDetailsData.uuid,
+      vendor_uuid: vendorId,
+      client_uuid: clientId,
       submission_uuid: '',
     }
 
@@ -203,93 +189,113 @@ export default function Onboarding() {
         <div className={classes.stepperMain}>
           <form onSubmit={form.onSubmit(handleSave)}>
             {/* Employee */}
-            <div>
-              <Text mb="md">Employee Details</Text>
-              <Group grow align="center" mb="lg">
-                <TextInput
-                  readOnly={true}
-                  label="First Name"
-                  type={'text'}
-                  placeholder="First Name"
-                  value={employeeData?.data?.fname}
-                  style={{ minWidth: '200px' }}
-                />
-                <TextInput
-                  readOnly={true}
-                  label="Last Name"
-                  type={'text'}
-                  placeholder="Last Name"
-                  value={employeeData?.data?.lname}
-                  style={{ minWidth: '200px' }}
-                />
-                <TextInput
-                  readOnly={true}
-                  label="Email"
-                  type={'text'}
-                  placeholder="Email"
-                  value={employeeData?.data?.email}
-                  style={{ minWidth: '200px' }}
-                />
-                <TextInput
-                  readOnly={true}
-                  label="Phone"
-                  type={'text'}
-                  placeholder="Phone"
-                  value={employeeData?.data?.phone}
-                  style={{ minWidth: '200px' }}
-                />
-                <TextInput
-                  readOnly={true}
-                  label="SSN"
-                  type={'text'}
-                  placeholder="SSN"
-                  value={employeeData?.data?.ssn_no}
-                  style={{ minWidth: '200px' }}
-                />
-              </Group>
-
-              <Group grow align="center" mb="lg">
-                <div style={{ minWidth: '200px' }}>
-                  <Select
-                    readOnly={true}
-                    label="Employment Type"
-                    placeholder="Employment Type"
-                    data={[
-                      { label: 'H1', value: 'h1' },
-                      {
-                        label: 'Green Card/Citizen',
-                        value: 'Green Card/Citizen',
-                      },
-                      { label: 'Green Card/USC', value: 'Green Card/USC' },
-                      { label: 'NA', value: 'na' },
-                    ]}
-                    {...form.getInputProps('employee_type')}
+            <Accordion defaultValue="">
+              <Accordion.Item
+                value="employee_details"
+                style={{ borderBottom: 'none' }}
+              >
+                <Accordion.Control style={{ padding: '0' }}>
+                  <Divider
+                    className={classes.dividerText}
+                    my="20px"
+                    label={
+                      <>
+                        <IconChevronsRight />
+                        <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                          Employee Details
+                        </Box>
+                      </>
+                    }
                   />
-                </div>
-                <TextInput
-                  readOnly={true}
-                  label="Date of birth"
-                  type={'date'}
-                  placeholder="Date of birth"
-                  value={employeeData?.data?.dob}
-                  style={{ minWidth: '100px' }}
-                />
-                <TextInput
-                  readOnly={true}
-                  label="City"
-                  type={'text'}
-                  placeholder="City"
-                  value={employeeData?.data?.city}
-                />
-                <TextInput
-                  readOnly={true}
-                  label="State"
-                  type={'text'}
-                  placeholder="State"
-                  value={employeeData?.data?.state}
-                />
-              </Group>
-            </div>
+                </Accordion.Control>
+                <Accordion.Panel>
+                  <Group grow align="center" mb="lg">
+                    <TextInput
+                      readOnly={true}
+                      label="First Name"
+                      type={'text'}
+                      placeholder="First Name"
+                      value={employeeData?.data?.fname}
+                      style={{ minWidth: '200px' }}
+                    />
+                    <TextInput
+                      readOnly={true}
+                      label="Last Name"
+                      type={'text'}
+                      placeholder="Last Name"
+                      value={employeeData?.data?.lname}
+                      style={{ minWidth: '200px' }}
+                    />
+                    <TextInput
+                      readOnly={true}
+                      label="Email"
+                      type={'text'}
+                      placeholder="Email"
+                      value={employeeData?.data?.email}
+                      style={{ minWidth: '200px' }}
+                    />
+                    <TextInput
+                      readOnly={true}
+                      label="Phone"
+                      type={'text'}
+                      placeholder="Phone"
+                      value={employeeData?.data?.phone}
+                      style={{ minWidth: '200px' }}
+                    />
+                    <TextInput
+                      readOnly={true}
+                      label="SSN"
+                      type={'text'}
+                      placeholder="SSN"
+                      value={employeeData?.data?.ssn_no}
+                      style={{ minWidth: '200px' }}
+                    />
+                  </Group>
+
+                  <Group grow align="center" mb="lg">
+                    <div style={{ minWidth: '200px' }}>
+                      <Select
+                        readOnly={true}
+                        label="Employment Type"
+                        placeholder="Employment Type"
+                        data={[
+                          { label: 'H1', value: 'h1' },
+                          {
+                            label: 'Green Card/Citizen',
+                            value: 'Green Card/Citizen',
+                          },
+                          { label: 'Green Card/USC', value: 'Green Card/USC' },
+                          { label: 'NA', value: 'na' },
+                        ]}
+                        {...form.getInputProps('employee_type')}
+                      />
+                    </div>
+                    <TextInput
+                      readOnly={true}
+                      label="Date of birth"
+                      type={'date'}
+                      placeholder="Date of birth"
+                      value={employeeData?.data?.dob}
+                      style={{ minWidth: '100px' }}
+                    />
+                    <TextInput
+                      readOnly={true}
+                      label="City"
+                      type={'text'}
+                      placeholder="City"
+                      value={employeeData?.data?.city}
+                    />
+                    <TextInput
+                      readOnly={true}
+                      label="State"
+                      type={'text'}
+                      placeholder="State"
+                      value={employeeData?.data?.state}
+                    />
+                  </Group>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
 
             <Stepper active={active} onStepClick={setActive} breakpoint="sm">
               <Stepper.Step label="Job" description="Job Info...">
@@ -313,8 +319,8 @@ export default function Onboarding() {
                     </Accordion.Control>
                     <Accordion.Panel>
                       <OnboardClientDetails
-                        key={clientDetailsData.id}
-                        {...clientDetailsData}
+                        key={clientId}
+                        {...((clientData?.data || {}) as TClient)}
                       />
                     </Accordion.Panel>
                   </Accordion.Item>
@@ -336,8 +342,9 @@ export default function Onboarding() {
                       />
                     </Accordion.Control>
                     <Accordion.Panel>
-                      <OnboardEmployeeDetails
-                        {...((employeeData?.data || {}) as TAEmployee)}
+                      <OnboardVendorDetails
+                        key={((vendorData?.data || {}) as TVendor)?.uuid}
+                        {...((vendorData?.data || {}) as TVendor)}
                       />
                     </Accordion.Panel>
                   </Accordion.Item>
@@ -366,7 +373,6 @@ export default function Onboarding() {
                 Completed, Others messages...
               </Stepper.Completed>
             </Stepper>
-
             <Group position="center" mt="5rem">
               <Button
                 variant="default"

@@ -10,7 +10,8 @@ interface TSubmissionApi {
 const findAllSubmissions = async (client_id: string, job_id: string) => {
   // console.log('SubmissionById', client_id)
   const response = await axiosPrivate.get<TSubmissionApi>(
-    `/submission/client/jobs?client_id=${client_id}&job_id=${job_id}`
+    // TODO: TMP - remove old
+    `/submission/old/client/jobs?client_id=${client_id}&job_id=${job_id}`
   )
   return response.data
 }

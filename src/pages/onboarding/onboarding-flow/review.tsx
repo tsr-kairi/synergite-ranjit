@@ -8,6 +8,14 @@ interface ReviewProps {
   onboardingData: TOnboarding
 }
 
+const styles = {
+  accordionControl: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+}
+
 const Review: React.FC<ReviewProps> = ({
   onboardingData,
   onReviewTileClick,
@@ -20,12 +28,10 @@ const Review: React.FC<ReviewProps> = ({
         style={{ textAlign: 'right' }}
         onClick={() => onReviewTileClick(index)}
       >
-        <IconEdit size={40} style={{ textAlign: 'right' }} />
+        <IconEdit size={16} style={{ textAlign: 'right' }} />
       </ActionIcon>
     )
   }
-
-  console.log(onboardingData.choose_file)
 
   let documentFile = ''
   if (typeof onboardingData.choose_file === 'object') {
@@ -42,12 +48,16 @@ const Review: React.FC<ReviewProps> = ({
     <div>
       <h3>Review</h3>
 
-      <Accordion defaultValue="profile">
-        <Accordion.Item value="profile">
-          <Accordion.Control>Profile</Accordion.Control>
+      <Accordion defaultValue="jobs">
+        <Accordion.Item value="jobs">
+          <Accordion.Control>
+            <div style={styles.accordionControl}>
+              <span>Jobs</span>
+              <span>{actionIcon('0')}</span>
+            </div>
+          </Accordion.Control>
           <Accordion.Panel>
             <Card shadow="md">
-              {actionIcon('0')}
               <p>Start Date: {onboardingData.start_date?.toString()}</p>
               <p>End Date: {onboardingData.end_date?.toString()}</p>
               <p>Work State: {onboardingData.work_state}</p>
@@ -62,11 +72,15 @@ const Review: React.FC<ReviewProps> = ({
           </Accordion.Panel>
         </Accordion.Item>
 
-        <Accordion.Item value="account">
-          <Accordion.Control>Account</Accordion.Control>
+        <Accordion.Item value="payments">
+          <Accordion.Control>
+            <div style={styles.accordionControl}>
+              <span>Payments</span>
+              <span>{actionIcon('1')}</span>
+            </div>
+          </Accordion.Control>
           <Accordion.Panel>
             <Card shadow="md">
-              {actionIcon('1')}
               <p>Name of Recruiter: {onboardingData.name_of_recruiter}</p>
               <p>
                 Contact Number of Recruiter:{' '}
@@ -99,10 +113,14 @@ const Review: React.FC<ReviewProps> = ({
         </Accordion.Item>
 
         <Accordion.Item value="immigration">
-          <Accordion.Control>Immigration</Accordion.Control>
+          <Accordion.Control>
+            <div style={styles.accordionControl}>
+              <span>Immigration</span>
+              <span>{actionIcon('2')}</span>
+            </div>
+          </Accordion.Control>
           <Accordion.Panel>
             <Card shadow="md">
-              {actionIcon('2')}
               <p>Processing Type: {onboardingData.processing_type}</p>
               <p>
                 Who is going to pay Premium:{' '}
@@ -118,10 +136,14 @@ const Review: React.FC<ReviewProps> = ({
         </Accordion.Item>
 
         <Accordion.Item value="document">
-          <Accordion.Control>Document</Accordion.Control>
+          <Accordion.Control>
+            <div style={styles.accordionControl}>
+              <span>Document</span>
+              <span>{actionIcon('3')}</span>
+            </div>
+          </Accordion.Control>
           <Accordion.Panel>
             <Card shadow="md">
-              {actionIcon('3')}
               <p>Document Type: {onboardingData.document_type}</p>
               <p>
                 Choose File:

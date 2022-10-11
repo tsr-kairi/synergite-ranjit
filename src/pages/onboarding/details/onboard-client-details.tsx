@@ -54,42 +54,48 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               label="Account Name"
               type={'text'}
               placeholder="Account Name"
-              {...form.getInputProps('account_name')}
+              value={clientDetailsData.first_name}
+              // {...form.getInputProps('account_name')}
             />
             <TextInput
               readOnly={true}
               label="Address line 1"
               type={'text'}
               placeholder="Address line 1"
-              {...form.getInputProps('address1')}
+              // {...form.getInputProps('address1')}
+              value={clientDetailsData.address_line1}
             />
             <TextInput
               readOnly={true}
               label="Address line 2"
               type={'text'}
               placeholder="Address line 2"
-              {...form.getInputProps('address2')}
+              value={clientDetailsData.address_line2}
+              // {...form.getInputProps('address2')}
             />
             <TextInput
-              // readonly="true"
+              readOnly={true}
               label="City"
               type={'text'}
               placeholder="City"
-              {...form.getInputProps('city')}
+              value={clientDetailsData.city}
+              // {...form.getInputProps('city')}
             />
             <TextInput
-              // readonly="true"
+              readOnly={true}
               label="State"
               type={'text'}
               placeholder="State"
-              {...form.getInputProps('state')}
+              value={clientDetailsData.state}
+              // {...form.getInputProps('state')}
             />
             <TextInput
-              // readonly="true"
+              readOnly={true}
               label="Country"
               type={'text'}
               placeholder="Country"
-              {...form.getInputProps('country')}
+              value={clientDetailsData.country}
+              // {...form.getInputProps('country')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -98,7 +104,8 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               label="ZIP"
               type={'text'}
               placeholder="ZIP"
-              {...form.getInputProps('zip')}
+              value={clientDetailsData.zip}
+              // {...form.getInputProps('zip')}
             />
             <Select
               readOnly={true}
@@ -135,28 +142,32 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               label="FAX"
               type={'text'}
               placeholder=" FAX"
-              {...form.getInputProps('fax')}
+              value={clientDetailsData.fax}
+              // {...form.getInputProps('fax')}
             />
             <TextInput
               readOnly={true}
               label="Company Phone"
               type={'text'}
               placeholder="Company Phone"
-              {...form.getInputProps('company_phone')}
+              value={clientDetailsData.primary_phone}
+              // {...form.getInputProps('company_phone')}
             />
             <TextInput
               readOnly={true}
               label="Company Email"
               type={'text'}
               placeholder="Company Email"
-              {...form.getInputProps('company_email')}
+              value={clientDetailsData.primary_email}
+              // {...form.getInputProps('company_email')}
             />
             <TextInput
               readOnly={true}
               label="Company Contact"
               type={'text'}
               placeholder="Company Contact"
-              {...form.getInputProps('company_contact')}
+              // {...form.getInputProps('company_contact')}
+              // value={clientDetailsData.}
             />
           </Group>
           <Divider

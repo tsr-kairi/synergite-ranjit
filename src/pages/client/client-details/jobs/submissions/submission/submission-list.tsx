@@ -253,7 +253,6 @@ export function SubmissionList({ data }: ISubmissionProps) {
     })
   }
   // Create Rows
-  console.log('sortedDataNew', sortedData)
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
       <td>
@@ -284,7 +283,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
               // setPopUpIsOpen(true)
               setSubmission(row)
               // navigate to onboarding screen
-              console.log(row)
+              console.log('submission =', row)
               navigate(
                 `/onboarding?client_id=${row.client_id}&vendor_id=${row.vendor_id}&employee_id=${row.employee_id}`
               )
