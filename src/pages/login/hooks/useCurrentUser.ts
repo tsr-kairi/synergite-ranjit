@@ -23,7 +23,7 @@ const useCurrentUser = async () => {
     const response = await axiosPrivate.get<ILoginResponse>(
       '/user/getcurrentuser'
     )
-    console.log(response)
+    // console.log(response)
     return response.data.data
   } catch (error) {
     console.log(error)

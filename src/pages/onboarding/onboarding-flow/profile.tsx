@@ -58,138 +58,23 @@ export default function Profile({ form }: onboardingStepperProps) {
             placeholder="End Date"
             {...form.getInputProps('end_date')}
           />
-        </Group>
-        <Group grow align="center" mt="md">
-          <Autocomplete
-            label="Work State"
-            placeholder="Work State"
-            limit={60}
-            maxDropdownHeight={200}
-            nothingFound="No states found"
-            {...form.getInputProps('work_state')}
-            data={[
-              'Alabama',
-              'Alaska',
-              'Arizona',
-              'Arkansas',
-              'California',
-              'Colorado',
-              'Connecticut',
-              'Delaware',
-              'Florida',
-              'Georgia',
-              'Hawaii',
-              'Idaho',
-              'Illinois',
-              'Indiana',
-              'Iowa',
-              'Kansas',
-              'Kentucky',
-              'Louisiana',
-              'Maine',
-              'Maryland',
-              'Massachusetts',
-              'Michigan',
-              'Minnesota',
-              'Mississippi',
-              'Missouri',
-              'Montana',
-              'Nebraska',
-              'Nevada',
-              'New Hampshire',
-              'New Jersey',
-              'New Mexico',
-              'New York',
-              'North Carolina',
-              'North Dakota',
-              'Ohio',
-              'Oklahoma',
-              'Oregon',
-              'Pennsylvania',
-              'Rhode Island',
-              'South Carolina',
-              'South Dakota',
-              'Tennessee',
-              'Texas',
-              'Utah',
-              'Vermont',
-              'Virginia',
-              'Washington',
-              'West Virginia',
-              'Wisconsin',
-              'Wyoming',
-            ]}
-          />
-          <Autocomplete
-            label="Client Location"
-            placeholder="Client Location"
-            // {...form.getInputProps('client_location')}
-            limit={30}
-            maxDropdownHeight={200}
-            nothingFound="No location found"
-            data={[
-              'AT&T/IBM',
-              'Commonwealth of MASS',
-              'Crowley Maritime',
-              'Cuna Insurance',
-              'DC Water & Sewer Authority',
-              'Envision Physician Services',
-              'Florida Blue',
-              'Fresno County SSD',
-              'Grayson',
-              'Horizon BCBS',
-              'Jacksonville',
-              'Kehe',
-              'Miami',
-              'Owens & Minor',
-              'Raymond James',
-              'SCE',
-              'State of MN',
-              'Stratascale Solutions Inc',
-              'Synergy Technologies',
-              'UHG',
-              'USFDA',
-              'WFH',
-            ]}
-          />
-        </Group>
-        <Group grow align="center" mt="md">
-          <TextInput
-            label="Experience"
-            type={'text'}
-            placeholder="Experience"
-            {...form.getInputProps('experience')}
-          />
-          <Autocomplete
-            label="Department"
-            placeholder="Department"
-            limit={10}
-            maxDropdownHeight={200}
-            nothingFound="No location found"
-            {...form.getInputProps('department')}
-            data={[
-              'Contracts',
-              'HR ',
-              'Immigration',
-              'Recruitment',
-              'Operations',
-              'Marketing',
-              'Account',
-            ]}
-          />
-        </Group>
-        <Group grow align="center" mt="md">
-          <Autocomplete
+          <Select
             label="Reporting to"
             placeholder="Reporting to"
             {...form.getInputProps('reporting_to')}
-            data={['A', 'B', 'C', 'D']}
+            data={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+            ]}
           />
-          <TextInput
+          <Select
             label="Designation"
-            type={'text'}
             placeholder="Designation"
             {...form.getInputProps('designation')}
+            data={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+            ]}
           />
         </Group>
         {/* Other Information */}

@@ -117,7 +117,7 @@ export default function Onboarding() {
     if (active === 4) {
       setOnboardingStepperData(form.values)
     }
-  }, [])
+  }, [active])
 
   useEffect(() => {
     if (onboardingData) {
@@ -140,6 +140,7 @@ export default function Onboarding() {
       client_uuid: clientId,
       submission_uuid: '',
     }
+
 
     if (draft_onboarding_uuid) {
       onboardingData.uuid = draft_onboarding_uuid
@@ -164,7 +165,7 @@ export default function Onboarding() {
           title: 'Success!!',
           message: 'Onboarding save called successfully.',
         })
-        navigate('/onboarding-list')
+        // navigate('/onboarding-list')
       })
       .catch((error) => {
         console.log(error)
@@ -181,6 +182,8 @@ export default function Onboarding() {
   const prevStep = () => {
     setActive((current) => (current > 0 ? current - 1 : current))
   }
+
+  // console.log('form.values =', form.values)
 
   return (
     <>
@@ -302,7 +305,10 @@ export default function Onboarding() {
                 {/* client and vendor */}
                 <Accordion defaultValue="">
                   {/* Client */}
-                  <Accordion.Item value="client">
+                  <Accordion.Item
+                    value="client"
+                    style={{ borderBottom: 'none' }}
+                  >
                     <Accordion.Control style={{ padding: '0' }}>
                       <Divider
                         className={classes.dividerText}
@@ -326,7 +332,10 @@ export default function Onboarding() {
                   </Accordion.Item>
 
                   {/* Vendor */}
-                  <Accordion.Item value="vendor">
+                  <Accordion.Item
+                    value="vendor"
+                    style={{ borderBottom: 'none' }}
+                  >
                     <Accordion.Control style={{ padding: '0' }}>
                       <Divider
                         className={classes.dividerText}
@@ -369,9 +378,6 @@ export default function Onboarding() {
                   onReviewTileClick={(id) => setActive(+id)}
                 />
               </Stepper.Step>
-              <Stepper.Completed>
-                Completed, Others messages...
-              </Stepper.Completed>
             </Stepper>
             <Group position="center" mt="5rem">
               <Button
