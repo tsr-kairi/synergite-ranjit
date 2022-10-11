@@ -199,6 +199,107 @@ export default function Onboarding() {
   return (
     <>
       <div className={classes.onboarding}>
+        {/* Onboarding details tabs */}
+        <Tabs
+          // variant="outline"
+          p={20}
+          radius="sm"
+          defaultValue="Client"
+          className={classes.tabs}
+          style={{ display: 'none' }}
+        >
+          <Tabs.List position="apart">
+            <Tabs.Tab
+              value="Client"
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-circle-letter-c"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="#3063A6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M14 10a2 2 0 1 0 -4 0v4a2 2 0 1 0 4 0"></path>
+                </svg>
+              }
+            >
+              Client
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="Employee"
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-circle-letter-e"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="#3063A6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M14 8h-4v8h4"></path>
+                  <path d="M10 12h2.5"></path>
+                </svg>
+              }
+            >
+              Employee
+            </Tabs.Tab>
+            <Tabs.Tab
+              value="Vendor"
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-circle-letter-v"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="#3063A6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M10 8l2 8l2 -8"></path>
+                </svg>
+              }
+            >
+              Vendor
+            </Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="Client" pt="xs">
+            <OnboardClientDetails
+              key={clientDetailsData.id}
+              {...clientDetailsData}
+            />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Employee" pt="xs">
+            <OnboardEmployeeDetails {...((employeeData || {}) as TAEmployee)} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Vendor" pt="xs">
+            <OnboardVendorDetails
+              key={vendorDetailsData.id}
+              {...vendorDetailsData}
+            />
+          </Tabs.Panel>
+        </Tabs>
+
         {/* Onboarding flow stepper */}
         <div className={classes.stepperMain}>
           <form onSubmit={form.onSubmit(handleSave)}>
@@ -291,7 +392,12 @@ export default function Onboarding() {
               </Group>
             </div>
 
-            <Stepper active={active} onStepClick={setActive} breakpoint="sm">
+            <Stepper
+              active={active}
+              onStepClick={setActive}
+              breakpoint="sm"
+              className={classes.stepper}
+            >
               <Stepper.Step label="Job" description="Job Info...">
                 {/* client and vendor */}
                 <Accordion defaultValue="">

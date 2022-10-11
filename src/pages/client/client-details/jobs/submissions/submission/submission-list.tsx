@@ -34,6 +34,7 @@ import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
 import { useOnboarding } from '@/store/onboarding.store'
+import { useNavigate } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -210,6 +211,8 @@ export function SubmissionList({ data }: ISubmissionProps) {
     {} as TSubmission
   )
 
+  const navigate = useNavigate()
+
   const setSubmission = useOnboarding((state) => state.setSubmission)
 
   const setSorting = (field: keyof TSubmission) => {
@@ -278,8 +281,13 @@ export function SubmissionList({ data }: ISubmissionProps) {
           <Badge
             color="blue"
             onClick={() => {
-              setPopUpIsOpen(true)
+              // setPopUpIsOpen(true)
               setSubmission(row)
+              // navigate to onboarding screen
+              console.log(row)
+              navigate(
+                `/onboarding?client_id=${row.client_id}&vendor_id=${row.vendor_id}&employee_id=${row.employee_id}`
+              )
             }}
             style={{ cursor: 'pointer' }}
           >
