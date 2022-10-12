@@ -97,21 +97,13 @@ export default function Onboarding() {
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const clientId = searchParams.get('client_id')
-  const vendorId = searchParams.get('vendor_id')
-  const employeeId = searchParams.get('employee_id')
+  const clientUUID = searchParams.get('client_uuid')
+  const vendorUUID = searchParams.get('vendor_uuid')
+  const employeeUUID = searchParams.get('employee_uuid')
 
-  const { data: clientData } = useGetClientById(clientId || '')
-  const { data: vendorData } = useGetVendorById(
-    '4F12C1FA:A71F:6CC6:DAB0:DAD372626FE215E5A6DA8B3835AE6FF4994D21E62' ||
-      vendorId ||
-      ''
-  )
-  const { data: employeeData } = useGetEmployeeById(
-    '5AF30301:443B:A578:5869:97232E7CC958642245153ED8B5B3158441F92734' ||
-      employeeId ||
-      ''
-  )
+  const { data: clientData } = useGetClientById(clientUUID || '')
+  const { data: vendorData } = useGetVendorById(vendorUUID || '')
+  const { data: employeeData } = useGetEmployeeById(employeeUUID || '')
 
   useEffect(() => {
     if (active === 4) {
@@ -137,25 +129,15 @@ export default function Onboarding() {
     d.setHours(0, 0, 0, 0)
     const onboardingData = {
       ...values,
-      employee_uuid: employeeData?.data?.uuid,
-      vendor_uuid: vendorId,
-      client_uuid: clientId,
+      employee_uuid: employeeUUID,
+      vendor_uuid: vendorUUID,
+      client_uuid: clientUUID,
       submission_uuid: '',
     }
-
-    // console.log(typeof values.start_date)
-    // const d = new Date(values.start_date)
-    // d.setHours(0, 0, 0, 0)
-    // console.log(d)
-
-    // return
 
     if (draft_onboarding_uuid) {
       onboardingData.uuid = draft_onboarding_uuid
     }
-
-    // void onboardingFlow(onboardingStepperData)
-    // calling API
 
     setIsOnboardingInitiated(true)
     createOnboarding(onboardingData)
@@ -333,7 +315,7 @@ export default function Onboarding() {
                     </Accordion.Control>
                     <Accordion.Panel>
                       <OnboardClientDetails
-                        key={clientId}
+                        key={clientUUID}
                         {...((clientData?.data || {}) as TClient)}
                       />
                     </Accordion.Panel>

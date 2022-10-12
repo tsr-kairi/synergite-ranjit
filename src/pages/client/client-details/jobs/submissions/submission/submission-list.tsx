@@ -210,10 +210,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
   const [submissionEditData, setSubmissionEditData] = useState(
     {} as TSubmission
   )
-
   const navigate = useNavigate()
-
-  const setSubmission = useOnboarding((state) => state.setSubmission)
 
   const setSorting = (field: keyof TSubmission) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -253,6 +250,55 @@ export function SubmissionList({ data }: ISubmissionProps) {
     })
   }
   // Create Rows
+  // console.log('sortedDataNew', sortedData)
+  const rows = sortedData?.map((row) => (
+    <tr key={row?.uuid} className={classes.submissionRowData}>
+      <td>{`${row?.vendor_first_name || ''} ${
+        row?.vendor_last_name || ''
+      }`}</td>
+      <td>{`${row?.emp_first_name || ''} ${row?.emp_last_name || ''}`}</td>
+      <td>{row?.submission_status}</td>
+      <td>
+        {row.submission_status === 'Rejected' ? (
+          <Badge color="red">Rejected</Badge>
+        ) : row.submission_status === 'On Hold' ? (
+          <Badge color="yellow">On Hold</Badge>
+        ) : row.submission_status === 'Selected' ? (
+          <Badge
+            color="blue"
+            onClick={() => {
+              // navigate to onboarding screen
+              console.log('submission =', row)
+              navigate(
+                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}`
+              )
+            }}
+            style={{ cursor: 'pointer' }}
+          >
+            Onboard Now
+          </Badge>
+        ) : (
+          <Group spacing="sm">
+            <IconEdit
+              className={classes.editIcon}
+              cursor="pointer"
+              onClick={() => {
+                setIsOpened(true)
+                setSubmissionEditData(row)
+              }}
+            />
+            <IconTrash
+              className={classes.deleteIcon}
+              cursor="pointer"
+              onClick={() => openModalForDelete(row)}
+            />
+          </Group>
+        )}
+      </td>
+    </tr>
+  ))
+
+  // Returning the Scroll Area of Table
   return (
     <>
       <ScrollArea>
@@ -342,7 +388,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         size="xl"
         position="right"
       >
-        <CreateForm />
+        <CreateForm onClose={() => setOpened(false)} />
       </Drawer>
 
       {/* Edit Submission - Submission Edit Form Drawer*/}

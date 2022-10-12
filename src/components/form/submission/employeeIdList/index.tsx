@@ -39,7 +39,6 @@ interface EmployeeIdListProps {
 
 export const EmployeeIdList = ({ setEmployee }: EmployeeIdListProps) => {
   const { data, isError, error, isLoading } = useGetAllEmployees()
-  console.log('empDataNewOne', data)
 
   if (isError) {
     console.log(error)

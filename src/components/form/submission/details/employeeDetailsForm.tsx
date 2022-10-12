@@ -20,13 +20,17 @@ const useStyles = createStyles(() => ({
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
   },
 }))
+
 // employeeData: TAEmployee
-export default function EmployeeDetailsForm() {
+const EmployeeDetailsForm: React.FC<{ employeeData: TAEmployee }> = ({
+  employeeData,
+}) => {
   const [active, setActive] = useState(0)
 
+  console.log('employeeData = ', employeeData)
   const { classes } = useStyles()
   // const { mutate: editEmployee } = useEditEmployee()
-  const { employeeId } = useParams()
+  // const { employeeId } = useParams()
 
   // const form = useForm<TAEmployee>({
   //   // validate: zodResolver(zEmployeeEdit),
@@ -60,29 +64,29 @@ export default function EmployeeDetailsForm() {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current))
 
-  const {
-    data: employeeData,
-    isError,
-    error,
-    isLoading,
-  } = useGetEmployeeById(
-    '3A73E879:7D75:6FC1:E714:7EABE37DDF84F03F63B33E40D65AB9BCF24067E2' ||
-      employeeId ||
-      ''
-  )
+  // const {
+  //   data: employeeData,
+  //   isError,
+  //   error,
+  //   isLoading,
+  // } = useGetEmployeeById(
+  //   '3A73E879:7D75:6FC1:E714:7EABE37DDF84F03F63B33E40D65AB9BCF24067E2' ||
+  //     employeeId ||
+  //     ''
+  // )
 
-  if (isError) {
-    console.log(error)
-    return <h1>An Error Occurred</h1>
-  }
+  // if (isError) {
+  //   console.log(error)
+  //   return <h1>An Error Occurred</h1>
+  // }
 
-  if (isLoading) {
-    return (
-      <div>
-        <Loader variant="dots" />
-      </div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <Loader variant="dots" />
+  //     </div>
+  //   )
+  // }
 
   return (
     <>
@@ -103,7 +107,7 @@ export default function EmployeeDetailsForm() {
                   label="Employee Id"
                   type={'text'}
                   placeholder="Employee Id"
-                  value={employeeData?.data?.employee_id}
+                  value={employeeData?.employee_id}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -112,14 +116,14 @@ export default function EmployeeDetailsForm() {
                   label="First Name"
                   type={'text'}
                   placeholder="First Name"
-                  value={employeeData?.data?.fname}
+                  value={employeeData?.fname}
                 />
                 <TextInput
                   required
                   label="Last Name"
                   type={'text'}
                   placeholder="Last Name"
-                  value={employeeData?.data?.lname}
+                  value={employeeData?.lname}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -128,14 +132,14 @@ export default function EmployeeDetailsForm() {
                   label="Email"
                   type={'text'}
                   placeholder="Email"
-                  value={employeeData?.data?.email}
+                  value={employeeData?.email}
                 />
                 <TextInput
                   required
                   label="Phone"
                   type={'text'}
                   placeholder="Phone"
-                  value={employeeData?.data?.phone}
+                  value={employeeData?.phone}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -144,14 +148,14 @@ export default function EmployeeDetailsForm() {
                   label="SSN"
                   type={'text'}
                   placeholder="SSN"
-                  value={employeeData?.data?.ssn_no}
+                  value={employeeData?.ssn_no}
                 />
                 <TextInput
                   required
                   label="Date of birth"
                   type={'date'}
                   placeholder="Date of birth"
-                  value={employeeData?.data?.dob}
+                  value={employeeData?.dob}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -160,14 +164,14 @@ export default function EmployeeDetailsForm() {
                   label="Gender"
                   type={'text'}
                   placeholder="Gender"
-                  value={employeeData?.data?.gender}
+                  value={employeeData?.gender}
                 />
                 <TextInput
                   required
                   label="Ethnic Origin"
                   type={'text'}
                   placeholder="Ethnic Origin"
-                  value={employeeData?.data?.ethnic_origin}
+                  value={employeeData?.ethnic_origin}
                 />
               </Group>
             </Stepper.Step>
@@ -179,14 +183,14 @@ export default function EmployeeDetailsForm() {
                   label="Address line 1"
                   type={'text'}
                   placeholder="Address line 1"
-                  value={employeeData?.data?.address1}
+                  value={employeeData?.address1}
                 />
                 <TextInput
                   required
                   label="Address line 2"
                   type={'text'}
                   placeholder="Address line 2"
-                  value={employeeData?.data?.address2}
+                  value={employeeData?.address2}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -195,14 +199,14 @@ export default function EmployeeDetailsForm() {
                   label="City"
                   type={'text'}
                   placeholder="City"
-                  value={employeeData?.data?.city}
+                  value={employeeData?.city}
                 />
                 <TextInput
                   required
                   label="State"
                   type={'text'}
                   placeholder="State"
-                  value={employeeData?.data?.state}
+                  value={employeeData?.state}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -211,14 +215,14 @@ export default function EmployeeDetailsForm() {
                   label="Country"
                   type={'text'}
                   placeholder="Country"
-                  value={employeeData?.data?.country}
+                  value={employeeData?.country}
                 />
                 <TextInput
                   required
                   label="Zip Code"
                   type={'text'}
                   placeholder="Zip Code"
-                  value={employeeData?.data?.zip}
+                  value={employeeData?.zip}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -227,7 +231,7 @@ export default function EmployeeDetailsForm() {
                   label="County"
                   type={'text'}
                   placeholder="County"
-                  value={employeeData?.data?.county}
+                  value={employeeData?.county}
                 />
                 <Button fullWidth type="submit" mt="xl">
                   Update
@@ -249,3 +253,5 @@ export default function EmployeeDetailsForm() {
     </>
   )
 }
+
+export default EmployeeDetailsForm

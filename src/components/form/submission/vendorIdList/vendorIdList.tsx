@@ -1,4 +1,5 @@
 // import { useState } from 'react'
+import { TVendor } from '@/types'
 import {
   // createStyles,
   Table,
@@ -23,34 +24,23 @@ export type vendor = {
   vendor_uuid: string
 }
 interface VendorIdProps {
-  data: vendor[]
-  setVendor: (value: vendor) => void
+  data: TVendor[]
+  setVendor: (value: TVendor) => void
 }
 
 export function VendorId({ data, setVendor }: VendorIdProps) {
-  // const { classes, cx } = useStyles()
-
   const rows = data.map((item) => {
     return (
-      <tr key={item.vendor_name}>
+      <tr key={item.uuid}>
         <td>
-          <Radio
-            value={item.vendor_name.toString()}
-            onClick={() => setVendor(item)}
-          />
+          <Radio value={item.uuid} onClick={() => setVendor(item)} />
         </td>
 
         <td>
           <Text size="sm" weight={500}>
-            {item.vendor_name}
+            {`${item.first_name} ${item.last_name}`}
           </Text>
         </td>
-
-        {/* <td>
-          <Text size="sm" weight={500}>
-            {item.name}
-          </Text>
-        </td> */}
       </tr>
     )
   })

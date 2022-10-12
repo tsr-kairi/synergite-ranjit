@@ -14,9 +14,17 @@ const zSubmission = z.object({
   recruitment_mgr_id: z.string(),
   acct_mgr_id: z.string(),
   job_id: z.string(),
+  job_uuid: z.string(),
   client_id: z.string(),
+  client_uuid: z.string(),
   employee_id: z.string(),
+  employee_uuid: z.string(),
+  emp_first_name: z.string().optional(),
+  emp_last_name: z.string().optional(),
   vendor_id: z.string(),
+  vendor_uuid: z.string(),
+  vendor_first_name: z.string().optional(),
+  vendor_last_name: z.string().optional(),
   uuid: z.string(),
 })
 
