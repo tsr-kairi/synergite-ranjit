@@ -155,7 +155,9 @@ export default function Onboarding() {
           title: 'Success!!',
           message: 'Onboarding save called successfully.',
         })
-        // navigate('/onboarding-list')
+        if (active === 4) {
+          navigate('/onboarding-list')
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -195,7 +197,7 @@ export default function Onboarding() {
                       <>
                         <IconChevronsRight />
                         <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
-                          Employee Details
+                          Candidate Details
                         </Box>
                       </>
                     }

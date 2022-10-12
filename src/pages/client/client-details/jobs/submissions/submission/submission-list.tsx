@@ -257,13 +257,13 @@ export function SubmissionList({ data }: ISubmissionProps) {
         row?.vendor_last_name || ''
       }`}</td>
       <td>{`${row?.emp_first_name || ''} ${row?.emp_last_name || ''}`}</td>
-      <td>{row?.submission_status}</td>
+      <td>{row?.status}</td>
       <td>
-        {row.submission_status === 'Rejected' ? (
+        {row.status === 'Rejected' ? (
           <Badge color="red">Rejected</Badge>
-        ) : row.submission_status === 'On Hold' ? (
+        ) : row.status === 'On Hold' ? (
           <Badge color="yellow">On Hold</Badge>
-        ) : row.submission_status === 'Selected' ? (
+        ) : row.status === 'Selected' ? (
           <Badge
             color="blue"
             onClick={() => {
