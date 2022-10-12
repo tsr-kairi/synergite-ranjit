@@ -135,9 +135,9 @@ export default function CreateForm() {
             key={employeeName}
             mt="md"
             required
-            label="Employees Name"
+            label="Candidate Name"
             type={'text'}
-            placeholder="Employees Name"
+            placeholder="Candidate Name"
             onClick={() => {
               employeeListIsOpened(true)
             }}
