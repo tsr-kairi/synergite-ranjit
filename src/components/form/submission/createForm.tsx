@@ -149,7 +149,7 @@ export default function CreateForm() {
                 cursor="pointer"
                 onClick={() => {
                   setEmployeeOpened(true)
-                  // setEmployeeDetails()
+                  // setEmployeeDetails(employeeDetails)
                 }}
               />
             }
@@ -233,7 +233,7 @@ export default function CreateForm() {
           size="xl"
           position="right"
         >
-          <EmployeeDetailsForm {...employeeDetails} />
+          <EmployeeDetailsForm />
         </Drawer>
 
         {/* Showing Employee IdList */}
@@ -247,8 +247,8 @@ export default function CreateForm() {
         >
           <EmployeeIdList
             setEmployee={(employee) => {
-              setEmployeeUuid(employee.employee_uuid)
-              setEmployeeName(employee.employee_name)
+              setEmployeeUuid(employee.uuid)
+              setEmployeeName(employee.fname)
             }}
           />
         </Drawer>

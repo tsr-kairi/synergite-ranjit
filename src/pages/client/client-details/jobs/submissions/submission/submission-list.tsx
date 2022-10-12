@@ -340,7 +340,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('employee_id')}
               >
-                Employee Name
+                Candidate Name
               </Th>
               <Th
                 sorted={sortBy === 'submission_status'}
