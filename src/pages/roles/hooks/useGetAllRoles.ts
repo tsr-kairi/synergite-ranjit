@@ -4,7 +4,7 @@ import { TRolesFindAll } from '@/types/roles-type'
 import { useQuery } from 'react-query'
 
 const findAllRoles = async () => {
-  const response = await axiosPrivate.get<TRolesFindAll>('/default/activity')
+  const response = await axiosPrivate.get<TRolesFindAll>('/role')
   return response.data
 }
 

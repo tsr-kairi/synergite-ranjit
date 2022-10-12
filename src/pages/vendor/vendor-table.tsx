@@ -250,12 +250,9 @@ export default function VendorTable({ data }: IVendorTableProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
-      <td>{row?.id}</td>
+      {/* <td>{row?.id}</td> */}
       <td>
-        <Link
-          to={`/vendor-details/${row?.uuid}?id=${row?.id}`}
-          className={classes.userLink}
-        >
+        <Link to={`/vendor-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
             color="blue"
@@ -311,7 +308,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
         <div className={classes.tableHead}>
           <Group spacing="sm">
             <Text size={'xl'} weight="600" className={classes.text}>
-              Vendors Table
+              Vendors
             </Text>
             <IconFilter className={classes.filterIcon} />
           </Group>
@@ -340,13 +337,13 @@ export default function VendorTable({ data }: IVendorTableProps) {
         >
           <thead>
             <tr>
-              <Th
+              {/* <Th
                 sorted={sortBy === 'id'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('id')}
               >
                 ID
-              </Th>
+              </Th> */}
               <Th
                 sorted={sortBy === 'first_name'}
                 reversed={reverseSortDirection}

@@ -4,9 +4,7 @@ import { TDepartmentFindAll } from '@/types/department-type'
 import { useQuery } from 'react-query'
 
 const findAllDepartment = async () => {
-  const response = await axiosPrivate.get<TDepartmentFindAll>(
-    '/default/activity'
-  )
+  const response = await axiosPrivate.get<TDepartmentFindAll>('/department')
   return response.data
 }
 

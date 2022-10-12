@@ -4,9 +4,9 @@ import { TDepartmentCreate, TDepartmentFindById } from '@/types/department-type'
 import { useMutation, useQueryClient } from 'react-query'
 
 const createDepartment = async (
-  activity: TDepartmentCreate
+  department: TDepartmentCreate
 ): Promise<TDepartmentFindById> => {
-  return await axiosPrivate.post('/default/activity', activity)
+  return await axiosPrivate.post('/department', department)
 }
 
 const useCreateDepartment = () => {

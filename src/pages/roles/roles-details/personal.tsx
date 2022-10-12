@@ -81,7 +81,7 @@ export default function Personal() {
   const { classes } = useStyles()
   console.log('Personal', rolesId)
 
-  const { data, isError, error, isLoading } = useGetRolesById(Number(rolesId))
+  const { data, isError, error, isLoading } = useGetRolesById(String(rolesId))
 
   if (isError) {
     console.log(error)
@@ -116,7 +116,7 @@ export default function Personal() {
               R
             </Avatar>
             <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              {data?.data?.immigration_status}
+              {data?.data?.name}
             </Text>
           </div>
         </div>
@@ -142,7 +142,7 @@ export default function Personal() {
                 weight={400}
                 transform="capitalize"
               >
-                <b>Immigration Status :</b>
+                <b>Role Name :</b>
               </Text>
               <Text
                 size="sm"
@@ -150,7 +150,7 @@ export default function Personal() {
                 weight={400}
                 transform="capitalize"
               >
-                {data?.data?.immigration_status}
+                {data?.data?.name}
               </Text>
             </Group>
             <Group spacing="md">
@@ -159,12 +159,8 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>Type of Employee :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.employee_type}
-              </Text>
+              ></Text>
+              <Text size="sm" color="#686969" weight={400}></Text>
             </Group>
             <Group spacing="md">
               <Text
@@ -172,17 +168,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>New Client :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.new_client}
-              </Text>
+              ></Text>
             </Group>
             <Group spacing="md">
               <Text
@@ -190,17 +182,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>New Subvendor :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.new_subvendor}
-              </Text>
+              ></Text>
             </Group>
             <Group spacing="md">
               <Text
@@ -208,17 +196,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>Default Activity :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.default_activity}
-              </Text>
+              ></Text>
             </Group>
             <Group spacing="md">
               <Text
@@ -226,17 +210,13 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                <b>Department :</b>
-              </Text>
+              ></Text>
               <Text
                 size="sm"
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              >
-                {data?.data?.department_uuid}
-              </Text>
+              ></Text>
             </Group>
           </div>
         </div>

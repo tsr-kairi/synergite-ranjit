@@ -16,12 +16,14 @@ export default function CreateForm() {
   const form = useForm<TDepartmentCreate>({
     validate: zodResolver(zDepartmentCreate),
     initialValues: {
-      immigration_status: '',
-      employee_type: '',
-      new_client: '',
-      new_subvendor: '',
-      default_activity: '',
-      department_uuid: '',
+      name: '',
+      // status: '',
+      // immigration_status: '',
+      // employee_type: '',
+      // new_client: '',
+      // new_subvendor: '',
+      // default_activity: '',
+      // department_uuid: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -44,7 +46,7 @@ export default function CreateForm() {
     <>
       <Paper p={20} mt={30} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Select
+          {/* <Select
             mb={16}
             label="Immigration Status*"
             placeholder="Immigration Status"
@@ -96,12 +98,12 @@ export default function CreateForm() {
             label="Default Activity"
             placeholder="Default Activity"
             {...form.getInputProps('default_activity')}
-          />
+          /> */}
           <TextInput
             mb={16}
-            label="Department"
-            placeholder="Department"
-            {...form.getInputProps('department_uuid')}
+            label="Department Name"
+            placeholder="Department Name"
+            {...form.getInputProps('name')}
           />
           {/* <Select
             mb={16}

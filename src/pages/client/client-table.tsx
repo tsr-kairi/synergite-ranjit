@@ -249,7 +249,7 @@ export function ClientTable({ data }: IClientTableProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
-      <td>{row?.id}</td>
+      {/* <td>{row?.id}</td> */}
       <td>
         <Link
           to={`/client-details/${row?.uuid}`}
@@ -336,13 +336,13 @@ export function ClientTable({ data }: IClientTableProps) {
         >
           <thead>
             <tr>
-              <Th
+              {/* <Th
                 sorted={sortBy === 'id'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('id')}
               >
                 ID
-              </Th>
+              </Th> */}
               <Th
                 sorted={sortBy === 'first_name'}
                 reversed={reverseSortDirection}

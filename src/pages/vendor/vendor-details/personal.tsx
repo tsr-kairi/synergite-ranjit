@@ -101,10 +101,10 @@ export default function Personal() {
             mx="auto"
           /> */}
           <Text align="center" color="blue" size="xl" weight={700} mt="md">
-            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
+            {data?.data?.first_name} {data?.data?.last_name}
           </Text>
           <Text align="center" color="dimmed" size="sm">
-            {data?.data[0]?.primary_email}
+            {data?.data?.primary_email}
           </Text>
         </div>
       </div>
@@ -126,7 +126,7 @@ export default function Personal() {
             <b>Name :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.first_name} {data?.data[0]?.last_name}
+            {data?.data?.first_name} {data?.data?.last_name}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -134,7 +134,7 @@ export default function Personal() {
             <b>Email :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400}>
-            {data?.data[0]?.primary_email}
+            {data?.data?.primary_email}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -142,7 +142,7 @@ export default function Personal() {
             <b>Phone :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.primary_phone}
+            {data?.data?.primary_phone}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -150,7 +150,7 @@ export default function Personal() {
             <b>City :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.city}
+            {data?.data?.city}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -158,7 +158,7 @@ export default function Personal() {
             <b>State :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.state}
+            {data?.data?.state}
           </Text>
         </Group>
         <Group spacing="xl">
@@ -166,7 +166,7 @@ export default function Personal() {
             <b>Country :</b>
           </Text>
           <Text size="sm" color="#686969" weight={400} transform="capitalize">
-            {data?.data[0]?.country}
+            {data?.data?.country}
           </Text>
         </Group>
       </div>

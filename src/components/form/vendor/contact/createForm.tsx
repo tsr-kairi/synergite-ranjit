@@ -10,6 +10,7 @@ import {
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -17,9 +18,10 @@ const useStyles = createStyles(() => ({
 }))
 
 export default function CreateForm() {
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
+  const { vendorId } = useParams()
+  // const search = window.location.search
+  // const params = new URLSearchParams(search)
+  // const id = params.get('id')
   const { classes } = useStyles()
   const { mutate: addContact, isSuccess, isError } = useCreateContact()
 
@@ -47,7 +49,7 @@ export default function CreateForm() {
       ...values,
       // status: 'published',
       // vendors: Number(vendorId),
-      vendor_id: Number(id),
+      vendor_uuid: String(vendorId),
       profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 

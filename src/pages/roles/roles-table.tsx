@@ -234,7 +234,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteRoles(roles.onboardingActivityId)
+        deleteRoles(roles.uuid)
         showNotification({
           title: 'Roles Deleted !!',
           message: `Roles has been deleted successfully.`,
@@ -245,13 +245,10 @@ export default function RolesTable({ data }: IRolesTableProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.onboardingActivityId} className={classes.rolesDetails}>
+    <tr key={row?.uuid} className={classes.rolesDetails}>
       {/* <td>{row?.role_uuid}</td> */}
       <td>
-        <Link
-          to={`/roles-details/${row?.onboardingActivityId}`}
-          className={classes.userLink}
-        >
+        <Link to={`/roles-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
             color="blue"
@@ -264,27 +261,27 @@ export default function RolesTable({ data }: IRolesTableProps) {
                 R
               </Avatar>
               <Text size="sm" weight={500}>
-                {row?.immigration_status}
+                {row?.name}
               </Text>
             </Group>
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.employee_type}</td>
+      {/* <td>{row?.employee_type}</td>
       <td>{row?.new_client}</td>
       <td>{row?.new_subvendor}</td>
       <td>{row?.default_activity}</td>
-      <td>{row?.department_uuid}</td>
+      <td>{row?.department_uuid}</td> */}
       <td>
         <Group spacing="sm">
-          <IconEdit
+          {/* <IconEdit
             className={classes.editIcon}
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
               setRolesEditData(row)
             }}
-          />
+          /> */}
           <IconTrash
             className={classes.deleteIcon}
             cursor="pointer"
@@ -339,48 +336,13 @@ export default function RolesTable({ data }: IRolesTableProps) {
                 Id
               </Th> */}
               <Th
-                sorted={sortBy === 'immigration_status'}
+                sorted={sortBy === 'name'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('immigration_status')}
+                onSort={() => setSorting('name')}
               >
-                Immigration Status
+                Role Name
               </Th>
 
-              <Th
-                sorted={sortBy === 'employee_type'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('employee_type')}
-              >
-                Type of Employee
-              </Th>
-              <Th
-                sorted={sortBy === 'new_client'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('new_client')}
-              >
-                New Client
-              </Th>
-              <Th
-                sorted={sortBy === 'new_subvendor'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('new_subvendor')}
-              >
-                New Sub Vendor
-              </Th>
-              <Th
-                sorted={sortBy === 'default_activity'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('default_activity')}
-              >
-                Default Activity
-              </Th>
-              <Th
-                sorted={sortBy === 'department_uuid'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('department_uuid')}
-              >
-                Department
-              </Th>
               <th className={classes.action}>Action</th>
             </tr>
           </thead>
