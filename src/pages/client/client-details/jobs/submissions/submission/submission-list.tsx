@@ -253,67 +253,6 @@ export function SubmissionList({ data }: ISubmissionProps) {
     })
   }
   // Create Rows
-  const rows = sortedData?.map((row) => (
-    <tr key={row?.uuid} className={classes.submissionRowData}>
-      <td>
-        <Group spacing="sm">
-          {/* <Avatar
-            size={26}
-            src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-            radius={26}
-          /> */}
-          <Text size="sm" weight={500}>
-            {row?.client_id}
-          </Text>
-        </Group>
-      </td>
-      <td>{row?.vendor_id}</td>
-      <td>{row?.employee_id}</td>
-      <td>{row?.submission_status}</td>
-      <td>{row?.remarks}</td>
-      <td>
-        {row.submission_status === 'Rejected' ? (
-          <Badge color="red">Rejected</Badge>
-        ) : row.submission_status === 'On Hold' ? (
-          <Badge color="yellow">On Hold</Badge>
-        ) : row.submission_status === 'Selected' ? (
-          <Badge
-            color="blue"
-            onClick={() => {
-              // setPopUpIsOpen(true)
-              setSubmission(row)
-              // navigate to onboarding screen
-              console.log('submission =', row)
-              navigate(
-                `/onboarding?client_id=${row.client_id}&vendor_id=${row.vendor_id}&employee_id=${row.employee_id}`
-              )
-            }}
-            style={{ cursor: 'pointer' }}
-          >
-            Onboard Now
-          </Badge>
-        ) : (
-          <Group spacing="sm">
-            <IconEdit
-              className={classes.editIcon}
-              cursor="pointer"
-              onClick={() => {
-                setIsOpened(true)
-                setSubmissionEditData(row)
-              }}
-            />
-            <IconTrash
-              className={classes.deleteIcon}
-              cursor="pointer"
-              onClick={() => openModalForDelete(row)}
-            />
-          </Group>
-        )}
-      </td>
-    </tr>
-  ))
-
-  // Returning the Scroll Area of Table
   return (
     <>
       <ScrollArea>
@@ -349,25 +288,18 @@ export function SubmissionList({ data }: ISubmissionProps) {
           <thead>
             <tr>
               <Th
-                sorted={sortBy === 'client_id'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('client_id')}
-              >
-                Client Id
-              </Th>
-              <Th
                 sorted={sortBy === 'vendor_id'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('vendor_id')}
               >
-                Vendor Id
+                Vendor Name
               </Th>
               <Th
                 sorted={sortBy === 'employee_id'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('employee_id')}
               >
-                Employee Id
+                Candidate Name
               </Th>
               <Th
                 sorted={sortBy === 'submission_status'}
@@ -375,13 +307,6 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 onSort={() => setSorting('submission_status')}
               >
                 Submission Status
-              </Th>
-              <Th
-                sorted={sortBy === 'remarks'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('remarks')}
-              >
-                Remarks
               </Th>
               <th className={classes.action}>Action</th>
             </tr>
@@ -394,7 +319,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
               <tr>
                 <td colSpan={Object.keys(data[0] || {}).length}>
                   <Text weight={500} align="center">
-                    No records found
+                    No submission found
                   </Text>
                 </td>
               </tr>

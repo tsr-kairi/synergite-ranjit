@@ -8,7 +8,7 @@ const createSubmission = async (
 ): Promise<TSubmissionFindById> => {
   console.log(data)
 
-  return await axiosPrivate.post(`/submission/save`, data)
+  return await axiosPrivate.post(`/submission`, data)
 }
 
 const useCreateSubmission = () => {

@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query'
 const editSubmission = async (
   data: TSubmission
 ): Promise<TSubmissionFindById> => {
-  return await axiosPrivate.post(`/submission/save`, data)
+  return await axiosPrivate.post(`/submission`, data)
 }
 
 const useEditSubmission = () => {

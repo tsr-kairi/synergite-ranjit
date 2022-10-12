@@ -1,4 +1,5 @@
 import useEditEmployee from '@/pages/employee/hooks/useEditEmployee'
+import useGetEmployeeById from '@/pages/employee/hooks/useGetEmployeeById'
 import { TAEmployee } from '@/types/employee-type'
 import {
   TextInput,
@@ -8,58 +9,86 @@ import {
   Paper,
   FileInput,
   Stepper,
+  Loader,
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import { showNotification } from '@mantine/notifications'
+// import { useForm } from '@mantine/form'
+// import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
   },
 }))
-
-export default function EmployeeDetailsForm(employeeData: TAEmployee) {
+// employeeData: TAEmployee
+export default function EmployeeDetailsForm() {
   const [active, setActive] = useState(0)
 
   const { classes } = useStyles()
-  const { mutate: editEmployee } = useEditEmployee()
+  // const { mutate: editEmployee } = useEditEmployee()
+  const { employeeId } = useParams()
 
-  const form = useForm<TAEmployee>({
-    // validate: zodResolver(zEmployeeEdit),
-    initialValues: employeeData,
-    validateInputOnChange: true,
-    clearInputErrorOnChange: true,
-  })
+  // const form = useForm<TAEmployee>({
+  //   // validate: zodResolver(zEmployeeEdit),
+  //   initialValues: employeeData,
+  //   validateInputOnChange: true,
+  //   clearInputErrorOnChange: true,
+  // })
 
-  const handleSubmit = (values: TAEmployee) => {
-    const employeeEditData = {
-      ...values,
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
-    }
+  // const handleSubmit = (values: TAEmployee) => {
+  //   const employeeEditData = {
+  //     ...values,
+  //     profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
+  //   }
 
-    editEmployee(employeeEditData)
+  //   editEmployee(employeeEditData)
 
-    showNotification({
-      title: 'Success!!',
-      message: 'Employee Edited successfully.',
-    })
-  }
+  //   showNotification({
+  //     title: 'Success!!',
+  //     message: 'Employee Edited successfully.',
+  //   })
+  // }
   // next btn
   const nextStep = () =>
     setActive((current) => {
-      if (form.validate().hasErrors) {
-        return current
-      }
+      // if (hasErrors) {
+      //   return current
+      // }
       return current < 2 ? current + 1 : current
     })
   // prev btn
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current))
 
+  const {
+    data: employeeData,
+    isError,
+    error,
+    isLoading,
+  } = useGetEmployeeById(
+    '3A73E879:7D75:6FC1:E714:7EABE37DDF84F03F63B33E40D65AB9BCF24067E2' ||
+      employeeId ||
+      ''
+  )
+
+  if (isError) {
+    console.log(error)
+    return <h1>An Error Occurred</h1>
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loader variant="dots" />
+      </div>
+    )
+  }
+
   return (
     <>
       <Paper p={20} mt={30} radius="sm" className={classes.paper}>
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        {/* onSubmit={form.onSubmit(handleSubmit)} */}
+        <form>
           <Stepper active={active} breakpoint="sm">
             {/* Personal Information */}
             <Stepper.Step label="Info" description="Personal information">
@@ -67,14 +96,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                 <FileInput
                   label="Profile Image"
                   // mt="md"
-                  {...form.getInputProps('profile_image')}
+                  // {...form.getInputProps('profile_image')}
                 />
                 <TextInput
                   required
                   label="Employee Id"
                   type={'text'}
                   placeholder="Employee Id"
-                  {...form.getInputProps('id')}
+                  value={employeeData?.data?.employee_id}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -83,14 +112,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="First Name"
                   type={'text'}
                   placeholder="First Name"
-                  {...form.getInputProps('fname')}
+                  value={employeeData?.data?.fname}
                 />
                 <TextInput
                   required
                   label="Last Name"
                   type={'text'}
                   placeholder="Last Name"
-                  {...form.getInputProps('lname')}
+                  value={employeeData?.data?.lname}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -99,14 +128,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="Email"
                   type={'text'}
                   placeholder="Email"
-                  {...form.getInputProps('email')}
+                  value={employeeData?.data?.email}
                 />
                 <TextInput
                   required
                   label="Phone"
                   type={'text'}
                   placeholder="Phone"
-                  {...form.getInputProps('phone')}
+                  value={employeeData?.data?.phone}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -115,14 +144,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="SSN"
                   type={'text'}
                   placeholder="SSN"
-                  {...form.getInputProps('ssn_no')}
+                  value={employeeData?.data?.ssn_no}
                 />
                 <TextInput
                   required
                   label="Date of birth"
                   type={'date'}
                   placeholder="Date of birth"
-                  {...form.getInputProps('dob')}
+                  value={employeeData?.data?.dob}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -131,14 +160,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="Gender"
                   type={'text'}
                   placeholder="Gender"
-                  {...form.getInputProps('gender')}
+                  value={employeeData?.data?.gender}
                 />
                 <TextInput
                   required
                   label="Ethnic Origin"
                   type={'text'}
                   placeholder="Ethnic Origin"
-                  {...form.getInputProps('ethnic_origin')}
+                  value={employeeData?.data?.ethnic_origin}
                 />
               </Group>
             </Stepper.Step>
@@ -150,14 +179,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="Address line 1"
                   type={'text'}
                   placeholder="Address line 1"
-                  {...form.getInputProps('address1')}
+                  value={employeeData?.data?.address1}
                 />
                 <TextInput
                   required
                   label="Address line 2"
                   type={'text'}
                   placeholder="Address line 2"
-                  {...form.getInputProps('address2')}
+                  value={employeeData?.data?.address2}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -166,14 +195,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="City"
                   type={'text'}
                   placeholder="City"
-                  {...form.getInputProps('city')}
+                  value={employeeData?.data?.city}
                 />
                 <TextInput
                   required
                   label="State"
                   type={'text'}
                   placeholder="State"
-                  {...form.getInputProps('state')}
+                  value={employeeData?.data?.state}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -182,14 +211,14 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="Country"
                   type={'text'}
                   placeholder="Country"
-                  {...form.getInputProps('country')}
+                  value={employeeData?.data?.country}
                 />
                 <TextInput
                   required
                   label="Zip Code"
                   type={'text'}
                   placeholder="Zip Code"
-                  {...form.getInputProps('zip')}
+                  value={employeeData?.data?.zip}
                 />
               </Group>
               <Group grow align="center" mt="md">
@@ -198,11 +227,11 @@ export default function EmployeeDetailsForm(employeeData: TAEmployee) {
                   label="County"
                   type={'text'}
                   placeholder="County"
-                  {...form.getInputProps('county')}
+                  value={employeeData?.data?.county}
                 />
-                {/* <Button fullWidth type="submit" mt="xl">
+                <Button fullWidth type="submit" mt="xl">
                   Update
-                </Button> */}
+                </Button>
               </Group>
             </Stepper.Step>
           </Stepper>

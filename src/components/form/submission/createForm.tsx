@@ -1,10 +1,10 @@
-import useCreateSubmission from '@/pages/client/client-details/jobs/submissions/hooks/useCreateSubmission'
 import { TSubmissionCreate } from '@/types/submission-type'
 import { useState } from 'react'
 import {
   Button,
   createStyles,
   Drawer,
+  Group,
   Paper,
   Select,
   Textarea,
@@ -17,7 +17,10 @@ import EmployeeDetailsForm from './details/employeeDetailsForm'
 import VendorDetailsForm from './details/vendorDetailsForm'
 import { TAEmployee } from '@/types/employee-type'
 import { TVendor } from '@/types'
-import EmployeeIdList from './idList'
+import EmployeeIdList from './employeeIdList'
+import useCreateSubmission from '@/pages/client/client-details/jobs/submissions/hooks/useCreateSubmission'
+import { useParams } from 'react-router-dom'
+import VendorIdList from './vendorIdList'
 // import { number } from 'zod'
 const useStyles = createStyles(() => ({
   paper: {
@@ -28,23 +31,39 @@ const useStyles = createStyles(() => ({
 export default function CreateForm() {
   const search = window.location.search
   const params = new URLSearchParams(search)
-  const id = params.get('id')
+  const clientUuid = params.get('client_id')
+  const { jobId } = useParams()
+
+  //
   const { classes } = useStyles()
   const { mutate: addSubmission } = useCreateSubmission()
   const [employeeOpened, setEmployeeOpened] = useState(false)
   const [vendorOpened, setVendorOpened] = useState(false)
   const [employeeDetails, setEmployeeDetails] = useState({} as TAEmployee)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
-  const [opened, setIsOpened] = useState(false)
-  const [empId, setEmpId] = useState<null | number>(0)
-  console.log('New Emp', empId)
+
+  //
+  const [vendorListOpened, vendorListIsOpened] = useState(false)
+  const [employeeListOpened, employeeListIsOpened] = useState(false)
+
+  const [employeeUuid, setEmployeeUuid] = useState<string>('')
+  const [employeeName, setEmployeeName] = useState<string>('')
+  const [vendorUuid, setVendorUuid] = useState<string>('')
+  const [vendorName, setVendorName] = useState<string>('')
+
+  // console.log('New Emp', employeeName)
 
   const form = useForm<TSubmissionCreate>({
     // validate: zodResolver(zSubmissionCreate),
     initialValues: {
-      employee_id: 0,
-      vendor_id: 0,
+      first_name: '',
+      last_name: '',
+      city: '',
+      state: '',
+      country: '',
       submission_status: '',
+      rejection_reason: '',
+      recruiters: '',
       remarks: '',
     },
     validateInputOnChange: true,
@@ -54,8 +73,12 @@ export default function CreateForm() {
   const handleSubmit = (values: TSubmissionCreate) => {
     const submissionCreateData = {
       ...values,
-      client_id: Number(id),
-      job_id: Number(id),
+      client_id: String(clientUuid),
+      vendor_id: String(vendorUuid),
+      job_id: String(jobId),
+      recruitment_mgr_id: '',
+      acct_mgr_id: '',
+      employee_id: String(employeeUuid),
     }
 
     addSubmission(submissionCreateData)
@@ -69,11 +92,32 @@ export default function CreateForm() {
     <>
       <Paper p={20} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Group position="apart">
+            <TextInput
+              required
+              label="First Name"
+              type={'text'}
+              placeholder="First Name"
+              {...form.getInputProps('first_name')}
+            />
+            <TextInput
+              required
+              label="Last Name"
+              type={'text'}
+              placeholder="Last Name"
+              {...form.getInputProps('last_name')}
+            />
+          </Group>
           <TextInput
+            mt="md"
             required
-            label="Vendors Id"
-            type={'number'}
-            placeholder="Vendors Id"
+            label="Vendors Name"
+            type={'text'}
+            placeholder="Vendors Name"
+            onClick={() => {
+              vendorListIsOpened(true)
+            }}
+            value={vendorName || ''}
             rightSection={
               <IconExternalLink
                 size="20"
@@ -85,30 +129,31 @@ export default function CreateForm() {
                 }}
               />
             }
-            {...form.getInputProps('vendor_id')}
+            // {...form.getInputProps('vendor_id')}
           />
           <TextInput
+            key={employeeName}
+            mt="md"
             required
-            label="Employees Id"
-            type={'number'}
-            placeholder="Employees Id"
+            label="Candidate Name"
+            type={'text'}
+            placeholder="Candidate Name"
             onClick={() => {
-              setIsOpened(true)
+              employeeListIsOpened(true)
             }}
-            value={empId}
+            value={employeeName || ''}
             rightSection={
               <IconExternalLink
                 size="20"
                 color="grey"
                 cursor="pointer"
-                // onClick={() => setEmployeeOpened(true)}
                 onClick={() => {
                   setEmployeeOpened(true)
-                  // setEmployeeDetails()
+                  // setEmployeeDetails(employeeDetails)
                 }}
               />
             }
-            {...form.getInputProps('employee_id')}
+            // {...form.getInputProps('em')}
           />
           <Select
             data={[
@@ -122,6 +167,38 @@ export default function CreateForm() {
             mt="md"
             {...form.getInputProps('submission_status')}
           />
+          <Group position="apart" mt="md">
+            <TextInput
+              required
+              label="City"
+              type={'text'}
+              placeholder="City"
+              {...form.getInputProps('city')}
+            />
+            <TextInput
+              required
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group position="apart" mt="md">
+            <TextInput
+              required
+              label="Recruiters"
+              type={'text'}
+              placeholder="Recruiters"
+              {...form.getInputProps('recruiters')}
+            />
+            <TextInput
+              required
+              label="Rejection Reason"
+              type={'text'}
+              placeholder="Rejection Reason"
+              {...form.getInputProps('rejection_reason')}
+            />
+          </Group>
           <Textarea
             required
             label="Remarks"
@@ -156,23 +233,42 @@ export default function CreateForm() {
           size="xl"
           position="right"
         >
-          <EmployeeDetailsForm {...employeeDetails} />
+          <EmployeeDetailsForm />
         </Drawer>
 
         {/* Showing Employee IdList */}
         <Drawer
-          opened={opened}
-          onClose={() => setIsOpened(false)}
-          title="Employee Id List"
+          opened={employeeListOpened}
+          onClose={() => employeeListIsOpened(false)}
+          title="Employee List"
           padding="xl"
           size="xl"
           position="right"
         >
-          <EmployeeIdList setEmpId={setEmpId} />
+          <EmployeeIdList
+            setEmployee={(employee) => {
+              setEmployeeUuid(employee.uuid)
+              setEmployeeName(employee.fname)
+            }}
+          />
+        </Drawer>
+
+        <Drawer
+          opened={vendorListOpened}
+          onClose={() => vendorListIsOpened(false)}
+          title="Vendor List"
+          padding="xl"
+          size="xl"
+          position="right"
+        >
+          <VendorIdList
+            setVendor={(vendor) => {
+              setVendorUuid(vendor.vendor_uuid)
+              setVendorName(vendor.vendor_name)
+            }}
+          />
         </Drawer>
       </Paper>
     </>
   )
 }
-
-// EmployeeIdList

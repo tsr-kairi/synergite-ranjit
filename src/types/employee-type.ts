@@ -21,8 +21,8 @@ const zAEmployee = z.object({
   county: z.string(),
   country: z.string(),
   zip: z.string(),
-  date_created: z.string(),
-  date_updated: z.string().optional(),
+  // date_created: z.string(),
+  // date_updated: z.string().optional(),
   uuid: z.string(),
 })
 

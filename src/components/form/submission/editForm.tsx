@@ -3,6 +3,7 @@ import { TSubmission } from '@/types/submission-type'
 import {
   Button,
   createStyles,
+  Group,
   Paper,
   Select,
   Textarea,
@@ -58,26 +59,37 @@ export default function EditForm(submissionData: TSubmission) {
     <>
       <Paper p={20} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Group position="apart">
+            <TextInput
+              required
+              label="First Name"
+              type={'text'}
+              placeholder="First Name"
+              {...form.getInputProps('first_name')}
+            />
+            <TextInput
+              required
+              label="Last Name"
+              type={'text'}
+              placeholder="Last Name"
+              {...form.getInputProps('last_name')}
+            />
+          </Group>
           <TextInput
             required
-            label="Clients Id"
-            type={'number'}
-            placeholder="Clients Id"
-            {...form.getInputProps('client_id')}
-          />
-          <TextInput
-            required
-            label="Vendors Id"
-            type={'number'}
-            placeholder="Vendors Id"
+            label="Vendor Name"
+            type={'text'}
+            placeholder="Vendor Name"
             {...form.getInputProps('vendor_id')}
+            readOnly
           />
           <TextInput
             required
-            label="Employees Id"
-            type={'number'}
-            placeholder="Employees Id"
+            label="Employees Name"
+            type={'text'}
+            placeholder="Employees Name"
             {...form.getInputProps('employee_id')}
+            readOnly
           />
           <Select
             data={[
@@ -91,6 +103,38 @@ export default function EditForm(submissionData: TSubmission) {
             mt="md"
             {...form.getInputProps('submission_status')}
           />
+          <Group position="apart" mt="md">
+            <TextInput
+              required
+              label="City"
+              type={'text'}
+              placeholder="City"
+              {...form.getInputProps('city')}
+            />
+            <TextInput
+              required
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+          </Group>
+          <Group position="apart" mt="md">
+            <TextInput
+              required
+              label="Recruiters"
+              type={'text'}
+              placeholder="Recruiters"
+              {...form.getInputProps('recruiters')}
+            />
+            <TextInput
+              required
+              label="Rejection Reason"
+              type={'text'}
+              placeholder="Rejection Reason"
+              {...form.getInputProps('rejection_reason')}
+            />
+          </Group>
           <Textarea
             required
             label="Remarks"
