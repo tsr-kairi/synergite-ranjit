@@ -4,6 +4,7 @@ import {
   Button,
   createStyles,
   Drawer,
+  Grid,
   Group,
   Paper,
   Select,
@@ -25,33 +26,29 @@ import VendorIdList from './vendorIdList'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    height: '100%',
+    overflow: 'auto',
+    display: 'block',
+    marginBottom: '32px',
   },
 }))
 
-export default function CreateForm() {
+const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const search = window.location.search
   const params = new URLSearchParams(search)
   const clientUuid = params.get('client_id')
   const { jobId } = useParams()
 
-  //
   const { classes } = useStyles()
   const { mutate: addSubmission } = useCreateSubmission()
   const [employeeOpened, setEmployeeOpened] = useState(false)
   const [vendorOpened, setVendorOpened] = useState(false)
+
   const [employeeDetails, setEmployeeDetails] = useState({} as TAEmployee)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
 
-  //
   const [vendorListOpened, vendorListIsOpened] = useState(false)
   const [employeeListOpened, employeeListIsOpened] = useState(false)
-
-  const [employeeUuid, setEmployeeUuid] = useState<string>('')
-  const [employeeName, setEmployeeName] = useState<string>('')
-  const [vendorUuid, setVendorUuid] = useState<string>('')
-  const [vendorName, setVendorName] = useState<string>('')
-
-  // console.log('New Emp', employeeName)
 
   const form = useForm<TSubmissionCreate>({
     // validate: zodResolver(zSubmissionCreate),
@@ -61,7 +58,7 @@ export default function CreateForm() {
       city: '',
       state: '',
       country: '',
-      submission_status: '',
+      status: '',
       rejection_reason: '',
       recruiters: '',
       remarks: '',
@@ -70,44 +67,59 @@ export default function CreateForm() {
     clearInputErrorOnChange: true,
   })
 
+  const employeeName = `${employeeDetails?.fname || ''} ${
+    employeeDetails?.lname || ''
+  }`
+  const vendorName = `${vendorDetails?.first_name || ''} ${
+    vendorDetails?.last_name || ''
+  }`
+
   const handleSubmit = (values: TSubmissionCreate) => {
     const submissionCreateData = {
       ...values,
       client_id: String(clientUuid),
-      vendor_id: String(vendorUuid),
+      employee_id: employeeDetails?.uuid,
+      employee_name: employeeName,
+      vendor_id: vendorDetails?.uuid,
+      vendor_name: vendorName,
       job_id: String(jobId),
       recruitment_mgr_id: '',
       acct_mgr_id: '',
-      employee_id: String(employeeUuid),
     }
 
     addSubmission(submissionCreateData)
+    onClose()
 
     showNotification({
       title: 'Success!!',
       message: 'Submission Created successfully.',
     })
   }
+
   return (
     <>
       <Paper p={20} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Group position="apart">
-            <TextInput
-              required
-              label="First Name"
-              type={'text'}
-              placeholder="First Name"
-              {...form.getInputProps('first_name')}
-            />
-            <TextInput
-              required
-              label="Last Name"
-              type={'text'}
-              placeholder="Last Name"
-              {...form.getInputProps('last_name')}
-            />
-          </Group>
+          <Grid>
+            <Grid.Col span={6}>
+              <TextInput
+                required
+                label="First Name"
+                type={'text'}
+                placeholder="First Name"
+                {...form.getInputProps('first_name')}
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <TextInput
+                required
+                label="Last Name"
+                type={'text'}
+                placeholder="Last Name"
+                {...form.getInputProps('last_name')}
+              />
+            </Grid.Col>
+          </Grid>
           <TextInput
             mt="md"
             required
@@ -119,41 +131,43 @@ export default function CreateForm() {
             }}
             value={vendorName || ''}
             rightSection={
-              <IconExternalLink
-                size="20"
-                color="grey"
-                cursor="pointer"
-                onClick={() => {
-                  setVendorOpened(true)
-                  // setVendorDetails()
-                }}
-              />
+              vendorDetails?.uuid ? (
+                <IconExternalLink
+                  size="20"
+                  color="grey"
+                  cursor="pointer"
+                  onClick={() => {
+                    setVendorOpened(true)
+                    // setVendorDetails()
+                  }}
+                />
+              ) : null
             }
-            // {...form.getInputProps('vendor_id')}
           />
           <TextInput
-            key={employeeName}
+            key={employeeDetails?.uuid}
             mt="md"
             required
-            label="Employees Name"
+            label="Candidate Name"
             type={'text'}
-            placeholder="Employees Name"
+            placeholder="Candidate Name"
             onClick={() => {
               employeeListIsOpened(true)
             }}
             value={employeeName || ''}
             rightSection={
-              <IconExternalLink
-                size="20"
-                color="grey"
-                cursor="pointer"
-                onClick={() => {
-                  setEmployeeOpened(true)
-                  // setEmployeeDetails()
-                }}
-              />
+              employeeDetails?.uuid ? (
+                <IconExternalLink
+                  size="20"
+                  color="grey"
+                  cursor="pointer"
+                  onClick={() => {
+                    setEmployeeOpened(true)
+                    // setEmployeeDetails(employeeDetails)
+                  }}
+                />
+              ) : null
             }
-            // {...form.getInputProps('em')}
           />
           <Select
             data={[
@@ -167,38 +181,44 @@ export default function CreateForm() {
             mt="md"
             {...form.getInputProps('submission_status')}
           />
-          <Group position="apart" mt="md">
-            <TextInput
-              required
-              label="City"
-              type={'text'}
-              placeholder="City"
-              {...form.getInputProps('city')}
-            />
-            <TextInput
-              required
-              label="State"
-              type={'text'}
-              placeholder="State"
-              {...form.getInputProps('state')}
-            />
-          </Group>
-          <Group position="apart" mt="md">
-            <TextInput
-              required
-              label="Recruiters"
-              type={'text'}
-              placeholder="Recruiters"
-              {...form.getInputProps('recruiters')}
-            />
-            <TextInput
-              required
-              label="Rejection Reason"
-              type={'text'}
-              placeholder="Rejection Reason"
-              {...form.getInputProps('rejection_reason')}
-            />
-          </Group>
+          <Grid mt="md">
+            <Grid.Col span={6}>
+              <TextInput
+                required
+                label="City"
+                type={'text'}
+                placeholder="City"
+                {...form.getInputProps('city')}
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <TextInput
+                required
+                label="State"
+                type={'text'}
+                placeholder="State"
+                {...form.getInputProps('state')}
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <TextInput
+                required
+                label="Recruiters"
+                type={'text'}
+                placeholder="Recruiters"
+                {...form.getInputProps('recruiters')}
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <TextInput
+                label="Rejection Reason"
+                type={'text'}
+                placeholder="Rejection Reason"
+                {...form.getInputProps('rejection_reason')}
+              />
+            </Grid.Col>
+          </Grid>
+
           <Textarea
             required
             label="Remarks"
@@ -207,7 +227,7 @@ export default function CreateForm() {
             mt="md"
             {...form.getInputProps('remarks')}
           />
-          <Button fullWidth type="submit" mt="xl">
+          <Button fullWidth type="submit" mt="xl" mb="xl">
             Submit Now
           </Button>
         </form>
@@ -233,7 +253,7 @@ export default function CreateForm() {
           size="xl"
           position="right"
         >
-          <EmployeeDetailsForm {...employeeDetails} />
+          <EmployeeDetailsForm employeeData={employeeDetails} />
         </Drawer>
 
         {/* Showing Employee IdList */}
@@ -247,8 +267,7 @@ export default function CreateForm() {
         >
           <EmployeeIdList
             setEmployee={(employee) => {
-              setEmployeeUuid(employee.employee_uuid)
-              setEmployeeName(employee.employee_name)
+              setEmployeeDetails(employee)
             }}
           />
         </Drawer>
@@ -263,8 +282,7 @@ export default function CreateForm() {
         >
           <VendorIdList
             setVendor={(vendor) => {
-              setVendorUuid(vendor.vendor_uuid)
-              setVendorName(vendor.vendor_name)
+              setVendorDetails(vendor)
             }}
           />
         </Drawer>
@@ -272,3 +290,5 @@ export default function CreateForm() {
     </>
   )
 }
+
+export default CreateForm

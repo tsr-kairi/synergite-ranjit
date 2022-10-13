@@ -34,6 +34,7 @@ import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
 import { useOnboarding } from '@/store/onboarding.store'
+import { useNavigate } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -209,8 +210,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
   const [submissionEditData, setSubmissionEditData] = useState(
     {} as TSubmission
   )
-
-  const setSubmission = useOnboarding((state) => state.setSubmission)
+  const navigate = useNavigate()
 
   const setSorting = (field: keyof TSubmission) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -253,20 +253,25 @@ export function SubmissionList({ data }: ISubmissionProps) {
   // console.log('sortedDataNew', sortedData)
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
-      <td>{row?.vendor_id}</td>
-      <td>{row?.employee_id}</td>
-      <td>{row?.submission_status}</td>
+      <td>{`${row?.vendor_first_name || ''} ${
+        row?.vendor_last_name || ''
+      }`}</td>
+      <td>{`${row?.emp_first_name || ''} ${row?.emp_last_name || ''}`}</td>
+      <td>{row?.status}</td>
       <td>
-        {row.submission_status === 'Rejected' ? (
+        {row.status === 'Rejected' ? (
           <Badge color="red">Rejected</Badge>
-        ) : row.submission_status === 'On Hold' ? (
+        ) : row.status === 'On Hold' ? (
           <Badge color="yellow">On Hold</Badge>
-        ) : row.submission_status === 'Selected' ? (
+        ) : row.status === 'Selected' ? (
           <Badge
             color="blue"
             onClick={() => {
-              setPopUpIsOpen(true)
-              setSubmission(row)
+              // navigate to onboarding screen
+              console.log('submission =', row)
+              navigate(
+                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}`
+              )
             }}
             style={{ cursor: 'pointer' }}
           >
@@ -340,12 +345,12 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('employee_id')}
               >
-                Employee Name
+                Candidate Name
               </Th>
               <Th
-                sorted={sortBy === 'submission_status'}
+                sorted={sortBy === 'status'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('submission_status')}
+                onSort={() => setSorting('status')}
               >
                 Submission Status
               </Th>
@@ -383,7 +388,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         size="xl"
         position="right"
       >
-        <CreateForm />
+        <CreateForm onClose={() => setOpened(false)} />
       </Drawer>
 
       {/* Edit Submission - Submission Edit Form Drawer*/}

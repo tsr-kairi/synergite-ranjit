@@ -28,6 +28,19 @@ export default function Documents({ form }: onboardingStepperProps) {
   return (
     <>
       <div className={classes.paper}>
+        {/* Hr Information */}
+        <Divider
+          className={classes.hrInfo}
+          my="20px"
+          label={
+            <>
+              <IconChevronsRight />
+              <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                Other Information
+              </Box>
+            </>
+          }
+        />
         <Group grow align="center" mt="md">
           <Select
             label="Document Type"
@@ -41,12 +54,16 @@ export default function Documents({ form }: onboardingStepperProps) {
           <FileInput
             label="Choose File"
             type={'file'}
-            accept="image/*"
             placeholder="Choose File"
             icon={<IconUpload size={14} />}
             {...form.getInputProps('choose_file')}
           />
         </Group>
+        {/* <div>
+            <Button fullWidth type="submit" mt="md" mb="lg">
+              Update Now
+            </Button>
+          </div> */}
       </div>
     </>
   )

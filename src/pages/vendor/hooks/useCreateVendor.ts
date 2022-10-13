@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query'
 const createVendor = async (
   vendor: TVendorCreate
 ): Promise<TVendorFindById> => {
-  return await axiosPrivate.post('/vendor/save', vendor)
+  return await axiosPrivate.post('/vendor', vendor)
 }
 
 const useCreateVendor = () => {

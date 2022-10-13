@@ -1,13 +1,7 @@
-// import { useState } from 'react'
-import {
-  // createStyles,
-  Table,
-  ScrollArea,
-  // Group,
-  Text,
-  Radio,
-} from '@mantine/core'
+import { useState } from 'react'
+import { Table, ScrollArea, Text, Radio } from '@mantine/core'
 import { IconCircleCheck } from '@tabler/icons'
+import { TAEmployee } from '@/types/employee-type'
 
 // const useStyles = createStyles((theme) => ({
 //   rowSelected: {
@@ -18,39 +12,35 @@ import { IconCircleCheck } from '@tabler/icons'
 //   },
 // }))
 
-export type employee = {
-  employee_name: string
-  employee_uuid: string
-}
+// export type employee = {
+//   employee_name: string
+//   employee_uuid: string
+// }
 interface EmployeeIdProps {
-  data: employee[]
-  setEmployee: (value: employee) => void
+  data: TAEmployee[]
+  setEmployee: (value: TAEmployee) => void
 }
 
 export function EmployeeId({ data, setEmployee }: EmployeeIdProps) {
   // const { classes, cx } = useStyles()
+  const [empData, setEmpDataMain] = useState(data)
 
-  const rows = data.map((item) => {
+  const rows = empData?.map((item) => {
     return (
-      <tr key={item.employee_name}>
+      <tr key={item.uuid}>
         <td>
           <Radio
-            value={item.employee_name.toString()}
+            value={item.fname.toString()}
             onClick={() => setEmployee(item)}
           />
         </td>
 
         <td>
           <Text size="sm" weight={500}>
-            {item.employee_name}
+            {item.fname}
+            {/* {item.lname} */}
           </Text>
         </td>
-
-        {/* <td>
-          <Text size="sm" weight={500}>
-            {item.name}
-          </Text>
-        </td> */}
       </tr>
     )
   })
@@ -68,11 +58,23 @@ export function EmployeeId({ data, setEmployee }: EmployeeIdProps) {
                   }}
                 />
               </th>
-              <th>Employee Name</th>
+              <th>Candidate Name</th>
               {/* <th>Name</th> */}
             </tr>
           </thead>
-          <tbody>{rows}</tbody>
+          <tbody>
+            {rows.length > 0 ? (
+              rows
+            ) : (
+              <tr>
+                <td colSpan={Object.keys(data[0] || {}).length}>
+                  <Text weight={500} align="center">
+                    No Candidate found
+                  </Text>
+                </td>
+              </tr>
+            )}
+          </tbody>
         </Table>
       </Radio.Group>
     </ScrollArea>

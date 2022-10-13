@@ -28,6 +28,19 @@ export default function Immigration({ form }: onboardingStepperProps) {
   return (
     <>
       <div className={classes.paper}>
+        {/* Hr Information */}
+        <Divider
+          className={classes.hrInfo}
+          my="20px"
+          label={
+            <>
+              <IconChevronsRight />
+              <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                Other Information
+              </Box>
+            </>
+          }
+        />
         <Group grow align="center" mt="md">
           <Select
             label="Processing Type"
@@ -38,14 +51,11 @@ export default function Immigration({ form }: onboardingStepperProps) {
               { value: 'premium', label: 'Premium' },
             ]}
           />
-          <Select
+          <TextInput
             label="Who is going to pay Premium"
+            type={'text'}
             placeholder="Who is going to pay Premium"
-            {...form.getInputProps('who_is_going_to_pay_premium')}
-            data={[
-              { value: 'regular', label: 'Regular' },
-              { value: 'premium', label: 'Premium' },
-            ]}
+            {...form.getInputProps('end_date')}
           />
         </Group>
         <Group grow align="center" mt="md">

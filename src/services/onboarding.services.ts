@@ -23,12 +23,40 @@ export interface ITaskResponse {
   need_by_datetime: string
 }
 
+const getFormattedDate = (date: Date): string => {
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const day = date.getDay()
+
+  return `${year}-${month > 9 ? month : '0' + month.toString()}-${
+    day > 9 ? day : '0' + day.toString()
+  } 00:00:00`
+}
+
 export const createOnboarding = async (onboarding: TOnboarding) => {
   delete onboarding.id
 
+  const onboardingData: { start_date?: string; end_date?: string } = {}
+  // if (onboarding.start_date) {
+  //   onboardingData.start_date = getFormattedDate(onboarding.start_date)
+  // }
+  // if (onboarding.end_date) {
+  //   onboardingData.end_date = getFormattedDate(onboarding.end_date)
+  // }
+  if (onboarding.start_date) {
+    onboardingData.start_date = getFormattedDate(
+      new Date(onboarding.start_date)
+    )
+  }
+  if (onboarding.end_date) {
+    onboardingData.end_date = getFormattedDate(new Date(onboarding.end_date))
+  }
+
   try {
-    await axiosPrivate.post('/onboarding', onboarding)
-    // console.log('data data =', data)
+    const { data } = await axiosPrivate.post<{
+      data: { uuid: string }
+    }>('/onboarding', { ...onboardingData, ...onboardingData })
+    return data.data
   } catch (error) {
     console.log(error)
   }
@@ -44,6 +72,17 @@ export const getOnboardingList = async () => {
     console.log(error)
   }
 } // End of getOnboardingList
+
+export const getOnboardingByUUID = async (onboardingUUID: string) => {
+  try {
+    const { data } = await axiosPrivate.get<{ data: TOnboarding }>(
+      `/onboarding/${onboardingUUID}`
+    )
+    return data.data
+  } catch (error) {
+    console.log(error)
+  }
+} // End of getOnboardingByUUID
 
 export const getActivitiesByOnboardingId = async (
   onboardingId: string,

@@ -3,8 +3,8 @@ import axiosPrivate from '@/services/axiosPrivate'
 import { TRolesCreate, TRolesFindById } from '@/types/roles-type'
 import { useMutation, useQueryClient } from 'react-query'
 
-const createRoles = async (activity: TRolesCreate): Promise<TRolesFindById> => {
-  return await axiosPrivate.post('/default/activity', activity)
+const createRoles = async (role: TRolesCreate): Promise<TRolesFindById> => {
+  return await axiosPrivate.post('/role', role)
 }
 
 const useCreateRoles = () => {

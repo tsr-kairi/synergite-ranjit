@@ -33,8 +33,6 @@ const useStyles = createStyles((theme) => ({
 
 export const ClientDetails = () => {
   const { classes } = useStyles()
-  const { state } = useLocation()
-  console.log('[ClientDetails] state =', state)
 
   return (
     <div className={classes.main}>

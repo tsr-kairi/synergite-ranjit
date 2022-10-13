@@ -9,9 +9,9 @@ import ContactsTable from './contactsTable'
 
 const Contacts = () => {
   const { vendorId } = useParams()
-  const search = window.location.search
-  const params = new URLSearchParams(search)
-  const id = params.get('id')
+  // const search = window.location.search
+  // const params = new URLSearchParams(search)
+  // const id = params.get('id')
 
   const [vContactsData, setVContactsData] = useState<TVContacts[]>(
     [] as TVContacts[]
@@ -21,8 +21,8 @@ const Contacts = () => {
     IFindContactsByVendorId,
     Error
   >(
-    [vendorQueryKeys.contactList, id],
-    async () => await VendorService.findContactsByVendorId(Number(id)),
+    [vendorQueryKeys.contactList, vendorId],
+    async () => await VendorService.findContactsByVendorId(String(vendorId)),
     {
       onSuccess: (data) => {
         setVContactsData(data.data)

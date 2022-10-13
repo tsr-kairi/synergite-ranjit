@@ -1,4 +1,6 @@
 // import useGetAllEmployees from '@/pages/employee/hooks/useGetAllEmployees'
+import useGetAllVendors from '@/pages/vendor/hooks/useGetAllVendors'
+import { TVendor } from '@/types'
 import { Paper } from '@mantine/core'
 import { vendor, VendorId } from './vendorIdList'
 
@@ -30,11 +32,13 @@ const data = [
 ]
 
 interface VendorIdListProps {
-  setVendor: (value: vendor) => void
+  setVendor: (value: TVendor) => void
 }
 
 const VendorIdList = ({ setVendor }: VendorIdListProps) => {
   // const { data, isError, error } = useGetAllEmployees()
+  const { data, isError, error } = useGetAllVendors()
+  console.log(data?.data)
 
   return (
     <Paper
@@ -43,7 +47,7 @@ const VendorIdList = ({ setVendor }: VendorIdListProps) => {
         padding: '20px',
       }}
     >
-      <VendorId data={data} setVendor={setVendor} />
+      <VendorId data={data?.data || []} setVendor={setVendor} />
     </Paper>
   )
 }

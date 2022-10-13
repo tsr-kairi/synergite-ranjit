@@ -2,35 +2,41 @@ import { z } from 'zod'
 
 // Department List Data
 const zDepartment = z.object({
-  onboardingActivityId: z.number(),
-  role_uuid: z.string(),
-  immigration_status: z.string(),
-  employee_type: z.string(),
-  new_client: z.string(),
-  default_activity: z.string(),
-  department_uuid: z.string(),
-  new_subvendor: z.string(),
+  // onboardingActivityId: z.number(),
+  // role_uuid: z.string(),
+  // immigration_status: z.string(),
+  // employee_type: z.string(),
+  // new_client: z.string(),
+  // default_activity: z.string(),
+  // department_uuid: z.string(),
+  // new_subvendor: z.string(),
   uuid: z.string(),
+  name: z.string(),
+  status: z.string(),
 })
 
 // new Department add
 const zDepartmentCreate = z.object({
-  immigration_status: z.string(),
-  employee_type: z.string(),
-  new_client: z.string(),
-  default_activity: z.string(),
-  new_subvendor: z.string(),
-  department_uuid: z.string(),
+  // immigration_status: z.string(),
+  // employee_type: z.string(),
+  // new_client: z.string(),
+  // default_activity: z.string(),
+  // new_subvendor: z.string(),
+  // department_uuid: z.string(),
+  name: z.string(),
+  // status: z.string(),
 })
 
 // Department edit
 const zDepartmentEdit = z.object({
-  immigration_status: z.string(),
-  employee_type: z.string(),
-  new_client: z.string(),
-  default_activity: z.string(),
-  department_uuid: z.string(),
-  new_subvendor: z.string(),
+  // immigration_status: z.string(),
+  // employee_type: z.string(),
+  // new_client: z.string(),
+  // default_activity: z.string(),
+  // department_uuid: z.string(),
+  // new_subvendor: z.string(),
+  name: z.string(),
+  status: z.string(),
 })
 
 // // extend array of objects Department
