@@ -58,7 +58,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       city: '',
       state: '',
       country: '',
-      submission_status: '',
+      status: '',
       rejection_reason: '',
       recruiters: '',
       remarks: '',

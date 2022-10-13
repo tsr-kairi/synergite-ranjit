@@ -348,9 +348,9 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 Candidate Name
               </Th>
               <Th
-                sorted={sortBy === 'submission_status'}
+                sorted={sortBy === 'status'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('submission_status')}
+                onSort={() => setSorting('status')}
               >
                 Submission Status
               </Th>
