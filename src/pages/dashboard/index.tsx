@@ -2,6 +2,7 @@ import { Grid, createStyles, Text } from '@mantine/core'
 import AnalyticsBoard from './analytics-graph'
 import { EventBoard } from './event-board'
 import { MessageBoard } from './message-board'
+import { Guadrant } from './quadrant'
 const useStyles = createStyles((theme) => ({
   FirstParentGrid: {
     display: 'flex',
@@ -36,21 +37,21 @@ const useStyles = createStyles((theme) => ({
   // left side
   wellCome: {
     backgroundColor: theme.colors.grey[0],
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.30)',
+    border: `1px solid ${theme.colors.blue[1]}`,
     padding: '30px',
     borderRadius: '10px',
     height: '104px',
   },
   analyticBoard: {
     backgroundColor: theme.colors.grey[0],
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.30)',
+    border: `1px solid ${theme.colors.blue[1]}`,
     padding: '30px',
     borderRadius: '10px',
     // height: '315px',
   },
   eventBoard: {
     backgroundColor: theme.colors.grey[0],
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.30)',
+    border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
     borderRadius: '10px',
     // height: '315px',
@@ -58,21 +59,21 @@ const useStyles = createStyles((theme) => ({
   // right side
   messageBoard: {
     backgroundColor: theme.colors.grey[0],
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.30)',
+    border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
     borderRadius: '10px',
     // height: '435px',
   },
   unknown: {
     backgroundColor: theme.colors.grey[0],
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.30)',
+    border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
     borderRadius: '10px',
     height: '350px',
   },
   footer: {
     backgroundColor: theme.colors.grey[0],
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.30)',
+    border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
     borderRadius: '10px',
     height: '74px',
@@ -92,32 +93,10 @@ export default function DashBoard() {
             </Text>
           </Grid.Col>
           <Grid.Col className={classes.analyticBoard}>
-            <AnalyticsBoard />
+            <Guadrant />
           </Grid.Col>
           <Grid.Col className={classes.eventBoard}>
-            <EventBoard
-              title={'Event Board'}
-              data={[
-                {
-                  title: 'Mark Jupiter',
-                  description: 'Hey dude whatsapp',
-                  image:
-                    'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
-                },
-                {
-                  title: 'Mark Jupiter',
-                  description: 'Hey dude whatsapp',
-                  image:
-                    'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
-                },
-                {
-                  title: 'Mark Jupiter',
-                  description: 'Hey dude whatsapp',
-                  image:
-                    'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
-                },
-              ]}
-            />
+            <AnalyticsBoard />
           </Grid.Col>
         </Grid>
         <Grid className={classes.rightSide}>
@@ -145,15 +124,40 @@ export default function DashBoard() {
                   description: 'Messages you have received',
                   image: 'https://randomuser.me/api/portraits/women/90.jpg',
                 },
+              ]}
+            />
+          </Grid.Col>
+          <Grid.Col className={classes.unknown}>
+            <EventBoard
+              title={'Event Board'}
+              data={[
                 {
-                  title: 'Jone Doe',
-                  description: 'Messages you have received',
-                  image: 'https://randomuser.me/api/portraits/women/90.jpg',
+                  title: 'Mark Jupiter',
+                  description: 'Hey dude whatsapp',
+                  image:
+                    'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
+                },
+                {
+                  title: 'Mark Jupiter',
+                  description: 'Hey dude whatsapp',
+                  image:
+                    'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
+                },
+                {
+                  title: 'Mark Jupiter',
+                  description: 'Hey dude whatsapp',
+                  image:
+                    'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
+                },
+                {
+                  title: 'Mark Jupiter',
+                  description: 'Hey dude whatsapp',
+                  image:
+                    'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
                 },
               ]}
             />
           </Grid.Col>
-          <Grid.Col className={classes.unknown}></Grid.Col>
         </Grid>
       </div>
       {/* <Grid>

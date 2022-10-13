@@ -100,32 +100,12 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     <>
       <Paper p={20} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Grid>
-            <Grid.Col span={6}>
-              <TextInput
-                required
-                label="First Name"
-                type={'text'}
-                placeholder="First Name"
-                {...form.getInputProps('first_name')}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <TextInput
-                required
-                label="Last Name"
-                type={'text'}
-                placeholder="Last Name"
-                {...form.getInputProps('last_name')}
-              />
-            </Grid.Col>
-          </Grid>
           <TextInput
             mt="md"
             required
-            label="Vendors Name"
+            label="Vendor"
             type={'text'}
-            placeholder="Vendors Name"
+            placeholder="Vendor"
             onClick={() => {
               vendorListIsOpened(true)
             }}
@@ -148,9 +128,9 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             key={employeeDetails?.uuid}
             mt="md"
             required
-            label="Candidate Name"
+            label="Candidate"
             type={'text'}
-            placeholder="Candidate Name"
+            placeholder="Candidate"
             onClick={() => {
               employeeListIsOpened(true)
             }}
@@ -169,40 +149,38 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
-          <Select
-            data={[
-              { value: 'Unknown', label: 'Unknown' },
-              { value: 'Selected', label: 'Selected' },
-              { value: 'Rejected', label: 'Rejected' },
-              { value: 'On Hold', label: 'On Hold' },
-            ]}
-            placeholder="Submission Status"
-            label="Submission Status"
-            mt="md"
-            {...form.getInputProps('submission_status')}
-          />
           <Grid mt="md">
             <Grid.Col span={6}>
-              <TextInput
-                required
-                label="City"
-                type={'text'}
-                placeholder="City"
-                {...form.getInputProps('city')}
+              <Select
+                data={[
+                  { value: 'Unknown', label: 'Unknown' },
+                  { value: 'Selected', label: 'Selected' },
+                  { value: 'Rejected', label: 'Rejected' },
+                  { value: 'On Hold', label: 'On Hold' },
+                ]}
+                placeholder="Submission Status"
+                label="Submission Status"
+                {...form.getInputProps('submission_status')}
               />
             </Grid.Col>
             <Grid.Col span={6}>
               <TextInput
-                required
-                label="State"
-                type={'text'}
-                placeholder="State"
-                {...form.getInputProps('state')}
+                placeholder="Pay Rate"
+                label="Pay Rate"
+                type="number"
+                // {...form.getInputProps('submission_status')}
               />
             </Grid.Col>
+          </Grid>
+          <Grid mt="md">
             <Grid.Col span={6}>
-              <TextInput
-                required
+              <Select
+                data={[
+                  { value: 'Ram', label: 'Ram' },
+                  { value: 'Sham', label: 'Sham' },
+                  { value: 'Petter', label: 'Petter' },
+                  { value: 'Parker', label: 'Parker' },
+                ]}
                 label="Recruiters"
                 type={'text'}
                 placeholder="Recruiters"
@@ -210,7 +188,13 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               />
             </Grid.Col>
             <Grid.Col span={6}>
-              <TextInput
+              <Select
+                data={[
+                  { value: 'Ram', label: 'Ram' },
+                  { value: 'Sham', label: 'Sham' },
+                  { value: 'Petter', label: 'Petter' },
+                  { value: 'Parker', label: 'Parker' },
+                ]}
                 label="Rejection Reason"
                 type={'text'}
                 placeholder="Rejection Reason"
