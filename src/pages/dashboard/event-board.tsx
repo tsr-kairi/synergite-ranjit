@@ -1,42 +1,21 @@
-import {
-  createStyles,
-  Card,
-  Group,
-  Text,
-  Avatar,
-  TextInput,
-  Button,
-} from '@mantine/core'
-import { IconArrowRight, IconClock } from '@tabler/icons'
+import { createStyles, Card, Group, Text, Avatar, Button } from '@mantine/core'
+import { IconCalendarEvent, IconClock } from '@tabler/icons'
 
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor: 'transparent',
     padding: '0px',
+    placeItems: 'center',
   },
 
-  item1: {
+  item: {
     backgroundColor: theme.colors.grey[1],
     padding: '10px',
     borderRadius: '10px',
-    marginBottom: '10px',
 
-    // '& + &': {
-    //   marginTop: theme.spacing.sm,
-    // },
-  },
-  item2: {
-    backgroundColor: theme.colors.grey[1],
-    padding: '10px',
-    borderRadius: '10px',
-    marginBottom: '10px',
-  },
-  mainItem: {
-    display: 'flex',
-    gap: '30px',
-    [theme.fn.smallerThan('xs')]: {
-      width: '100%',
-      display: 'flex',
+    '& + &': {
+      //   paddingTop: theme.spacing.sm,
+      marginTop: theme.spacing.sm,
     },
   },
   user: {
@@ -68,101 +47,55 @@ export function EventBoard({ title, data }: EventBoardProps) {
 
   const items = data.map((item) => (
     <Group
-      key={item.description}
-      className={classes.mainItem}
       position="apart"
+      className={classes.item}
+      noWrap
       spacing="xl"
-      grow
+      key={item.title}
     >
-      <Group position="apart" className={classes.item1} noWrap spacing="xl">
-        <div style={{ display: 'flex', placeItems: 'center' }}>
-          <Avatar src={item.image} size={`md`} radius={`xl`} />
-          <div className={classes.user}>
-            <Text className={classes.title}>{item.title}</Text>
-            <Text size="xs" color="dimmed">
-              {item.description}
-            </Text>
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            placeItems: 'flex-end',
-          }}
-        >
-          <IconClock size={18} stroke={2} className={classes.title} />
+      <div style={{ display: 'flex', placeItems: 'center' }}>
+        <Avatar src={item.image} size={`md`} radius={`xl`} />
+        <div className={classes.user}>
+          <Text className={classes.title}>{item.title}</Text>
           <Text size="xs" color="dimmed">
-            {currentDay}
+            {item.description}
           </Text>
         </div>
-      </Group>
-      <Group position="apart" className={classes.item2} noWrap spacing="xl">
-        <div style={{ display: 'flex', placeItems: 'center' }}>
-          <Avatar src={item.image} size={`md`} radius={`xl`} />
-          <div className={classes.user}>
-            <Text className={classes.title}>{item.title}</Text>
-            <Text size="xs" color="dimmed">
-              {item.description}
-            </Text>
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            placeItems: 'flex-end',
-          }}
-        >
-          <IconClock size={18} stroke={2} className={classes.title} />
-          <Text size="xs" color="dimmed">
-            {currentDay}
-          </Text>
-        </div>
-      </Group>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          placeItems: 'flex-end',
+        }}
+      >
+        <IconClock size={18} stroke={2} className={classes.title} />
+        <Text size="xs" color="dimmed">
+          {currentDay}
+        </Text>
+      </div>
     </Group>
   ))
 
   return (
     <Card className={classes.card}>
-      <Group
-        position="apart"
-        noWrap
-        spacing="xl"
-        align={'center'}
-        style={{ marginBottom: '20px' }}
-      >
-        <Text size="lg" weight={500}>
+      <Group position="apart" align={'center'} mb="md">
+        <Text
+          weight={'lighter'}
+          style={{
+            fontFamily: '-moz-initial',
+            fontSize: '20px',
+            color: 'blueviolet',
+          }}
+        >
           {title}
         </Text>
-        <TextInput type={'month'} style={{ inputSecurity: 'inherit' }} />
+        <IconCalendarEvent color="blueviolet" />
       </Group>
       {items}
-      <Group
-        // grow
-        position="apart"
-        noWrap
-        spacing="xl"
-        align={'center'}
-        mt="lg"
-        // style={{ marginBottom: '20px' }}
-      >
-        <Group
-          // grow
-          position="apart"
-          noWrap
-          spacing="xl"
-          align={'center'}
-        >
-          <Text size={'sm'} weight="lighter" align="center" color="grey">
-            Click to view all
-          </Text>
-          <IconArrowRight color="grey" />
-        </Group>
-        <Button variant="light" color="blue">
-          View All
-        </Button>
-      </Group>
+      <Button variant="light" color="blue" mt={'lg'} fullWidth>
+        View All
+      </Button>
     </Card>
   )
 }
