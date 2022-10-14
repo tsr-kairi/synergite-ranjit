@@ -1,20 +1,23 @@
 import { createStyles, Text, Button, Group } from '@mantine/core'
-import { IconChevronsRight } from '@tabler/icons'
+import { IconChevronsRight, IconEmpathize } from '@tabler/icons'
 import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   detailHead: {
-    border: `1px solid ${theme.colors.blue[1]}`,
+    border: `1px solid ${theme.colors.blue[4]}`,
     padding: '10px',
     paddingLeft: '20px',
     paddingRight: '20px',
     borderRadius: '5px',
+    '&:hover': {
+      backgroundColor: theme.colors.accent[0],
+    },
   },
   userLink: {
     textDecoration: 'none',
     color: theme.colors.grey[9],
     '&:hover': {
-      color: theme.colors.blue[9],
+      color: theme.colors.accent[9],
     },
   },
 }))
@@ -24,8 +27,20 @@ export function Guadrant() {
 
   return (
     <div>
-      <Text>What would you like to do today?</Text>
-      <div style={{ display: 'flex' }}>
+      <Group align={'center'} mb="md">
+        <Text
+          weight={'lighter'}
+          style={{
+            fontFamily: '-moz-initial',
+            fontSize: '20px',
+            color: 'blueviolet',
+          }}
+        >
+          What would you like to do today?
+        </Text>
+        <IconEmpathize color="blueviolet" />
+      </Group>
+      <div style={{ display: 'flex', gap: '20px' }}>
         <Link to={`/onboarding`} className={classes.userLink}>
           <Button
             className={classes.detailHead}

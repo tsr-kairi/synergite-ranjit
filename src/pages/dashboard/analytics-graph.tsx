@@ -1,7 +1,14 @@
 import { Line } from '@ant-design/plots'
-import { Group, Text, TextInput } from '@mantine/core'
+import { createStyles, Group, Text, TextInput } from '@mantine/core'
+
+const useStyles = createStyles((theme) => ({
+  analytics: {
+    padding: '20px',
+  },
+}))
 
 export default function AnalyticsBoard() {
+  const { classes } = useStyles()
   const data = [
     {
       month: 'Jan',
@@ -64,7 +71,7 @@ export default function AnalyticsBoard() {
       style: {
         fill: 'white',
         stroke: '#5B8FF9',
-        lineWidth: 1,
+        // lineWidth: 1,
       },
     },
     tooltip: {
@@ -86,12 +93,16 @@ export default function AnalyticsBoard() {
     ],
   }
   return (
-    <div>
-      <Group position="apart" noWrap spacing="xl" align={'center'} mb={'lg'}>
-        <Text size={'lg'} weight="lighter">
-          Analytics Report
+    <div className={classes.analytics}>
+      <Group position="apart" noWrap spacing="xl" align={'center'} mb="md">
+        <Text
+          weight="lighter"
+          color="blueviolet"
+          style={{ fontFamily: '-moz-initial', fontSize: '20px' }}
+        >
+          Analytics
         </Text>
-        <TextInput type={'month'} placeholder="Monthly" />
+        <TextInput type={'month'} placeholder="Monthly" color="blueviolet" />
       </Group>
       <Line {...config} />
     </div>

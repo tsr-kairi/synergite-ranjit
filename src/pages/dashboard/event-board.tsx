@@ -1,5 +1,5 @@
 import { createStyles, Card, Group, Text, Avatar, Button } from '@mantine/core'
-import { IconClock } from '@tabler/icons'
+import { IconCalendarEvent, IconClock } from '@tabler/icons'
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -79,9 +79,19 @@ export function EventBoard({ title, data }: EventBoardProps) {
 
   return (
     <Card className={classes.card}>
-      <Text size="lg" weight={'lighter'} style={{ marginBottom: '20px' }}>
-        {title}
-      </Text>
+      <Group position="apart" align={'center'} mb="md">
+        <Text
+          weight={'lighter'}
+          style={{
+            fontFamily: '-moz-initial',
+            fontSize: '20px',
+            color: 'blueviolet',
+          }}
+        >
+          {title}
+        </Text>
+        <IconCalendarEvent color="blueviolet" />
+      </Group>
       {items}
       <Button variant="light" color="blue" mt={'lg'} fullWidth>
         View All

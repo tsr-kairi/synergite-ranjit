@@ -29,7 +29,6 @@ const useStyles = createStyles((theme) => ({
   control: {
     width: '100%',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
     },
