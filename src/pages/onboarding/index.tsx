@@ -14,6 +14,8 @@ import {
   Divider,
   Box,
   Card,
+  Tooltip,
+  Drawer,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
@@ -26,7 +28,7 @@ import Documents from './onboarding-flow/document'
 import Immigration from './onboarding-flow/immigration'
 import Profile from './onboarding-flow/profile'
 
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
 import Review from './onboarding-flow/review'
 import {
@@ -35,10 +37,12 @@ import {
 } from '@/services/onboarding.services'
 import { useQuery } from 'react-query'
 import { getEmployeeByUUID } from '@/services/employee.services'
-import { IconChevronsRight } from '@tabler/icons'
+import { IconArrowBackUp, IconChevronsRight, IconEyeCheck } from '@tabler/icons'
 import useGetClientById from '../client/hooks/useGetClientById'
 import useGetVendorById from '../vendor/hooks/useGetVendorById'
-import useGetEmployeeById from '../employee/hooks/useGetEmployeeById'
+import useGetCandidateById from '../candidate/hooks/useGetCandidateById'
+import { openConfirmModal } from '@mantine/modals'
+import Personal from '../candidate/candidate-details/personal'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -73,10 +77,26 @@ const useStyles = createStyles((theme) => ({
   dividerText: {
     color: theme.colors.blue[9],
   },
+  detailHead: {
+    border: `1px solid ${theme.colors.blue[1]}`,
+    padding: '10px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    borderRadius: '5px',
+  },
+  userLink: {
+    textDecoration: 'none',
+    marginTop: '25px',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
+  },
 }))
 
 export default function Onboarding() {
   const { classes } = useStyles()
+  const [candidateDetailsOpened, candidateDetailsIsOpened] = useState(false)
 
   // details states
   const [active, setActive] = useState(0)
@@ -100,10 +120,11 @@ export default function Onboarding() {
   const clientUUID = searchParams.get('client_uuid')
   const vendorUUID = searchParams.get('vendor_uuid')
   const employeeUUID = searchParams.get('employee_uuid')
+  console.log('employeeUUID', employeeUUID)
 
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
-  const { data: employeeData } = useGetEmployeeById(employeeUUID || '')
+  const { data: employeeData } = useGetCandidateById(employeeUUID || '')
 
   useEffect(() => {
     if (active === 4) {
@@ -165,6 +186,30 @@ export default function Onboarding() {
       .finally(() => setIsOnboardingInitiated(false))
   } // End of handleSave function
 
+  const openModalForSave = (onboarding: TOnboarding) => {
+    openConfirmModal({
+      title: 'Are you sure you want to submit the details?',
+      children: (
+        <Text size="sm">
+          After submit the details, You cannot edit them back. So, Please take
+          your Action Carefully.
+        </Text>
+      ),
+      labels: { confirm: 'Yes', cancel: 'No' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        onboardingData(onboarding.uuid)
+        showNotification({
+          title: 'Onboarding details saved !!',
+          message: `Onboarding details has been saved successfully.`,
+        })
+      },
+    })
+  }
+
+  const canName = `${employeeData?.data?.fname || ''} ${
+    employeeData?.data?.lname || ''
+  }`
   // next btn
   const nextStep = () => {
     setActive((current) => (current < 5 ? current + 1 : current))
@@ -197,7 +242,7 @@ export default function Onboarding() {
                       <>
                         <IconChevronsRight />
                         <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
-                          Candidate Details
+                          Candidate : {canName}
                         </Box>
                       </>
                     }
@@ -207,18 +252,10 @@ export default function Onboarding() {
                   <Group grow align="center" mb="lg">
                     <TextInput
                       readOnly={true}
-                      label="First Name"
+                      label="Candidate Name"
                       type={'text'}
-                      placeholder="First Name"
-                      value={employeeData?.data?.fname}
-                      style={{ minWidth: '200px' }}
-                    />
-                    <TextInput
-                      readOnly={true}
-                      label="Last Name"
-                      type={'text'}
-                      placeholder="Last Name"
-                      value={employeeData?.data?.lname}
+                      placeholder="Candidate Name"
+                      value={canName}
                       style={{ minWidth: '200px' }}
                     />
                     <TextInput
@@ -245,9 +282,21 @@ export default function Onboarding() {
                       value={employeeData?.data?.ssn_no}
                       style={{ minWidth: '200px' }}
                     />
+
+                    <Tooltip
+                      label="Click to view"
+                      color="blue"
+                      withArrow
+                      transition="pop-top-right"
+                      transitionDuration={300}
+                    >
+                      <IconEyeCheck
+                        onClick={() => candidateDetailsIsOpened(true)}
+                      />
+                    </Tooltip>
                   </Group>
 
-                  <Group grow align="center" mb="lg">
+                  {/* <Group grow align="center" mb="lg">
                     <div style={{ minWidth: '200px' }}>
                       <Select
                         readOnly={true}
@@ -287,7 +336,24 @@ export default function Onboarding() {
                       placeholder="State"
                       value={employeeData?.data?.state}
                     />
-                  </Group>
+                    <Link to={`/candidate`} className={classes.userLink}>
+                      <Tooltip
+                        label="Click to view"
+                        color="blue"
+                        withArrow
+                        transition="pop-top-right"
+                        transitionDuration={300}
+                      >
+                        <Button
+                          className={classes.detailHead}
+                          rightIcon={<IconEyeCheck />}
+                          variant="filled"
+                        >
+                          View More
+                        </Button>
+                      </Tooltip>
+                    </Link>
+                  </Group> */}
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
@@ -379,13 +445,27 @@ export default function Onboarding() {
               >
                 Previous
               </Button>
-              <Button variant="light" type="submit">
+              <Button
+                variant="light"
+                type="submit"
+                onClick={() => openModalForSave()}
+              >
                 {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
               </Button>
               {active <= 3 && <Button onClick={nextStep}>Next</Button>}
             </Group>
           </form>
         </div>
+        <Drawer
+          opened={candidateDetailsOpened}
+          onClose={() => candidateDetailsIsOpened(false)}
+          title="Candidate Details"
+          padding="xl"
+          size="600px"
+          position="right"
+        >
+          <Personal />
+        </Drawer>
       </div>
     </>
   )

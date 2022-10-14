@@ -1,7 +1,14 @@
 import useEditEmployee from '@/pages/employee/hooks/useEditEmployee'
 import theme from '@/theme/theme'
 import { TAEmployee } from '@/types/employee-type'
-import { TextInput, Group, createStyles, Select, Divider, Box } from '@mantine/core'
+import {
+  TextInput,
+  Group,
+  createStyles,
+  Select,
+  Divider,
+  Box,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { IconChevronsRight } from '@tabler/icons'

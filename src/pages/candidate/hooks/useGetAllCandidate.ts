@@ -5,7 +5,7 @@ import { useQuery } from 'react-query'
 
 const findAlEmployees = async () => {
   const response = await axiosPrivate.get<TAEmployeeFindAll>(
-    `/employee?active=true`
+    `/candidate?active=true`
   )
   return response.data
 }

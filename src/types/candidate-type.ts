@@ -3,8 +3,6 @@ import { z } from 'zod'
 // Active Candidate List Data
 // Validation
 const zCandidate = z.object({
-  id: z.number(),
-  // profile_image: z.string(),
   employee_id: z.string(),
   fname: z.string(),
   lname: z.string(),
@@ -21,8 +19,6 @@ const zCandidate = z.object({
   county: z.string(),
   country: z.string(),
   zip: z.string(),
-  date_created: z.string(),
-  date_updated: z.string().optional(),
   uuid: z.string(),
 })
 
