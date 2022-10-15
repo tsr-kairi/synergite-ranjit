@@ -1,14 +1,6 @@
 import { TOnboarding } from '@/types/onboarding-flow-type'
-import {
-  TextInput,
-  Group,
-  createStyles,
-  Divider,
-  Box,
-  Select,
-} from '@mantine/core'
+import { TextInput, Group, createStyles, Select } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
-import { IconChevronsRight } from '@tabler/icons'
 const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
@@ -39,12 +31,13 @@ export default function Immigration({ form }: onboardingStepperProps) {
             ]}
           />
           <Select
+            allowDeselect
             label="Who is going to pay Premium"
             placeholder="Who is going to pay Premium"
             {...form.getInputProps('who_is_going_to_pay_premium')}
             data={[
-              { value: 'regular', label: 'Regular' },
-              { value: 'premium', label: 'Premium' },
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
             ]}
           />
         </Group>

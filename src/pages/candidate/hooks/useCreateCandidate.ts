@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query'
 const createCandidate = async (
   employee: TCandidateCreate
 ): Promise<TCandidateFindById> => {
-  return await axiosPrivate.post('/employee', employee)
+  return await axiosPrivate.post('/candidate', employee)
 }
 
 const useCreateCandidate = () => {

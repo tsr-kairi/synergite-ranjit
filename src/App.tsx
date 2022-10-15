@@ -135,6 +135,14 @@ function App() {
               }
             />
             <Route
+              path="/candidate"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Candidate />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/client-details/:clientId"
               element={
                 <ProtectedRoute isAuth={isAuth}>
@@ -199,7 +207,6 @@ function App() {
               }
             />
             <Route path="/activity" element={<Activity />} />
-            <Route path="/candidate" element={<Candidate />} />
             <Route path="/department" element={<Department />} />
             <Route path="/roles" element={<Roles />} />
             {/* </Route> */}

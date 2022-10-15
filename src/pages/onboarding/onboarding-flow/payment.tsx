@@ -23,7 +23,7 @@ type onboardingStepperProps = {
   form: UseFormReturnType<TOnboarding>
 }
 
-export default function Account({ form }: onboardingStepperProps) {
+export default function Payment({ form }: onboardingStepperProps) {
   const { classes } = useStyles()
 
   return (
@@ -85,12 +85,12 @@ export default function Account({ form }: onboardingStepperProps) {
             placeholder="Additional Information"
             {...form.getInputProps('additional_information')}
           />
-          <TextInput
+          {/* <TextInput
             label="Remarks"
             type={'text'}
             placeholder="Remarks"
             {...form.getInputProps('remarks')}
-          />
+          /> */}
         </Group>
       </div>
     </>

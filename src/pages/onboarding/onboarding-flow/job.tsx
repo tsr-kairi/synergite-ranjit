@@ -6,13 +6,9 @@ import {
   Divider,
   Box,
   Select,
-  Autocomplete,
-  Card,
-  Accordion,
 } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
 import { IconChevronsRight } from '@tabler/icons'
-import OnboardClientDetails from '../details/onboard-client-details'
 const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
@@ -26,7 +22,7 @@ type onboardingStepperProps = {
   form: UseFormReturnType<TOnboarding>
 }
 
-export default function Profile({ form }: onboardingStepperProps) {
+export default function Job({ form }: onboardingStepperProps) {
   const { classes } = useStyles()
 
   return (
