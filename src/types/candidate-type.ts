@@ -72,7 +72,7 @@ interface TCandidateFindAll {
 }
 
 interface TCandidateFindById {
-  data: TCandidate[]
+  data: TCandidate
   message: string
   ok: boolean
 }

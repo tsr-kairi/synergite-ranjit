@@ -7,11 +7,11 @@ const zClient = z.object({
   profile_image: z.string(),
   first_name: z.string(),
   last_name: z.string(),
-  address_line1: z.string(),
   city: z.string(),
   state: z.string(),
   primary_email: z.string().email(),
   primary_phone: z.string(),
+  address_line1: z.string(),
   address_line2: z.string(),
   zip: z.string(),
   country: z.string(),
@@ -327,7 +327,7 @@ interface TVendorCreateResponse {
 }
 
 interface TVendorFindById {
-  data: TVendor[]
+  data: TVendor
   message: string
   ok: boolean
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { TClient, TVendor } from '@/types'
-import { TAEmployee } from '@/types/employee-type'
+import { TCandidate } from '@/types/candidate-type'
 import { TOnboarding } from '@/types/onboarding-flow-type'
 import {
   Button,
@@ -9,40 +9,40 @@ import {
   Stepper,
   TextInput,
   Accordion,
-  Select,
   Text,
   Divider,
   Box,
-  Card,
   Tooltip,
   Drawer,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
-import OnboardClientDetails from './details/onboard-client-details'
-import OnboardVendorDetails from './details/vendor-details'
-// import useSaveOnboarding from './hooks/useSaveOnboarding'
-import Account from './onboarding-flow/account'
+import Payment from './onboarding-flow/payment'
 import Documents from './onboarding-flow/document'
 import Immigration from './onboarding-flow/immigration'
-import Profile from './onboarding-flow/profile'
+import Job from './onboarding-flow/job'
 
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { useOnboarding } from '@/store/onboarding.store'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import Review from './onboarding-flow/review'
+
 import {
   createOnboarding,
   getOnboardingByUUID,
 } from '@/services/onboarding.services'
-import { useQuery } from 'react-query'
-import { getEmployeeByUUID } from '@/services/employee.services'
-import { IconArrowBackUp, IconChevronsRight, IconEyeCheck } from '@tabler/icons'
+
+import { IconChevronsRight } from '@tabler/icons'
+
 import useGetClientById from '../client/hooks/useGetClientById'
 import useGetVendorById from '../vendor/hooks/useGetVendorById'
 import useGetCandidateById from '../candidate/hooks/useGetCandidateById'
+
 import { openConfirmModal } from '@mantine/modals'
-import Personal from '../candidate/candidate-details/personal'
+
+import CandidateDetails from '@/components/form/details/candidate-details/candidateDetails'
+import ClientDetails from '@/components/form/details/client-details/clientDetails'
+import VendorDetails from '@/components/form/details/vendor-details/vendorDetails'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -84,19 +84,16 @@ const useStyles = createStyles((theme) => ({
     paddingRight: '20px',
     borderRadius: '5px',
   },
-  userLink: {
-    textDecoration: 'none',
-    marginTop: '25px',
-    color: theme.colors.grey[9],
-    '&:hover': {
-      color: theme.colors.blue[9],
-    },
+  iconCheck: {
+    cursor: 'pointer',
   },
 }))
 
 export default function Onboarding() {
   const { classes } = useStyles()
-  const [candidateDetailsOpened, candidateDetailsIsOpened] = useState(false)
+  const [candidateDetailsOpened, setCandidateDetailsIsOpened] = useState(false)
+  const [clientDetailsOpened, setClientDetailsIsOpened] = useState(false)
+  const [vendorDetailsOpened, setVendorDetailsIsOpened] = useState(false)
 
   // details states
   const [active, setActive] = useState(0)
@@ -145,7 +142,8 @@ export default function Onboarding() {
     clearInputErrorOnChange: true,
   })
 
-  const handleSave = (values: TOnboarding) => {
+  // onConfirmSaveOnboarding
+  const onConfirmSaveOnboarding = (values: TOnboarding) => {
     const d = new Date(values.start_date)
     d.setHours(0, 0, 0, 0)
     const onboardingData = {
@@ -184,9 +182,10 @@ export default function Onboarding() {
         console.log(error)
       })
       .finally(() => setIsOnboardingInitiated(false))
-  } // End of handleSave function
+  }
 
-  const openModalForSave = (onboarding: TOnboarding) => {
+  // handleSave function
+  const handleSave = (values: TOnboarding) => {
     openConfirmModal({
       title: 'Are you sure you want to submit the details?',
       children: (
@@ -198,18 +197,23 @@ export default function Onboarding() {
       labels: { confirm: 'Yes', cancel: 'No' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        onboardingData(onboarding.uuid)
-        showNotification({
-          title: 'Onboarding details saved !!',
-          message: `Onboarding details has been saved successfully.`,
-        })
+        onConfirmSaveOnboarding(values)
       },
     })
-  }
+  } // End of handleSave function
 
   const canName = `${employeeData?.data?.fname || ''} ${
     employeeData?.data?.lname || ''
   }`
+
+  const clName = `${clientData?.data?.first_name || ''} ${
+    clientData?.data?.last_name || ''
+  }`
+
+  const venName = `${vendorData?.data?.first_name || ''} ${
+    vendorData?.data?.last_name || ''
+  }`
+
   // next btn
   const nextStep = () => {
     setActive((current) => (current < 5 ? current + 1 : current))
@@ -228,7 +232,7 @@ export default function Onboarding() {
         {/* Onboarding flow stepper */}
         <div className={classes.stepperMain}>
           <form onSubmit={form.onSubmit(handleSave)}>
-            {/* Employee */}
+            {/* Candidate */}
             <Accordion defaultValue="">
               <Accordion.Item
                 value="employee_details"
@@ -248,20 +252,31 @@ export default function Onboarding() {
                     }
                   />
                 </Accordion.Control>
+                {/* candidate */}
                 <Accordion.Panel>
                   <Group grow align="center" mb="lg">
-                    <TextInput
-                      readOnly={true}
-                      label="Candidate Name"
-                      type={'text'}
-                      placeholder="Candidate Name"
-                      value={canName}
-                      style={{ minWidth: '200px' }}
-                    />
+                    <Tooltip
+                      label="Click to view"
+                      color="blue"
+                      withArrow
+                      transition="pop-top-right"
+                      transitionDuration={300}
+                      onClick={() => setCandidateDetailsIsOpened(true)}
+                    >
+                      <TextInput
+                        readOnly={true}
+                        label="Candidate Name"
+                        type={'text'}
+                        placeholder="Candidate Name"
+                        value={canName}
+                        onClick={() => setCandidateDetailsIsOpened(true)}
+                        style={{ minWidth: '200px' }}
+                      />
+                    </Tooltip>
                     <TextInput
                       readOnly={true}
                       label="Email"
-                      type={'text'}
+                      type={'email'}
                       placeholder="Email"
                       value={employeeData?.data?.email}
                       style={{ minWidth: '200px' }}
@@ -269,7 +284,7 @@ export default function Onboarding() {
                     <TextInput
                       readOnly={true}
                       label="Phone"
-                      type={'text'}
+                      type={'number'}
                       placeholder="Phone"
                       value={employeeData?.data?.phone}
                       style={{ minWidth: '200px' }}
@@ -282,38 +297,6 @@ export default function Onboarding() {
                       value={employeeData?.data?.ssn_no}
                       style={{ minWidth: '200px' }}
                     />
-
-                    <Tooltip
-                      label="Click to view"
-                      color="blue"
-                      withArrow
-                      transition="pop-top-right"
-                      transitionDuration={300}
-                    >
-                      <IconEyeCheck
-                        onClick={() => candidateDetailsIsOpened(true)}
-                      />
-                    </Tooltip>
-                  </Group>
-
-                  {/* <Group grow align="center" mb="lg">
-                    <div style={{ minWidth: '200px' }}>
-                      <Select
-                        readOnly={true}
-                        label="Employment Type"
-                        placeholder="Employment Type"
-                        data={[
-                          { label: 'H1', value: 'h1' },
-                          {
-                            label: 'Green Card/Citizen',
-                            value: 'Green Card/Citizen',
-                          },
-                          { label: 'Green Card/USC', value: 'Green Card/USC' },
-                          { label: 'NA', value: 'na' },
-                        ]}
-                        {...form.getInputProps('employee_type')}
-                      />
-                    </div>
                     <TextInput
                       readOnly={true}
                       label="Date of birth"
@@ -322,38 +305,38 @@ export default function Onboarding() {
                       value={employeeData?.data?.dob}
                       style={{ minWidth: '100px' }}
                     />
-                    <TextInput
-                      readOnly={true}
-                      label="City"
-                      type={'text'}
-                      placeholder="City"
-                      value={employeeData?.data?.city}
-                    />
-                    <TextInput
-                      readOnly={true}
-                      label="State"
-                      type={'text'}
-                      placeholder="State"
-                      value={employeeData?.data?.state}
-                    />
-                    <Link to={`/candidate`} className={classes.userLink}>
+                    {/* <Group
+                      position="right"
+                      style={{
+                        display: 'flex',
+                        flex: 1,
+                        marginTop: '25px',
+                      }}
+                      onClick={() => setCandidateDetailsIsOpened(true)}
+                    >
                       <Tooltip
                         label="Click to view"
                         color="blue"
                         withArrow
                         transition="pop-top-right"
                         transitionDuration={300}
+                        onClick={() => setCandidateDetailsIsOpened(true)}
                       >
-                        <Button
-                          className={classes.detailHead}
-                          rightIcon={<IconEyeCheck />}
-                          variant="filled"
+                        <ActionIcon
+                          color="blue"
+                          size="lg"
+                          radius="sm"
+                          variant="default"
                         >
-                          View More
-                        </Button>
+                          <IconEyeCheck
+                            color="blue"
+                            size={26}
+                            className={classes.iconCheck}
+                          />
+                        </ActionIcon>
                       </Tooltip>
-                    </Link>
-                  </Group> */}
+                    </Group> */}
+                  </Group>
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
@@ -375,17 +358,60 @@ export default function Onboarding() {
                           <>
                             <IconChevronsRight />
                             <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
-                              Client
+                              Client : {clName}
                             </Box>
                           </>
                         }
                       />
                     </Accordion.Control>
                     <Accordion.Panel>
-                      <OnboardClientDetails
-                        key={clientUUID}
-                        {...((clientData?.data || {}) as TClient)}
-                      />
+                      <Group grow align="center" mt="md">
+                        <Tooltip
+                          label="Click to view"
+                          color="blue"
+                          withArrow
+                          transition="pop-top-right"
+                          transitionDuration={300}
+                          onClick={() => setClientDetailsIsOpened(true)}
+                        >
+                          <TextInput
+                            readOnly={true}
+                            label="Account Name"
+                            type={'text'}
+                            placeholder="Account Name"
+                            value={clName}
+                            onClick={() => setClientDetailsIsOpened(true)}
+                          />
+                        </Tooltip>
+                        <TextInput
+                          readOnly={true}
+                          label="Address line 1"
+                          type={'text'}
+                          placeholder="Address line 1"
+                          value={clientData?.data?.address_line1}
+                        />
+                        <TextInput
+                          readOnly={true}
+                          label="Address line 2"
+                          type={'text'}
+                          placeholder="Address line 2"
+                          value={clientData?.data?.address_line2}
+                        />
+                        <TextInput
+                          readOnly={true}
+                          label="City"
+                          type={'text'}
+                          placeholder="City"
+                          value={clientData?.data?.city}
+                        />
+                        <TextInput
+                          readOnly={true}
+                          label="State"
+                          type={'text'}
+                          placeholder="State"
+                          value={clientData?.data?.state}
+                        />
+                      </Group>
                     </Accordion.Panel>
                   </Accordion.Item>
 
@@ -402,24 +428,71 @@ export default function Onboarding() {
                           <>
                             <IconChevronsRight />
                             <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
-                              Vendor
+                              Vendor : {venName}
                             </Box>
                           </>
                         }
                       />
                     </Accordion.Control>
                     <Accordion.Panel>
-                      <OnboardVendorDetails
+                      {/* <OnboardVendorDetails
                         key={((vendorData?.data || {}) as TVendor)?.uuid}
                         {...((vendorData?.data || {}) as TVendor)}
-                      />
+                      /> */}
+                      <Group grow align="center" mt="md">
+                        <Tooltip
+                          label="Click to view"
+                          color="blue"
+                          withArrow
+                          transition="pop-top-right"
+                          transitionDuration={300}
+                          onClick={() => setVendorDetailsIsOpened(true)}
+                        >
+                          <TextInput
+                            readOnly={true}
+                            label="Vendor Name"
+                            type={'text'}
+                            placeholder="Vendor Name"
+                            value={venName}
+                            onClick={() => setVendorDetailsIsOpened(true)}
+                          />
+                        </Tooltip>
+                        <TextInput
+                          readOnly={true}
+                          label="Email"
+                          type={'email'}
+                          placeholder="email@email.com"
+                          value={vendorData?.data?.primary_email}
+                        />
+                        <TextInput
+                          readOnly={true}
+                          label="Phone"
+                          type={'tel'}
+                          placeholder="Phone"
+                          value={vendorData?.data?.primary_phone}
+                        />
+                        <TextInput
+                          readOnly={true}
+                          label="City"
+                          type={'text'}
+                          placeholder="City"
+                          value={vendorData?.data?.city}
+                        />
+                        <TextInput
+                          readOnly={true}
+                          label="State"
+                          type={'text'}
+                          placeholder="State"
+                          value={vendorData?.data?.state}
+                        />
+                      </Group>
                     </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion>
-                <Profile form={form} />
+                <Job form={form} />
               </Stepper.Step>
               <Stepper.Step label="Payments" description="Payment Info...">
-                <Account form={form} />
+                <Payment form={form} />
               </Stepper.Step>
               <Stepper.Step
                 label="Immigration"
@@ -445,26 +518,96 @@ export default function Onboarding() {
               >
                 Previous
               </Button>
-              <Button
-                variant="light"
-                type="submit"
-                onClick={() => openModalForSave()}
-              >
+              <Button variant="light" type="submit">
                 {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
               </Button>
               {active <= 3 && <Button onClick={nextStep}>Next</Button>}
             </Group>
           </form>
         </div>
+        {/* candidate details */}
         <Drawer
           opened={candidateDetailsOpened}
-          onClose={() => candidateDetailsIsOpened(false)}
+          onClose={() => setCandidateDetailsIsOpened(false)}
+          transitionDuration={700}
+          transitionTimingFunction="ease"
           title="Candidate Details"
           padding="xl"
-          size="600px"
+          size="1200px"
           position="right"
         >
-          <Personal />
+          <Divider
+            className={classes.dividerText}
+            my="10px"
+            label={
+              <>
+                <IconChevronsRight />
+                <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                  {canName}
+                </Box>
+              </>
+            }
+          />
+          <CandidateDetails
+            key={employeeUUID}
+            {...((employeeData?.data || {}) as TCandidate)}
+          />
+        </Drawer>
+        {/* client details */}
+        <Drawer
+          opened={clientDetailsOpened}
+          onClose={() => setClientDetailsIsOpened(false)}
+          transitionDuration={700}
+          transitionTimingFunction="ease"
+          title="Client Details"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          <Divider
+            className={classes.dividerText}
+            my="10px"
+            label={
+              <>
+                <IconChevronsRight />
+                <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                  {clName}
+                </Box>
+              </>
+            }
+          />
+          <ClientDetails
+            key={clientUUID}
+            {...((clientData?.data || {}) as TClient)}
+          />
+        </Drawer>
+        {/* vendor details */}
+        <Drawer
+          opened={vendorDetailsOpened}
+          onClose={() => setVendorDetailsIsOpened(false)}
+          transitionDuration={700}
+          transitionTimingFunction="ease"
+          title="Vendor Details"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          <Divider
+            className={classes.dividerText}
+            my="10px"
+            label={
+              <>
+                <IconChevronsRight />
+                <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                  {venName}
+                </Box>
+              </>
+            }
+          />
+          <VendorDetails
+            key={vendorUUID}
+            {...((vendorData?.data || {}) as TVendor)}
+          />
         </Drawer>
       </div>
     </>
