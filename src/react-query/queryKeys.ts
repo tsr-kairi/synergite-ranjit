@@ -48,6 +48,10 @@ const departmentQueryKeys = {
   departmentDetails: 'department-details',
 }
 
+const jobQueryKeys = {
+  jobs: 'jobs',
+}
+
 export {
   clientQueryKeys,
   vendorQueryKeys,
@@ -58,4 +62,5 @@ export {
   defaultActivityQueryKeys,
   departmentQueryKeys,
   rolesQueryKeys,
+  jobQueryKeys,
 }

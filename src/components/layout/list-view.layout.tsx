@@ -9,8 +9,17 @@ import {
   Button,
   Drawer,
   Pagination,
+  Checkbox,
 } from '@mantine/core'
-import { IconSearch, IconFilter, IconPlus } from '@tabler/icons'
+import {
+  IconSearch,
+  IconFilter,
+  IconPlus,
+  IconColumns,
+  IconGripVertical,
+} from '@tabler/icons'
+import { Column } from '@ant-design/plots'
+import AdjustableColumn from '../adjustable-column/adjustable-column-list'
 
 interface IListViewLayoutProps {
   title: string
@@ -19,6 +28,8 @@ interface IListViewLayoutProps {
   createDrawerChildren?: React.ReactNode
   editDrawerChildren?: React.ReactNode
   hideActionButton?: boolean
+  onColumnClick?: () => void
+  onAddNewClick?: () => void
 }
 
 export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
@@ -29,8 +40,12 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     createDrawerChildren,
     editDrawerChildren,
     hideActionButton,
+    onColumnClick,
+    onAddNewClick,
   } = props
 
+  const [isColumnSelectionDrawerOpen, setIsColumnSelectionDrawerOpen] =
+    useState(false)
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [isEditDrawerOpen, setIsEditNewDrawerOpen] = useState(false)
   const { classes } = listViewLayoutStyle()
@@ -38,33 +53,46 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ScrollArea>
-        <div className={classes.tableHead}>
-          <Group spacing="sm">
-            <Text size={'xl'} weight="600" className={classes.text}>
-              {title}
-            </Text>
-            <IconFilter className={classes.filterIcon} />
-          </Group>
-          <TextInput
-            placeholder="Search by any field"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            // value={search}
-            // onChange={handleSearchChange}
-            radius="xl"
-            className={classes.searchField}
-          />
-          {/* Add New - Button*/}
-          {!hideActionButton && (
-            <Button onClick={() => setIsAddNewDrawerOpen(true)}>
-              <Group spacing="sm" align="center">
-                <IconPlus color="white" />
-                <Text weight={400}>Add New</Text>
-              </Group>
-            </Button>
-          )}
-        </div>
+      <div className={classes.tableHead}>
+        <Group spacing="sm">
+          <Text size={'xl'} weight="600" className={classes.text}>
+            {title}
+          </Text>
+          <IconFilter className={classes.filterIcon} />
+        </Group>
+        <TextInput
+          placeholder="Search by any field"
+          icon={<IconSearch size={14} stroke={1.5} />}
+          // value={search}
+          // onChange={handleSearchChange}
+          radius="xl"
+          className={classes.searchField}
+        />
 
+        <Button
+          onClick={() => {
+            if (onAddNewClick) {
+              onAddNewClick()
+            } else {
+              setIsColumnSelectionDrawerOpen(true)
+            }
+          }}
+        >
+          Column
+        </Button>
+
+        {/* Add New - Button*/}
+        {!hideActionButton && (
+          <Button onClick={() => setIsAddNewDrawerOpen(true)}>
+            <Group spacing="sm" align="center">
+              <IconPlus color="white" />
+              <Text weight={400}>Add New</Text>
+            </Group>
+          </Button>
+        )}
+      </div>
+
+      <ScrollArea>
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
@@ -79,6 +107,18 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
           <Pagination total={5} size="sm" />
         </div>
       </ScrollArea>
+
+      {/* List of columns */}
+      <Drawer
+        opened={isColumnSelectionDrawerOpen}
+        onClose={() => setIsColumnSelectionDrawerOpen(false)}
+        title={createDrawerTitle}
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <AdjustableColumn />
+      </Drawer>
 
       {/* Add New - Drawer */}
       <Drawer
