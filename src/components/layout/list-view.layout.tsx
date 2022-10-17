@@ -29,6 +29,7 @@ interface IListViewLayoutProps {
   createDrawerChildren?: React.ReactNode
   editDrawerChildren?: React.ReactNode
   hideActionButton?: boolean
+  hideColumnButton?: boolean
   onColumnClick?: () => void
   onAddNewClick?: () => void
 }
@@ -41,6 +42,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     createDrawerChildren,
     editDrawerChildren,
     hideActionButton,
+    hideColumnButton,
     onColumnClick,
     onAddNewClick,
   } = props
@@ -70,14 +72,16 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
           className={classes.searchField}
         />
 
-        <Popover width={200} position="bottom" withArrow shadow="md">
-          <Popover.Target>
-            <Button>Column</Button>
-          </Popover.Target>
-          <Popover.Dropdown>
-            <AdjustableColumn />
-          </Popover.Dropdown>
-        </Popover>
+        {!hideColumnButton && (
+          <Popover width={200} position="bottom" withArrow shadow="md">
+            <Popover.Target>
+              <Button>Column</Button>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <AdjustableColumn />
+            </Popover.Dropdown>
+          </Popover>
+        )}
 
         {/* Add New - Button*/}
         {!hideActionButton && (

@@ -1,60 +1,109 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { getActivitiesByOnboardingId } from '@/services/onboarding.services'
-import { Button, Group } from '@mantine/core'
+import { Button, Group, Loader, Paper } from '@mantine/core'
 import { useQuery } from 'react-query'
 
 type TDepartment = 'Accounts' | 'Contracts' | 'HR' | 'Immigration'
 
 interface OnboardingActivity {
   onboardingId: string
+  onDepartmentChange: (department: string) => void
   onPressed: (activityId: string) => void
 }
 
 const OnboardingActivity: React.FC<OnboardingActivity> = ({
   onboardingId,
+  onDepartmentChange,
   onPressed,
 }) => {
   const [selectedDepartment, setSelectedDepartment] =
     useState<TDepartment>('Accounts')
 
-  const { data, isLoading } = useQuery(selectedDepartment, () =>
-    getActivitiesByOnboardingId(onboardingId, selectedDepartment)
+  const { data, isLoading, error } = useQuery(
+    ['activity-by-department', selectedDepartment],
+    () => getActivitiesByOnboardingId(onboardingId, selectedDepartment)
   )
+
+  useEffect(() => {
+    onDepartmentChange(selectedDepartment)
+  }, [selectedDepartment])
+
+  let element: React.ReactNode = <></>
+
+  if (error) {
+    element = (
+      <Paper
+        style={{
+          boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.50)',
+          padding: '20px',
+        }}
+      >
+        Error Occurred
+      </Paper>
+    )
+  } else if (!isLoading && !data) {
+    element = (
+      <Paper
+        style={{
+          boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.50)',
+          padding: '20px',
+        }}
+      >
+        {selectedDepartment} Not Found
+      </Paper>
+    )
+  } else if (isLoading) {
+    element = <Loader variant="dots" />
+  }
 
   return (
     <div>
       {/* Departments  */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-        {/* Account */}
-        <Button onClick={() => setSelectedDepartment('Accounts')}>
+        <Button
+          onClick={() => setSelectedDepartment('Accounts')}
+          variant={selectedDepartment === 'Accounts' ? 'filled' : 'light'}
+        >
           Account
         </Button>
-        <Button onClick={() => setSelectedDepartment('Contracts')}>
+        <Button
+          onClick={() => setSelectedDepartment('Contracts')}
+          variant={selectedDepartment === 'Contracts' ? 'filled' : 'light'}
+        >
           Contracts
         </Button>
-        <Button onClick={() => setSelectedDepartment('HR')}>HR</Button>
-        <Button onClick={() => setSelectedDepartment('Immigration')}>
+        <Button
+          onClick={() => setSelectedDepartment('HR')}
+          variant={selectedDepartment === 'HR' ? 'filled' : 'light'}
+        >
+          HR
+        </Button>
+        <Button
+          onClick={() => setSelectedDepartment('Immigration')}
+          variant={selectedDepartment === 'Immigration' ? 'filled' : 'light'}
+        >
           Immigration
         </Button>
       </div>
 
-      {isLoading && <h3>Loading...</h3>}
-      {data?.length === 0 && !isLoading && <h3>Data Not Found</h3>}
+      <div style={{ marginTop: '40px' }}>{element}</div>
 
       <div>
         {data?.map((activity) => {
           return (
-            <Group key={activity.id}>
-              <p
-                onClick={() => onPressed(activity.id)}
-                style={{ cursor: 'pointer' }}
-              >
-                Assigned To: {activity.assigned_to}
-              </p>
-              <p>Assigned By: {activity.assigned_by}</p>
-              <p>Status: {activity.activity_status}</p>
-            </Group>
+            <Paper key={activity.uuid}>
+              <Group>
+                <p
+                  onClick={() => onPressed(activity.uuid)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Assigned To: {activity.assigned_to}
+                </p>
+                <p>Assigned By: {activity.assigned_by}</p>
+                <p>Status: {activity.activity_status}</p>
+              </Group>
+            </Paper>
           )
         })}
       </div>

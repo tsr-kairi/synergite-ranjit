@@ -5,11 +5,13 @@ export type TDepartment = 'Accounts' | 'Contracts' | 'HR' | 'Immigration'
 
 interface IOnboardingResponse {
   id: string
+  uuid: string
   onboard_status: string
 }
 
 interface IActivityResponse {
   id: string
+  uuid: string
   assigned_to: string
   assigned_by: string
   activity_status: string

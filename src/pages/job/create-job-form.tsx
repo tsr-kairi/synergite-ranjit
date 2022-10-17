@@ -1,4 +1,6 @@
 import TextDivider from '@/components/elements/text-divider'
+import { languages } from '@/data/languages.data'
+import useGetLanguages from '@/hooks/useGetLanguages'
 import useCreateJob from '@/pages/client/hooks/useCreateJob'
 import { jobQueryKeys } from '@/react-query/queryKeys'
 import { TJobCreate, zJobCreate } from '@/types'
@@ -35,6 +37,10 @@ const CreateJobForm = () => {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  languages
+
+  
 
   const handleSubmit = () => {
     const jobCreateData = {
