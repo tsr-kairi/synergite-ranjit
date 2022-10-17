@@ -1,6 +1,6 @@
 import theme from '@/theme/theme'
 import { TOnboarding } from '@/types/onboarding-flow-type'
-import { Accordion, ActionIcon, Card, Group } from '@mantine/core'
+import { Accordion, ActionIcon, Card, Group, TextInput } from '@mantine/core'
 import {
   IconBriefcase,
   IconEdit,
@@ -22,8 +22,7 @@ const styles = {
     justifyContent: 'space-between',
   },
   previewKey: {
-    color: theme.colors?.blue?.[6],
-    fontWeight: 'lighter',
+    color: theme.colors?.grey?.[9],
   },
 }
 
@@ -76,67 +75,57 @@ const Review: React.FC<ReviewProps> = ({
                 border: `1px solid skyblue`,
               }}
             >
-              <Group>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Start Date:</span>{' '}
-                  {onboardingData.start_date?.toString()}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>End Date:</span>{' '}
-                  {onboardingData.end_date?.toString()}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Reporting to:</span>{' '}
-                  {onboardingData.reporting_to}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Designation:</span>{' '}
-                  {onboardingData.designation}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Overtime Exemption:</span>{' '}
-                  {onboardingData.overtime_exemption}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Remarks:</span>{' '}
-                  {onboardingData.remarks}
-                </p>
+              <Group grow align="center" mb="lg">
+                <TextInput
+                  readOnly={true}
+                  label="Start Date"
+                  type={'date'}
+                  placeholder="Start Date"
+                  value={onboardingData.start_date?.toString()}
+                  style={{ minWidth: '200px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="End Date"
+                  type={'date'}
+                  placeholder="End Date"
+                  value={onboardingData.end_date?.toString()}
+                  style={{ minWidth: '200px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Reporting to"
+                  type={'text'}
+                  placeholder="Reporting to"
+                  value={onboardingData.reporting_to}
+                  style={{ minWidth: '200px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Designation"
+                  type={'text'}
+                  placeholder="Designation"
+                  value={onboardingData.designation}
+                  style={{ minWidth: '200px' }}
+                />
+              </Group>
+              <Group grow align="center" mb="lg">
+                <TextInput
+                  readOnly={true}
+                  label="Overtime Exemption"
+                  type={'text'}
+                  placeholder="Overtime Exemption"
+                  value={onboardingData.overtime_exemption}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Remarks"
+                  type={'text'}
+                  placeholder="Remarks"
+                  value={onboardingData.remarks}
+                  style={{ minWidth: '100px' }}
+                />
               </Group>
             </Card>
           </Accordion.Panel>
@@ -158,93 +147,73 @@ const Review: React.FC<ReviewProps> = ({
                 border: `1px solid skyblue`,
               }}
             >
-              <Group>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Bill rate:</span>{' '}
-                  {onboardingData.bill_rate}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Pay rate:</span>{' '}
-                  {onboardingData.pay_rate}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Payment frequency:</span>{' '}
-                  {onboardingData.payment_frequency}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>
-                    Account Manager Commission:
-                  </span>{' '}
-                  {onboardingData.account_manager_commission}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>
-                    Recruitment Manager Commission:
-                  </span>{' '}
-                  {onboardingData.recruitment_manager_commission}
-                </p>
+              <Group grow align="center" mb="lg">
+                <TextInput
+                  readOnly={true}
+                  label="Bill Rate"
+                  type={'text'}
+                  placeholder="Bill Rate"
+                  value={onboardingData.bill_rate}
+                  style={{ minWidth: '200px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Pay Rate"
+                  type={'text'}
+                  placeholder="Pay Rate"
+                  value={onboardingData.pay_rate}
+                  style={{ minWidth: '200px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Payment frequency"
+                  type={'text'}
+                  placeholder="Payment frequency"
+                  value={onboardingData.payment_frequency}
+                  style={{ minWidth: '200px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Account Manager Commission"
+                  type={'text'}
+                  placeholder="Account Manager Commission"
+                  value={onboardingData.account_manager_commission}
+                  style={{ minWidth: '200px' }}
+                />
               </Group>
-              <Group>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Recruitment Commission:</span>{' '}
-                  {onboardingData.recruitment_commission}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Additional Commission:</span>{' '}
-                  {onboardingData.additional_commission}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Additional Information:</span>{' '}
-                  {onboardingData.additional_information}
-                </p>
+              <Group grow align="center" mb="lg">
+                <TextInput
+                  readOnly={true}
+                  label="Recruitment Manager Commission"
+                  type={'text'}
+                  placeholder="Recruitment Manager Commission"
+                  value={onboardingData.recruitment_manager_commission}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Recruitment Commission"
+                  type={'text'}
+                  placeholder="Recruitment Commission"
+                  value={onboardingData.recruitment_commission}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Additional Commission"
+                  type={'text'}
+                  placeholder="Additional Commission"
+                  value={onboardingData.additional_commission}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Additional Information"
+                  type={'text'}
+                  placeholder="Additional Information"
+                  value={onboardingData.additional_information}
+                  style={{ minWidth: '100px' }}
+                />
               </Group>
             </Card>
           </Accordion.Panel>
@@ -266,59 +235,47 @@ const Review: React.FC<ReviewProps> = ({
                 border: `1px solid skyblue`,
               }}
             >
-              <Group>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Processing Type:</span>{' '}
-                  {onboardingData.processing_type}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>
-                    Who is going to pay Premium:
-                  </span>{' '}
-                  {onboardingData.who_is_going_to_pay_premium}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Immigration Job Title:</span>{' '}
-                  {onboardingData.immigration_job_title}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Current H1B validity:</span>{' '}
-                  {onboardingData.current_h1b_validity}
-                </p>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Current LCA number:</span>{' '}
-                  {onboardingData.current_lac_number}
-                </p>
+              <Group grow align="center" mb="lg">
+                <TextInput
+                  readOnly={true}
+                  label="Processing Type"
+                  type={'text'}
+                  placeholder="Processing Type"
+                  value={onboardingData.processing_type}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Who is going to pay Premium"
+                  type={'text'}
+                  placeholder="Who is going to pay Premium"
+                  value={onboardingData.who_is_going_to_pay_premium}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Immigration Job Title"
+                  type={'text'}
+                  placeholder="Immigration Job Title"
+                  value={onboardingData.immigration_job_title}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Current H1B validity"
+                  type={'text'}
+                  placeholder="Current H1B validity"
+                  value={onboardingData.current_h1b_validity}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Current LCA Number"
+                  type={'text'}
+                  placeholder="Current LCA Number"
+                  value={onboardingData.current_lac_number}
+                  style={{ minWidth: '100px' }}
+                />
               </Group>
             </Card>
           </Accordion.Panel>
@@ -340,17 +297,15 @@ const Review: React.FC<ReviewProps> = ({
                 border: `1px solid skyblue`,
               }}
             >
-              <Group>
-                <p
-                  style={{
-                    border: `1px solid skyblue`,
-                    borderRadius: '5px',
-                    padding: '10px',
-                  }}
-                >
-                  <span style={styles.previewKey}>Document Type:</span>{' '}
-                  {onboardingData.document_type}
-                </p>
+              <Group grow align="center" mb="lg">
+                <TextInput
+                  readOnly={true}
+                  label="Document Type"
+                  type={'text'}
+                  placeholder="Document Type"
+                  value={onboardingData.document_type}
+                  style={{ minWidth: '100px' }}
+                />
                 <p>
                   <span style={styles.previewKey}>File:</span>{' '}
                   {documentFilePreview ? (

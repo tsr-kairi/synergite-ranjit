@@ -229,7 +229,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
     )
   }
 
-  // PreOnBoarding handler
+  // openModalForDelete handler
   // const handlePreOnboarding = async (data: TSubmission) => {
   //   try {
   //     await axiosPrivate.post(
@@ -353,14 +353,14 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('vendor_id')}
               >
-                Vendor Name
+                Vendor
               </Th>
               <Th
                 sorted={sortBy === 'employee_id'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('employee_id')}
               >
-                Candidate Name
+                Candidate
               </Th>
               <Th
                 sorted={sortBy === 'status'}

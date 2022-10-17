@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+``````import { useEffect } from 'react'
 import { TClient, TVendor } from '@/types'
 import { TCandidate } from '@/types/candidate-type'
 import { TOnboarding } from '@/types/onboarding-flow-type'
@@ -43,6 +43,7 @@ import { openConfirmModal } from '@mantine/modals'
 import CandidateDetails from '@/components/form/details/candidate-details/candidateDetails'
 import ClientDetails from '@/components/form/details/client-details/clientDetails'
 import VendorDetails from '@/components/form/details/vendor-details/vendorDetails'
+import { randomId } from '@mantine/hooks'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -123,11 +124,15 @@ export default function Onboarding() {
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
   const { data: employeeData } = useGetCandidateById(employeeUUID || '')
 
-  useEffect(() => {
-    if (active === 4) {
-      setOnboardingStepperData(form.values)
-    }
-  }, [active])
+  // onboarding flow states
+  const form = useForm<TOnboarding>({
+    initialValues: {
+      ...onboardingStepperData,
+      documents: [{ document_type: '', choose_file: '', key: randomId() }],
+    },
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
 
   useEffect(() => {
     if (onboardingData) {
@@ -135,12 +140,11 @@ export default function Onboarding() {
     }
   }, [onboardingData])
 
-  // onboarding flow states
-  const form = useForm<TOnboarding>({
-    initialValues: onboardingStepperData,
-    validateInputOnChange: true,
-    clearInputErrorOnChange: true,
-  })
+  useEffect(() => {
+    if (active === 4) {
+      setOnboardingStepperData(form.values)
+    }
+  }, [active, form.values])
 
   // onConfirmSaveOnboarding
   const onConfirmSaveOnboarding = (values: TOnboarding) => {
@@ -252,7 +256,7 @@ export default function Onboarding() {
                         <Box
                           style={{
                             fontFamily: '-moz-initial',
-                            fontSize: '18px',
+                            fontSize: '16px',
                           }}
                           ml={5}
                         >
@@ -315,37 +319,6 @@ export default function Onboarding() {
                       value={employeeData?.data?.dob}
                       style={{ minWidth: '100px' }}
                     />
-                    {/* <Group
-                      position="right"
-                      style={{
-                        display: 'flex',
-                        flex: 1,
-                        marginTop: '25px',
-                      }}
-                      onClick={() => setCandidateDetailsIsOpened(true)}
-                    >
-                      <Tooltip
-                        label="Click to view"
-                        color="blue"
-                        withArrow
-                        transition="pop-top-right"
-                        transitionDuration={300}
-                        onClick={() => setCandidateDetailsIsOpened(true)}
-                      >
-                        <ActionIcon
-                          color="blue"
-                          size="lg"
-                          radius="sm"
-                          variant="default"
-                        >
-                          <IconEyeCheck
-                            color="blue"
-                            size={26}
-                            className={classes.iconCheck}
-                          />
-                        </ActionIcon>
-                      </Tooltip>
-                    </Group> */}
                   </Group>
                 </Accordion.Panel>
               </Accordion.Item>
@@ -367,7 +340,13 @@ export default function Onboarding() {
                         label={
                           <>
                             <IconChevronsRight />
-                            <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                            <Box
+                              ml={5}
+                              style={{
+                                fontFamily: '-moz-initial',
+                                fontSize: '16px',
+                              }}
+                            >
                               Client : {clName}
                             </Box>
                           </>
@@ -437,7 +416,13 @@ export default function Onboarding() {
                         label={
                           <>
                             <IconChevronsRight />
-                            <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                            <Box
+                              style={{
+                                fontFamily: '-moz-initial',
+                                fontSize: '16px',
+                              }}
+                              ml={5}
+                            >
                               Vendor : {venName}
                             </Box>
                           </>
@@ -534,7 +519,10 @@ export default function Onboarding() {
                 </Button>
               ) : (
                 <Button variant="light" type="submit">
-                  {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
+                  {isOnboardingInitiated
+                    ? 'Onboarding Initiated'
+                    : 'Initiate Onboarding'}
+                  Initiate Onboarding
                 </Button>
               )}
               {active <= 3 && <Button onClick={nextStep}>Next</Button>}

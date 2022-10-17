@@ -1,9 +1,16 @@
 import { z } from 'zod'
 
 // ? onboarding zod type = Main
+// employees: [{ name: '', active: false, key: randomId() }]
 
+const zDocument = z.object({
+  document_type: z.string(),
+  choose_file: z.string(),
+  key: z.string(),
+})
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
+  uuid: z.string(),
   created_by: z.string(),
   created_date: z.date(),
   modified_by: z.string(),
@@ -42,9 +49,7 @@ const zOnboarding = z.object({
   current_lac_number: z.string(),
 
   // Document
-  document_type: z.string(),
-  choose_file: z.string(),
-  uuid: z.string(),
+  documents: z.array(zDocument),
 })
 
 interface TOnboardingFindById {
