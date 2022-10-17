@@ -4,7 +4,6 @@ import { z } from 'zod'
 
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
-  id: z.number().optional(),
   created_by: z.string(),
   created_date: z.date(),
   modified_by: z.string(),

@@ -85,12 +85,6 @@ export default function Payment({ form }: onboardingStepperProps) {
             placeholder="Additional Information"
             {...form.getInputProps('additional_information')}
           />
-          {/* <TextInput
-            label="Remarks"
-            type={'text'}
-            placeholder="Remarks"
-            {...form.getInputProps('remarks')}
-          /> */}
         </Group>
       </div>
     </>

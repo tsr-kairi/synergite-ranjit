@@ -117,7 +117,7 @@ export default function Onboarding() {
   const clientUUID = searchParams.get('client_uuid')
   const vendorUUID = searchParams.get('vendor_uuid')
   const employeeUUID = searchParams.get('employee_uuid')
-  console.log('employeeUUID', employeeUUID)
+  console.log('candidateUUID', employeeUUID)
 
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
@@ -186,20 +186,24 @@ export default function Onboarding() {
 
   // handleSave function
   const handleSave = (values: TOnboarding) => {
-    openConfirmModal({
-      title: 'Are you sure you want to submit the details?',
-      children: (
-        <Text size="sm">
-          After submit the details, You cannot edit them back. So, Please take
-          your Action Carefully.
-        </Text>
-      ),
-      labels: { confirm: 'Yes', cancel: 'No' },
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () => {
-        onConfirmSaveOnboarding(values)
-      },
-    })
+    if (active >= 4) {
+      openConfirmModal({
+        title: 'Are you sure you want to submit the details?',
+        children: (
+          <Text size="sm">
+            After submit the details, You cannot edit them back. So, Please take
+            your Action Carefully.
+          </Text>
+        ),
+        labels: { confirm: 'Yes', cancel: 'No' },
+        onCancel: () => console.log('Cancel'),
+        onConfirm: () => {
+          onConfirmSaveOnboarding(values)
+        },
+      })
+    } else {
+      onConfirmSaveOnboarding(values)
+    }
   } // End of handleSave function
 
   const canName = `${employeeData?.data?.fname || ''} ${
@@ -245,7 +249,13 @@ export default function Onboarding() {
                     label={
                       <>
                         <IconChevronsRight />
-                        <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                        <Box
+                          style={{
+                            fontFamily: '-moz-initial',
+                            fontSize: '18px',
+                          }}
+                          ml={5}
+                        >
                           Candidate : {canName}
                         </Box>
                       </>
@@ -518,9 +528,15 @@ export default function Onboarding() {
               >
                 Previous
               </Button>
-              <Button variant="light" type="submit">
-                {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
-              </Button>
+              {active < 5 ? (
+                <Button variant="light" type="submit">
+                  Save
+                </Button>
+              ) : (
+                <Button variant="light" type="submit">
+                  {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
+                </Button>
+              )}
               {active <= 3 && <Button onClick={nextStep}>Next</Button>}
             </Group>
           </form>
