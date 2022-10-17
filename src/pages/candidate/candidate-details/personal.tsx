@@ -104,7 +104,7 @@ export default function Personal() {
               C
             </Avatar>
             <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              {data?.data[0]?.fname} {data?.data[0]?.lname}
+              {data?.data?.fname} {data?.data?.lname}
             </Text>
           </div>
         </div>
@@ -125,14 +125,6 @@ export default function Personal() {
                 >
                   <b>Employee Id :</b>
                 </Text>
-                <Text
-                  align="center"
-                  color="dimmed"
-                  size="sm"
-                  transform="capitalize"
-                >
-                  {data?.data[0]?.id}
-                </Text>
               </Group>
               <Group spacing="xs">
                 <Text
@@ -149,7 +141,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.fname} {data?.data[0]?.lname}
+                  {data?.data?.fname} {data?.data?.lname}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -167,7 +159,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.email}
+                  {data?.data?.email}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -185,7 +177,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.phone}
+                  {data?.data?.phone}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -203,7 +195,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.ssn_no}
+                  {data?.data?.ssn_no}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -221,7 +213,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.dob}
+                  {data?.data?.dob}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -239,7 +231,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.gender}
+                  {data?.data?.gender}
                 </Text>
               </Group>
             </div>
@@ -266,7 +258,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.address1}
+                  {data?.data?.address1}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -284,7 +276,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.address2}
+                  {data?.data?.address2}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -302,7 +294,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.city}
+                  {data?.data?.city}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -320,7 +312,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.state}
+                  {data?.data?.state}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -338,7 +330,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.county}
+                  {data?.data?.county}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -356,7 +348,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.country}
+                  {data?.data?.country}
                 </Text>
               </Group>
               <Group spacing="xs">
@@ -374,7 +366,7 @@ export default function Personal() {
                   weight={400}
                   transform="capitalize"
                 >
-                  {data?.data[0]?.zip}
+                  {data?.data?.zip}
                 </Text>
               </Group>
             </div>

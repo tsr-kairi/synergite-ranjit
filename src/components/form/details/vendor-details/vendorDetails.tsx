@@ -1,42 +1,49 @@
-import useEditEmployee from '@/pages/employee/hooks/useEditEmployee'
+import useEditVendor from '@/pages/vendor/hooks/useEditVendor'
 import theme from '@/theme/theme'
-import { TAEmployee } from '@/types/employee-type'
-import { TextInput, Group, createStyles, Select, Divider, Box } from '@mantine/core'
+import { TVendor } from '@/types'
+import {
+  TextInput,
+  Group,
+  createStyles,
+  Divider,
+  Box,
+  Select,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { IconChevronsRight } from '@tabler/icons'
 const useStyles = createStyles(() => ({
   paper: {
     backgroundColor: 'transparent',
+    paddingLeft: '10px',
+    paddingRight: '10px',
   },
   dividerText: {
     color: theme.colors?.blue?.[9],
   },
 }))
 
-export default function OnboardEmployeeDetails(
-  employeeDetailsData: TAEmployee
-) {
+export default function VendorDetails(vendorDetailsData: TVendor) {
   const { classes } = useStyles()
-  const { mutate: employeeDetails } = useEditEmployee()
+  const { mutate: vendorDetails } = useEditVendor()
 
-  const form = useForm<TAEmployee>({
-    initialValues: employeeDetailsData,
+  const form = useForm<TVendor>({
+    // validate: zodResolver(zVendorEdit),
+    initialValues: vendorDetailsData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TAEmployee) => {
-    const employeeEditData = {
+  const handleSubmit = (values: TVendor) => {
+    const vendorDetailsData = {
       ...values,
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    employeeDetails(employeeEditData)
+    vendorDetails(vendorDetailsData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Employee Details Fetched Successfully..',
+      message: 'Vendor Details Fetched Successfully.',
     })
   }
 
@@ -45,63 +52,79 @@ export default function OnboardEmployeeDetails(
       <div className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group grow align="center" mt="md">
-            <Select
+            <TextInput
+              readOnly={true}
+              label="First Name"
+              type={'text'}
+              placeholder="First Name"
+              {...form.getInputProps('first_name')}
+            />
+            <TextInput
+              readOnly={true}
+              label="Last Name"
+              type={'text'}
+              placeholder="Last Name"
+              {...form.getInputProps('last_name')}
+            />
+            <TextInput
+              readOnly={true}
+              label="Email"
+              type={'email'}
+              placeholder="email@email.com"
+              {...form.getInputProps('primary_email')}
+            />
+            <TextInput
+              readOnly={true}
+              label="Phone"
+              type={'tel'}
+              placeholder="Phone"
+              {...form.getInputProps('primary_phone')}
+            />
+            <TextInput
+              readOnly={true}
+              label="Address line 1"
+              type={'text'}
+              placeholder="Address line 1"
+              {...form.getInputProps('address1')}
+              // value={clientDetailsData.address_line1}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              readOnly={true}
+              label="Address line 2"
+              type={'text'}
+              placeholder="Address line 2"
+              // value={clientDetailsData.address_line2}
+              {...form.getInputProps('address2')}
+            />
+            <TextInput
+              readOnly={true}
+              label="City"
+              type={'text'}
+              placeholder="City"
+              {...form.getInputProps('city')}
+            />
+            <TextInput
+              readOnly={true}
+              label="State"
+              type={'text'}
+              placeholder="State"
+              {...form.getInputProps('state')}
+            />
+            <TextInput
               readOnly={true}
               label="County"
+              type={'text'}
               placeholder="County"
-              data={[
-                { label: 'H1', value: 'h1' },
-                {
-                  label: 'Green Card/Citizen',
-                  value: 'Green Card/Citizen',
-                },
-                { label: 'Green Card/USC', value: 'Green Card/USC' },
-                { label: 'NA', value: 'na' },
-              ]}
               {...form.getInputProps('county')}
             />
-            <Select
+            <TextInput
               readOnly={true}
               label="Country"
+              type={'text'}
               placeholder="Country"
-              data={[
-                { label: 'H1', value: 'h1' },
-                {
-                  label: 'Green Card/Citizen',
-                  value: 'Green Card/Citizen',
-                },
-                { label: 'Green Card/USC', value: 'Green Card/USC' },
-                { label: 'NA', value: 'na' },
-              ]}
               {...form.getInputProps('country')}
-            />
-            <TextInput
-              readOnly={true}
-              label="FAX"
-              type={'text'}
-              placeholder="FAX"
-              {...form.getInputProps('fax')}
-            />
-            <TextInput
-              readOnly={true}
-              label="Company Phone"
-              type={'text'}
-              placeholder="Company Phone"
-              {...form.getInputProps('company_phone')}
-            />
-            <TextInput
-              readOnly={true}
-              label="Company Email"
-              type={'text'}
-              placeholder="Company Email"
-              {...form.getInputProps('company_email')}
-            />
-            <TextInput
-              readOnly={true}
-              label="Company Contact"
-              type={'text'}
-              placeholder="Company Contact"
-              {...form.getInputProps('company_contact')}
             />
           </Group>
           <Divider

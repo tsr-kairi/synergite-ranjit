@@ -15,13 +15,15 @@ import { IconChevronsRight } from '@tabler/icons'
 const useStyles = createStyles(() => ({
   paper: {
     backgroundColor: 'transparent',
+    paddingLeft: '10px',
+    paddingRight: '10px',
   },
   dividerText: {
     color: theme.colors?.blue?.[9],
   },
 }))
 
-export default function OnboardClientDetails(clientDetailsData: TClient) {
+export default function ClientDetails(clientDetailsData: TClient) {
   const { classes } = useStyles()
   const { mutate: clientDetails } = useEditClient()
 
@@ -55,14 +57,12 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               type={'text'}
               placeholder="Account Name"
               value={clientDetailsData.first_name}
-              // {...form.getInputProps('account_name')}
             />
             <TextInput
               readOnly={true}
               label="Address line 1"
               type={'text'}
               placeholder="Address line 1"
-              // {...form.getInputProps('address1')}
               value={clientDetailsData.address_line1}
             />
             <TextInput
@@ -71,7 +71,6 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               type={'text'}
               placeholder="Address line 2"
               value={clientDetailsData.address_line2}
-              // {...form.getInputProps('address2')}
             />
             <TextInput
               readOnly={true}
@@ -79,7 +78,6 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               type={'text'}
               placeholder="City"
               value={clientDetailsData.city}
-              // {...form.getInputProps('city')}
             />
             <TextInput
               readOnly={true}
@@ -87,25 +85,22 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               type={'text'}
               placeholder="State"
               value={clientDetailsData.state}
-              // {...form.getInputProps('state')}
             />
+          </Group>
+          <Group grow align="center" mt="md">
             <TextInput
               readOnly={true}
               label="Country"
               type={'text'}
               placeholder="Country"
               value={clientDetailsData.country}
-              // {...form.getInputProps('country')}
             />
-          </Group>
-          <Group grow align="center" mt="md">
             <TextInput
               readOnly={true}
               label="ZIP"
               type={'text'}
               placeholder="ZIP"
               value={clientDetailsData.zip}
-              // {...form.getInputProps('zip')}
             />
             <Select
               readOnly={true}
@@ -143,15 +138,15 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               type={'text'}
               placeholder=" FAX"
               value={clientDetailsData.fax}
-              // {...form.getInputProps('fax')}
             />
+          </Group>
+          <Group grow align="center" mt="md">
             <TextInput
               readOnly={true}
               label="Company Phone"
               type={'text'}
               placeholder="Company Phone"
               value={clientDetailsData.primary_phone}
-              // {...form.getInputProps('company_phone')}
             />
             <TextInput
               readOnly={true}
@@ -159,7 +154,6 @@ export default function OnboardClientDetails(clientDetailsData: TClient) {
               type={'text'}
               placeholder="Company Email"
               value={clientDetailsData.primary_email}
-              // {...form.getInputProps('company_email')}
             />
             <TextInput
               readOnly={true}
