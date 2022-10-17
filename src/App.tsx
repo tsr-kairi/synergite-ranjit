@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Login from './pages/login'
 import ForgotPassword from './pages/forgot-password'
 import ConfirmPassword from './pages/confirm-password'
@@ -31,10 +31,13 @@ import CandidateDetails from './pages/candidate/candidate-details'
 import Roles from './pages/roles'
 import DepartmentDetails from './pages/department/department-details'
 import RolesDetails from './pages/roles/roles-details'
+import JobList from './pages/job/job-list'
+import CreateJobForm from './pages/job/create-job-form'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
   const isAuth = useAuth((state) => state.isAuth)
+
   return (
     <BrowserRouter>
       <React.Suspense fallback={<Loader variant="dots" />}>
@@ -81,6 +84,23 @@ function App() {
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <OnboardingList />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/job"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <JobList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/job/add"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <CreateJobForm />
                 </ProtectedRoute>
               }
             />
