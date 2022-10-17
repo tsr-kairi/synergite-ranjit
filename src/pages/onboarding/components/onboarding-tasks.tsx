@@ -5,7 +5,7 @@ import {
   getTasksByActivityId,
   updateTaskStatusByTaskId,
 } from '@/services/onboarding.services'
-import { Button, Group, Switch } from '@mantine/core'
+import { Button, Group, Loader, Paper, Switch } from '@mantine/core'
 import { useQuery } from 'react-query'
 import { ITaskResponse } from '../../../services/onboarding.services'
 import { IconChevronsRight } from '@tabler/icons'
@@ -16,19 +16,50 @@ interface OnboardingTasks {
 
 const OnboardingTasks: React.FC<OnboardingTasks> = ({ activityId }) => {
   console.log('[OnboardingTasks] activityId =', activityId)
-  // const { data } = useQuery(activityId, () => getTasksByActivityId(activityId))
-  // console.log('data =', data)
+  const { data, isLoading, isError } = useQuery(activityId, () =>
+    getTasksByActivityId(activityId)
+  )
+  console.log(data)
 
   const [taskList, setTaskList] = useState<ITaskResponse[]>([])
 
-  useEffect(() => {
-    getTasksByActivityId(activityId)
-      .then((data) => setTaskList(data || []))
-      .catch((error) => console.log(error))
-  }, [activityId])
+  // useEffect(() => {
+  //   getTasksByActivityId(activityId)
+  //     .then((data) => setTaskList(data || []))
+  //     .catch((error) => console.log(error))
+  // }, [activityId])
+
+  let element: React.ReactNode = <></>
+  if (isError) {
+    element = (
+      <Paper
+        style={{
+          boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.50)',
+          padding: '20px',
+        }}
+      >
+        Error Occurred
+      </Paper>
+    )
+  } else if (!isLoading && !data) {
+    element = (
+      <Paper
+        style={{
+          boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.50)',
+          padding: '20px',
+        }}
+      >
+        Task Not Found
+      </Paper>
+    )
+  } else if (isLoading) {
+    element = <Loader variant="dots" />
+  }
 
   return (
     <div>
+      {element}
+
       {taskList?.map((task) => {
         const { id } = task
         return (

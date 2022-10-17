@@ -1,41 +1,35 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { Th } from '@/pages/employee/employee-list'
 import { getOnboardingList } from '@/services/onboarding.services'
-import { Button, Drawer, Group, Table, TextInput } from '@mantine/core'
+import { Badge, Button, Drawer, Group, Table, TextInput } from '@mantine/core'
+import { IconChevronRight } from '@tabler/icons'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import NoteList from './notes/note-list'
 import OnboardingActivitySidebar from './onboarding-activity'
 import OnboardingTasks from './onboarding-tasks'
-import SideModal from './side-modal'
 
 const OnboardingList = () => {
   const [isNoteOpen, setIsNoteOpen] = useState(false)
   const [isActivityOpen, setIsActivityOpen] = useState(false)
   const [selectedOnboardingId, setSelectedOnboardingId] = useState('')
-  const [selectedActivityId, setSelectedActivityId] = useState('')
+  const [selectedActivityUUID, setSelectedActivityUUID] = useState('')
 
   const { data: onboardingList = [] } = useQuery(
     'onboarding-list',
     getOnboardingList
   )
 
-  useEffect(() => {
-    // getOnboardingList()
-  }, [])
-
   return (
     <>
-      <ListViewLayout title="Onboarding List" hideActionButton={true}>
-        <Table
-          horizontalSpacing="md"
-          verticalSpacing="xs"
-          // className={classes.childTable}
-          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
-        >
+      <ListViewLayout
+        title="Onboarding List"
+        hideActionButton={true}
+        hideColumnButton={true}
+      >
+        <Table horizontalSpacing="md" verticalSpacing="xs">
           <thead>
             <tr>
-              <Th onSort={() => null}>Onboarding Id</Th>
               <Th onSort={() => null}>Name</Th>
               <Th onSort={() => null}>Percent</Th>
               <Th onSort={() => null}>Status</Th>
@@ -47,19 +41,21 @@ const OnboardingList = () => {
           <tbody>
             {onboardingList?.map((onboarding) => {
               return (
-                <tr key={onboarding.id}>
-                  <td>{onboarding.id}</td>
-                  <td>Onboarding {onboarding.id}</td>
+                <tr key={onboarding.uuid}>
+                  <td>Onboarding {onboarding.uuid}</td>
                   <td>65%</td>
-                  <td>{onboarding.onboard_status}</td>
+                  <td>
+                    <Badge color="cyan">{onboarding.onboard_status}</Badge>
+                  </td>
                   <td onClick={() => setIsNoteOpen(true)}>Add Note</td>
                   <td
                     onClick={() => {
                       setIsActivityOpen(true)
-                      setSelectedOnboardingId(onboarding.id)
+                      setSelectedOnboardingId(onboarding.uuid)
                     }}
+                    style={{ cursor: 'pointer' }}
                   >
-                    Action
+                    <IconChevronRight />
                   </td>
                 </tr>
               )
@@ -92,7 +88,7 @@ const OnboardingList = () => {
         onClose={() => {
           setIsActivityOpen(false)
           setSelectedOnboardingId('')
-          setSelectedActivityId('')
+          setSelectedActivityUUID('')
         }}
         title="Activity"
         padding="xl"
@@ -101,11 +97,14 @@ const OnboardingList = () => {
       >
         <OnboardingActivitySidebar
           onboardingId={selectedOnboardingId}
-          onPressed={(activityId) => setSelectedActivityId(activityId)}
+          onDepartmentChange={() => setSelectedActivityUUID('')}
+          onPressed={(activityId) => {
+            setSelectedActivityUUID(activityId)
+          }}
         />
 
-        {selectedActivityId && (
-          <OnboardingTasks activityId={selectedActivityId} />
+        {selectedActivityUUID && (
+          <OnboardingTasks activityId={selectedActivityUUID} />
         )}
       </Drawer>
     </>

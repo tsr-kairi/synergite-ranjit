@@ -31,7 +31,7 @@ export default function Immigration({ form }: onboardingStepperProps) {
             ]}
           />
           <Select
-            allowDeselect
+            allowDeselect="No"
             label="Who is going to pay Premium"
             placeholder="Who is going to pay Premium"
             {...form.getInputProps('who_is_going_to_pay_premium')}

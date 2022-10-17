@@ -10,6 +10,7 @@ import {
   Drawer,
   Pagination,
   Checkbox,
+  Popover,
 } from '@mantine/core'
 import {
   IconSearch,
@@ -28,6 +29,7 @@ interface IListViewLayoutProps {
   createDrawerChildren?: React.ReactNode
   editDrawerChildren?: React.ReactNode
   hideActionButton?: boolean
+  hideColumnButton?: boolean
   onColumnClick?: () => void
   onAddNewClick?: () => void
 }
@@ -40,6 +42,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     createDrawerChildren,
     editDrawerChildren,
     hideActionButton,
+    hideColumnButton,
     onColumnClick,
     onAddNewClick,
   } = props
@@ -69,21 +72,28 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
           className={classes.searchField}
         />
 
-        <Button
-          onClick={() => {
-            if (onAddNewClick) {
-              onAddNewClick()
-            } else {
-              setIsColumnSelectionDrawerOpen(true)
-            }
-          }}
-        >
-          Column
-        </Button>
+        {!hideColumnButton && (
+          <Popover width={200} position="bottom" withArrow shadow="md">
+            <Popover.Target>
+              <Button>Column</Button>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <AdjustableColumn />
+            </Popover.Dropdown>
+          </Popover>
+        )}
 
         {/* Add New - Button*/}
         {!hideActionButton && (
-          <Button onClick={() => setIsAddNewDrawerOpen(true)}>
+          <Button
+            onClick={() => {
+              if (onAddNewClick) {
+                onAddNewClick()
+              } else {
+                setIsColumnSelectionDrawerOpen(true)
+              }
+            }}
+          >
             <Group spacing="sm" align="center">
               <IconPlus color="white" />
               <Text weight={400}>Add New</Text>

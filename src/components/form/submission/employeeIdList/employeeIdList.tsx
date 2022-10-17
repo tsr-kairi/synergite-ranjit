@@ -18,7 +18,7 @@ import {
   IconSearch,
   IconCircleCheck,
 } from '@tabler/icons'
-import { TAEmployee } from '@/types/employee-type'
+import { TCandidate } from '@/types/candidate-type'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -140,7 +140,7 @@ export function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TAEmployee[], search: string) {
+function filterData(data: TCandidate[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -149,9 +149,9 @@ function filterData(data: TAEmployee[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TAEmployee[],
+  data: TCandidate[],
   payload: {
-    sortBy: keyof TAEmployee | null
+    sortBy: keyof TCandidate | null
     reversed: boolean
     search: string
   }
@@ -176,19 +176,19 @@ function sortData(
 }
 
 interface IEmployeeProps {
-  data: TAEmployee[]
-  setEmployee: (value: TAEmployee) => void
+  data: TCandidate[]
+  setEmployee: (value: TCandidate) => void
 }
 
 // Exporting Default ClientTable Component
 export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
   const [search, setSearch] = useState('')
   const [empData, setEmpDataMain] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TAEmployee | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
 
-  const setSorting = (field: keyof TAEmployee) => {
+  const setSorting = (field: keyof TCandidate) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -251,7 +251,7 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
                   reversed={reverseSortDirection}
                   onSort={() => setSorting('uuid')}
                 >
-                  Candidate Name
+                  Candidate
                 </Th>
               </tr>
             </thead>

@@ -5,17 +5,29 @@ import { IconGripVertical } from '@tabler/icons'
 const AdjustableColumn = () => {
   const { classes } = adjustableColumnStyles()
 
+  const columns = [
+    { label: 'ID' },
+    { label: 'Job Title' },
+    { label: 'Priority' },
+    { label: 'Tax Terms' },
+    { label: 'Recruiter' },
+  ]
+
   return (
     <div className={classes.container}>
-      <Text style={{ color: theme.colors?.gray?.[4] }}>Table View</Text>
+      <Text style={{ color: theme.colors?.gray?.[9], fontSize: '24px' }}>
+        Table View
+      </Text>
 
       <Text>Column Settings:</Text>
 
-      <div>
-        <Group>
-          <IconGripVertical />
-          <Checkbox label="ID" />
-        </Group>
+      <div style={{ marginTop: '8px' }}>
+        {columns.map((column) => (
+          <Group key={column.label} mb={8}>
+            <IconGripVertical className={classes.verticalGripIcon} />
+            <Checkbox label={column.label} />
+          </Group>
+        ))}
       </div>
     </div>
   )
@@ -28,86 +40,13 @@ export const adjustableColumnStyles = createStyles((theme) => ({
   container: {
     padding: '0 !important',
   },
-
-  control: {
-    width: '100%',
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-
-    '&:hover': {
-      backgroundColor: theme.colors.blue[0],
-    },
-  },
-
-  companyDetails: {
-    border: 'none',
-    '&:hover': {
-      backgroundColor: theme.colors.blue[1],
-    },
-  },
-
-  icon: {
-    width: 21,
-    height: 21,
-    borderRadius: 21,
-  },
-  tableHead: {
-    width: '100%',
-    padding: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '0 !important',
-    gap: '30px',
-  },
-
-  paginationContainer: {
-    width: '100%',
-    padding: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-
-  searchField: {
-    flex: 1,
-  },
   text: {
     color: theme.colors.blue[9],
   },
-  filterIcon: {
+  verticalGripIcon: {
     color: theme.colors.blue[8],
-  },
-  editIcon: {
-    color: theme.colors.blue[5],
     '&:hover': {
-      color: theme.colors.blue[9],
-    },
-  },
-  deleteIcon: {
-    color: '#FF7676',
-    '&:hover': {
-      color: '#FF1414',
-    },
-  },
-  action: {
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: theme.colors.blue[0],
-    },
-  },
-  table: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
-    backgroundColor: 'white',
-    borderRadius: '10px',
-    width: '100%',
-    maxWidth: '98.8%',
-    margin: '10px',
-  },
-  userLink: {
-    textDecoration: 'none',
-    color: theme.colors.grey[9],
-    '&:hover': {
-      color: theme.colors.blue[9],
+      cursor: 'pointer',
     },
   },
 }))
