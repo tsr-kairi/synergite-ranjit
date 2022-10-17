@@ -8,6 +8,8 @@ import { AppShell, createStyles } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
 import HeaderBar from './HeaderBar'
 import { useAuth } from '@/store/auth.store'
+import { useNetwork } from '@mantine/hooks'
+import useNetworkStatus from '@/hooks/useNetworkStatus'
 const useStyles = createStyles((theme) => ({
   outletStyle: {
     backgroundColor: theme.colors.grey[0],
@@ -27,6 +29,8 @@ const useStyles = createStyles((theme) => ({
 const AppShellMain = () => {
   const { classes } = useStyles()
 
+  const { online } = useNetwork()
+
   const { user, autoLogin } = useAuth((state) => ({
     user: state.user,
     autoLogin: state.autoLogin,
@@ -35,30 +39,6 @@ const AppShellMain = () => {
   useEffect(() => {
     autoLogin().catch((error) => console.log(error))
   }, [])
-
-  // useEffect(() => {
-  //   void ApiCall()
-  // }, [])
-  // const ApiCall = async () => {
-  //   const access_token = localStorage.getItem('access_token')
-
-  //   if (!access_token) {
-  //     return false
-  //   }
-
-  //   try {
-  //     const response = await axiosPrivate.get<ILoginResponse>(
-  //       '/user/getcurrentuser'
-  //     )
-  //     console.log(response)
-  //     return response.data.data
-  //   } catch (error) {
-  //     console.log(error)
-  //     return null
-  //   }
-  // }
-
-  console.log('user =', user)
 
   return (
     <AppShell
@@ -74,9 +54,20 @@ const AppShellMain = () => {
       }
       className={classes.outletStyle}
     >
-      {/* <div className={classes.outletStyle}> */}
-      <Outlet />
-      {/* </div> */}
+      {online ? (
+        <Outlet />
+      ) : (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+          }}
+        >
+          <p style={{ fontSize: '40px', opacity: 0.5 }}>Your offline</p>
+        </div>
+      )}
     </AppShell>
   )
 }

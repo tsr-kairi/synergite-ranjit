@@ -1,6 +1,4 @@
-import useEditEmployee from '@/pages/employee/hooks/useEditEmployee'
-import useGetEmployeeById from '@/pages/employee/hooks/useGetEmployeeById'
-import { TAEmployee } from '@/types/employee-type'
+import { TCandidate } from '@/types/candidate-type'
 import {
   TextInput,
   Button,
@@ -9,49 +7,22 @@ import {
   Paper,
   FileInput,
   Stepper,
-  Loader,
 } from '@mantine/core'
-// import { useForm } from '@mantine/form'
-// import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
   },
 }))
 
-// employeeData: TAEmployee
-const EmployeeDetailsForm: React.FC<{ employeeData: TAEmployee }> = ({
+// employeeData: TCandidate
+const EmployeeDetailsForm: React.FC<{ employeeData: TCandidate }> = ({
   employeeData,
 }) => {
   const [active, setActive] = useState(0)
 
   console.log('employeeData = ', employeeData)
   const { classes } = useStyles()
-  // const { mutate: editEmployee } = useEditEmployee()
-  // const { employeeId } = useParams()
-
-  // const form = useForm<TAEmployee>({
-  //   // validate: zodResolver(zEmployeeEdit),
-  //   initialValues: employeeData,
-  //   validateInputOnChange: true,
-  //   clearInputErrorOnChange: true,
-  // })
-
-  // const handleSubmit = (values: TAEmployee) => {
-  //   const employeeEditData = {
-  //     ...values,
-  //     profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
-  //   }
-
-  //   editEmployee(employeeEditData)
-
-  //   showNotification({
-  //     title: 'Success!!',
-  //     message: 'Employee Edited successfully.',
-  //   })
-  // }
   // next btn
   const nextStep = () =>
     setActive((current) => {
@@ -63,30 +34,6 @@ const EmployeeDetailsForm: React.FC<{ employeeData: TAEmployee }> = ({
   // prev btn
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current))
-
-  // const {
-  //   data: employeeData,
-  //   isError,
-  //   error,
-  //   isLoading,
-  // } = useGetEmployeeById(
-  //   '3A73E879:7D75:6FC1:E714:7EABE37DDF84F03F63B33E40D65AB9BCF24067E2' ||
-  //     employeeId ||
-  //     ''
-  // )
-
-  // if (isError) {
-  //   console.log(error)
-  //   return <h1>An Error Occurred</h1>
-  // }
-
-  // if (isLoading) {
-  //   return (
-  //     <div>
-  //       <Loader variant="dots" />
-  //     </div>
-  //   )
-  // }
 
   return (
     <>

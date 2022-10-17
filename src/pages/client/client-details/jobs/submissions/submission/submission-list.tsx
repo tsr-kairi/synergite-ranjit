@@ -35,6 +35,8 @@ import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
 import { useOnboarding } from '@/store/onboarding.store'
 import { useNavigate } from 'react-router-dom'
+import axiosPrivate from '@/services/axiosPrivate'
+import { TOnboarding } from '@/types/onboarding-flow-type'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -227,6 +229,21 @@ export function SubmissionList({ data }: ISubmissionProps) {
     )
   }
 
+  // PreOnBoarding handler
+  // const handlePreOnboarding = async (data: TSubmission) => {
+  //   try {
+  //     await axiosPrivate.post(
+  //       `/onboarding/preonboard?onboard_status=PRE_INITIATED`,
+  //       data
+  //     )
+  //     navigate(
+  //       `/onboarding?client_uuid=${data.client_uuid}&vendor_uuid=${data.vendor_uuid}&employee_uuid=${data.employee_uuid}`
+  //     )
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
   // submission data Delete handler
   const openModalForDelete = (Submission: TSubmission) => {
     openConfirmModal({
@@ -266,13 +283,11 @@ export function SubmissionList({ data }: ISubmissionProps) {
         ) : row.status === 'Selected' ? (
           <Badge
             color="blue"
-            onClick={() => {
-              // navigate to onboarding screen
-              console.log('submission =', row)
+            onClick={() =>
               navigate(
                 `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}`
               )
-            }}
+            }
             style={{ cursor: 'pointer' }}
           >
             Onboard Now

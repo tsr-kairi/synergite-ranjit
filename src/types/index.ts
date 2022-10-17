@@ -114,7 +114,9 @@ const zContactEdit = z.object({
 // client list with jobs
 const zJobs = z.object({
   id: z.number(),
+  uuid: z.string(),
   title: z.string(),
+  client_req_id: z.string(),
   city: z.string(),
   country: z.string(),
   state: z.string(),
@@ -125,9 +127,9 @@ const zJobs = z.object({
   job_type: z.string(),
   pay_rate: z.string(),
   job_status: z.string(),
+  created_by: z.string(),
   date_created: z.string(),
   date_updated: z.string().optional(),
-  uuid: z.string(),
 })
 
 // Job create - new job

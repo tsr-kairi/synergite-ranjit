@@ -31,7 +31,7 @@ const mockdata = [
     icon: IconWallet,
     initiallyOpened: false,
     links: [
-      { label: 'Employees', link: '/employee' },
+      // { label: 'Employees', link: '/employee' },
       { label: 'Candidates', link: '/candidate' },
     ],
   },
@@ -50,6 +50,7 @@ const mockdata = [
   // { label: 'Activities', icon: IconActivity, url: '/activity' },
   { label: 'Contacts', icon: IconFileAnalytics },
   { label: 'On Boarding List', icon: IconContrast2, url: '/onboarding-list' },
+  { label: 'Job', icon: IconContrast2, url: '/job' },
   { label: 'Settings', icon: IconSettings },
 ]
 

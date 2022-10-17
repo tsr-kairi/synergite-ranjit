@@ -9,12 +9,12 @@ const createJob = (data: TJobCreate): Promise<TJobsFindById> => {
   return axiosPrivate.post('/jobs', data)
 }
 
-const useCreateJob = () => {
+const useCreateJob = (key?: string) => {
   const queryClient = useQueryClient()
 
   return useMutation(createJob, {
     onSuccess: () => {
-      void queryClient.resetQueries(clientQueryKeys.jobList)
+      void queryClient.resetQueries(key || clientQueryKeys.jobList)
       console.log('Create Job Called')
     },
   })
