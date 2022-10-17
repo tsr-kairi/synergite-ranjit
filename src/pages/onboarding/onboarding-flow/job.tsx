@@ -63,14 +63,11 @@ export default function Job({ form }: onboardingStepperProps) {
               { value: 'no', label: 'No' },
             ]}
           />
-          <Select
+          <TextInput
             label="Designation"
             placeholder="Designation"
             {...form.getInputProps('designation')}
-            data={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
+            type={'text'}
           />
         </Group>
         {/* Other Information */}

@@ -5,7 +5,6 @@ import {
   createStyles,
   Drawer,
   Grid,
-  Group,
   Paper,
   Select,
   Textarea,
@@ -16,7 +15,7 @@ import { showNotification } from '@mantine/notifications'
 import { IconExternalLink } from '@tabler/icons'
 import EmployeeDetailsForm from './details/employeeDetailsForm'
 import VendorDetailsForm from './details/vendorDetailsForm'
-import { TAEmployee } from '@/types/employee-type'
+import { TCandidate } from '@/types/candidate-type'
 import { TVendor } from '@/types'
 import EmployeeIdList from './employeeIdList'
 import useCreateSubmission from '@/pages/client/client-details/jobs/submissions/hooks/useCreateSubmission'
@@ -44,7 +43,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [employeeOpened, setEmployeeOpened] = useState(false)
   const [vendorOpened, setVendorOpened] = useState(false)
 
-  const [employeeDetails, setEmployeeDetails] = useState({} as TAEmployee)
+  const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
 
   const [vendorListOpened, vendorListIsOpened] = useState(false)
@@ -101,30 +100,6 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Paper p={20} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput
-            mt="md"
-            required
-            label="Vendor"
-            type={'text'}
-            placeholder="Vendor"
-            onClick={() => {
-              vendorListIsOpened(true)
-            }}
-            value={vendorName || ''}
-            rightSection={
-              vendorDetails?.uuid ? (
-                <IconExternalLink
-                  size="20"
-                  color="grey"
-                  cursor="pointer"
-                  onClick={() => {
-                    setVendorOpened(true)
-                    // setVendorDetails()
-                  }}
-                />
-              ) : null
-            }
-          />
-          <TextInput
             key={employeeDetails?.uuid}
             mt="md"
             required
@@ -149,11 +124,34 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
+          <TextInput
+            mt="md"
+            required
+            label="Vendor"
+            type={'text'}
+            placeholder="Vendor"
+            onClick={() => {
+              vendorListIsOpened(true)
+            }}
+            value={vendorName || ''}
+            rightSection={
+              vendorDetails?.uuid ? (
+                <IconExternalLink
+                  size="20"
+                  color="grey"
+                  cursor="pointer"
+                  onClick={() => {
+                    setVendorOpened(true)
+                    // setVendorDetails()
+                  }}
+                />
+              ) : null
+            }
+          />
           <Grid mt="md">
             <Grid.Col span={6}>
               <Select
                 data={[
-                  { value: 'Unknown', label: 'Unknown' },
                   { value: 'Selected', label: 'Selected' },
                   { value: 'Rejected', label: 'Rejected' },
                   { value: 'On Hold', label: 'On Hold' },
@@ -190,10 +188,13 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <Grid.Col span={6}>
               <Select
                 data={[
-                  { value: 'Ram', label: 'Ram' },
-                  { value: 'Sham', label: 'Sham' },
-                  { value: 'Petter', label: 'Petter' },
-                  { value: 'Parker', label: 'Parker' },
+                  { value: 'Client Rejected', label: 'Client Rejected' },
+                  { value: 'Position on Hold', label: 'Position on Hold' },
+                  {
+                    value: 'Internally rejected',
+                    label: 'Internally rejected',
+                  },
+                  { value: 'Others', label: 'Others' },
                 ]}
                 label="Rejection Reason"
                 type={'text'}
@@ -232,7 +233,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <Drawer
           opened={employeeOpened}
           onClose={() => setEmployeeOpened(false)}
-          title="Employee details"
+          title="Candidate details"
           padding="xl"
           size="xl"
           position="right"
@@ -244,7 +245,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <Drawer
           opened={employeeListOpened}
           onClose={() => employeeListIsOpened(false)}
-          title="Employee List"
+          title="Candidate"
           padding="xl"
           size="xl"
           position="right"
@@ -259,7 +260,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <Drawer
           opened={vendorListOpened}
           onClose={() => vendorListIsOpened(false)}
-          title="Vendor List"
+          title="Vendor"
           padding="xl"
           size="xl"
           position="right"

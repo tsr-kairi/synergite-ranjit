@@ -1,17 +1,14 @@
-import useGetAllEmployees from '@/pages/employee/hooks/useGetAllEmployees'
-import { TAEmployee } from '@/types/employee-type'
+import useGetAllCandidate from '@/pages/candidate/hooks/useGetAllCandidate'
+import { TCandidate } from '@/types/candidate-type'
 import { Loader, Paper } from '@mantine/core'
 import { EmployeeId } from './employeeIdList'
 
 interface EmployeeIdListProps {
-  setEmployee: (value: TAEmployee) => void
+  setEmployee: (value: TCandidate) => void
 }
 
-// { setEmployee }: EmployeeIdListProps
-// setEmployee={setEmployee}
-
 export const EmployeeIdList = ({ setEmployee }: EmployeeIdListProps) => {
-  const { data, isError, error, isLoading } = useGetAllEmployees()
+  const { data, isError, error, isLoading } = useGetAllCandidate()
 
   if (isError) {
     console.log(error)
