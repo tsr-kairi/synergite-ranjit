@@ -55,6 +55,10 @@ const OnboardingList = () => {
               const onboardingStatus =
                 onboardingStatusList[onboarding.onboard_status]
 
+              const isPreOnboardingStatus =
+                onboarding.onboard_status === 'PRE_INITIATED' ||
+                onboarding.onboard_status === 'PRE_INPROGRESS'
+
               return (
                 <tr key={onboarding.uuid}>
                   <td>
@@ -89,18 +93,12 @@ const OnboardingList = () => {
                       setSelectedOnboardingId(onboarding.uuid)
                     }}
                     style={{
-                      cursor:
-                        onboarding.onboard_status === 'PRE_INPROGRESS'
-                          ? 'not-allowed'
-                          : 'pointer',
+                      cursor: isPreOnboardingStatus ? 'not-allowed' : 'pointer',
                     }}
                   >
                     <IconChevronRight
                       style={{
-                        opacity:
-                          onboarding.onboard_status === 'PRE_INPROGRESS'
-                            ? 0.2
-                            : 1,
+                        opacity: isPreOnboardingStatus ? 0.2 : 1,
                       }}
                     />
                   </td>

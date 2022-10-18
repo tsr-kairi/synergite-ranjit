@@ -24,8 +24,8 @@ export const onboardingStatusList = {
       font: 'white',
     },
   },
-  ONBOARDING_INPROGRESS: {
-    key: 'ONBOARDING_INPROGRESS',
+  ONBOARDING_IN_PROGRESS: {
+    key: 'ONBOARDING_IN_PROGRESS',
     label: 'Onboarding InProgress',
     color: {
       background: 'cyan',
@@ -40,24 +40,24 @@ export const onboardingStatusList = {
       font: 'white',
     },
   },
-  ONBOARDING_ON_HOLD: {
-    key: 'ONBOARDING_ON_HOLD',
+  HOLD: {
+    key: 'HOLD',
     label: 'Onboarding On Hold',
     color: {
       background: 'cyan',
       font: 'white',
     },
   },
-  ONBOARDING_REINITIATED: {
-    key: 'ONBOARDING_REINITIATED',
+  REINITIATED: {
+    key: 'REINITIATED',
     label: 'Onboarding-Reinitiated',
     color: {
       background: 'cyan',
       font: 'white',
     },
   },
-  ONBOARDING_CANCELLED: {
-    key: 'ONBOARDING_CANCELLED',
+  CANCELLED: {
+    key: 'CANCELLED',
     label: 'Onboarding Cancelled',
     color: {
       background: 'cyan',
