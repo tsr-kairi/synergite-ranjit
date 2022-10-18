@@ -25,6 +25,7 @@ type onboardingStepperProps = {
 
 export default function Documents({ form }: onboardingStepperProps) {
   const { classes } = useStyles()
+  console.log('docValue', form.values)
 
   return (
     <>
@@ -36,14 +37,13 @@ export default function Documents({ form }: onboardingStepperProps) {
             No document here...
           </Text>
         )}
-
         {form.values.documents ? (
           form.values.documents?.map((item, index) => (
             <Group key={item.key} align="center" grow>
               <Select
                 label="Document Type"
                 placeholder="Document Type"
-                {...form.getInputProps('document_type')}
+                {...form.getInputProps(item.key + index.toString())}
                 data={[
                   { value: 'regular', label: 'Regular' },
                   { value: 'premium', label: 'Premium' },
@@ -55,7 +55,7 @@ export default function Documents({ form }: onboardingStepperProps) {
                 accept="image/*"
                 placeholder="Choose File"
                 icon={<IconUpload size={14} />}
-                {...form.getInputProps('choose_file')}
+                {...form.getInputProps(item.key)}
               />
 
               <div

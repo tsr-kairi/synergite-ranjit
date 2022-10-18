@@ -27,7 +27,7 @@ const zOnboarding = z.object({
   designation: z.string(),
   overtime_exemption: z.string(), // Dropdown
 
-  // Account
+  // Job
   name_of_recruiter: z.string(),
   contact_number_of_recruiter: z.string(),
   bill_rate: z.string(),

@@ -1,6 +1,7 @@
 import theme from '@/theme/theme'
 import { TOnboarding } from '@/types/onboarding-flow-type'
 import { Accordion, ActionIcon, Card, Group, TextInput } from '@mantine/core'
+import { randomId } from '@mantine/hooks'
 import {
   IconBriefcase,
   IconEdit,
@@ -43,12 +44,12 @@ const Review: React.FC<ReviewProps> = ({
     )
   }
 
-  let documentFile = ''
+  let documentFile = []
   if (typeof onboardingData.choose_file === 'object') {
     const fileReader = new FileReader()
     fileReader.readAsDataURL(onboardingData.choose_file)
     fileReader.onload = (event) => {
-      setDocumentFilePreview((event.target?.result || '') as string)
+      setDocumentFilePreview((event.target?.result || []) as string)
     }
   } else {
     documentFile = onboardingData.choose_file

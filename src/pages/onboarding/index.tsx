@@ -1,4 +1,4 @@
-``````import { useEffect } from 'react'
+import { useEffect } from 'react'
 import { TClient, TVendor } from '@/types'
 import { TCandidate } from '@/types/candidate-type'
 import { TOnboarding } from '@/types/onboarding-flow-type'
@@ -32,7 +32,14 @@ import {
   getOnboardingByUUID,
 } from '@/services/onboarding.services'
 
-import { IconChevronsRight } from '@tabler/icons'
+import {
+  IconBriefcase,
+  IconChevronsRight,
+  IconFileDots,
+  IconShieldCheck,
+  IconWallet,
+  IconWorldUpload,
+} from '@tabler/icons'
 
 import useGetClientById from '../client/hooks/useGetClientById'
 import useGetVendorById from '../vendor/hooks/useGetVendorById'
@@ -324,8 +331,18 @@ export default function Onboarding() {
               </Accordion.Item>
             </Accordion>
 
-            <Stepper active={active} onStepClick={setActive} breakpoint="sm">
-              <Stepper.Step label="Job" description="Job Info...">
+            <Stepper
+              color="green"
+              size="sm"
+              active={active}
+              onStepClick={setActive}
+              breakpoint="sm"
+            >
+              <Stepper.Step
+                icon={<IconBriefcase size={18} />}
+                label="Job"
+                description="Job Information..."
+              >
                 {/* client and vendor */}
                 <Accordion defaultValue="">
                   {/* Client */}
@@ -486,19 +503,32 @@ export default function Onboarding() {
                 </Accordion>
                 <Job form={form} />
               </Stepper.Step>
-              <Stepper.Step label="Payments" description="Payment Info...">
+              <Stepper.Step
+                icon={<IconWallet size={18} />}
+                label="Payments"
+                description="Payment Information..."
+              >
                 <Payment form={form} />
               </Stepper.Step>
               <Stepper.Step
+                icon={<IconWorldUpload size={18} />}
                 label="Immigration"
-                description="Immigration Info..."
+                description="Immigration Information..."
               >
                 <Immigration form={form} />
               </Stepper.Step>
-              <Stepper.Step label="Documents" description="Immigration Info...">
+              <Stepper.Step
+                icon={<IconFileDots size={18} />}
+                label="Documents"
+                description="Documents Information..."
+              >
                 <Documents form={form} />
               </Stepper.Step>
-              <Stepper.Step label="Summary" description="Immigration Info...">
+              <Stepper.Step
+                icon={<IconShieldCheck size={18} />}
+                label="Summary"
+                description="Summary Information..."
+              >
                 <Review
                   onboardingData={onboardingStepperData}
                   onReviewTileClick={(id) => setActive(+id)}
