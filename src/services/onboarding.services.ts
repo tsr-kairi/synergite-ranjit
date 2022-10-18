@@ -36,8 +36,6 @@ const getFormattedDate = (date: Date): string => {
 }
 
 export const createOnboarding = async (onboarding: TOnboarding) => {
-  // delete onboarding.id
-
   const onboardingData: { start_date?: string; end_date?: string } = {}
 
   if (onboarding.start_date) {
@@ -52,7 +50,11 @@ export const createOnboarding = async (onboarding: TOnboarding) => {
   try {
     const { data } = await axiosPrivate.post<{
       data: { uuid: string }
-    }>('/onboarding', { ...onboardingData, ...onboardingData })
+    }>('/onboarding', {
+      ...onboarding,
+      ...onboardingData,
+      documents: undefined,
+    })
     return data.data
   } catch (error) {
     console.log(error)

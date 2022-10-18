@@ -35,7 +35,13 @@ export default function Job({ form }: onboardingStepperProps) {
           label={
             <>
               <IconChevronsRight />
-              <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+              <Box
+                style={{
+                  fontFamily: '-moz-initial',
+                  fontSize: '16px',
+                }}
+                ml={5}
+              >
                 Hr Information
               </Box>
             </>
@@ -77,7 +83,13 @@ export default function Job({ form }: onboardingStepperProps) {
           label={
             <>
               <IconChevronsRight />
-              <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+              <Box
+                style={{
+                  fontFamily: '-moz-initial',
+                  fontSize: '16px',
+                }}
+                ml={5}
+              >
                 Other Information
               </Box>
             </>
