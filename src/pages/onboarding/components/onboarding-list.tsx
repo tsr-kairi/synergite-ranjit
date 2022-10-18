@@ -1,10 +1,22 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
+import { onboardingStatusList } from '@/data/onboarding-status.data'
 import { Th } from '@/pages/employee/employee-list'
 import { getOnboardingList } from '@/services/onboarding.services'
-import { Badge, Button, Drawer, Group, Table, TextInput } from '@mantine/core'
+import theme from '@/theme/theme'
+import {
+  Badge,
+  Button,
+  Drawer,
+  Group,
+  Table,
+  Text,
+  TextInput,
+  Tooltip,
+} from '@mantine/core'
 import { IconChevronRight } from '@tabler/icons'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 import NoteList from './notes/note-list'
 import OnboardingActivitySidebar from './onboarding-activity'
 import OnboardingTasks from './onboarding-tasks'
@@ -40,12 +52,35 @@ const OnboardingList = () => {
 
           <tbody>
             {onboardingList?.map((onboarding) => {
+              const onboardingStatus =
+                onboardingStatusList[onboarding.onboard_status]
+
               return (
                 <tr key={onboarding.uuid}>
-                  <td>Onboarding {onboarding.uuid}</td>
+                  <td>
+                    <Link
+                      to={`/onboarding?onboarding_uuid${onboarding.uuid}`}
+                      style={{
+                        textDecoration: 'none',
+                        color: theme?.colors?.grey?.[9],
+                      }}
+                    >
+                      <Tooltip
+                        label="Click to view"
+                        color="blue"
+                        withArrow
+                        transition="pop-top-right"
+                        transitionDuration={300}
+                      >
+                        <Text size="sm" weight={500}>
+                          {onboarding.uuid}
+                        </Text>
+                      </Tooltip>
+                    </Link>
+                  </td>
                   <td>65%</td>
                   <td>
-                    <Badge color="cyan">{onboarding.onboard_status}</Badge>
+                    <Badge color="cyan">{onboardingStatus.label}</Badge>
                   </td>
                   <td onClick={() => setIsNoteOpen(true)}>Add Note</td>
                   <td
@@ -53,9 +88,21 @@ const OnboardingList = () => {
                       setIsActivityOpen(true)
                       setSelectedOnboardingId(onboarding.uuid)
                     }}
-                    style={{ cursor: 'pointer' }}
+                    style={{
+                      cursor:
+                        onboarding.onboard_status === 'PRE_INPROGRESS'
+                          ? 'not-allowed'
+                          : 'pointer',
+                    }}
                   >
-                    <IconChevronRight />
+                    <IconChevronRight
+                      style={{
+                        opacity:
+                          onboarding.onboard_status === 'PRE_INPROGRESS'
+                            ? 0.2
+                            : 1,
+                      }}
+                    />
                   </td>
                 </tr>
               )

@@ -2,12 +2,25 @@ import { z } from 'zod'
 
 // ? onboarding zod type = Main
 
+const zOnboardingStatus = z.enum([
+  'PRE_INITIATED',
+  'PRE_INPROGRESS',
+  'ONBOARDING_INITIATED',
+  'ONBOARDING_INPROGRESS',
+  'ONBOARDING_COMPLETED',
+  'ONBOARDING_ON_HOLD',
+  'ONBOARDING_REINITIATED',
+  'ONBOARDING_CANCELLED',
+])
+
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
   created_by: z.string(),
   created_date: z.date(),
   modified_by: z.string(),
   modified_date: z.date(),
+
+  onboard_status: zOnboardingStatus,
 
   // Profile
   start_date: z.date(),
@@ -55,6 +68,7 @@ interface TOnboardingFindById {
 
 // onboarding flow Onboarding zod types define
 type TOnboarding = z.infer<typeof zOnboarding>
+type TOnboardingStatus = z.infer<typeof zOnboardingStatus>
 
 // export types
-export type { TOnboarding, TOnboardingFindById }
+export type { TOnboarding, TOnboardingFindById, TOnboardingStatus }

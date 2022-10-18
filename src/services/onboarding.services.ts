@@ -61,7 +61,7 @@ export const createOnboarding = async (onboarding: TOnboarding) => {
 
 export const getOnboardingList = async () => {
   try {
-    const { data } = await axiosPrivate.get<{ data: IOnboardingResponse[] }>(
+    const { data } = await axiosPrivate.get<{ data: TOnboarding[] }>(
       '/onboarding'
     )
     return data.data
