@@ -36,15 +36,10 @@ const getFormattedDate = (date: Date): string => {
 }
 
 export const createOnboarding = async (onboarding: TOnboarding) => {
-  delete onboarding.id
+  // delete onboarding.id
 
   const onboardingData: { start_date?: string; end_date?: string } = {}
-  // if (onboarding.start_date) {
-  //   onboardingData.start_date = getFormattedDate(onboarding.start_date)
-  // }
-  // if (onboarding.end_date) {
-  //   onboardingData.end_date = getFormattedDate(onboarding.end_date)
-  // }
+
   if (onboarding.start_date) {
     onboardingData.start_date = getFormattedDate(
       new Date(onboarding.start_date)
