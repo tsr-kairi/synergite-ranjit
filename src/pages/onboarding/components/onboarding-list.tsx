@@ -26,10 +26,11 @@ const OnboardingList = () => {
   const [isActivityOpen, setIsActivityOpen] = useState(false)
   const [selectedOnboardingId, setSelectedOnboardingId] = useState('')
   const [selectedActivityUUID, setSelectedActivityUUID] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const { data: onboardingList = [] } = useQuery(
-    'onboarding-list',
-    getOnboardingList
+    ['onboarding-list', searchTerm],
+    () => getOnboardingList(searchTerm)
   )
 
   return (
@@ -38,6 +39,7 @@ const OnboardingList = () => {
         title="Onboarding List"
         hideActionButton={true}
         hideColumnButton={true}
+        onSearchChange={setSearchTerm}
       >
         <Table horizontalSpacing="md" verticalSpacing="xs">
           <thead>

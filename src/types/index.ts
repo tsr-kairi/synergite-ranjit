@@ -117,6 +117,7 @@ const zJobs = z.object({
   uuid: z.string(),
   title: z.string(),
   client_req_id: z.string(),
+  client_uuid: z.string(),
   city: z.string(),
   country: z.string(),
   state: z.string(),
