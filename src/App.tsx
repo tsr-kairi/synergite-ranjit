@@ -119,7 +119,7 @@ function App() {
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <Timesheets />
-                // </ProtectedRoute>
+                </ProtectedRoute>
               }
             />
             <Route

@@ -17,26 +17,30 @@ import { SheetData } from './data'
 import CreateTimeSheet from './createTimeSheet'
 import { Badge } from '@mantine/core'
 const Timesheet = () => {
-  const [fields, setFields] = useState([{ value: null }])
-  const [searchValue, onSearchChange] = useState('')
-  const [checked, setChecked] = useState(true)
-  const [createSheet, setCreateSheet] = useState<Boolean>(false)
-  function handleChange(i: any, event: any) {
-    const values = [...fields]
-    values[i].value = event.target.value
-    setFields(values)
-  }
-  function handleAdd() {
-    const values = [...fields]
-    values.push({ value: null })
-    setFields(values)
-  }
-  const onCheckboxChange = (event: any) => {
-    setChecked(event.currentTarget.checked)
-  }
+  // const [fields, setFields] = useState([{ value: null }])
+  // const [searchValue, onSearchChange] = useState('')
+  // const [checked, setChecked] = useState(true)
+  const [createSheet, setCreateSheet] = useState<boolean>(false)
+  const [selectedTimesheet, setSelectedTimesheet] = useState('')
+
+  // function handleChange(i: any, event: any) {
+  //   const values = [...fields]
+  //   values[i].value = event.target.value
+  //   setFields(values)
+  // }
+
+  // function handleAdd() {
+  //   const values = [...fields]
+  //   values.push({ value: null })
+  //   setFields(values)
+  // }
+  // const onCheckboxChange = (event: any) => {
+  //   setChecked(event.currentTarget.checked)
+  // }
+
   return (
     <>
-      {createSheet && <CreateTimeSheet />}
+      {createSheet && <CreateTimeSheet week={selectedTimesheet} />}
       {!createSheet && (
         <>
           <ListViewLayout title="Timesheets" hideActionButton hideColumnButton>
@@ -68,7 +72,10 @@ const Timesheet = () => {
                             <Text size="sm" weight={500}>
                               <div
                                 style={{ cursor: 'pointer' }}
-                                onClick={() => setCreateSheet(!createSheet)}
+                                onClick={() => {
+                                  setCreateSheet(!createSheet)
+                                  setSelectedTimesheet(sheetValue.Week)
+                                }}
                               >
                                 <td>{sheetValue.Week}</td>
                               </div>

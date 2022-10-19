@@ -39,7 +39,6 @@ const initialDoc = {
 }
 
 export default function Documents({ form }: onboardingStepperProps) {
-  const { classes } = useStyles()
 
   const documents = form.values.documents || []
 
