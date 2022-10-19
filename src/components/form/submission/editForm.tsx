@@ -215,7 +215,7 @@ export default function EditForm(submissionData: TSubmission) {
         >
           <EmployeeIdList
             setEmployee={(employee) => {
-              setEmployeeDetails(employee)
+              setEmployeeDetails(employee as TAEmployee)
             }}
           />
         </Drawer>

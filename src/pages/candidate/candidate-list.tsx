@@ -301,9 +301,9 @@ export function CandidateList({ data }: ICandidateProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.id} className={classes.candidateRowData}>
+    <tr key={row?.uuid} className={classes.candidateRowData}>
       {/* <td>{row?.employee_id}</td> */}
-      <td>{row?.id}</td>
+      <td>{row?.uuid}</td>
       <td>
         <Link
           to={`/candidate-details/${row?.uuid}`}

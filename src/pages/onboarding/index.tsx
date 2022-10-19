@@ -32,7 +32,14 @@ import {
   getOnboardingByUUID,
 } from '@/services/onboarding.services'
 
-import { IconChevronsRight } from '@tabler/icons'
+import {
+  IconBriefcase,
+  IconChevronsRight,
+  IconFileDots,
+  IconShieldCheck,
+  IconWallet,
+  IconWorldUpload,
+} from '@tabler/icons'
 
 import useGetClientById from '../client/hooks/useGetClientById'
 import useGetVendorById from '../vendor/hooks/useGetVendorById'
@@ -43,6 +50,7 @@ import { openConfirmModal } from '@mantine/modals'
 import CandidateDetails from '@/components/form/details/candidate-details/candidateDetails'
 import ClientDetails from '@/components/form/details/client-details/clientDetails'
 import VendorDetails from '@/components/form/details/vendor-details/vendorDetails'
+import { randomId } from '@mantine/hooks'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -123,11 +131,14 @@ export default function Onboarding() {
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
   const { data: employeeData } = useGetCandidateById(employeeUUID || '')
 
-  useEffect(() => {
-    if (active === 4) {
-      setOnboardingStepperData(form.values)
-    }
-  }, [active])
+  // onboarding flow states
+  const form = useForm<TOnboarding>({
+    initialValues: {
+      ...onboardingStepperData,
+    },
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
 
   useEffect(() => {
     if (onboardingData) {
@@ -135,12 +146,11 @@ export default function Onboarding() {
     }
   }, [onboardingData])
 
-  // onboarding flow states
-  const form = useForm<TOnboarding>({
-    initialValues: onboardingStepperData,
-    validateInputOnChange: true,
-    clearInputErrorOnChange: true,
-  })
+  useEffect(() => {
+    if (active === 4) {
+      setOnboardingStepperData(form.values)
+    }
+  }, [active, form.values])
 
   // onConfirmSaveOnboarding
   const onConfirmSaveOnboarding = (values: TOnboarding) => {
@@ -153,6 +163,8 @@ export default function Onboarding() {
       client_uuid: clientUUID,
       submission_uuid: '',
     }
+
+    console.log(onboardingData)
 
     if (draft_onboarding_uuid) {
       onboardingData.uuid = draft_onboarding_uuid
@@ -186,6 +198,7 @@ export default function Onboarding() {
 
   // handleSave function
   const handleSave = (values: TOnboarding) => {
+    console.log(values)
     if (active >= 4) {
       openConfirmModal({
         title: 'Are you sure you want to submit the details?',
@@ -228,8 +241,6 @@ export default function Onboarding() {
     setActive((current) => (current > 0 ? current - 1 : current))
   }
 
-  // console.log('form.values =', form.values)
-
   return (
     <>
       <div className={classes.onboarding}>
@@ -252,7 +263,7 @@ export default function Onboarding() {
                         <Box
                           style={{
                             fontFamily: '-moz-initial',
-                            fontSize: '18px',
+                            fontSize: '16px',
                           }}
                           ml={5}
                         >
@@ -315,44 +326,23 @@ export default function Onboarding() {
                       value={employeeData?.data?.dob}
                       style={{ minWidth: '100px' }}
                     />
-                    {/* <Group
-                      position="right"
-                      style={{
-                        display: 'flex',
-                        flex: 1,
-                        marginTop: '25px',
-                      }}
-                      onClick={() => setCandidateDetailsIsOpened(true)}
-                    >
-                      <Tooltip
-                        label="Click to view"
-                        color="blue"
-                        withArrow
-                        transition="pop-top-right"
-                        transitionDuration={300}
-                        onClick={() => setCandidateDetailsIsOpened(true)}
-                      >
-                        <ActionIcon
-                          color="blue"
-                          size="lg"
-                          radius="sm"
-                          variant="default"
-                        >
-                          <IconEyeCheck
-                            color="blue"
-                            size={26}
-                            className={classes.iconCheck}
-                          />
-                        </ActionIcon>
-                      </Tooltip>
-                    </Group> */}
                   </Group>
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
 
-            <Stepper active={active} onStepClick={setActive} breakpoint="sm">
-              <Stepper.Step label="Job" description="Job Info...">
+            <Stepper
+              color="green"
+              size="sm"
+              active={active}
+              onStepClick={setActive}
+              breakpoint="sm"
+            >
+              <Stepper.Step
+                icon={<IconBriefcase size={18} />}
+                label="Job"
+                description="Job Information..."
+              >
                 {/* client and vendor */}
                 <Accordion defaultValue="">
                   {/* Client */}
@@ -367,7 +357,13 @@ export default function Onboarding() {
                         label={
                           <>
                             <IconChevronsRight />
-                            <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                            <Box
+                              ml={5}
+                              style={{
+                                fontFamily: '-moz-initial',
+                                fontSize: '16px',
+                              }}
+                            >
                               Client : {clName}
                             </Box>
                           </>
@@ -437,7 +433,13 @@ export default function Onboarding() {
                         label={
                           <>
                             <IconChevronsRight />
-                            <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                            <Box
+                              style={{
+                                fontFamily: '-moz-initial',
+                                fontSize: '16px',
+                              }}
+                              ml={5}
+                            >
                               Vendor : {venName}
                             </Box>
                           </>
@@ -501,19 +503,32 @@ export default function Onboarding() {
                 </Accordion>
                 <Job form={form} />
               </Stepper.Step>
-              <Stepper.Step label="Payments" description="Payment Info...">
+              <Stepper.Step
+                icon={<IconWallet size={18} />}
+                label="Payments"
+                description="Payment Information..."
+              >
                 <Payment form={form} />
               </Stepper.Step>
               <Stepper.Step
+                icon={<IconWorldUpload size={18} />}
                 label="Immigration"
-                description="Immigration Info..."
+                description="Immigration Information..."
               >
                 <Immigration form={form} />
               </Stepper.Step>
-              <Stepper.Step label="Documents" description="Immigration Info...">
+              <Stepper.Step
+                icon={<IconFileDots size={18} />}
+                label="Documents"
+                description="Documents Information..."
+              >
                 <Documents form={form} />
               </Stepper.Step>
-              <Stepper.Step label="Summary" description="Immigration Info...">
+              <Stepper.Step
+                icon={<IconShieldCheck size={18} />}
+                label="Summary"
+                description="Summary Information..."
+              >
                 <Review
                   onboardingData={onboardingStepperData}
                   onReviewTileClick={(id) => setActive(+id)}
@@ -534,7 +549,10 @@ export default function Onboarding() {
                 </Button>
               ) : (
                 <Button variant="light" type="submit">
-                  {isOnboardingInitiated ? 'Onboarding Initiated' : 'Save'}
+                  {isOnboardingInitiated
+                    ? 'Onboarding Initiated'
+                    : 'Initiate Onboarding'}
+                  Initiate Onboarding
                 </Button>
               )}
               {active <= 3 && <Button onClick={nextStep}>Next</Button>}

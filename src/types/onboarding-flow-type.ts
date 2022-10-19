@@ -1,13 +1,34 @@
 import { z } from 'zod'
 
 // ? onboarding zod type = Main
+// employees: [{ name: '', active: false, key: randomId() }]
 
+const zOnboardingStatus = z.enum([
+  'PRE_INITIATED',
+  'PRE_INPROGRESS',
+  'ONBOARDING_INITIATED',
+  'ONBOARDING_IN_PROGRESS',
+  'ONBOARDING_COMPLETED',
+  'HOLD',
+  'REINITIATED',
+  'CANCELLED',
+])
+
+const zDocument = z.object({
+  key: z.string(),
+  name: z.string().optional(),
+  document_type: z.string(),
+  file: z.instanceof(File).optional(),
+})
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
+  uuid: z.string(),
   created_by: z.string(),
   created_date: z.date(),
   modified_by: z.string(),
   modified_date: z.date(),
+
+  onboard_status: zOnboardingStatus,
 
   // Profile
   start_date: z.date(),
@@ -20,7 +41,7 @@ const zOnboarding = z.object({
   designation: z.string(),
   overtime_exemption: z.string(), // Dropdown
 
-  // Account
+  // Job
   name_of_recruiter: z.string(),
   contact_number_of_recruiter: z.string(),
   bill_rate: z.string(),
@@ -42,19 +63,19 @@ const zOnboarding = z.object({
   current_lac_number: z.string(),
 
   // Document
-  document_type: z.string(),
-  choose_file: z.string(),
-  uuid: z.string(),
+  documents: z.array(zDocument),
 })
 
-interface TOnboardingFindById {
+export interface TOnboardingFindById {
   data: TOnboarding[]
   ok: boolean
   message: string
 }
 
 // onboarding flow Onboarding zod types define
-type TOnboarding = z.infer<typeof zOnboarding>
+export type TOnboarding = z.infer<typeof zOnboarding>
+export type TDocument = z.infer<typeof zDocument>
+export type TOnboardingStatus = z.infer<typeof zOnboardingStatus>
 
 // export types
-export type { TOnboarding, TOnboardingFindById }
+// export type { TOnboarding, TOnboardingFindById, TOnboardingStatus }
