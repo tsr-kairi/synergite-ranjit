@@ -125,7 +125,7 @@ export default function Onboarding() {
   const clientUUID = searchParams.get('client_uuid')
   const vendorUUID = searchParams.get('vendor_uuid')
   const employeeUUID = searchParams.get('employee_uuid')
-  console.log('candidateUUID', employeeUUID)
+  const submissionUUID = searchParams.get('submission_uuid')
 
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
@@ -161,7 +161,7 @@ export default function Onboarding() {
       employee_uuid: employeeUUID,
       vendor_uuid: vendorUUID,
       client_uuid: clientUUID,
-      submission_uuid: '',
+      submission_uuid: submissionUUID,
     }
 
     console.log(onboardingData)

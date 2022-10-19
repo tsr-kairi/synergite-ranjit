@@ -63,25 +63,29 @@ const OnboardingList = () => {
               return (
                 <tr key={onboarding.uuid}>
                   <td>
-                    <Link
-                      to={`/onboarding?onboarding_uuid${onboarding.uuid}`}
-                      style={{
-                        textDecoration: 'none',
-                        color: theme?.colors?.grey?.[9],
-                      }}
-                    >
-                      <Tooltip
-                        label="Click to view"
-                        color="blue"
-                        withArrow
-                        transition="pop-top-right"
-                        transitionDuration={300}
+                    {isPreOnboardingStatus ? (
+                      <Link
+                        to={`/onboarding?onboarding_uuid${onboarding.uuid}`}
+                        style={{
+                          textDecoration: 'none',
+                          color: theme?.colors?.grey?.[9],
+                        }}
                       >
-                        <Text size="sm" weight={500}>
-                          {onboarding.uuid}
-                        </Text>
-                      </Tooltip>
-                    </Link>
+                        <Tooltip
+                          label="Click to view"
+                          color="blue"
+                          withArrow
+                          transition="pop-top-right"
+                          transitionDuration={300}
+                        >
+                          <Text size="sm" weight={500}>
+                            {onboarding.uuid}
+                          </Text>
+                        </Tooltip>
+                      </Link>
+                    ) : (
+                      onboarding.uuid
+                    )}
                   </td>
                   <td>65%</td>
                   <td>
