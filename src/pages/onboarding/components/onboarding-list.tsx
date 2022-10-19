@@ -13,7 +13,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core'
-import { IconChevronRight } from '@tabler/icons'
+import { IconChevronRight, IconPlus } from '@tabler/icons'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
@@ -47,7 +47,6 @@ const OnboardingList = () => {
               <Th onSort={() => null}>Name</Th>
               <Th onSort={() => null}>Percent</Th>
               <Th onSort={() => null}>Status</Th>
-              <th>Add Note</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -88,19 +87,24 @@ const OnboardingList = () => {
                   <td>
                     <Badge color="cyan">{onboardingStatus.label}</Badge>
                   </td>
-                  <td onClick={() => setIsNoteOpen(true)}>Add Note</td>
-                  <td
-                    onClick={() => {
-                      setIsActivityOpen(true)
-                      setSelectedOnboardingId(onboarding.uuid)
-                    }}
-                    style={{
-                      cursor: isPreOnboardingStatus ? 'not-allowed' : 'pointer',
-                    }}
-                  >
+                  <td>
+                    <IconPlus
+                      style={{
+                        cursor: 'pointer',
+                        marginRight: '8px',
+                      }}
+                      onClick={() => setIsNoteOpen(true)}
+                    />
                     <IconChevronRight
                       style={{
+                        cursor: isPreOnboardingStatus
+                          ? 'not-allowed'
+                          : 'pointer',
                         opacity: isPreOnboardingStatus ? 0.2 : 1,
+                      }}
+                      onClick={() => {
+                        setIsActivityOpen(true)
+                        setSelectedOnboardingId(onboarding.uuid)
                       }}
                     />
                   </td>
