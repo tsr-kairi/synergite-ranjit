@@ -484,7 +484,8 @@ export function CandidateList({ data }: ICandidateProps) {
         onClose={() => setOpened(false)}
         title="Add New Candidate"
         padding="xl"
-        size="xl"
+        // size="xl"
+        size="1400px"
         position="right"
       >
         <CreateCandidate />
