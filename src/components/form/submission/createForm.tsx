@@ -16,11 +16,14 @@ import { IconExternalLink } from '@tabler/icons'
 import EmployeeDetailsForm from './details/employeeDetailsForm'
 import VendorDetailsForm from './details/vendorDetailsForm'
 import { TCandidate } from '@/types/candidate-type'
-import { TVendor } from '@/types'
+import { TJobs, TVendor } from '@/types'
 import EmployeeIdList from './employeeIdList'
 import useCreateSubmission from '@/pages/client/client-details/jobs/submissions/hooks/useCreateSubmission'
 import { useParams } from 'react-router-dom'
 import VendorIdList from './vendorIdList'
+import axiosPrivate from '@/services/axiosPrivate'
+import { candidateQueryKeys } from '@/react-query/queryKeys'
+import { useQuery } from 'react-query'
 // import { number } from 'zod'
 const useStyles = createStyles(() => ({
   paper: {
@@ -45,9 +48,12 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
+  const [employeeType, setEmployeeType] = useState({} as TJobs)
 
   const [vendorListOpened, vendorListIsOpened] = useState(false)
   const [employeeListOpened, employeeListIsOpened] = useState(false)
+
+  // const [rejected, setRejected] = useState(false)
 
   const form = useForm<TSubmissionCreate>({
     // validate: zodResolver(zSubmissionCreate),
@@ -65,6 +71,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+  // console.log(form.values)
 
   const employeeName = `${employeeDetails?.fname || ''} ${
     employeeDetails?.lname || ''
@@ -72,6 +79,18 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const vendorName = `${vendorDetails?.first_name || ''} ${
     vendorDetails?.last_name || ''
   }`
+
+  // get recruiters api function
+  // const findAlRecruiter = async () => {
+  //   const response = await axiosPrivate.get<TCandidateFindAll>(
+  //     `/candidate?active=true`
+  //   )
+  //   return response.data
+  // }
+  // const { data: recruiters } = useQuery<TCandidateFindAll, Error>(
+  //   candidateQueryKeys.allCandidate,
+  //   findAlRecruiter
+  // )
 
   const handleSubmit = (values: TSubmissionCreate) => {
     const submissionCreateData = {
@@ -124,6 +143,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
+          {/* {employeeType.job_status === 'active' && ( */}
           <TextInput
             mt="md"
             required
@@ -133,6 +153,9 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             onClick={() => {
               vendorListIsOpened(true)
             }}
+            // onChange={() => {
+            //   setEmployeeType(employeeType)
+            // }}
             value={vendorName || ''}
             rightSection={
               vendorDetails?.uuid ? (
@@ -148,8 +171,9 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
+          {/* )} */}
           <Grid mt="md">
-            <Grid.Col span={6}>
+            <Grid.Col span={12}>
               <Select
                 data={[
                   { value: 'Selected', label: 'Selected' },
@@ -158,51 +182,45 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 ]}
                 placeholder="Submission Status"
                 label="Submission Status"
-                {...form.getInputProps('submission_status')}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <TextInput
-                placeholder="Pay Rate"
-                label="Pay Rate"
-                type="number"
-                // {...form.getInputProps('submission_status')}
+                {...form.getInputProps('status')}
               />
             </Grid.Col>
           </Grid>
-          <Grid mt="md">
-            <Grid.Col span={6}>
-              <Select
-                data={[
-                  { value: 'Ram', label: 'Ram' },
-                  { value: 'Sham', label: 'Sham' },
-                  { value: 'Petter', label: 'Petter' },
-                  { value: 'Parker', label: 'Parker' },
-                ]}
-                label="Recruiters"
-                type={'text'}
-                placeholder="Recruiters"
-                {...form.getInputProps('recruiters')}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <Select
-                data={[
-                  { value: 'Client Rejected', label: 'Client Rejected' },
-                  { value: 'Position on Hold', label: 'Position on Hold' },
-                  {
-                    value: 'Internally rejected',
-                    label: 'Internally rejected',
-                  },
-                  { value: 'Others', label: 'Others' },
-                ]}
-                label="Rejection Reason"
-                type={'text'}
-                placeholder="Rejection Reason"
-                {...form.getInputProps('rejection_reason')}
-              />
-            </Grid.Col>
-          </Grid>
+          <Select
+            mt={'md'}
+            data={[
+              { value: 'Ram', label: 'Ram' },
+              { value: 'Sham', label: 'Sham' },
+              { value: 'Petter', label: 'Petter' },
+              { value: 'Parker', label: 'Parker' },
+            ]}
+            // data={recruiters?.data.map((r) => {
+            //   value: r.uuid
+            //   label: r.fname
+            // })}
+            label="Recruiters"
+            type={'text'}
+            placeholder="Recruiters"
+            {...form.getInputProps('recruiters')}
+          />
+          {form.values.status === 'Rejected' && (
+            <Select
+              mt={'md'}
+              data={[
+                { value: 'Client Rejected', label: 'Client Rejected' },
+                { value: 'Position on Hold', label: 'Position on Hold' },
+                {
+                  value: 'Internally rejected',
+                  label: 'Internally rejected',
+                },
+                { value: 'Others', label: 'Others' },
+              ]}
+              label="Rejection Reason"
+              type={'text'}
+              placeholder="Rejection Reason"
+              {...form.getInputProps('rejection_reason')}
+            />
+          )}
 
           <Textarea
             required
