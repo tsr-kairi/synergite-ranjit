@@ -101,8 +101,6 @@ const NavBar: React.FC<NavBarProps> = ({ isBurgerIconOpen }) => {
     <LinksGroup {...item} key={item.label} isSidebarOpen={isBurgerIconOpen} />
   ))
 
-  console.log('isBurgerIconOpen =', isBurgerIconOpen)
-
   return (
     <div
       className={classes.container}
