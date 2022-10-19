@@ -212,6 +212,9 @@ export default function JobsTable({ data }: JobsProps) {
   const { classes } = useStyles()
   const { mutate: deleteJob } = useDeleteJobById()
 
+  // const { jobId } = useParams()
+  // console.log('empType', jobId)
+
   // const { state } = useLocation()
   const setJob = useOnboarding((state) => state.setJob)
 
@@ -327,7 +330,7 @@ export default function JobsTable({ data }: JobsProps) {
                   <Link
                     to={`/submissions/${row?.uuid}?client_id=${String(
                       clientId
-                    )}&job_id=${String(row.uuid)}`}
+                    )}&job_id=${String(row.uuid)}&employee_type='C2C`}
                     className={classes.userLink}
                     onClick={() => setJob(row)}
                   >
