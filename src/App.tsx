@@ -33,6 +33,7 @@ import DepartmentDetails from './pages/department/department-details'
 import RolesDetails from './pages/roles/roles-details'
 import JobList from './pages/job/job-list'
 import CreateJobForm from './pages/job/create-job-form'
+import Timesheets from './pages/timesheets/timesheets'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -111,6 +112,14 @@ function App() {
                 <ProtectedRoute isAuth={isAuth}>
                   <Onboarding />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/timesheets"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Timesheets />
+                // </ProtectedRoute>
               }
             />
             <Route
