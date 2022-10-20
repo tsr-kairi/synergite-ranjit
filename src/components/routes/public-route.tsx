@@ -11,10 +11,9 @@ const PublicRoute: React.FC<PublicRouteProps> = (props) => {
   const { isAuth, children } = props
   const navigate = useNavigate()
 
-  console.log('[PublicRoute] isAuth =', isAuth)
-
   if (isAuth) {
     return <Navigate to="/" replace />
+    // navigate(-1)
   }
 
   return <>{children}</>

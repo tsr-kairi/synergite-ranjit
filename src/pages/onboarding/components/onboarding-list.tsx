@@ -13,7 +13,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core'
-import { IconChevronRight } from '@tabler/icons'
+import { IconChevronRight, IconPlus } from '@tabler/icons'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
@@ -26,10 +26,11 @@ const OnboardingList = () => {
   const [isActivityOpen, setIsActivityOpen] = useState(false)
   const [selectedOnboardingId, setSelectedOnboardingId] = useState('')
   const [selectedActivityUUID, setSelectedActivityUUID] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const { data: onboardingList = [] } = useQuery(
-    'onboarding-list',
-    getOnboardingList
+    ['onboarding-list', searchTerm],
+    () => getOnboardingList(searchTerm)
   )
 
   return (
@@ -38,6 +39,7 @@ const OnboardingList = () => {
         title="Onboarding List"
         hideActionButton={true}
         hideColumnButton={true}
+        onSearchChange={setSearchTerm}
       >
         <Table horizontalSpacing="md" verticalSpacing="xs">
           <thead>
@@ -45,7 +47,6 @@ const OnboardingList = () => {
               <Th onSort={() => null}>Name</Th>
               <Th onSort={() => null}>Percent</Th>
               <Th onSort={() => null}>Status</Th>
-              <th>Add Note</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -62,43 +63,52 @@ const OnboardingList = () => {
               return (
                 <tr key={onboarding.uuid}>
                   <td>
-                    <Link
-                      to={`/onboarding?onboarding_uuid${onboarding.uuid}`}
-                      style={{
-                        textDecoration: 'none',
-                        color: theme?.colors?.grey?.[9],
-                      }}
-                    >
-                      <Tooltip
-                        label="Click to view"
-                        color="blue"
-                        withArrow
-                        transition="pop-top-right"
-                        transitionDuration={300}
+                    {isPreOnboardingStatus ? (
+                      <Link
+                        to={`/onboarding?onboarding_uuid${onboarding.uuid}`}
+                        style={{
+                          textDecoration: 'none',
+                          color: theme?.colors?.grey?.[9],
+                        }}
                       >
-                        <Text size="sm" weight={500}>
-                          {onboarding.uuid}
-                        </Text>
-                      </Tooltip>
-                    </Link>
+                        <Tooltip
+                          label="Click to view"
+                          color="blue"
+                          withArrow
+                          transition="pop-top-right"
+                          transitionDuration={300}
+                        >
+                          <Text size="sm" weight={500}>
+                            {onboarding.uuid}
+                          </Text>
+                        </Tooltip>
+                      </Link>
+                    ) : (
+                      onboarding.uuid
+                    )}
                   </td>
                   <td>65%</td>
                   <td>
                     <Badge color="cyan">{onboardingStatus.label}</Badge>
                   </td>
-                  <td onClick={() => setIsNoteOpen(true)}>Add Note</td>
-                  <td
-                    onClick={() => {
-                      setIsActivityOpen(true)
-                      setSelectedOnboardingId(onboarding.uuid)
-                    }}
-                    style={{
-                      cursor: isPreOnboardingStatus ? 'not-allowed' : 'pointer',
-                    }}
-                  >
+                  <td>
+                    <IconPlus
+                      style={{
+                        cursor: 'pointer',
+                        marginRight: '8px',
+                      }}
+                      onClick={() => setIsNoteOpen(true)}
+                    />
                     <IconChevronRight
                       style={{
+                        cursor: isPreOnboardingStatus
+                          ? 'not-allowed'
+                          : 'pointer',
                         opacity: isPreOnboardingStatus ? 0.2 : 1,
+                      }}
+                      onClick={() => {
+                        setIsActivityOpen(true)
+                        setSelectedOnboardingId(onboarding.uuid)
                       }}
                     />
                   </td>

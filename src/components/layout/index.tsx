@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import NavBar from '@/components/layout/navBar/NavBar'
 // import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
@@ -27,6 +27,8 @@ const useStyles = createStyles((theme) => ({
 // }
 
 const AppShellMain = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
+
   const { classes } = useStyles()
 
   const { online } = useNetwork()
@@ -42,9 +44,11 @@ const AppShellMain = () => {
 
   return (
     <AppShell
-      navbar={<NavBar />}
+      navbar={<NavBar isBurgerIconOpen={isSidebarOpen} />}
       header={
         <HeaderBar
+          isBurgerIconOpen={isSidebarOpen}
+          onBurgerIconClick={() => setIsSidebarOpen((prevState) => !prevState)}
           user={{
             name: `${user.firstName} ${user.lastName}`,
             image:
@@ -55,7 +59,9 @@ const AppShellMain = () => {
       className={classes.outletStyle}
     >
       {online ? (
-        <Outlet />
+        <div style={{ width: isSidebarOpen ? '80vw' : '90vw' }}>
+          <Outlet />
+        </div>
       ) : (
         <div
           style={{
@@ -71,6 +77,5 @@ const AppShellMain = () => {
     </AppShell>
   )
 }
-// export { useCurrentUser }
 
 export default AppShellMain

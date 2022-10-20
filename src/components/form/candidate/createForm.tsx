@@ -166,7 +166,7 @@ export default function CreateForm() {
               </Group>
             </Stepper.Step>
             {/* Address */}
-            <Stepper.Step label="Address" description="Employee address">
+            <Stepper.Step label="Address" description="Candidate address">
               <Group grow align="center" mt="md">
                 <TextInput
                   required

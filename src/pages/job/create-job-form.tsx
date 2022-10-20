@@ -307,7 +307,7 @@ const CreateJobForm = () => {
 
           {/* <Button fullWidth mt="md" mb="lg" type="submit"> */}
           <Button fullWidth mt="md" mb="lg" onClick={handleSubmit}>
-            Add JOB
+            Add Job
           </Button>
         </form>
       </Paper>

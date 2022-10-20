@@ -303,7 +303,7 @@ export function CandidateList({ data }: ICandidateProps) {
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.candidateRowData}>
       {/* <td>{row?.employee_id}</td> */}
-      <td>{row?.uuid}</td>
+      <td>{/* {row?.uuid} */}</td>
       <td>
         <Link
           to={`/candidate-details/${row?.uuid}`}
@@ -402,7 +402,7 @@ export function CandidateList({ data }: ICandidateProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('employee_id')}
               >
-                Employee Id
+                Candidate Id
               </Th>
               <Th
                 sorted={sortBy === 'fname'}
@@ -482,7 +482,7 @@ export function CandidateList({ data }: ICandidateProps) {
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add New Employee"
+        title="Add New Candidate"
         padding="xl"
         size="xl"
         position="right"
@@ -494,7 +494,7 @@ export function CandidateList({ data }: ICandidateProps) {
       <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
-        title="Edit Employee"
+        title="Edit Candidate"
         padding="xl"
         size="xl"
         position="right"

@@ -27,11 +27,14 @@ interface IListViewLayoutProps {
   children?: React.ReactNode
   createDrawerTitle?: string
   createDrawerChildren?: React.ReactNode
+  createDrawerSize?: string | number
   editDrawerChildren?: React.ReactNode
   hideActionButton?: boolean
   hideColumnButton?: boolean
+  onSearchChange?: (searchTerm: string) => void
   onColumnClick?: () => void
   onAddNewClick?: () => void
+  onPageChange?: (pageNumber: number) => void
 }
 
 export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
@@ -40,11 +43,14 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     children,
     createDrawerTitle,
     createDrawerChildren,
+    createDrawerSize,
     editDrawerChildren,
     hideActionButton,
     hideColumnButton,
+    onSearchChange,
     onColumnClick,
     onAddNewClick,
+    onPageChange,
   } = props
 
   const [isColumnSelectionDrawerOpen, setIsColumnSelectionDrawerOpen] =
@@ -63,11 +69,15 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
           </Text>
           <IconFilter className={classes.filterIcon} />
         </Group>
+
         <TextInput
           placeholder="Search by any field"
           icon={<IconSearch size={14} stroke={1.5} />}
-          // value={search}
-          // onChange={handleSearchChange}
+          onChange={({ target }) => {
+            if (onSearchChange) {
+              onSearchChange(target.value)
+            }
+          }}
           radius="xl"
           className={classes.searchField}
         />
@@ -87,11 +97,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         {!hideActionButton && (
           <Button
             onClick={() => {
-              if (onAddNewClick) {
-                onAddNewClick()
-              } else {
-                setIsColumnSelectionDrawerOpen(true)
-              }
+              setIsAddNewDrawerOpen(true)
             }}
           >
             <Group spacing="sm" align="center">
@@ -110,13 +116,13 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         >
           {children}
         </Table>
-
-        {/* Pagination */}
-        <div className={classes.paginationContainer}>
-          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-          <Pagination total={5} size="sm" />
-        </div>
       </ScrollArea>
+
+      {/* Pagination */}
+      <div className={classes.paginationContainer}>
+        <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
+        <Pagination total={5} size="sm" onChange={onPageChange} />
+      </div>
 
       {/* List of columns */}
       <Drawer
@@ -136,7 +142,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         onClose={() => setIsAddNewDrawerOpen(false)}
         title={createDrawerTitle}
         padding="xl"
-        size="xl"
+        size={createDrawerSize || 'xl'}
         position="right"
       >
         {createDrawerChildren}
@@ -155,7 +161,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
       </Drawer>
     </>
   )
-}
+} // End of ListViewLayout
 
 // Style for the Page
 export const listViewLayoutStyle = createStyles((theme) => ({

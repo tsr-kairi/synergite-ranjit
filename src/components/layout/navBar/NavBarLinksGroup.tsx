@@ -8,6 +8,7 @@ import {
   UnstyledButton,
   createStyles,
   Anchor,
+  Tooltip,
 } from '@mantine/core'
 import { TablerIcon, IconChevronLeft, IconChevronRight } from '@tabler/icons'
 import { Link } from 'react-router-dom'
@@ -64,6 +65,9 @@ const useStyles = createStyles((theme) => ({
 
   icoTheme: {
     backgroundColor: 'rgba(103, 169, 241, 0.44)',
+    '&:hover': {
+      borderRadius: '8px',
+    },
   },
   anchor: {
     color: theme.colors.grey[0],
@@ -89,6 +93,7 @@ interface LinksGroupProps {
   initiallyOpened?: boolean
   links?: { label: string; link: string }[]
   url?: string
+  isSidebarOpen?: boolean
 }
 
 export default function LinksGroup({
@@ -97,6 +102,7 @@ export default function LinksGroup({
   initiallyOpened,
   url,
   links,
+  isSidebarOpen,
 }: LinksGroupProps) {
   const { classes, theme, cx } = useStyles()
   const hasLinks = Array.isArray(links)
@@ -104,6 +110,7 @@ export default function LinksGroup({
   const [opened, setOpened] = useState(initiallyOpened || false)
   const [active, setActive] = useState('Dashboard')
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
+
   const items = (hasLinks ? links : []).map((link) => (
     <Text
       component={Link}
@@ -136,10 +143,10 @@ export default function LinksGroup({
               <ThemeIcon className={classes.icoTheme} size={30}>
                 <Icon size={20} />
               </ThemeIcon>
-              <Box ml="md">{label}</Box>
+              {isSidebarOpen && <Box ml="md">{label}</Box>}
             </Box>
 
-            {hasLinks && (
+            {hasLinks && isSidebarOpen && (
               <ChevronIcon
                 className={classes.chevron}
                 size={14}

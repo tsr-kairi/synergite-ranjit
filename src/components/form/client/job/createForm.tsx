@@ -55,7 +55,7 @@ export default function CreateForm() {
       client_uuid: String(clientId),
     }
 
-    const data = addJob(jobCreateData)
+    addJob(jobCreateData)
 
     showNotification({
       title: 'Success!!',
@@ -183,8 +183,8 @@ export default function CreateForm() {
             /> */}
             <Select
               data={[
-                { value: 'Active', label: 'Active' },
-                { value: 'Inactive', label: 'Inactive' },
+                { value: 'active', label: 'Active' },
+                { value: 'inactive', label: 'Inactive' },
               ]}
               placeholder="Job Status"
               label="Job Status"

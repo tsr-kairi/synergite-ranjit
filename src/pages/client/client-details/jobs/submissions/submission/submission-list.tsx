@@ -33,10 +33,8 @@ import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
-import { useOnboarding } from '@/store/onboarding.store'
 import { useNavigate } from 'react-router-dom'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TOnboarding } from '@/types/onboarding-flow-type'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -229,7 +227,9 @@ export function SubmissionList({ data }: ISubmissionProps) {
     )
   }
 
-  // openModalForDelete handler
+  // recruiters api handler
+
+  // handlePreOnboarding handler
   // const handlePreOnboarding = async (data: TSubmission) => {
   //   try {
   //     await axiosPrivate.post(
@@ -285,7 +285,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
             color="blue"
             onClick={() =>
               navigate(
-                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}`
+                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}&submission_uuid=${row.uuid}`
               )
             }
             style={{ cursor: 'pointer' }}

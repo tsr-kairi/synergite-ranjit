@@ -61,11 +61,14 @@ export const createOnboarding = async (onboarding: TOnboarding) => {
   }
 } // End of createOnboarding
 
-export const getOnboardingList = async () => {
+export const getOnboardingList = async (searchTerm?: string) => {
   try {
-    const { data } = await axiosPrivate.get<{ data: TOnboarding[] }>(
-      '/onboarding'
-    )
+    let url = `/onboarding?keyword=${searchTerm || ''}`
+    if (searchTerm) {
+      url = `/onboarding/search?keyword=${searchTerm || ''}`
+    }
+
+    const { data } = await axiosPrivate.get<{ data: TOnboarding[] }>(url)
     return data.data
   } catch (error) {
     console.log(error)

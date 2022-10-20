@@ -34,6 +34,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import useFetchJobs from './hooks/useFetchJobs'
+import CreateJobForm from './create-job-form'
 // import { useQuery } from 'react-query'
 
 // Style for the Page
@@ -244,7 +245,18 @@ const JobList = () => {
   // }
 
   return (
-    <ListViewLayout title="Jobs" onAddNewClick={() => navigate('/job/add')}>
+    <ListViewLayout
+      title="Jobs"
+      createDrawerTitle="Add Job"
+      createDrawerSize="80%"
+      createDrawerChildren={
+        <div
+          style={{ height: '100%', overflowY: 'auto', padding: '0 16px 0 0' }}
+        >
+          <CreateJobForm />
+        </div>
+      }
+    >
       <>
         <thead>
           <tr>
@@ -374,7 +386,13 @@ const JobList = () => {
           {jobs && jobs?.length > 0 ? (
             jobs.map((job) => (
               <tr key={job.id} className={classes.companyDetails}>
-                <td>{job.id}</td>
+                <td>
+                  <Link
+                    to={`/submissions/${job.uuid}?client_id=${job.client_uuid}&job_id=${job.uuid}`}
+                  >
+                    {job.uuid}
+                  </Link>
+                </td>
                 <td>{job?.client_req_id}</td>
                 <td>{job?.start_date}</td>
                 <td>{job?.title}</td>

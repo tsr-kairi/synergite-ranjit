@@ -1,3 +1,4 @@
+import theme from '@/theme/theme'
 import { Navbar, ScrollArea, createStyles } from '@mantine/core'
 import {
   IconLayoutDashboard,
@@ -31,8 +32,8 @@ const mockdata = [
     icon: IconWallet,
     initiallyOpened: false,
     links: [
-      // { label: 'Employees', link: '/employee' },
       { label: 'Candidates', link: '/candidate' },
+      { label: 'Employees', link: '/employee' },
     ],
   },
   {
@@ -48,7 +49,9 @@ const mockdata = [
 
   // { label: 'Employees', icon: IconUsers, url: '/employee' },
   // { label: 'Activities', icon: IconActivity, url: '/activity' },
-  { label: 'Contacts', icon: IconFileAnalytics },
+  // { label: 'Contacts', icon: IconFileAnalytics },
+  { label: 'TimeSheets', icon: IconFileAnalytics, url:'/timesheets' },
+
   { label: 'On Boarding List', icon: IconContrast2, url: '/onboarding-list' },
   { label: 'Job', icon: IconContrast2, url: '/job' },
   { label: 'Settings', icon: IconSettings },
@@ -65,42 +68,57 @@ const useStyles = createStyles((theme) => ({
     height: '100vh',
     borderTop: `1px solid ${theme.colors.blue[6]}`,
   },
-
   links: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     backgroundColor: theme.colors.blue[9],
   },
-
   linksInner: {
     paddingBottom: theme.spacing.xl,
   },
 
-  // active: {
-  //   '&, &:hover': {
-  //     backgroundColor: theme.fn.variant({
-  //       variant: 'light',
-  //       color: theme.primaryColor,
-  //     }).background,
-  //     color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-  //       .color,
-  //   },
-  // },
+  // classes
+  container: {
+    marginTop: '16px',
+    background: theme.colors?.blue?.[9],
+    overflow: 'hidden',
+    display: 'flex',
+    // '&:hover': {
+    // }
+  },
+  menuIcon: {
+    // '&:hover': {
+    // }
+  },
 }))
 
-// interface NavbarLinkProps {
-//   active?: boolean
-// }
-export default function NavBar() {
+interface NavBarProps {
+  isBurgerIconOpen: boolean
+}
+
+const NavBar: React.FC<NavBarProps> = ({ isBurgerIconOpen }) => {
   const { classes } = useStyles()
+
   const links = mockdata.map((item) => (
-    <LinksGroup {...item} key={item.label} />
+    <LinksGroup {...item} key={item.label} isSidebarOpen={isBurgerIconOpen} />
   ))
+
+  return (
+    <div
+      className={classes.container}
+      style={{
+        width: isBurgerIconOpen ? '300px' : '60px',
+        justifyContent: isBurgerIconOpen ? 'start' : 'center',
+      }}
+    >
+      <div className={classes.linksInner}>{links}</div>
+    </div>
+  )
 
   return (
     <Navbar
       hiddenBreakpoint="sm"
-      width={{ sm: 200, md: 250, lg: 300 }}
+      width={{ sm: 200, md: 250, lg: 100 }}
       hidden={!open}
       className={classes.mainNav}
     >
@@ -113,3 +131,5 @@ export default function NavBar() {
     </Navbar>
   )
 }
+
+export default NavBar
