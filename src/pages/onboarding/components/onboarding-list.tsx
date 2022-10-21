@@ -61,6 +61,9 @@ const OnboardingList = () => {
                 onboarding.onboard_status === 'PRE_INITIATED' ||
                 onboarding.onboard_status === 'PRE_INPROGRESS'
 
+              const candidateName = `${onboarding.employee?.fname || ''}
+                ${onboarding.employee?.lname || ''}`
+
               return (
                 <tr key={onboarding.uuid}>
                   <td>
@@ -80,12 +83,12 @@ const OnboardingList = () => {
                           transitionDuration={300}
                         >
                           <Text size="sm" weight={500}>
-                            {onboarding.uuid}
+                            {candidateName}
                           </Text>
                         </Tooltip>
                       </Link>
                     ) : (
-                      onboarding.uuid
+                      candidateName
                     )}
                   </td>
                   <td>65%</td>

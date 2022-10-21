@@ -101,8 +101,8 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
             <tr className={classes.tr}>
               <th className={classes.th}>Date</th>
               <th className={classes.th}>Project</th>
-              <th className={classes.th}>Billable/Not</th>
-              <th className={classes.th}>Total Hrs</th>
+              <th className={classes.th}>Billable/Non-billable</th>
+              <th className={classes.th}>Total Hours</th>
               <th className={classes.th}>Project Updates</th>
               <th className={classes.th}></th>
             </tr>
@@ -118,13 +118,12 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
             justifyContent: 'center',
           }}
         >
-          <div>
-            <p>Total Billable Time: {totalBillableHours.toString() + '.00'}</p>
-            <p>
-              Total Non Billable Time:{' '}
-              {totalNonBillableHours.toString() + '.00'}
-            </p>
-          </div>
+          <p style={{ marginRight: '24px' }}>
+            Total Billable Hours: {totalBillableHours.toString() + '.00'}
+          </p>
+          <p>
+            Total Non Billable Hours: {totalNonBillableHours.toString() + '.00'}
+          </p>
           <Button ml={80} onClick={onSubmitHandler}>
             Submit
           </Button>
@@ -142,21 +141,13 @@ const useStyles = createStyles((theme) => ({
   },
   th: {
     border: 'none !important',
+    fontSize: '18px !important',
   },
   td: {
     padding: '20px !important',
   },
   tr: {
     border: 'none !important',
-    // display: 'flex',
-    // flexDirection: 'row',
-    // gap: '130px',
-    // marginLeft: '72px',
-  },
-  tbody: {
-    // gap: '120px',
-    // flexDirection: 'row',
-    // marginLeft: '60px',
   },
   buttonContainer: {
     position: 'absolute',

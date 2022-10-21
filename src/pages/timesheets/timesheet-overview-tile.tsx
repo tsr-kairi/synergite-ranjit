@@ -104,10 +104,10 @@ const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
         <div className={classes.personalDetailsMain}>
           <div className={classes.clientUserCard}>
             <Avatar size={40} radius={120} mx="auto" color="cyan">
-              S
+              T
             </Avatar>
             <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              Synergite
+              Vishal
             </Text>
           </div>
 
@@ -119,7 +119,7 @@ const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
             <div className={classes.personalDetails}>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Name :</b>
+                  <b>Name </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
                   Vishal
@@ -127,7 +127,7 @@ const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Week :</b>
+                  <b>Week </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
                   {week}
@@ -135,15 +135,7 @@ const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Project :</b>
-                </Text>
-                <Text size="lg" color="#686969" weight={400}>
-                  Synergite
-                </Text>
-              </Group>
-              <Group spacing="sm">
-                <Text size="lg" color="#686969" weight={400}>
-                  <b>Billable :</b>
+                  <b>Billable </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
                   10
@@ -151,7 +143,7 @@ const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Non Billable :</b>
+                  <b>Non Billable </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
                   4
@@ -159,7 +151,7 @@ const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Total Hours :</b>
+                  <b>Total Hours </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
                   14
@@ -167,7 +159,7 @@ const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Status :</b>
+                  <b>Status </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
                   Active

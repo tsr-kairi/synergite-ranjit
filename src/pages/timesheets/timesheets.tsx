@@ -36,10 +36,9 @@ const Timesheet = () => {
                 <tr>
                   <Th onSort={() => null}>Name</Th>
                   <Th onSort={() => null}>Week</Th>
-                  <Th onSort={() => null}>Project</Th>
                   <Th onSort={() => null}>Billable </Th>
                   <Th onSort={() => null}>Non-Billable</Th>
-                  <Th onSort={() => null}>Total Hrs</Th>
+                  <Th onSort={() => null}>Total Hours</Th>
                   <Th onSort={() => null}>Status</Th>
                 </tr>
               </thead>
@@ -71,12 +70,11 @@ const Timesheet = () => {
                           </Group>
                         </Tooltip>
                       </td>
-                      <td>{sheetValue.Project}</td>
-                      <td>{'Yes' || sheetValue.Billable}</td>
-                      <td>{'No' || sheetValue.Billable}</td>
+                      <td>{'40' || sheetValue.Billable}</td>
+                      <td>{'40' || sheetValue.Billable}</td>
                       <td>{sheetValue.TotalHrs}</td>
                       <td>
-                        <Badge fullWidth>
+                        <Badge style={{ minWidth: '120px' }}>
                           <td>{sheetValue.Status}</td>
                         </Badge>
                       </td>

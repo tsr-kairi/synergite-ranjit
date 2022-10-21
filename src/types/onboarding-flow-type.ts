@@ -55,6 +55,13 @@ const zOnboarding = z.object({
   remarks: z.string(),
   vendor: z.string(), // Dropdown
 
+  employee: z
+    .object({
+      fname: z.string(),
+      lname: z.string(),
+    })
+    .optional(),
+
   // Immigration
   processing_type: z.string(), // Dropdown
   who_is_going_to_pay_premium: z.string(),

@@ -26,7 +26,7 @@ const initialData = {
   key: '',
   project: '',
   billable: true,
-  total_hours: 1,
+  total_hours: 0,
   project_update: '',
 }
 
@@ -101,16 +101,17 @@ const TimesheetInputTile: React.FC<TimesheetInputTileProps> = (props) => {
             </td>
             <td className={classes.td}>
               <TextInput
-                value={field.total_hours}
-                type={'number'}
-                placeholder="Total HRS"
+                type={'text'}
+                placeholder="Total Hours"
                 withAsterisk
-                onChange={({ target }) =>
-                  updateData({
-                    ...field,
-                    total_hours: +(target.value || 0),
-                  })
-                }
+                onChange={({ target }) => {
+                  if (target.value) {
+                    updateData({
+                      ...field,
+                      total_hours: +target.value,
+                    })
+                  }
+                }}
               />
             </td>
             <td className={classes.td}>
