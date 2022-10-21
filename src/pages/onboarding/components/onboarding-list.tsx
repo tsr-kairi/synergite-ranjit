@@ -1,5 +1,6 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { onboardingStatusList } from '@/data/onboarding-status.data'
+import useGetAllDepartment from '@/pages/department/hooks/useGetAllDepartment'
 import { Th } from '@/pages/employee/employee-list'
 import { getOnboardingList } from '@/services/onboarding.services'
 import theme from '@/theme/theme'

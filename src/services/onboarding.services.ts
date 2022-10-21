@@ -88,11 +88,11 @@ export const getOnboardingByUUID = async (onboardingUUID: string) => {
 
 export const getActivitiesByOnboardingId = async (
   onboardingId: string,
-  department: TDepartment
+  departmentUUID: string
 ) => {
   try {
     const { data } = await axiosPrivate.get<{ data: IActivityResponse[] }>(
-      `/activity/filter/dept?onboarding_id=${onboardingId}&dept_uuid=${department}`
+      `/activity/filter/dept?onboarding_id=${onboardingId}&dept_uuid=${departmentUUID}`
     )
     return data.data
   } catch (error) {

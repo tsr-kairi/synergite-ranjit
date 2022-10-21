@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react'
 import { getActivitiesByOnboardingId } from '@/services/onboarding.services'
 import { Button, Group, Loader, Paper } from '@mantine/core'
 import { useQuery } from 'react-query'
+import useGetAllDepartment from '@/pages/department/hooks/useGetAllDepartment'
 
 type TDepartment = 'Accounts' | 'Contracts' | 'HR' | 'Immigration'
 
 interface OnboardingActivity {
   onboardingId: string
-  onDepartmentChange: (department: string) => void
+  onDepartmentChange: (departmentUUID: string) => void
   onPressed: (activityId: string) => void
 }
 
@@ -17,17 +18,15 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
   onDepartmentChange,
   onPressed,
 }) => {
-  const [selectedDepartment, setSelectedDepartment] =
-    useState<TDepartment>('Accounts')
+  const [selectedDepartmentUUID, setSelectedDepartUUID] = useState<string>('')
 
   const { data, isLoading, error } = useQuery(
-    ['activity-by-department', selectedDepartment],
-    () => getActivitiesByOnboardingId(onboardingId, selectedDepartment)
+    ['activity-by-department', selectedDepartmentUUID],
+    () =>
+      selectedDepartmentUUID
+        ? getActivitiesByOnboardingId(onboardingId, selectedDepartmentUUID)
+        : null
   )
-
-  useEffect(() => {
-    onDepartmentChange(selectedDepartment)
-  }, [selectedDepartment])
 
   let element: React.ReactNode = <></>
 
@@ -50,7 +49,7 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
           padding: '20px',
         }}
       >
-        {selectedDepartment} Not Found
+        Not Found
       </Paper>
     )
   } else if (isLoading) {
@@ -60,32 +59,13 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
   return (
     <div>
       {/* Departments  */}
-      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-        <Button
-          onClick={() => setSelectedDepartment('Accounts')}
-          variant={selectedDepartment === 'Accounts' ? 'filled' : 'light'}
-        >
-          Account
-        </Button>
-        <Button
-          onClick={() => setSelectedDepartment('Contracts')}
-          variant={selectedDepartment === 'Contracts' ? 'filled' : 'light'}
-        >
-          Contracts
-        </Button>
-        <Button
-          onClick={() => setSelectedDepartment('HR')}
-          variant={selectedDepartment === 'HR' ? 'filled' : 'light'}
-        >
-          HR
-        </Button>
-        <Button
-          onClick={() => setSelectedDepartment('Immigration')}
-          variant={selectedDepartment === 'Immigration' ? 'filled' : 'light'}
-        >
-          Immigration
-        </Button>
-      </div>
+      <Department
+        onDepartmentChange={(departmentUUID) => {
+          setSelectedDepartUUID(departmentUUID)
+          onDepartmentChange(departmentUUID)
+        }}
+        onPressed={() => null}
+      />
 
       <div style={{ marginTop: '40px' }}>{element}</div>
 
@@ -112,3 +92,83 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
 } // End of OnboardingActivity
 
 export default OnboardingActivity
+
+interface DepartmentProps {
+  onDepartmentChange: (departmentUUID: string) => void
+  onPressed: (activityId: string) => void
+}
+
+const Department: React.FC<DepartmentProps> = ({ onDepartmentChange }) => {
+  const [selectedDepartmentUUID, setSelectedDepartUUID] = useState<string>('')
+
+  const { data: departments, isLoading, error } = useGetAllDepartment()
+
+  useEffect(() => {
+    if (!selectedDepartmentUUID && departments?.data) {
+      const initialDepartmentUUID =
+        departments?.data?.find((department) => department.name === 'Accounts')
+          ?.uuid || ''
+
+      if (initialDepartmentUUID) {
+        setSelectedDepartUUID(initialDepartmentUUID)
+        onDepartmentChange(initialDepartmentUUID)
+      }
+    }
+    ;() => setSelectedDepartUUID('')
+  }, [departments?.data])
+
+  let element: React.ReactNode = <></>
+
+  if (error) {
+    element = (
+      <Paper
+        style={{
+          boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.50)',
+          padding: '20px',
+        }}
+      >
+        Error Occurred
+      </Paper>
+    )
+  } else if (!isLoading && !departments) {
+    element = (
+      <Paper
+        style={{
+          boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.50)',
+          padding: '20px',
+        }}
+      >
+        Not Found
+      </Paper>
+    )
+  } else if (isLoading) {
+    element = <Loader variant="dots" />
+  }
+
+  const filteredDepartment =
+    departments?.data
+      ?.filter((department) =>
+        ['Accounts', 'Contracts', 'HR', 'Immigration'].includes(department.name)
+      )
+      ?.reverse() || []
+
+  return (
+    <>
+      {element}
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+        {filteredDepartment?.map(({ uuid, name }) => (
+          <Button
+            key={uuid}
+            onClick={() => {
+              setSelectedDepartUUID(uuid)
+              onDepartmentChange(uuid)
+            }}
+            variant={selectedDepartmentUUID === uuid ? 'filled' : 'light'}
+          >
+            {name}
+          </Button>
+        ))}
+      </div>
+    </>
+  )
+} // End of Department
