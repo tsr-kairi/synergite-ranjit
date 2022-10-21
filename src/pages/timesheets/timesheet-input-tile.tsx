@@ -18,7 +18,7 @@ interface WeeklyData {
   key: string
   project: string
   billable: boolean
-  total_hours: number
+  total_hours?: number
   project_update: string
 }
 
@@ -34,10 +34,11 @@ interface TimesheetInputTileProps {
   week: string
   isFirstItem?: boolean
   isLastItem?: boolean
+  onDataChange: (data: WeeklyData[]) => void
 }
 
 const TimesheetInputTile: React.FC<TimesheetInputTileProps> = (props) => {
-  const { week } = props
+  const { week, onDataChange } = props
 
   const [fields, setFields] = useState<WeeklyData[]>([
     { ...initialData, key: randomId() },
@@ -57,6 +58,7 @@ const TimesheetInputTile: React.FC<TimesheetInputTileProps> = (props) => {
       }
       return doc
     })
+    onDataChange(updatedData)
     setFields(updatedData)
   } // End of updateData
 
@@ -152,8 +154,7 @@ export default TimesheetInputTile
 
 const useStyles = createStyles((theme) => ({
   tr: {
-    // background: 'red !important',
-    borderBottom: '1px solid gray !important',
+    borderBottom: `1px solid ${theme?.colors?.gray?.[4]} !important`,
   },
   td: {
     border: 'none !important',

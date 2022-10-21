@@ -33,44 +33,11 @@ const initialData = {
 }
 
 const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
-  const [fields, setFields] = useState<WeeklyData[]>([
-    { ...initialData, key: randomId() },
-  ])
+  const [fields, setFields] = useState<{ [key: string]: WeeklyData[] }>({})
 
   const { classes } = useStyles()
 
-  const addNewData = () => {
-    initialData.key = randomId()
-    setFields((prevState) => [...prevState, initialData])
-  } // End of addNewData
-
-  const updateData = (data: WeeklyData) => {
-    const updatedData = fields.map((doc) => {
-      if (doc.key === data.key) {
-        return data
-      }
-      return doc
-    })
-    setFields(updatedData)
-  } // End of updateData
-
-  const deleteData = (key: string) => {
-    const updatedData = fields.filter((doc) => doc.key !== key)
-    setFields(updatedData)
-  } // End of deleteData
-
-  const calculateTotalBillableHours = () => {
-    let totalBillableHours = 0
-    for (const field of fields) {
-      if (field.billable) {
-        totalBillableHours += field.total_hours
-      }
-    }
-    return totalBillableHours
-  } // End of calculateTotalBillableHours
-
   const splitWeek = week?.trim()?.split(' - ')
-  console.log('splitWeek =', splitWeek)
   const weekDay = splitWeek[0].split('/')[0]
   const weekFirstDay = +splitWeek[0].split('/')[1]
   const weekLastDay = +splitWeek[1].split('/')[1]
@@ -82,10 +49,48 @@ const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
     startWeekDay++
   ) {
     const timesheetInputTile = (
-      <TimesheetInputTile week={`${weekDay}/${startWeekDay}`} />
+      <TimesheetInputTile
+        week={`${weekDay}/${startWeekDay}`}
+        onDataChange={(data) => {
+          setFields((prevState) => ({
+            ...prevState,
+            [startWeekDay]: data,
+          }))
+        }}
+      />
     )
     timesheetInputTileList.push(timesheetInputTile)
   }
+
+  const onSubmitHandler = () => {
+    // Send HTTP Request
+    const allWeeklyDataList = []
+    for (const weeklyDataList of Object.values(fields || {})) {
+      allWeeklyDataList.push(...weeklyDataList)
+    }
+
+    console.log('allWeeklyDataList =', allWeeklyDataList)
+  } // End of onSubmitHandler
+
+  const calculateTotalHours = () => {
+    let totalHours = 0
+    let totalBillableHours = 0
+    let totalNonBillableHours = 0
+    for (const weeklyDataList of Object.values(fields || {})) {
+      for (const weeklyData of weeklyDataList) {
+        totalHours += weeklyData.total_hours
+
+        if (weeklyData.billable) {
+          totalBillableHours += weeklyData.total_hours
+        } else {
+          totalNonBillableHours += weeklyData.total_hours
+        }
+      }
+    }
+    return { totalHours, totalBillableHours, totalNonBillableHours }
+  } // End of calculateTotalBillableHours
+
+  const { totalBillableHours, totalNonBillableHours } = calculateTotalHours()
 
   return (
     <>
@@ -97,14 +102,7 @@ const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
             <th className={classes.th}>Billable/Not</th>
             <th className={classes.th}>Total Hrs</th>
             <th className={classes.th}>Project Updates</th>
-            <th className={classes.th}>
-              {/* <IconPlus
-                size={24}
-                color={'green'}
-                style={{ marginRight: '8px' }}
-                onClick={addNewData}
-              /> */}
-            </th>
+            <th className={classes.th}></th>
           </tr>
         </thead>
 
@@ -118,135 +116,19 @@ const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
           justifyContent: 'center',
         }}
       >
-        <p>
-          Total Billable Time:{' '}
-          {calculateTotalBillableHours().toString() + '.00'}
-        </p>
-        <Button ml={80}>Submit</Button>
+        <div>
+          <p>Total Billable Time: {totalBillableHours.toString() + '.00'}</p>
+          <p>
+            Total Non Billable Time: {totalNonBillableHours.toString() + '.00'}
+          </p>
+        </div>
+        <Button ml={80} onClick={onSubmitHandler}>
+          Submit
+        </Button>
       </div>
     </>
   )
 }
-
-const TimesheetTile: React.FC<{ week: string }> = ({ week }) => {
-  const [fields, setFields] = useState<WeeklyData[]>([
-    { ...initialData, key: randomId() },
-  ])
-
-  const { classes } = useStyles()
-
-  const addNewData = () => {
-    initialData.key = randomId()
-    setFields((prevState) => [...prevState, initialData])
-  } // End of addNewData
-
-  const updateData = (data: WeeklyData) => {
-    const updatedData = fields.map((doc) => {
-      if (doc.key === data.key) {
-        return data
-      }
-      return doc
-    })
-    setFields(updatedData)
-  } // End of updateData
-
-  const deleteData = (key: string) => {
-    const updatedData = fields.filter((doc) => doc.key !== key)
-    setFields(updatedData)
-  } // End of deleteData
-
-  return (
-    <Table horizontalSpacing="md" verticalSpacing="xs">
-      <thead>
-        <tr className={classes.tr}>
-          <th className={classes.th}>Date</th>
-          <th className={classes.th}>Project</th>
-          <th className={classes.th}>Billable/Not</th>
-          <th className={classes.th}>Total Hrs</th>
-          <th className={classes.th}>Project Updates</th>
-          <th className={classes.th}>
-            <IconPlus
-              size={24}
-              color={'green'}
-              style={{ marginRight: '8px' }}
-              onClick={addNewData}
-            />
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {fields.map((field) => {
-          return (
-            <tr key={field.key} className={classes.tr}>
-              <td>
-                <td>{week}</td>
-              </td>
-              <td>
-                <TextInput
-                  value={field.project}
-                  placeholder="Project"
-                  withAsterisk
-                  onChange={({ target }) =>
-                    updateData({
-                      ...field,
-                      project: target.value,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <Checkbox
-                  checked={field.billable}
-                  label="Billable or non-billable"
-                  onChange={() =>
-                    updateData({
-                      ...field,
-                      billable: !field.billable,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <TextInput
-                  value={field.total_hours}
-                  type={'number'}
-                  placeholder="Total HRS"
-                  withAsterisk
-                  onChange={({ target }) =>
-                    updateData({
-                      ...field,
-                      total_hours: +(target.value || 0),
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <Textarea
-                  value={field.project_update}
-                  onChange={({ target }) =>
-                    updateData({
-                      ...field,
-                      project_update: target.value,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <IconTrash
-                  size={24}
-                  color={'red'}
-                  style={{ marginRight: '8px', cursor: 'pointer' }}
-                  onClick={() => deleteData(field.key)}
-                />
-              </td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </Table>
-  )
-} // End of TimesheetTile
 
 export default CreateTimeSheet
 
