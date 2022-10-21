@@ -16,7 +16,7 @@ import { IconExternalLink } from '@tabler/icons'
 import EmployeeDetailsForm from './details/employeeDetailsForm'
 import VendorDetailsForm from './details/vendorDetailsForm'
 import { TCandidate } from '@/types/candidate-type'
-import { TRecruiters, TRecruitersFindAll } from '@/types/recruiters-type'
+import { TRecruitersFindAll } from '@/types/recruiters-type'
 import { TJobs, TVendor } from '@/types'
 import EmployeeIdList from './employeeIdList'
 import useCreateSubmission from '@/pages/client/client-details/jobs/submissions/hooks/useCreateSubmission'
@@ -41,19 +41,16 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const params = new URLSearchParams(search)
   const clientUuid = params.get('client_id')
   const { jobId } = useParams()
+  // console.log('newJobId', jobId)
 
   const { classes } = useStyles()
   const { mutate: addSubmission } = useCreateSubmission()
   const [employeeOpened, setEmployeeOpened] = useState(false)
   const [vendorOpened, setVendorOpened] = useState(false)
 
-  const [recruiterData] = useState({} as TRecruiters)
-
   const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
-  const [employeeType, setEmployeeType] = useState({} as TJobs)
-
-  console.log('empType', employeeType)
+  // const [employeeType] = useState({} as TJobs)
 
   const [vendorListOpened, vendorListIsOpened] = useState(false)
   const [employeeListOpened, employeeListIsOpened] = useState(false)
@@ -97,8 +94,6 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     recruitersQueryKeys.recruiters,
     findAlRecruiter
   )
-
-  console.log('recruiters', recruiters)
 
   const handleSubmit = (values: TSubmissionCreate) => {
     const submissionCreateData = {
@@ -151,35 +146,32 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
-          {employeeType.job_status === 'active' && (
-            <TextInput
-              mt="md"
-              required
-              label="Vendor"
-              type={'text'}
-              placeholder="Vendor"
-              onClick={() => {
-                vendorListIsOpened(true)
-              }}
-              // onChange={() => {
-              //   setEmployeeType(employeeType)
-              // }}
-              value={vendorName || ''}
-              rightSection={
-                vendorDetails?.uuid ? (
-                  <IconExternalLink
-                    size="20"
-                    color="grey"
-                    cursor="pointer"
-                    onClick={() => {
-                      setVendorOpened(true)
-                      // setVendorDetails()
-                    }}
-                  />
-                ) : null
-              }
-            />
-          )}
+          {/* {employeeType.state === 'UP' && ( */}
+          <TextInput
+            mt="md"
+            required
+            label="Vendor"
+            type={'text'}
+            placeholder="Vendor"
+            onClick={() => {
+              vendorListIsOpened(true)
+            }}
+            value={vendorName || ''}
+            rightSection={
+              vendorDetails?.uuid ? (
+                <IconExternalLink
+                  size="20"
+                  color="grey"
+                  cursor="pointer"
+                  onClick={() => {
+                    setVendorOpened(true)
+                    // setVendorDetails()
+                  }}
+                />
+              ) : null
+            }
+          />
+          {/* )} */}
           <Grid mt="md">
             <Grid.Col span={12}>
               <Select
@@ -197,12 +189,11 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <Select
             mt={'md'}
             data={
-              recruiters?.data.map((r) => {
-                return {
-                  value: r.uuid,
-                  label: r.fname,
-                }
-              }) || []
+              recruiters?.data
+                ? recruiters?.data.map((r) => {
+                    return { value: r.uuid, label: r.fname }
+                  })
+                : []
             }
             label="Recruiters"
             type={'text'}
