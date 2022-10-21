@@ -42,7 +42,7 @@ const useStyles = createStyles((theme) => ({
     flexDirection: 'column',
     minHeight: 900,
     width: `40%`,
-    backgroundColor: theme.colors.blue[9],
+    backgroundColor: '#04334c',
 
     [theme.fn.smallerThan('xl')]: {
       width: '40%',
@@ -73,7 +73,8 @@ const useStyles = createStyles((theme) => ({
     fontSize: '1.4rem',
   },
   password: {
-    color: theme.colors.accent[9],
+    // color: theme.colors.accent[9],
+    color: 'rgba(252,185,0,1)',
     fontWeight: 700,
   },
   loginImg: {
@@ -181,6 +182,7 @@ export function Login() {
                   weight={700}
                   // onClick={(event) => event.preventDefault()}
                   align="right"
+                  color="#04334c"
                 >
                   Forgot Password
                 </Text>
@@ -190,8 +192,8 @@ export function Login() {
               inherit
               theme={{
                 defaultGradient: {
-                  from: 'orange',
-                  to: 'red',
+                  from: 'rgba(252,185,0,1)',
+                  to: 'rgba(252,185,0,1)',
                   deg: 45,
                 },
               }}
