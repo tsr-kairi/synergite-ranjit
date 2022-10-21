@@ -128,7 +128,6 @@ export default function EditForm(submissionData: TSubmission) {
             <Grid.Col span={6}>
               <Select
                 data={[
-                  { value: 'Unknown', label: 'Unknown' },
                   { value: 'Selected', label: 'Selected' },
                   { value: 'Rejected', label: 'Rejected' },
                   { value: 'On Hold', label: 'On Hold' },

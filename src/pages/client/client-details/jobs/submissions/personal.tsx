@@ -1,12 +1,17 @@
+import TextDivider from '@/components/elements/text-divider'
 import {
-  Avatar,
-  Text,
   createStyles,
   Group,
   Loader,
-  Button,
+  Paper,
+  TextInput,
+  Select,
+  FileInput,
+  ActionIcon,
+  Tooltip,
+  Accordion,
 } from '@mantine/core'
-import { IconArrowAutofitDown, IconArrowBackUp } from '@tabler/icons'
+import { IconArrowBackUp, IconBriefcase } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
 import useGetJobById from '../../../hooks/useGetJobById'
 
@@ -38,6 +43,7 @@ const useStyles = createStyles((theme) => ({
   },
   personalDetailsMain: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     padding: '10px',
     gap: '10px',
@@ -75,6 +81,9 @@ const useStyles = createStyles((theme) => ({
       color: theme.colors.blue[9],
     },
   },
+  paper: {
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+  },
 }))
 
 export default function Personal() {
@@ -85,7 +94,12 @@ export default function Personal() {
 
   const { classes } = useStyles()
 
-  const { data, isError, error, isLoading } = useGetJobById(String(jobId))
+  const {
+    data: jobDetails,
+    isError,
+    error,
+    isLoading,
+  } = useGetJobById(String(jobId))
 
   if (isError) {
     console.log(error)
@@ -101,124 +115,355 @@ export default function Personal() {
   }
 
   return (
-    <div className={classes.main}>
-      {/* back to Client table list */}
-      <div>
-        <Group position="apart">
-          <Link
-            to={`/client-details/${String(clientId)}`}
-            className={classes.userLink}
+    <Paper p={20} mt={30} radius="sm" className={classes.paper}>
+      <Group position="apart">
+        <Link
+          to={`/client-details/${String(clientId)}`}
+          className={classes.userLink}
+        >
+          <Tooltip
+            label="Back to Client details"
+            color="blue"
+            withArrow
+            transition="slide-left"
+            transitionDuration={500}
           >
-            <Button
-              className={classes.detailHead}
-              rightIcon={<IconArrowBackUp />}
-              variant="subtle"
-            >
-              Back to Client Details
-            </Button>
-          </Link>
+            <ActionIcon variant="light" radius="xl" color={'blue'}>
+              <IconArrowBackUp size={18} />
+            </ActionIcon>
+          </Tooltip>
+        </Link>
+        <ActionIcon variant="light" radius="xl" color={'blue'}>
+          <IconBriefcase size={18} />
+        </ActionIcon>
+      </Group>
+      {/* main details */}
+      <Accordion defaultValue="job_details">
+        <Accordion.Item value="job_details" style={{ borderBottom: 'none' }}>
+          <Accordion.Control style={{ padding: '0' }}>
+            <TextDivider label="Job Details" />
+          </Accordion.Control>
 
-          <IconArrowAutofitDown color="lightBlue" style={{}} />
-        </Group>
-      </div>
-      <div className={classes.personalDetailsMain}>
-        <div className={classes.clientUserCard}>
-          <Avatar size={40} radius={120} mx="auto" color="cyan">
-            J
-          </Avatar>
-          <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-            {data?.data?.title}
-          </Text>
-        </div>
-        <div className={classes.personalDetailsInner}>
-          <Text size="lg" color="blue" weight={600} mb="xs">
-            Job Details
-          </Text>
-          <div className={classes.personalDetails}>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Job Title :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.title}
-              </Text>
+          {/* Job Details */}
+          <Accordion.Panel>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Job ID"
+                type={'text'}
+                placeholder="Job-001"
+                // value={jobDetails?.data?.job_id}
+              />
+              <TextInput
+                readOnly={true}
+                label="Client request ID"
+                type={'text'}
+                placeholder="Client request ID"
+                value={jobDetails?.data?.client_req_id}
+              />
+              <TextInput
+                readOnly={true}
+                label="Start Date"
+                type={'date'}
+                placeholder="Start Date"
+                value={jobDetails?.data?.start_date}
+              />
+              <TextInput
+                readOnly={true}
+                label="City"
+                type={'text'}
+                placeholder="City"
+                value={jobDetails?.data?.city}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>City :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.city}
-              </Text>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="State"
+                type={'text'}
+                placeholder="State"
+                value={jobDetails?.data?.state}
+              />
+              <TextInput
+                readOnly={true}
+                label="Country"
+                type={'text'}
+                placeholder="Country"
+                value={jobDetails?.data?.country}
+              />
+              <TextInput
+                readOnly={true}
+                label="Job Title"
+                type={'text'}
+                placeholder="Job Title"
+                value={jobDetails?.data?.title}
+              />
+              <TextInput
+                readOnly={true}
+                label="No of Positions"
+                type={'text'}
+                placeholder="No of Positions"
+                // value={jobDetails?.data?.no_positions}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>State :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.state}
-              </Text>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Priority"
+                type={'text'}
+                placeholder="Priority"
+                // value={jobDetails?.data?.priority}
+              />
+              <TextInput
+                readOnly={true}
+                label="Priority reason"
+                type={'text'}
+                placeholder="Priority reason"
+                // value={jobDetails?.data?.priority_reason}
+              />
+              <TextInput
+                readOnly={true}
+                label="Status"
+                type={'text'}
+                placeholder="Status"
+                // value={jobDetails?.data?.job_status}
+              />
+              <TextInput
+                readOnly={true}
+                label="Employee Type"
+                type={'text'}
+                placeholder="Employee Type"
+                // value={jobDetails?.data?.employee_type}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Country :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.country}
-              </Text>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Work Experience"
+                type={'text'}
+                placeholder="Work Experience"
+                // value={jobDetails?.data?.work_experience}
+              />
+              <TextInput
+                readOnly={true}
+                label="Primary Skills"
+                type={'text'}
+                placeholder="Primary Skills"
+                value={jobDetails?.data?.primary_skills}
+              />
+              <TextInput
+                readOnly={true}
+                label="Secondary Skills"
+                type={'text'}
+                placeholder="Secondary Skills"
+                value={jobDetails?.data?.secondary_skills}
+              />
+              <TextInput
+                readOnly={true}
+                label="Visa Status"
+                type={'text'}
+                placeholder="Visa Status"
+                value={jobDetails?.data?.visa_status}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Primary Skills :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.primary_skills}
-              </Text>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Languages"
+                type={'text'}
+                placeholder="Languages"
+                // value={jobDetails?.data?.languages}
+              />
+              <TextInput
+                readOnly={true}
+                label="Industry"
+                type={'text'}
+                placeholder="Industry"
+                // value={jobDetails?.data?.industry}
+              />
+              <TextInput
+                readOnly={true}
+                label="Client Contact Email"
+                type={'text'}
+                placeholder="Client Contact Email"
+                // value={jobDetails?.data?.client_contact_email}
+              />
+              <TextInput
+                readOnly={true}
+                label="Client Contact Phone"
+                type={'text'}
+                placeholder="Client Contact Phone"
+                // value={jobDetails?.data?.client_contact_phone}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Secondary Skills :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.secondary_skills}
-              </Text>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Created By"
+                type={'text'}
+                placeholder="Created By"
+                value={jobDetails?.data?.created_by}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Visa Status :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.visa_status}
-              </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+        {/* Recruitment Team */}
+        <Accordion.Item
+          value="recruitment_team"
+          style={{ borderBottom: 'none' }}
+        >
+          <Accordion.Control style={{ padding: '0' }}>
+            <TextDivider label="Recruitment Team" />
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Recruitment Manager"
+                type={'text'}
+                placeholder="Recruitment Manager"
+                // value={jobDetails?.data?.recruitment_manager}
+              />
+              <TextInput
+                readOnly={true}
+                label="Account Manager"
+                type={'text'}
+                placeholder="Account Manager"
+                // value={jobDetails?.data?.account_manager}
+              />
+              <TextInput
+                readOnly={true}
+                label="Recruiters"
+                type={'text'}
+                placeholder="Recruiters"
+                // value={jobDetails?.data?.recruiters}
+              />
+              <TextInput
+                readOnly={true}
+                label="Source"
+                type={'text'}
+                placeholder="Source"
+                // value={jobDetails?.data?.source}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Start Date :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.start_date}
-              </Text>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Additional Recruiters"
+                type={'text'}
+                placeholder="Additional Recruiters"
+                // value={jobDetails?.data?.additional_recruiters}
+              />
+              <TextInput
+                readOnly={true}
+                label="Maximum Submissions"
+                type={'text'}
+                placeholder="Maximum Submissions"
+                // value={jobDetails?.data?.maximum_submissions}
+              />
+              <TextInput
+                readOnly={true}
+                label="Interview Panel"
+                type={'text'}
+                placeholder="Interview Panel"
+                // value={jobDetails?.data?.interview_panel}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Pay Rate :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.pay_rate}
-              </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+        {/* Pay & Billing Details */}
+        <Accordion.Item
+          value="pay_and_billing_details"
+          style={{ borderBottom: 'none' }}
+        >
+          <Accordion.Control style={{ padding: '0' }}>
+            <TextDivider label="Pay & Billing Details" />
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Client Contract Period"
+                type={'text'}
+                placeholder="Client Contract Period"
+                // value={jobDetails?.data?.client_contract_period}
+              />
+              <TextInput
+                readOnly={true}
+                label="Job Type"
+                type={'text'}
+                placeholder="Job Type"
+                value={jobDetails?.data?.job_type}
+              />
+              <TextInput
+                readOnly={true}
+                label="W2 Pay Rate"
+                type={'text'}
+                placeholder="W2 Pay Rate"
+                // value={jobDetails?.data?.w2_ray_rate}
+              />
+              <TextInput
+                readOnly={true}
+                label="Contract Period"
+                type={'text'}
+                placeholder="Contract Period"
+                // value={jobDetails?.data?.contract_period}
+              />
+              <TextInput
+                readOnly={true}
+                label="Contract Period"
+                type={'text'}
+                placeholder="Contract Period"
+                // value={jobDetails?.data?.contract_period}
+              />
             </Group>
-            <Group spacing="xs">
-              <Text size="sm" color="#686969" weight={400}>
-                <b>Status :</b>
-              </Text>
-              <Text size="sm" color="#686969" weight={400}>
-                {data?.data?.job_status}
-              </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        {/* Job Description */}
+        <Accordion.Item
+          value="job_description"
+          style={{ borderBottom: 'none' }}
+        >
+          <Accordion.Control style={{ padding: '0' }}>
+            <TextDivider label="Job Description" />
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Group grow align="center" mt="md">
+              <TextInput
+                readOnly={true}
+                label="Job Domain"
+                type={'text'}
+                placeholder="Job Domain"
+                // value={jobDetails?.data?.job_domain}
+              />
+              <TextInput
+                readOnly={true}
+                label="Job Description"
+                type={'text'}
+                placeholder="Job Description"
+                // value={jobDetails?.data?.job_description}
+              />
             </Group>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value="attachments" style={{ borderBottom: 'none' }}>
+          <Accordion.Control style={{ padding: '0' }}>
+            <TextDivider label="Attachments" />
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Group grow align="center" mt="md">
+              <FileInput
+                label="Attachments"
+                placeholder="Attachments"
+                // value={jobDetails?.data?.attachments}
+
+                // accept="image/png,image/jpeg, "
+              />
+            </Group>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </Paper>
   )
 }
-

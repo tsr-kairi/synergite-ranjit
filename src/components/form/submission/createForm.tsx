@@ -16,13 +16,14 @@ import { IconExternalLink } from '@tabler/icons'
 import EmployeeDetailsForm from './details/employeeDetailsForm'
 import VendorDetailsForm from './details/vendorDetailsForm'
 import { TCandidate } from '@/types/candidate-type'
+import { TRecruitersFindAll } from '@/types/recruiters-type'
 import { TJobs, TVendor } from '@/types'
 import EmployeeIdList from './employeeIdList'
 import useCreateSubmission from '@/pages/client/client-details/jobs/submissions/hooks/useCreateSubmission'
 import { useParams } from 'react-router-dom'
 import VendorIdList from './vendorIdList'
 import axiosPrivate from '@/services/axiosPrivate'
-import { candidateQueryKeys } from '@/react-query/queryKeys'
+import { recruitersQueryKeys } from '@/react-query/queryKeys'
 import { useQuery } from 'react-query'
 // import { number } from 'zod'
 const useStyles = createStyles(() => ({
@@ -40,6 +41,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const params = new URLSearchParams(search)
   const clientUuid = params.get('client_id')
   const { jobId } = useParams()
+  // console.log('newJobId', jobId)
 
   const { classes } = useStyles()
   const { mutate: addSubmission } = useCreateSubmission()
@@ -48,7 +50,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
-  const [employeeType, setEmployeeType] = useState({} as TJobs)
+  // const [employeeType] = useState({} as TJobs)
 
   const [vendorListOpened, vendorListIsOpened] = useState(false)
   const [employeeListOpened, employeeListIsOpened] = useState(false)
@@ -79,18 +81,19 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const vendorName = `${vendorDetails?.first_name || ''} ${
     vendorDetails?.last_name || ''
   }`
+  // const recruiterName = `${recruiterData?.fname || ''} ${
+  //   recruiterData?.lname || ''
+  // }`
 
   // get recruiters api function
-  // const findAlRecruiter = async () => {
-  //   const response = await axiosPrivate.get<TCandidateFindAll>(
-  //     `/candidate?active=true`
-  //   )
-  //   return response.data
-  // }
-  // const { data: recruiters } = useQuery<TCandidateFindAll, Error>(
-  //   candidateQueryKeys.allCandidate,
-  //   findAlRecruiter
-  // )
+  const findAlRecruiter = async () => {
+    const response = await axiosPrivate.get<TRecruitersFindAll>(`/recruiters`)
+    return response.data
+  }
+  const { data: recruiters } = useQuery<TRecruitersFindAll, Error>(
+    recruitersQueryKeys.recruiters,
+    findAlRecruiter
+  )
 
   const handleSubmit = (values: TSubmissionCreate) => {
     const submissionCreateData = {
@@ -143,7 +146,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
-          {/* {employeeType.job_status === 'active' && ( */}
+          {/* {employeeType.state === 'UP' && ( */}
           <TextInput
             mt="md"
             required
@@ -153,9 +156,6 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             onClick={() => {
               vendorListIsOpened(true)
             }}
-            // onChange={() => {
-            //   setEmployeeType(employeeType)
-            // }}
             value={vendorName || ''}
             rightSection={
               vendorDetails?.uuid ? (
@@ -188,16 +188,13 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </Grid>
           <Select
             mt={'md'}
-            data={[
-              { value: 'Ram', label: 'Ram' },
-              { value: 'Sham', label: 'Sham' },
-              { value: 'Petter', label: 'Petter' },
-              { value: 'Parker', label: 'Parker' },
-            ]}
-            // data={recruiters?.data.map((r) => {
-            //   value: r.uuid
-            //   label: r.fname
-            // })}
+            data={
+              recruiters?.data
+                ? recruiters?.data.map((r) => {
+                    return { value: r.uuid, label: r.fname }
+                  })
+                : []
+            }
             label="Recruiters"
             type={'text'}
             placeholder="Recruiters"

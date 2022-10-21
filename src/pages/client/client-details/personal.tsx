@@ -6,8 +6,9 @@ import {
   Loader,
   Button,
   Drawer,
+  ActionIcon,
 } from '@mantine/core'
-import { IconArrowBackUp, IconView360 } from '@tabler/icons'
+import { IconAddressBook, IconArrowBackUp, IconView360 } from '@tabler/icons'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useGetClientById from '../hooks/useGetClientById'
@@ -117,15 +118,6 @@ export default function Personal() {
                 Back to Client List
               </Button>
             </Link>
-
-            <Button
-              leftIcon={<IconView360 />}
-              onClick={() => {
-                setOpened(true)
-              }}
-            >
-              View Contacts
-            </Button>
           </Group>
         </div>
         <div className={classes.personalDetailsMain}>
@@ -138,9 +130,9 @@ export default function Personal() {
             </Text>
           </div>
           <div className={classes.personalDetailsInner}>
-            <Text size="lg" color="blue" weight={600} mb="xs">
+            {/* <Text size="lg" color="blue" weight={600} mb="xs">
               Client Details
-            </Text>
+            </Text> */}
 
             <div className={classes.personalDetails}>
               <Group spacing="sm">
@@ -191,6 +183,15 @@ export default function Personal() {
                   {data?.data?.country}
                 </Text>
               </Group>
+              <ActionIcon
+                color={'blue'}
+                // variant="transparent"
+                onClick={() => {
+                  setOpened(true)
+                }}
+              >
+                <IconAddressBook size={26} />
+              </ActionIcon>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TSubmission } from '@/types//submission-type'
+import { TSubmission } from '@/types/submission-type'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
@@ -35,6 +35,7 @@ import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
 import { useNavigate } from 'react-router-dom'
 import axiosPrivate from '@/services/axiosPrivate'
+import { TPreonboard } from '@/types/prebonboard-type'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -227,17 +228,16 @@ export function SubmissionList({ data }: ISubmissionProps) {
     )
   }
 
-  // recruiters api handler
-
-  // handlePreOnboarding handler
-  // const handlePreOnboarding = async (data: TSubmission) => {
+  // handlePreOnboarding handler function
+  // const handlePreOnboarding = async (
+  //   submissionData: TSubmission,
+  //   preonboardData: TPreonboard
+  // ) => {
   //   try {
-  //     await axiosPrivate.post(
-  //       `/onboarding/preonboard?onboard_status=PRE_INITIATED`,
-  //       data
-  //     )
+  //     // delete submissionData.uuid
+  //     await axiosPrivate.post(`/onboarding/preonboard`, preonboardData)
   //     navigate(
-  //       `/onboarding?client_uuid=${data.client_uuid}&vendor_uuid=${data.vendor_uuid}&employee_uuid=${data.employee_uuid}`
+  //       `/onboarding?client_uuid=${submissionData.client_uuid}&vendor_uuid=${submissionData.vendor_uuid}&employee_uuid=${submissionData.employee_uuid}`
   //     )
   //   } catch (error) {
   //     console.log(error)
@@ -257,7 +257,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteSubmission(Submission.uuid)
+        deleteSubmission(Submission?.uuid || '')
         console.log('delete')
         showNotification({
           title: 'Submission Deleted !!',
@@ -285,7 +285,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
             color="blue"
             onClick={() =>
               navigate(
-                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}&submission_uuid=${row.uuid}`
+                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}`
               )
             }
             style={{ cursor: 'pointer' }}
@@ -339,6 +339,14 @@ export function SubmissionList({ data }: ISubmissionProps) {
               <Text weight={400}>Add New</Text>
             </Group>
           </Button>
+          {/* <ActionIcon
+            variant="light"
+            radius="md"
+            color={'blue'}
+            onClick={() => setOpened(true)}
+          >
+            <IconPlus size={26} />
+          </ActionIcon> */}
         </div>
         <Table
           horizontalSpacing="md"

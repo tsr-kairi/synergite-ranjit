@@ -385,8 +385,9 @@ export default function JobsTable({ data }: JobsProps) {
         onClose={() => setOpened(false)}
         title="Add New Job"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
+        transitionDuration={500}
       >
         <CreateJob />
       </Drawer>
