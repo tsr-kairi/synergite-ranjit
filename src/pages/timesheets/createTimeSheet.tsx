@@ -36,6 +36,8 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
 
   const splitWeek = week?.trim()?.split(' - ')
   const weekDay = splitWeek[0].split('/')[0]
+  const startWeekDay = splitWeek[0].split('/')[0]
+  const endWeekDay = splitWeek[1].split('/')[0]
   const weekFirstDay = +splitWeek[0].split('/')[1]
   const weekLastDay = +splitWeek[1].split('/')[1]
 
