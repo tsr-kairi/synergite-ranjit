@@ -52,6 +52,10 @@ const jobQueryKeys = {
   jobs: 'jobs',
 }
 
+const recruitersQueryKeys = {
+  recruiters: 'recruiters',
+}
+
 export {
   clientQueryKeys,
   vendorQueryKeys,
@@ -63,4 +67,5 @@ export {
   departmentQueryKeys,
   rolesQueryKeys,
   jobQueryKeys,
+  recruitersQueryKeys,
 }

@@ -1,5 +1,4 @@
-import theme from '@/theme/theme'
-import { Navbar, ScrollArea, createStyles } from '@mantine/core'
+import { createStyles } from '@mantine/core'
 import {
   IconLayoutDashboard,
   IconWallet,
@@ -7,8 +6,6 @@ import {
   IconFileAnalytics,
   IconSettings,
   IconContrast2,
-  IconTableOptions,
-  IconUsers,
 } from '@tabler/icons'
 
 import LinksGroup from './NavBarLinksGroup'
@@ -50,7 +47,7 @@ const mockdata = [
   // { label: 'Employees', icon: IconUsers, url: '/employee' },
   // { label: 'Activities', icon: IconActivity, url: '/activity' },
   // { label: 'Contacts', icon: IconFileAnalytics },
-  { label: 'TimeSheets', icon: IconFileAnalytics, url:'/timesheets' },
+  { label: 'TimeSheets', icon: IconFileAnalytics, url: '/timesheets' },
 
   { label: 'On Boarding List', icon: IconContrast2, url: '/onboarding-list' },
   { label: 'Job', icon: IconContrast2, url: '/job' },
@@ -113,22 +110,6 @@ const NavBar: React.FC<NavBarProps> = ({ isBurgerIconOpen }) => {
     >
       <div className={classes.linksInner}>{links}</div>
     </div>
-  )
-
-  return (
-    <Navbar
-      hiddenBreakpoint="sm"
-      width={{ sm: 200, md: 250, lg: 100 }}
-      hidden={!open}
-      className={classes.mainNav}
-    >
-      <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
-        {/* Main Navbar */}
-        <Navbar.Section grow className={classes.links} component={ScrollArea}>
-          <div className={classes.linksInner}>{links}</div>
-        </Navbar.Section>
-      </Navbar>
-    </Navbar>
   )
 }
 

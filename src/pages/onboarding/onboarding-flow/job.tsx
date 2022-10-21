@@ -6,6 +6,7 @@ import {
   Divider,
   Box,
   Select,
+  Textarea,
 } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
 import { IconChevronsRight } from '@tabler/icons'
@@ -95,7 +96,7 @@ export default function Job({ form }: onboardingStepperProps) {
             </>
           }
         />
-        <Group grow align="center" mt="md">
+        <Group grow>
           <Select
             label="Overtime Exemption"
             placeholder="Overtime Exemption"
@@ -105,9 +106,9 @@ export default function Job({ form }: onboardingStepperProps) {
               { value: 'no', label: 'No' },
             ]}
           />
-          <TextInput
+          <Textarea
+            mt={'30px'}
             label="Remarks"
-            type={'text'}
             placeholder="Remarks"
             {...form.getInputProps('remarks')}
           />
