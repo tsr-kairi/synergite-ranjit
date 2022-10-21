@@ -14,7 +14,6 @@ import { Th } from '../employee/employee-list'
 import React, { useState } from 'react'
 import { IconPlus, IconSubmarine, IconTrash } from '@tabler/icons'
 import { randomId } from '@mantine/hooks'
-import TimesheetInputTile from './timesheet-input-tile'
 
 interface WeeklyData {
   key: string
@@ -69,24 +68,6 @@ const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
     return totalBillableHours
   } // End of calculateTotalBillableHours
 
-  const splitWeek = week?.trim()?.split(' - ')
-  console.log('splitWeek =', splitWeek)
-  const weekDay = splitWeek[0].split('/')[0]
-  const weekFirstDay = +splitWeek[0].split('/')[1]
-  const weekLastDay = +splitWeek[1].split('/')[1]
-
-  const timesheetInputTileList = []
-  for (
-    let startWeekDay = weekFirstDay;
-    startWeekDay <= weekLastDay;
-    startWeekDay++
-  ) {
-    const timesheetInputTile = (
-      <TimesheetInputTile week={`${weekDay}/${startWeekDay}`} />
-    )
-    timesheetInputTileList.push(timesheetInputTile)
-  }
-
   return (
     <>
       <Table horizontalSpacing="md" verticalSpacing="xs">
@@ -98,18 +79,94 @@ const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
             <th className={classes.th}>Total Hrs</th>
             <th className={classes.th}>Project Updates</th>
             <th className={classes.th}>
-              {/* <IconPlus
+              <IconPlus
                 size={24}
                 color={'green'}
                 style={{ marginRight: '8px' }}
                 onClick={addNewData}
-              /> */}
+              />
             </th>
           </tr>
         </thead>
 
-        <tbody>{timesheetInputTileList}</tbody>
+        <tbody>
+          {fields.map((field) => {
+            return (
+              <tr key={field.key} className={classes.tr}>
+                <td>
+                  <td>{week}</td>
+                </td>
+                <td>
+                  <TextInput
+                    value={field.project}
+                    placeholder="Project"
+                    withAsterisk
+                    onChange={({ target }) =>
+                      updateData({
+                        ...field,
+                        project: target.value,
+                      })
+                    }
+                  />
+                </td>
+                <td>
+                  <Checkbox
+                    checked={field.billable}
+                    label="Billable or non-billable"
+                    onChange={() =>
+                      updateData({
+                        ...field,
+                        billable: !field.billable,
+                      })
+                    }
+                  />
+                </td>
+                <td>
+                  <TextInput
+                    value={field.total_hours}
+                    type={'number'}
+                    placeholder="Total HRS"
+                    withAsterisk
+                    onChange={({ target }) =>
+                      updateData({
+                        ...field,
+                        total_hours: +(target.value || 0),
+                      })
+                    }
+                  />
+                </td>
+                <td>
+                  <Textarea
+                    value={field.project_update}
+                    onChange={({ target }) =>
+                      updateData({
+                        ...field,
+                        project_update: target.value,
+                      })
+                    }
+                  />
+                </td>
+                <td>
+                  <IconTrash
+                    size={24}
+                    color={'red'}
+                    style={{ marginRight: '8px', cursor: 'pointer' }}
+                    onClick={() => deleteData(field.key)}
+                  />
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
       </Table>
+
+      <TimesheetTile week={week} />
+      <TimesheetTile week={week} />
+      <TimesheetTile week={week} />
+      <TimesheetTile week={week} />
+      <TimesheetTile week={week} />
+      <TimesheetTile week={week} />
+      <TimesheetTile week={week} />
 
       <div
         style={{
