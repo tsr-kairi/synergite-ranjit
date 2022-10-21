@@ -2,6 +2,7 @@ import { ListViewLayout } from '@/components/layout/list-view.layout'
 import {
   ActionIcon,
   Button,
+  Card,
   Checkbox,
   createStyles,
   Select,
@@ -15,6 +16,7 @@ import React, { useState } from 'react'
 import { IconPlus, IconSubmarine, IconTrash } from '@tabler/icons'
 import { randomId } from '@mantine/hooks'
 import TimesheetInputTile from './timesheet-input-tile'
+import TimesheetOverviewTile from './timesheet-overview-tile'
 
 interface WeeklyData {
   key: string
@@ -24,15 +26,10 @@ interface WeeklyData {
   project_update: string
 }
 
-const initialData = {
-  key: '',
-  project: '',
-  billable: false,
-  total_hours: 1,
-  project_update: '',
-}
-
-const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
+const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
+  week,
+  onBackClick,
+}) => {
   const [fields, setFields] = useState<{ [key: string]: WeeklyData[] }>({})
 
   const { classes } = useStyles()
@@ -94,38 +91,45 @@ const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
 
   return (
     <>
-      <Table horizontalSpacing="md" verticalSpacing="xs">
-        <thead>
-          <tr className={classes.tr}>
-            <th className={classes.th}>Date</th>
-            <th className={classes.th}>Project</th>
-            <th className={classes.th}>Billable/Not</th>
-            <th className={classes.th}>Total Hrs</th>
-            <th className={classes.th}>Project Updates</th>
-            <th className={classes.th}></th>
-          </tr>
-        </thead>
+      <Card mb={16}>
+        <TimesheetOverviewTile onBackClick={onBackClick} />
+      </Card>
 
-        <tbody>{timesheetInputTileList}</tbody>
-      </Table>
+      <Card>
+        <Table horizontalSpacing="md" verticalSpacing="xs">
+          <thead>
+            <tr className={classes.tr}>
+              <th className={classes.th}>Date</th>
+              <th className={classes.th}>Project</th>
+              <th className={classes.th}>Billable/Not</th>
+              <th className={classes.th}>Total Hrs</th>
+              <th className={classes.th}>Project Updates</th>
+              <th className={classes.th}></th>
+            </tr>
+          </thead>
 
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <div>
-          <p>Total Billable Time: {totalBillableHours.toString() + '.00'}</p>
-          <p>
-            Total Non Billable Time: {totalNonBillableHours.toString() + '.00'}
-          </p>
+          <tbody>{timesheetInputTileList}</tbody>
+        </Table>
+
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div>
+            <p>Total Billable Time: {totalBillableHours.toString() + '.00'}</p>
+            <p>
+              Total Non Billable Time:{' '}
+              {totalNonBillableHours.toString() + '.00'}
+            </p>
+          </div>
+          <Button ml={80} onClick={onSubmitHandler}>
+            Submit
+          </Button>
         </div>
-        <Button ml={80} onClick={onSubmitHandler}>
-          Submit
-        </Button>
-      </div>
+      </Card>
     </>
   )
 }
