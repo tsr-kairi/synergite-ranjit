@@ -17,7 +17,7 @@ export default AppBar
 
 const useAppBarStyles = createStyles((theme) => ({
   container: {
-    backgroundColor: theme.colors.blue,
+    backgroundColor: '#04334c',
     width: '100%',
   },
 }))

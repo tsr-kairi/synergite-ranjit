@@ -6,19 +6,18 @@ import {
   Loader,
   Button,
   Drawer,
-  ActionIcon,
 } from '@mantine/core'
-import { IconAddressBook, IconArrowBackUp, IconView360 } from '@tabler/icons'
+import { IconArrowBackUp, IconView360 } from '@tabler/icons'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import useGetClientById from '../hooks/useGetClientById'
-import Contacts from './contacts'
+import useGetClientById from '../client/hooks/useGetClientById'
 
 const useStyles = createStyles((theme) => ({
   main: {
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
+    marginBottom: '16px',
   },
   clientUserCard: {
     border: `1px solid ${theme.colors.blue[1]}`,
@@ -81,130 +80,97 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function Personal() {
-  const [opened, setOpened] = useState(false)
-  const { clientId } = useParams()
+const TimesheetOverviewTile: React.FC<{ onBackClick?: () => void }> = ({
+  onBackClick,
+}) => {
   const { classes } = useStyles()
 
-  const { data, isError, error, isLoading } = useGetClientById(String(clientId))
-
-  if (isError) {
-    console.log(error)
-    return <h1>An Error Occurred</h1>
-  }
-
-  if (isLoading) {
-    return (
-      <div>
-        <Loader variant="dots" />
-      </div>
-    )
-  }
+  const week = '10/17 - 10/24'
 
   return (
     <>
       <div className={classes.main}>
         <div>
-          <Group position="apart">
-            <Link to={`/client`} className={classes.userLink}>
-              <Button
-                className={classes.detailHead}
-                rightIcon={<IconArrowBackUp />}
-                onClick={() => {
-                  setOpened(true)
-                }}
-                variant="subtle"
-              >
-                Back to Client List
-              </Button>
-            </Link>
-          </Group>
+          <Button
+            className={classes.detailHead}
+            rightIcon={<IconArrowBackUp />}
+            onClick={onBackClick}
+            variant="subtle"
+          >
+            Back to Timesheet List
+          </Button>
         </div>
+
         <div className={classes.personalDetailsMain}>
           <div className={classes.clientUserCard}>
             <Avatar size={40} radius={120} mx="auto" color="cyan">
-              C
+              T
             </Avatar>
             <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              {data?.data?.first_name} {data?.data?.last_name}
+              Vishal
             </Text>
           </div>
+
           <div className={classes.personalDetailsInner}>
-            {/* <Text size="lg" color="blue" weight={600} mb="xs">
-              Client Details
-            </Text> */}
+            <Text size="lg" color="blue" weight={600} mb="xs">
+              Timesheet Details
+            </Text>
 
             <div className={classes.personalDetails}>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Client Name :</b>
+                  <b>Name </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.first_name} {data?.data?.last_name}
+                  Vishal
                 </Text>
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Email :</b>
+                  <b>Week </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.primary_email}
+                  {week}
                 </Text>
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Phone :</b>
+                  <b>Billable </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.primary_phone}
+                  10
                 </Text>
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>City :</b>
+                  <b>Non Billable </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.city}
+                  4
                 </Text>
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>State :</b>
+                  <b>Total Hours </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.state}
+                  14
                 </Text>
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Country :</b>
+                  <b>Status </b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.country}
+                  Active
                 </Text>
               </Group>
-              <ActionIcon
-                color={'blue'}
-                // variant="transparent"
-                onClick={() => {
-                  setOpened(true)
-                }}
-              >
-                <IconAddressBook size={26} />
-              </ActionIcon>
             </div>
           </div>
         </div>
-        <Drawer
-          opened={opened}
-          onClose={() => setOpened(false)}
-          padding="md"
-          size="600px"
-          position="right"
-        >
-          <Contacts />
-        </Drawer>
       </div>
     </>
   )
-}
+} // End of TimesheetOverviewTile
+
+export default TimesheetOverviewTile

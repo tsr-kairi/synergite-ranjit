@@ -61,14 +61,15 @@ const useStyles = createStyles((theme) => ({
     },
   },
   navbar: {
-    backgroundColor: theme.colors.blue[9],
+    backgroundColor: '#04334c',
     height: '100vh',
-    borderTop: `1px solid ${theme.colors.blue[6]}`,
+    borderTop: `1px solid #04334c`,
   },
   links: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    backgroundColor: theme.colors.blue[9],
+    // backgroundColor: theme.colors.blue[9],
+    backgroundColor: '#04334c',
   },
   linksInner: {
     paddingBottom: theme.spacing.xl,
@@ -77,7 +78,8 @@ const useStyles = createStyles((theme) => ({
   // classes
   container: {
     marginTop: '16px',
-    background: theme.colors?.blue?.[9],
+    // background: theme.colors?.blue?.[9],
+    background: '#04334c',
     overflow: 'hidden',
     display: 'flex',
     // '&:hover': {

@@ -26,7 +26,7 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TSubmission } from '@/types//submission-type'
+import { TSubmission } from '@/types/submission-type'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
@@ -35,7 +35,7 @@ import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
 import { useNavigate } from 'react-router-dom'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TOnboarding } from '@/types/onboarding-flow-type'
+import { TPreonboard } from '@/types/prebonboard-type'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -229,10 +229,13 @@ export function SubmissionList({ data }: ISubmissionProps) {
   }
 
   // handlePreOnboarding handler function
-  // const handlePreOnboarding = async (submissionData: TSubmission) => {
+  // const handlePreOnboarding = async (
+  //   submissionData: TSubmission,
+  //   preonboardData: TPreonboard
+  // ) => {
   //   try {
-  //     delete submissionData.uuid
-  //     await axiosPrivate.post(`/onboarding/preonboard`, submissionData)
+  //     // delete submissionData.uuid
+  //     await axiosPrivate.post(`/onboarding/preonboard`, preonboardData)
   //     navigate(
   //       `/onboarding?client_uuid=${submissionData.client_uuid}&vendor_uuid=${submissionData.vendor_uuid}&employee_uuid=${submissionData.employee_uuid}`
   //     )

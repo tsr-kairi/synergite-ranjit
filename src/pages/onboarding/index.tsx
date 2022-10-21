@@ -51,6 +51,8 @@ import CandidateDetails from '@/components/form/details/candidate-details/candid
 import ClientDetails from '@/components/form/details/client-details/clientDetails'
 import VendorDetails from '@/components/form/details/vendor-details/vendorDetails'
 import { randomId } from '@mantine/hooks'
+import axiosPrivate from '@/services/axiosPrivate'
+import { TPreonboard } from '@/types/prebonboard-type'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -139,6 +141,21 @@ export default function Onboarding() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  // const handlePreOnboarding = async (preonboardData: TPreonboard) => {
+  //   try {
+  //     // delete submissionData.uuid
+  //     await axiosPrivate.post(`/onboarding/preonboard`, preonboardData)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (preonboardData) {
+  //     void handlePreOnboarding(preonboardData)
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (onboardingData) {

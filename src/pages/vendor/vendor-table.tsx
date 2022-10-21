@@ -82,15 +82,15 @@ const useStyles = createStyles((theme) => ({
     flex: 1,
   },
   text: {
-    color: theme.colors.blue[9],
+    color: '#04334c',
   },
   filterIcon: {
-    color: theme.colors.blue[8],
+    color: '#04334c',
   },
   editIcon: {
-    color: theme.colors.blue[5],
+    color: '#04334c',
     '&:hover': {
-      color: theme.colors.blue[9],
+      color: '#04334c',
     },
   },
   deleteIcon: {
@@ -321,7 +321,17 @@ export default function VendorTable({ data }: IVendorTableProps) {
             className={classes.searchField}
           />
           {/* Add New - Client Button*/}
-          <Button onClick={() => setOpened(true)}>
+          <Button
+            onClick={() => setOpened(true)}
+            styles={(theme) => ({
+              root: {
+                backgroundColor: '#04334c',
+                '&:hover': {
+                  backgroundColor: theme.fn.darken('#04334c', 0.05),
+                },
+              },
+            })}
+          >
             <Group spacing="sm" align="center">
               <IconPlus color="white" />
               <Text weight={400}>Add New</Text>

@@ -2,6 +2,7 @@ import { ListViewLayout } from '@/components/layout/list-view.layout'
 import {
   ActionIcon,
   Button,
+  Card,
   Checkbox,
   createStyles,
   Select,
@@ -14,6 +15,8 @@ import { Th } from '../employee/employee-list'
 import React, { useState } from 'react'
 import { IconPlus, IconSubmarine, IconTrash } from '@tabler/icons'
 import { randomId } from '@mantine/hooks'
+import TimesheetInputTile from './timesheet-input-tile'
+import TimesheetOverviewTile from './timesheet-overview-tile'
 
 interface WeeklyData {
   key: string
@@ -23,287 +26,114 @@ interface WeeklyData {
   project_update: string
 }
 
-const initialData = {
-  key: '',
-  project: '',
-  billable: false,
-  total_hours: 1,
-  project_update: '',
-}
-
-const CreateTimeSheet: React.FC<{ week: string }> = ({ week }) => {
-  const [fields, setFields] = useState<WeeklyData[]>([
-    { ...initialData, key: randomId() },
-  ])
+const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
+  week,
+  onBackClick,
+}) => {
+  const [fields, setFields] = useState<{ [key: string]: WeeklyData[] }>({})
 
   const { classes } = useStyles()
 
-  const addNewData = () => {
-    initialData.key = randomId()
-    setFields((prevState) => [...prevState, initialData])
-  } // End of addNewData
+  const splitWeek = week?.trim()?.split(' - ')
+  const weekDay = splitWeek[0].split('/')[0]
+  const startWeekDay = splitWeek[0].split('/')[0]
+  const endWeekDay = splitWeek[1].split('/')[0]
+  const weekFirstDay = +splitWeek[0].split('/')[1]
+  const weekLastDay = +splitWeek[1].split('/')[1]
 
-  const updateData = (data: WeeklyData) => {
-    const updatedData = fields.map((doc) => {
-      if (doc.key === data.key) {
-        return data
-      }
-      return doc
-    })
-    setFields(updatedData)
-  } // End of updateData
+  const timesheetInputTileList = []
+  for (
+    let startWeekDay = weekFirstDay;
+    startWeekDay <= weekLastDay;
+    startWeekDay++
+  ) {
+    const timesheetInputTile = (
+      <TimesheetInputTile
+        week={`${weekDay}/${startWeekDay}`}
+        onDataChange={(data) => {
+          setFields((prevState) => ({
+            ...prevState,
+            [startWeekDay]: data,
+          }))
+        }}
+      />
+    )
+    timesheetInputTileList.push(timesheetInputTile)
+  }
 
-  const deleteData = (key: string) => {
-    const updatedData = fields.filter((doc) => doc.key !== key)
-    setFields(updatedData)
-  } // End of deleteData
+  const onSubmitHandler = () => {
+    // Send HTTP Request
+    const allWeeklyDataList = []
+    for (const weeklyDataList of Object.values(fields || {})) {
+      allWeeklyDataList.push(...weeklyDataList)
+    }
 
-  const calculateTotalBillableHours = () => {
+    console.log('allWeeklyDataList =', allWeeklyDataList)
+  } // End of onSubmitHandler
+
+  const calculateTotalHours = () => {
+    let totalHours = 0
     let totalBillableHours = 0
-    for (const field of fields) {
-      if (field.billable) {
-        totalBillableHours += field.total_hours
+    let totalNonBillableHours = 0
+    for (const weeklyDataList of Object.values(fields || {})) {
+      for (const weeklyData of weeklyDataList) {
+        totalHours += weeklyData.total_hours
+
+        if (weeklyData.billable) {
+          totalBillableHours += weeklyData.total_hours
+        } else {
+          totalNonBillableHours += weeklyData.total_hours
+        }
       }
     }
-    return totalBillableHours
+    return { totalHours, totalBillableHours, totalNonBillableHours }
   } // End of calculateTotalBillableHours
+
+  const { totalBillableHours, totalNonBillableHours } = calculateTotalHours()
 
   return (
     <>
-      <Table horizontalSpacing="md" verticalSpacing="xs">
-        <thead>
-          <tr className={classes.tr}>
-            <th className={classes.th}>Date</th>
-            <th className={classes.th}>Project</th>
-            <th className={classes.th}>Billable/Not</th>
-            <th className={classes.th}>Total Hrs</th>
-            <th className={classes.th}>Project Updates</th>
-            <th className={classes.th}>
-              <IconPlus
-                size={24}
-                color={'green'}
-                style={{ marginRight: '8px' }}
-                onClick={addNewData}
-              />
-            </th>
-          </tr>
-        </thead>
+      <Card mb={16}>
+        <TimesheetOverviewTile onBackClick={onBackClick} />
+      </Card>
 
-        <tbody>
-          {fields.map((field) => {
-            return (
-              <tr key={field.key} className={classes.tr}>
-                <td>
-                  <td>{week}</td>
-                </td>
-                <td>
-                  <TextInput
-                    value={field.project}
-                    placeholder="Project"
-                    withAsterisk
-                    onChange={({ target }) =>
-                      updateData({
-                        ...field,
-                        project: target.value,
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <Checkbox
-                    checked={field.billable}
-                    label="Billable or non-billable"
-                    onChange={() =>
-                      updateData({
-                        ...field,
-                        billable: !field.billable,
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <TextInput
-                    value={field.total_hours}
-                    type={'number'}
-                    placeholder="Total HRS"
-                    withAsterisk
-                    onChange={({ target }) =>
-                      updateData({
-                        ...field,
-                        total_hours: +(target.value || 0),
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <Textarea
-                    value={field.project_update}
-                    onChange={({ target }) =>
-                      updateData({
-                        ...field,
-                        project_update: target.value,
-                      })
-                    }
-                  />
-                </td>
-                <td>
-                  <IconTrash
-                    size={24}
-                    color={'red'}
-                    style={{ marginRight: '8px', cursor: 'pointer' }}
-                    onClick={() => deleteData(field.key)}
-                  />
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </Table>
+      <Card>
+        <Table horizontalSpacing="md" verticalSpacing="xs">
+          <thead>
+            <tr className={classes.tr}>
+              <th className={classes.th}>Date</th>
+              <th className={classes.th}>Project</th>
+              <th className={classes.th}>Billable/Non-billable</th>
+              <th className={classes.th}>Total Hours</th>
+              <th className={classes.th}>Project Updates</th>
+              <th className={classes.th}></th>
+            </tr>
+          </thead>
 
-      <TimesheetTile week={week} />
-      <TimesheetTile week={week} />
-      <TimesheetTile week={week} />
-      <TimesheetTile week={week} />
-      <TimesheetTile week={week} />
-      <TimesheetTile week={week} />
-      <TimesheetTile week={week} />
+          <tbody>{timesheetInputTileList}</tbody>
+        </Table>
 
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <p>
-          Total Billable Time:{' '}
-          {calculateTotalBillableHours().toString() + '.00'}
-        </p>
-        <Button ml={80}>Submit</Button>
-      </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <p style={{ marginRight: '24px' }}>
+            Total Billable Hours: {totalBillableHours.toString() + '.00'}
+          </p>
+          <p>
+            Total Non Billable Hours: {totalNonBillableHours.toString() + '.00'}
+          </p>
+          <Button ml={80} onClick={onSubmitHandler}>
+            Submit
+          </Button>
+        </div>
+      </Card>
     </>
   )
 }
-
-const TimesheetTile: React.FC<{ week: string }> = ({ week }) => {
-  const [fields, setFields] = useState<WeeklyData[]>([
-    { ...initialData, key: randomId() },
-  ])
-
-  const { classes } = useStyles()
-
-  const addNewData = () => {
-    initialData.key = randomId()
-    setFields((prevState) => [...prevState, initialData])
-  } // End of addNewData
-
-  const updateData = (data: WeeklyData) => {
-    const updatedData = fields.map((doc) => {
-      if (doc.key === data.key) {
-        return data
-      }
-      return doc
-    })
-    setFields(updatedData)
-  } // End of updateData
-
-  const deleteData = (key: string) => {
-    const updatedData = fields.filter((doc) => doc.key !== key)
-    setFields(updatedData)
-  } // End of deleteData
-
-  return (
-    <Table horizontalSpacing="md" verticalSpacing="xs">
-      <thead>
-        <tr className={classes.tr}>
-          <th className={classes.th}>Date</th>
-          <th className={classes.th}>Project</th>
-          <th className={classes.th}>Billable/Not</th>
-          <th className={classes.th}>Total Hrs</th>
-          <th className={classes.th}>Project Updates</th>
-          <th className={classes.th}>
-            <IconPlus
-              size={24}
-              color={'green'}
-              style={{ marginRight: '8px' }}
-              onClick={addNewData}
-            />
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {fields.map((field) => {
-          return (
-            <tr key={field.key} className={classes.tr}>
-              <td>
-                <td>{week}</td>
-              </td>
-              <td>
-                <TextInput
-                  value={field.project}
-                  placeholder="Project"
-                  withAsterisk
-                  onChange={({ target }) =>
-                    updateData({
-                      ...field,
-                      project: target.value,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <Checkbox
-                  checked={field.billable}
-                  label="Billable or non-billable"
-                  onChange={() =>
-                    updateData({
-                      ...field,
-                      billable: !field.billable,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <TextInput
-                  value={field.total_hours}
-                  type={'number'}
-                  placeholder="Total HRS"
-                  withAsterisk
-                  onChange={({ target }) =>
-                    updateData({
-                      ...field,
-                      total_hours: +(target.value || 0),
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <Textarea
-                  value={field.project_update}
-                  onChange={({ target }) =>
-                    updateData({
-                      ...field,
-                      project_update: target.value,
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <IconTrash
-                  size={24}
-                  color={'red'}
-                  style={{ marginRight: '8px', cursor: 'pointer' }}
-                  onClick={() => deleteData(field.key)}
-                />
-              </td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </Table>
-  )
-} // End of TimesheetTile
 
 export default CreateTimeSheet
 
@@ -313,21 +143,13 @@ const useStyles = createStyles((theme) => ({
   },
   th: {
     border: 'none !important',
+    fontSize: '18px !important',
   },
   td: {
     padding: '20px !important',
   },
   tr: {
     border: 'none !important',
-    // display: 'flex',
-    // flexDirection: 'row',
-    // gap: '130px',
-    // marginLeft: '72px',
-  },
-  tbody: {
-    // gap: '120px',
-    // flexDirection: 'row',
-    // marginLeft: '60px',
   },
   buttonContainer: {
     position: 'absolute',

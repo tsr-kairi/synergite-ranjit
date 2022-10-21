@@ -17,30 +17,17 @@ import { SheetData } from './data'
 import CreateTimeSheet from './createTimeSheet'
 import { Badge } from '@mantine/core'
 const Timesheet = () => {
-  // const [fields, setFields] = useState([{ value: null }])
-  // const [searchValue, onSearchChange] = useState('')
-  // const [checked, setChecked] = useState(true)
   const [createSheet, setCreateSheet] = useState<boolean>(false)
   const [selectedTimesheet, setSelectedTimesheet] = useState('')
 
-  // function handleChange(i: any, event: any) {
-  //   const values = [...fields]
-  //   values[i].value = event.target.value
-  //   setFields(values)
-  // }
-
-  // function handleAdd() {
-  //   const values = [...fields]
-  //   values.push({ value: null })
-  //   setFields(values)
-  // }
-  // const onCheckboxChange = (event: any) => {
-  //   setChecked(event.currentTarget.checked)
-  // }
-
   return (
     <>
-      {createSheet && <CreateTimeSheet week={selectedTimesheet} />}
+      {createSheet && (
+        <CreateTimeSheet
+          week={selectedTimesheet}
+          onBackClick={() => setCreateSheet(false)}
+        />
+      )}
       {!createSheet && (
         <>
           <ListViewLayout title="Timesheets" hideActionButton hideColumnButton>
@@ -49,18 +36,18 @@ const Timesheet = () => {
                 <tr>
                   <Th onSort={() => null}>Name</Th>
                   <Th onSort={() => null}>Week</Th>
-                  <Th onSort={() => null}>Project</Th>
-                  <Th onSort={() => null}>Billable/Non-Billable</Th>
-                  <Th onSort={() => null}>Total Hrs</Th>
+                  <Th onSort={() => null}>Billable </Th>
+                  <Th onSort={() => null}>Non-Billable</Th>
+                  <Th onSort={() => null}>Total Hours</Th>
                   <Th onSort={() => null}>Status</Th>
                 </tr>
               </thead>
               <tbody>
                 {SheetData.map((sheetValue) => {
                   return (
-                    <>
-                      <tr>
-                        <td>{sheetValue.Name}</td>
+                    <tr key={sheetValue.Name}>
+                      <td>{sheetValue.Name}</td>
+                      <td>
                         <Tooltip
                           label="Click to view"
                           color="blue"
@@ -77,27 +64,21 @@ const Timesheet = () => {
                                   setSelectedTimesheet(sheetValue.Week)
                                 }}
                               >
-                                <td>{sheetValue.Week}</td>
+                                {sheetValue.Week}
                               </div>
                             </Text>
                           </Group>
                         </Tooltip>
-                        <td>{sheetValue.Project}</td>
-                        <td>{sheetValue.Billable}</td>
-                        <td>{sheetValue.TotalHrs}</td>
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <Badge>
-                            <td>{sheetValue.Status}</td>
-                          </Badge>
-                        </div>
-                      </tr>
-                    </>
+                      </td>
+                      <td>{'40' || sheetValue.Billable}</td>
+                      <td>{'40' || sheetValue.Billable}</td>
+                      <td>{sheetValue.TotalHrs}</td>
+                      <td>
+                        <Badge style={{ minWidth: '120px' }}>
+                          <td>{sheetValue.Status}</td>
+                        </Badge>
+                      </td>
+                    </tr>
                   )
                 })}
               </tbody>

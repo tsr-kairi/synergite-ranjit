@@ -1,6 +1,8 @@
 import TextDivider from '@/components/elements/text-divider'
 import useCreateJob from '@/pages/client/hooks/useCreateJob'
+import { UsData } from '@/pages/data/usData'
 import { TJobCreate, zJobCreate } from '@/types'
+import { useState } from 'react'
 import {
   TextInput,
   Button,
@@ -22,6 +24,7 @@ const useStyles = createStyles(() => ({
 }))
 
 export default function CreateForm() {
+  const [searchValue, onSearchChange] = useState('')
   const { clientId } = useParams()
   const search = window.location.search
   const params = new URLSearchParams(search)
@@ -120,13 +123,14 @@ export default function CreateForm() {
                 <Group grow align="center" mt="md">
                   <Select
                     label="State"
-                    type={'text'}
                     placeholder="State"
-                    data={[
-                      { value: 'Delhi', label: 'Delhi' },
-                      { value: 'UP', label: 'UP' },
-                      { value: 'Bihar', label: 'Bihar' },
-                    ]}
+                    searchable
+                    onSearchChange={onSearchChange}
+                    searchValue={searchValue}
+                    nothingFound="No Matching State"
+                    data={UsData.map((s) => {
+                      return { value: s.state, label: s.state }
+                    })}
                     {...form.getInputProps('state')}
                   />
                   <Select

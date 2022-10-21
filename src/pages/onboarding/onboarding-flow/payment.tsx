@@ -42,14 +42,21 @@ export default function Payment({ form }: onboardingStepperProps) {
             placeholder="Pay rate"
             {...form.getInputProps('pay_rate')}
           />
-          <Autocomplete
+          <Select
             label="Payment frequency"
             placeholder="Payment frequency"
             {...form.getInputProps('payment_frequency')}
-            limit={30}
-            maxDropdownHeight={200}
-            nothingFound="No Payment Frequency found"
-            data={['Net o', 'Net 3', 'Net 5', 'Nil 45', 'Net 15', 'Nil 30']}
+            data={[
+              { value: 'NET_0', label: 'Net 0' },
+              { value: 'NET_3', label: 'Net 3' },
+              {
+                value: 'NET_5',
+                label: 'Net 5',
+              },
+              { value: 'NET_10', label: 'Net 10' },
+              { value: 'NET_30', label: 'Net 30' },
+              { value: 'NET_45', label: 'Net 45' },
+            ]}
           />
         </Group>
         <Group grow align="center" mt="lg">

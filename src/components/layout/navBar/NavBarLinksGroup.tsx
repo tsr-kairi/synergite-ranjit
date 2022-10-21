@@ -29,7 +29,7 @@ const useStyles = createStyles((theme) => ({
       backgroundColor:
         theme.colorScheme === 'dark'
           ? theme.colors.dark[7]
-          : theme.colors.blue[8],
+          : 'rgba(252,185,0,1)',
       color: theme.colorScheme === 'dark' ? theme.white : theme.colors.grey[0],
     },
   },
@@ -51,15 +51,15 @@ const useStyles = createStyles((theme) => ({
     '&:hover': {
       backgroundColor:
         theme.colorScheme === 'dark'
-          ? theme.colors.blue[8]
-          : theme.colors.blue[8],
+          ? 'rgba(252,185,0,1)'
+          : 'rgba(252,185,0,1)',
       color: theme.colors.grey[0],
     },
   },
 
   linkActive: {
     '&, &:hover': {
-      backgroundColor: theme.colors.blue[8],
+      backgroundColor: 'rgba(252,185,0,1)',
     },
   },
 

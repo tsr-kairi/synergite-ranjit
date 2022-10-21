@@ -1,4 +1,11 @@
-import { ActionIcon, Button, createStyles, Drawer, Group, Tooltip } from '@mantine/core'
+import {
+  ActionIcon,
+  Button,
+  createStyles,
+  Drawer,
+  Group,
+  Tooltip,
+} from '@mantine/core'
 import {
   IconArrowAutofitDown,
   IconArrowBackUp,
