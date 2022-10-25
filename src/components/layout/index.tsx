@@ -44,7 +44,14 @@ const AppShellMain = () => {
 
   return (
     <AppShell
-      navbar={<NavBar isBurgerIconOpen={isSidebarOpen} />}
+      navbar={
+        <NavBar
+          isBurgerIconOpen={isSidebarOpen}
+          onNavbarSideIconClick={() =>
+            setIsSidebarOpen((prevState) => !prevState)
+          }
+        />
+      }
       header={
         <HeaderBar
           isBurgerIconOpen={isSidebarOpen}

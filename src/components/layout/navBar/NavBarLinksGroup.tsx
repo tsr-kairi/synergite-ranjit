@@ -9,9 +9,19 @@ import {
   createStyles,
   Anchor,
   Tooltip,
+  Button,
 } from '@mantine/core'
 import { TablerIcon, IconChevronLeft, IconChevronRight } from '@tabler/icons'
 import { Link } from 'react-router-dom'
+import theme from '@/theme/theme'
+
+const parentBackgroundColor = {
+  backgroundColor:
+    theme.colorScheme === 'dark'
+      ? theme?.colors?.dark?.[7]
+      : 'rgba(252,185,0,1)',
+  color: theme.colorScheme === 'dark' ? theme.white : theme?.colors?.grey?.[0],
+}
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -25,13 +35,7 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.grey[3],
     fontSize: theme.fontSizes.sm,
 
-    '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[7]
-          : 'rgba(252,185,0,1)',
-      color: theme.colorScheme === 'dark' ? theme.white : theme.colors.grey[0],
-    },
+    '&:hover': parentBackgroundColor,
   },
 
   link: {
@@ -88,26 +92,29 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface LinksGroupProps {
+  id: string
   icon: TablerIcon
   label: string
   initiallyOpened?: boolean
   links?: { label: string; link: string }[]
   url?: string
   isSidebarOpen?: boolean
+  isActive: boolean
+  onTopLinkClick: () => void
 }
 
 export default function LinksGroup({
   icon: Icon,
   label,
-  initiallyOpened,
-  url,
   links,
   isSidebarOpen,
+  isActive,
+  onTopLinkClick,
 }: LinksGroupProps) {
   const { classes, theme, cx } = useStyles()
   const hasLinks = Array.isArray(links)
 
-  const [opened, setOpened] = useState(initiallyOpened || false)
+  const [isOnHoverOpen, setIsOnHoverOpen] = useState(false)
   const [active, setActive] = useState('Dashboard')
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
 
@@ -130,17 +137,22 @@ export default function LinksGroup({
   return (
     <>
       <UnstyledButton
-        onClick={() => setOpened((o) => !o)}
         className={classes.control}
+        style={isActive ? parentBackgroundColor : {}}
       >
         <Anchor
           className={classes.anchor}
-          component={Link}
-          to={hasLinks ? links[0]?.link : url !== undefined ? url : '/'}
+          onClick={onTopLinkClick}
+          onMouseEnter={() => (isSidebarOpen ? setIsOnHoverOpen(true) : null)}
+          onMouseLeave={() => setIsOnHoverOpen(false)}
         >
           <Group position="apart" spacing={0}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ThemeIcon className={classes.icoTheme} size={30}>
+              <ThemeIcon
+                className={classes.icoTheme}
+                size={30}
+                style={isActive ? parentBackgroundColor : {}}
+              >
                 <Icon size={20} />
               </ThemeIcon>
               {isSidebarOpen && <Box ml="md">{label}</Box>}
@@ -152,7 +164,7 @@ export default function LinksGroup({
                 size={14}
                 stroke={1.5}
                 style={{
-                  transform: opened
+                  transform: isActive
                     ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)`
                     : 'none',
                 }}
@@ -161,7 +173,9 @@ export default function LinksGroup({
           </Group>
         </Anchor>
       </UnstyledButton>
-      {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
+      {hasLinks ? (
+        <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
+      ) : null}
     </>
   )
 }
