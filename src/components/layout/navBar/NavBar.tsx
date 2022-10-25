@@ -1,4 +1,4 @@
-import { Button, createStyles } from '@mantine/core'
+import { createStyles } from '@mantine/core'
 import {
   IconLayoutDashboard,
   IconWallet,
@@ -143,38 +143,41 @@ const NavBar: React.FC<NavBarProps> = ({
 
   const { classes } = useStyles()
 
-  const links = navLinkList.map((item) => (
-    <LinksGroup
-      key={item.label}
-      {...item}
-      isActive={item.isActive && isBurgerIconOpen}
-      isSidebarOpen={isBurgerIconOpen}
-      onTopLinkClick={() => {
-        let isAnyParentLinkActive = false
-        const updatedNavLinks = navLinkList.map((navLink) => {
-          if (navLink.id === item.id) {
-            navLink.isActive = !navLink.isActive
-          } else {
-            navLink.isActive = false
+  const links = navLinkList.map((item) => {
+    console.log(item.isActive, isBurgerIconOpen)
+    // true || false = true
+    // true || true = true
+    let isOpen = item.isActive
+    if (item.isActive && isBurgerIconOpen) {
+      isOpen = true
+    }
+
+    return (
+      <LinksGroup
+        key={item.label}
+        {...item}
+        isActive={isOpen}
+        isSidebarOpen={isBurgerIconOpen}
+        onTopLinkClick={() => {
+          const updatedNavLinks = navLinkList.map((navLink) => {
+            if (navLink.id === item.id) {
+              navLink.isActive = !navLink.isActive
+            } else {
+              navLink.isActive = false
+            }
+            return navLink
+          })
+
+          setNavLinkList(updatedNavLinks)
+          if (!isBurgerIconOpen && item.isActive) {
+            onNavbarSideIconClick()
+          } else if (item.url) {
+            navigate(item.url)
           }
-
-          if (navLink.isActive) {
-            isAnyParentLinkActive = true
-          }
-
-          return navLink
-        })
-
-        setNavLinkList(updatedNavLinks)
-        console.log(isAnyParentLinkActive, item)
-        if (!isAnyParentLinkActive && item.links && item.links?.length > 0) {
-          onNavbarSideIconClick()
-        } else if (item.url) {
-          navigate(item.url)
-        }
-      }}
-    />
-  ))
+        }}
+      />
+    )
+  })
 
   return (
     <div
@@ -182,6 +185,7 @@ const NavBar: React.FC<NavBarProps> = ({
       style={{
         width: isBurgerIconOpen ? '300px' : '60px',
         justifyContent: isBurgerIconOpen ? 'start' : 'center',
+        marginTop: '80px',
       }}
     >
       <div className={classes.linksInner}>{links}</div>

@@ -101,8 +101,8 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
             }}
             style={{
               borderRadius: '100%',
-              width: '48px',
-              height: '48px',
+              width: '40px',
+              height: '40px',
               background: theme.colors?.blue?.[6],
               display: 'flex',
               justifyContent: 'center',

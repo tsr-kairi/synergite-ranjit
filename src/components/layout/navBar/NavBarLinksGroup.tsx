@@ -143,12 +143,16 @@ export default function LinksGroup({
         <Anchor
           className={classes.anchor}
           onClick={onTopLinkClick}
-          onMouseEnter={() => setIsOnHoverOpen(true)}
+          onMouseEnter={() => (isSidebarOpen ? setIsOnHoverOpen(true) : null)}
           onMouseLeave={() => setIsOnHoverOpen(false)}
         >
           <Group position="apart" spacing={0}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ThemeIcon className={classes.icoTheme} size={30}>
+              <ThemeIcon
+                className={classes.icoTheme}
+                size={30}
+                style={isActive ? parentBackgroundColor : {}}
+              >
                 <Icon size={20} />
               </ThemeIcon>
               {isSidebarOpen && <Box ml="md">{label}</Box>}
