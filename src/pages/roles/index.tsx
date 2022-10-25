@@ -1,20 +1,33 @@
-import { Loader } from '@mantine/core'
+import CreateForm from '@/components/form/roles/createForm'
 import RolesTable from './roles-table'
 import useGetAllRoles from './hooks/useGetAllRoles'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
 
 export const Roles = () => {
-  const { data, isError, error } = useGetAllRoles()
+  const { data, isError, error, isLoading } = useGetAllRoles()
 
-  if (isError) {
-    console.log(error)
-    return <h1>An Error Occurred</h1>
-  }
+  return (
+    <ListViewLayout
+      title="Roles"
+      isError={isError}
+      isLoading={isLoading}
+      createDrawerTitle="Add Role"
+      createDrawerChildren={<CreateForm />}
+    >
+      <RolesTable data={data?.data || []} />
+    </ListViewLayout>
+  )
 
-  if (data?.data.length) {
-    return <RolesTable data={data.data} />
-  } else {
-    return <Loader variant="dots" />
-  }
+  // if (isError) {
+  //   console.log(error)
+  //   return <h1>An Error Occurred</h1>
+  // }
+
+  // if (data?.data.length) {
+  //   return <RolesTable data={data.data} />
+  // } else {
+  //   return <Loader variant="dots" />
+  // }
 }
 
 export default Roles

@@ -33,6 +33,7 @@ import EditEmployee from '@/components/form/employee/editForm'
 import CreateEmployee from '@/components/form/employee/createForm'
 import useDeleteEmployeeById from './hooks/useDeleteEmployeeById'
 import { Link } from 'react-router-dom'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -213,11 +214,14 @@ export function EmployeeList({ data }: IEmployeeProps) {
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget
-    setSearch(value)
+  const handleSearchChange = (searchTerm: string) => {
+    setSearch(searchTerm)
     setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+      sortData(data, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: searchTerm,
+      })
     )
   }
 
@@ -362,34 +366,15 @@ export function EmployeeList({ data }: IEmployeeProps) {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ScrollArea>
-        <div className={classes.tableHead}>
-          <Group spacing="sm">
-            <Text size={'xl'} weight="600" className={classes.text}>
-              Employees
-            </Text>
-            <IconFilter
-              className={classes.filterIcon}
-              onClick={() => openModalForFilter()}
-              cursor="pointer"
-            />
-          </Group>
-          <TextInput
-            placeholder="Search by any field"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            value={search}
-            onChange={handleSearchChange}
-            radius="xl"
-            className={classes.searchField}
-          />
-          {/* Add New - Client Button*/}
-          <Button onClick={() => setOpened(true)}>
-            <Group spacing="sm" align="center">
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
-        </div>
+      <ListViewLayout
+        title="Employees"
+        createDrawerTitle="Add New Employee"
+        isError={false}
+        isLoading={false}
+        createDrawerChildren={<CreateEmployee />}
+        onFilterClick={openModalForFilter}
+        onSearchChange={handleSearchChange}
+      >
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
@@ -479,24 +464,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
             )}
           </tbody>
         </Table>
-
-        <div className={classes.tableBottom}>
-          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-          <Pagination total={5} size="sm" />
-        </div>
-      </ScrollArea>
-
-      {/* Add New - employee Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Employee"
-        padding="xl"
-        size="xl"
-        position="right"
-      >
-        <CreateEmployee />
-      </Drawer>
+      </ListViewLayout>
 
       {/* Edit Employee - Employee Edit Form Drawer*/}
       <Drawer

@@ -27,7 +27,6 @@ import {
 } from '@tabler/icons'
 import { TActivity } from '@/types/activity-type'
 import { openConfirmModal } from '@mantine/modals'
-import CreateForm from '@/components/form/defaultActivity/createForm'
 import EditForm from '@/components/form/defaultActivity/editForm'
 import { showNotification } from '@mantine/notifications'
 import { Link } from 'react-router-dom'
@@ -298,125 +297,74 @@ export default function ActivityTable({ data }: IActivityTableProps) {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ScrollArea>
-        <div className={classes.tableHead}>
-          <Group spacing="sm">
-            <Text size={'xl'} weight="600" className={classes.text}>
-              Activity
-            </Text>
-            <IconFilter className={classes.filterIcon} />
-          </Group>
-          <TextInput
-            placeholder="Search by any field"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            value={search}
-            onChange={handleSearchChange}
-            radius="xl"
-            className={classes.searchField}
-          />
-          {/* Add New - Client Button*/}
-          <Button onClick={() => setOpened(true)}>
-            <Group spacing="sm" align="center">
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
-        </div>
-
-        <Table
-          horizontalSpacing="md"
-          verticalSpacing="xs"
-          className={classes.childTable}
-          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
-        >
-          <thead>
-            <tr>
-              {/* <Th
-                sorted={sortBy === 'role_uuid'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('role_uuid')}
-              >
-                Id
-              </Th> */}
-              <Th
-                sorted={sortBy === 'immigration_status'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('immigration_status')}
-              >
-                Immigration Status
-              </Th>
-
-              <Th
-                sorted={sortBy === 'employee_type'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('employee_type')}
-              >
-                Type of Employee
-              </Th>
-              <Th
-                sorted={sortBy === 'new_client'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('new_client')}
-              >
-                New Client
-              </Th>
-              <Th
-                sorted={sortBy === 'new_subvendor'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('new_subvendor')}
-              >
-                New Sub Vendor
-              </Th>
-              <Th
-                sorted={sortBy === 'default_activity'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('default_activity')}
-              >
-                Default Activity
-              </Th>
-              <Th
-                sorted={sortBy === 'department_uuid'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('department_uuid')}
-              >
-                Department
-              </Th>
-              <th className={classes.action}>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {rows.length > 0 ? (
-              rows
-            ) : (
-              <tr>
-                <td colSpan={Object.keys(data[0]).length}>
-                  <Text weight={500} align="center">
-                    No records found
-                  </Text>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-
-        <div className={classes.tableBottom}>
-          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-          <Pagination total={5} size="sm" />
-        </div>
-      </ScrollArea>
-
-      {/* Add New - Vendor Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Activity"
-        padding="xl"
-        size="xl"
-        position="right"
+      <Table
+        horizontalSpacing="md"
+        verticalSpacing="xs"
+        className={classes.childTable}
       >
-        <CreateForm />
-      </Drawer>
+        <thead>
+          <tr>
+            <Th
+              sorted={sortBy === 'immigration_status'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('immigration_status')}
+            >
+              Immigration Status
+            </Th>
+
+            <Th
+              sorted={sortBy === 'employee_type'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('employee_type')}
+            >
+              Type of Employee
+            </Th>
+            <Th
+              sorted={sortBy === 'new_client'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('new_client')}
+            >
+              New Client
+            </Th>
+            <Th
+              sorted={sortBy === 'new_subvendor'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('new_subvendor')}
+            >
+              New Sub Vendor
+            </Th>
+            <Th
+              sorted={sortBy === 'default_activity'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('default_activity')}
+            >
+              Default Activity
+            </Th>
+            <Th
+              sorted={sortBy === 'department_uuid'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('department_uuid')}
+            >
+              Department
+            </Th>
+            <th className={classes.action}>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {rows.length > 0 ? (
+            rows
+          ) : (
+            <tr>
+              <td colSpan={Object.keys(data[0]).length}>
+                <Text weight={500} align="center">
+                  No records found
+                </Text>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
 
       {/* Edit Vendor - Vendor Edit Form Drawer*/}
       <Drawer

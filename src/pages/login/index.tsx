@@ -126,7 +126,7 @@ export function Login() {
     console.log('[handleSubmit] is called')
     login(values)
       .then(() => {
-        navigate('/client')
+        navigate('/')
       })
       .catch((error: AxiosError) => {
         console.log(error)

@@ -11,6 +11,7 @@ import {
   Pagination,
   Checkbox,
   Popover,
+  Loader,
 } from '@mantine/core'
 import {
   IconSearch,
@@ -31,6 +32,9 @@ interface IListViewLayoutProps {
   editDrawerChildren?: React.ReactNode
   hideActionButton?: boolean
   hideColumnButton?: boolean
+  isError: boolean
+  isLoading: boolean
+  onFilterClick?: () => void
   onSearchChange?: (searchTerm: string) => void
   onColumnClick?: () => void
   onAddNewClick?: () => void
@@ -47,6 +51,9 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     editDrawerChildren,
     hideActionButton,
     hideColumnButton,
+    isError,
+    isLoading,
+    onFilterClick,
     onSearchChange,
     onColumnClick,
     onAddNewClick,
@@ -59,6 +66,14 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
   const [isEditDrawerOpen, setIsEditNewDrawerOpen] = useState(false)
   const { classes } = listViewLayoutStyle()
 
+  if (isError) {
+    return <h1>An Error Occurred</h1>
+  }
+
+  if (isLoading) {
+    return <Loader variant="dots" />
+  }
+
   // Returning the Scroll Area of Table
   return (
     <>
@@ -67,7 +82,11 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
           <Text size={'xl'} weight="600" className={classes.text}>
             {title}
           </Text>
-          <IconFilter className={classes.filterIcon} />
+          <IconFilter
+            className={classes.filterIcon}
+            onClick={onFilterClick}
+            style={{ cursor: onFilterClick ? 'pointer' : 'default' }}
+          />
         </Group>
 
         <TextInput
@@ -95,24 +114,18 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
 
         {/* Add New - Button*/}
         {!hideActionButton && (
-          <button
+          <Button
+            className={classes.actionButton}
             onClick={() => {
-              setIsAddNewDrawerOpen(true)
-            }}
-            style={{
-              borderRadius: '100%',
-              width: '40px',
-              height: '40px',
-              background: theme.colors?.blue?.[6],
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              border: 'none',
-              cursor: 'pointer',
+              if (onAddNewClick) {
+                onAddNewClick()
+              } else {
+                setIsAddNewDrawerOpen(true)
+              }
             }}
           >
-            <IconPlus color="white" size={40} />
-          </button>
+            <IconPlus color="white" size={24} />
+          </Button>
         )}
       </div>
 
@@ -185,11 +198,18 @@ export const listViewLayoutStyle = createStyles((theme) => ({
       backgroundColor: theme.colors.blue[0],
     },
   },
-
-  companyDetails: {
+  actionButton: {
+    borderRadius: '100%',
+    width: '40px',
+    height: '40px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     border: 'none',
+    cursor: 'pointer',
+    backgroundColor: '#04334c',
     '&:hover': {
-      backgroundColor: theme.colors.blue[1],
+      backgroundColor: theme.fn.darken('#04334c', 0.05),
     },
   },
 

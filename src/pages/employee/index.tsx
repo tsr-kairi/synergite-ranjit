@@ -11,8 +11,8 @@ export const Employee = () => {
     return <h1>An Error Occurred</h1>
   }
 
-  if (data?.data.length) {
-    return <EmployeeList data={data.data} />
+  if (data?.data?.length) {
+    return <EmployeeList data={data.data || []} />
   } else {
     return <Loader variant="dots" />
   }

@@ -1,20 +1,33 @@
-import { Loader } from '@mantine/core'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
 import useGetAllVendors from './hooks/useGetAllVendors'
 import VendorTable from './vendor-table'
+import CreateForm from '@/components/form/vendor/createForm'
 
 export const Vendor = () => {
-  const { data, isError, error } = useGetAllVendors()
+  const { data, isError, isLoading } = useGetAllVendors()
 
-  if (isError) {
-    console.log(error)
-    return <h1>An Error Occurred</h1>
-  }
+  return (
+    <ListViewLayout
+      title="Vendors"
+      createDrawerTitle="Add New Vendor"
+      createDrawerChildren={<CreateForm />}
+      isError={isError}
+      isLoading={isLoading}
+    >
+      <VendorTable data={data?.data || []} />
+    </ListViewLayout>
+  )
 
-  if (data?.data.length) {
-    return <VendorTable data={data.data} />
-  } else {
-    return <Loader variant="dots" />
-  }
+  // if (isError) {
+  //   console.log(error)
+  //   return <h1>An Error Occurred</h1>
+  // }
+
+  // if (data?.data.length) {
+  //   return <VendorTable data={data.data} />
+  // } else {
+  //   return <Loader variant="dots" />
+  // }
 }
 
 export default Vendor

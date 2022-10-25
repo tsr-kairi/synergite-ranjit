@@ -8,12 +8,11 @@ import {
   Text,
   Center,
   TextInput,
+  Avatar,
   Button,
   Drawer,
   Pagination,
   Tooltip,
-  Checkbox,
-  Avatar,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -26,14 +25,15 @@ import {
   IconPlus,
   IconFilter,
 } from '@tabler/icons'
-import { TCandidate } from '@/types/candidate-type'
+import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import { showNotification } from '@mantine/notifications'
-import EditCandidate from '@/components/form/candidate/editForm'
-import CreateCandidate from '@/components/form/candidate/createForm'
 import { Link } from 'react-router-dom'
-import useDeleteCandidateById from './hooks/useDeleteCandidateById'
-import { ListViewLayout } from '@/components/layout/list-view.layout'
+import useDeleteClientById from './hooks/useDeleteClientById'
+
+import { showNotification } from '@mantine/notifications'
+import EditClient from '@/components/form/client/editForm'
+import CreateClient from '@/components/form/client/createForm'
+import { useOnboarding } from '@/store/onboarding.store'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -50,7 +50,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  candidateRowData: {
+  companyDetails: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -156,7 +156,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TCandidate[], search: string) {
+function filterData(data: TClient[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -165,9 +165,9 @@ function filterData(data: TCandidate[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TCandidate[],
+  data: TClient[],
   payload: {
-    sortBy: keyof TCandidate | null
+    sortBy: keyof TClient | null
     reversed: boolean
     search: string
   }
@@ -191,125 +191,71 @@ function sortData(
   )
 }
 
-interface ICandidateProps {
-  data: TCandidate[]
+interface IClientTableProps {
+  data: TClient[]
 }
 
 // Exporting Default ClientTable Component
-export function CandidateList({ data }: ICandidateProps) {
+export function ClientTable({ data }: IClientTableProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TClient | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
-  const { mutate: deleteCandidate } = useDeleteCandidateById()
-  const [candidateEditData, setCandidateEditData] = useState({} as TCandidate)
+  const { mutate: deleteClient } = useDeleteClientById()
+  const [clientEditData, setClientEditData] = useState({} as TClient)
 
-  const setSorting = (field: keyof TCandidate) => {
+  const setClient = useOnboarding((state) => state.setClient)
+
+  const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
 
-  const handleSearchChange = (searchTerm: string) => {
-    setSearch(searchTerm)
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget
+    setSearch(value)
     setSortedData(
-      sortData(data, {
-        sortBy,
-        reversed: reverseSortDirection,
-        search: searchTerm,
-      })
+      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
 
-  // candidate data Delete handler
-  const openModalForDelete = (Candidate: TCandidate) => {
+  // client data Delete handler
+  const openModalForDelete = (client: TClient) => {
     openConfirmModal({
-      title: 'Do You want to delete this Employee?',
+      title: 'Do You want to delete this client?',
       children: (
         <Text size="sm">
-          After deleting an active candidate, You cannot recover them back. So,
-          please choose your action carefully.
+          After deleting a clients, You cannot recover them back. So, Please
+          take your Action Carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteCandidate(Candidate.uuid)
-        console.log('delete')
+        deleteClient(client.uuid)
         showNotification({
-          title: 'Candidate Deleted !!',
-          // message: `${Employee.fname} has been deleted successfully.`,
-          message: `Candidate has been deleted successfully.`,
+          title: 'Client Deleted !!',
+          message: `${client.first_name} has been deleted successfully.`,
         })
       },
     })
   }
-
-  // candidate data filter handler
-  const openModalForFilter = () => {
-    openConfirmModal({
-      title: 'Select Filter?',
-      children: (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            marginBottom: '30px',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <Text size="sm" color="blue">
-              Payment Type
-            </Text>
-            <Checkbox size="xs" label="Billable" />
-            <Checkbox size="xs" label="Non Billable" />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <Text size="sm" color="blue">
-              Employee Type
-            </Text>
-            <Checkbox size="xs" label="W2" />
-            <Checkbox size="xs" label="C2C" />
-            <Checkbox size="xs" label="1099" />
-            <Checkbox size="xs" label="Internal" />
-          </div>
-        </div>
-      ),
-      labels: { confirm: 'Submit', cancel: 'Cancel' },
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () => {
-        console.log('Filtered')
-        showNotification({
-          title: 'EmployeeType Filtered !!',
-          message: 'EmployeeType has been filtered successfully.',
-        })
-      },
-    })
-  }
-
+  // console.log('dataShorted', sortedData)
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.uuid} className={classes.candidateRowData}>
+    <tr key={row?.id} className={classes.companyDetails}>
+      {/* <td>{row?.id}</td> */}
       <td>
         <Link
-          to={`/candidate-details/${row?.uuid}`}
+          to={`/client-details/${row?.uuid}`}
+          // state={{ user: row }}
           className={classes.userLink}
+          onClick={() => setClient(row)}
         >
           <Tooltip
             label="Click to view"
@@ -319,24 +265,18 @@ export function CandidateList({ data }: ICandidateProps) {
             transitionDuration={300}
           >
             <Group spacing="sm">
-              {/* <Avatar
-                size={26}
-                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.fname}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-                radius={26}
-              /> */}
               <Avatar color="cyan" size={26} radius={26}>
-                E
+                C
               </Avatar>
               <Text size="sm" weight={500}>
-                {row?.fname} {row?.lname}
+                {row?.first_name} {row?.last_name}
               </Text>
             </Group>
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.email}</td>
-      <td>{row?.phone}</td>
-      <td>{row?.gender}</td>
+      <td>{row?.primary_email}</td>
+      <td>{row?.primary_phone}</td>
       <td>{row?.city}</td>
       <td>{row?.state}</td>
       <td>{row?.country}</td>
@@ -347,7 +287,7 @@ export function CandidateList({ data }: ICandidateProps) {
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
-              setCandidateEditData(row)
+              setClientEditData(row)
             }}
           />
           <IconTrash
@@ -363,49 +303,76 @@ export function CandidateList({ data }: ICandidateProps) {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ListViewLayout
-        title="Candidates"
-        createDrawerTitle="Add New Candidate"
-        isError={false}
-        isLoading={false}
-        createDrawerChildren={<CreateCandidate />}
-        onFilterClick={openModalForFilter}
-        onSearchChange={handleSearchChange}
-      >
+      <ScrollArea>
+        <div className={classes.tableHead}>
+          <Group spacing="sm">
+            <Text size={'xl'} weight="600" className={classes.text}>
+              Clients
+            </Text>
+            <IconFilter className={classes.filterIcon} />
+          </Group>
+          <TextInput
+            placeholder="Search by any field"
+            icon={<IconSearch size={14} stroke={1.5} />}
+            value={search}
+            onChange={handleSearchChange}
+            radius="xl"
+            className={classes.searchField}
+          />
+          {/* Add New - Client Button*/}
+          <Button
+            onClick={() => setOpened(true)}
+            styles={(theme) => ({
+              root: {
+                backgroundColor: '#04334c',
+                '&:hover': {
+                  backgroundColor: theme.fn.darken('#04334c', 0.05),
+                },
+              },
+            })}
+          >
+            <Group spacing="sm" align="center">
+              <IconPlus color="white" />
+              <Text weight={400}>Add New</Text>
+            </Group>
+          </Button>
+        </div>
+
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
           className={classes.childTable}
+          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
         >
           <thead>
             <tr>
-              <Th
-                sorted={sortBy === 'fname'}
+              {/* <Th
+                sorted={sortBy === 'id'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('fname')}
+                onSort={() => setSorting('id')}
+              >
+                ID
+              </Th> */}
+              <Th
+                sorted={sortBy === 'first_name'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('first_name')}
               >
                 Name
               </Th>
               <Th
-                sorted={sortBy === 'email'}
+                sorted={sortBy === 'primary_email'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('email')}
+                onSort={() => setSorting('primary_email')}
               >
                 Email
               </Th>
               <Th
-                sorted={sortBy === 'phone'}
+                sorted={sortBy === 'primary_phone'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('phone')}
+                onSort={() => setSorting('primary_phone')}
               >
                 Phone
-              </Th>
-              <Th
-                sorted={sortBy === 'gender'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('gender')}
-              >
-                Gender
               </Th>
               <Th
                 sorted={sortBy === 'city'}
@@ -446,18 +413,35 @@ export function CandidateList({ data }: ICandidateProps) {
             )}
           </tbody>
         </Table>
-      </ListViewLayout>
 
-      {/* Edit Employee - Employee Edit Form Drawer*/}
+        <div className={classes.tableBottom}>
+          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
+          <Pagination total={5} size="sm" />
+        </div>
+      </ScrollArea>
+
+      {/* Add New - Client Form Drawer*/}
       <Drawer
-        opened={isOpened}
-        onClose={() => setIsOpened(false)}
-        title="Edit Candidate"
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Add New Client"
         padding="xl"
         size="xl"
         position="right"
       >
-        <EditCandidate {...candidateEditData} />
+        <CreateClient />
+      </Drawer>
+
+      {/* Edit Client - Client Edit Form Drawer*/}
+      <Drawer
+        opened={isOpened}
+        onClose={() => setIsOpened(false)}
+        title="Edit Client"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <EditClient {...clientEditData} />
       </Drawer>
     </>
   )

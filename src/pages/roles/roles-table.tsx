@@ -267,21 +267,8 @@ export default function RolesTable({ data }: IRolesTableProps) {
           </Tooltip>
         </Link>
       </td>
-      {/* <td>{row?.employee_type}</td>
-      <td>{row?.new_client}</td>
-      <td>{row?.new_subvendor}</td>
-      <td>{row?.default_activity}</td>
-      <td>{row?.department_uuid}</td> */}
       <td>
         <Group spacing="sm">
-          {/* <IconEdit
-            className={classes.editIcon}
-            cursor="pointer"
-            onClick={() => {
-              setIsOpened(true)
-              setRolesEditData(row)
-            }}
-          /> */}
           <IconTrash
             className={classes.deleteIcon}
             cursor="pointer"
@@ -295,90 +282,39 @@ export default function RolesTable({ data }: IRolesTableProps) {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ScrollArea>
-        <div className={classes.tableHead}>
-          <Group spacing="sm">
-            <Text size={'xl'} weight="600" className={classes.text}>
-              Roles
-            </Text>
-            <IconFilter className={classes.filterIcon} />
-          </Group>
-          <TextInput
-            placeholder="Search by any field"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            value={search}
-            onChange={handleSearchChange}
-            radius="xl"
-            className={classes.searchField}
-          />
-          {/* Add New - Client Button*/}
-          <Button onClick={() => setOpened(true)}>
-            <Group spacing="sm" align="center">
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
-        </div>
-
-        <Table
-          horizontalSpacing="md"
-          verticalSpacing="xs"
-          className={classes.childTable}
-          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
-        >
-          <thead>
-            <tr>
-              {/* <Th
-                sorted={sortBy === 'role_uuid'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('role_uuid')}
-              >
-                Id
-              </Th> */}
-              <Th
-                sorted={sortBy === 'name'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('name')}
-              >
-                Role Name
-              </Th>
-
-              <th className={classes.action}>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {rows.length > 0 ? (
-              rows
-            ) : (
-              <tr>
-                <td colSpan={Object.keys(data[0]).length}>
-                  <Text weight={500} align="center">
-                    No records found
-                  </Text>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-
-        <div className={classes.tableBottom}>
-          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-          <Pagination total={5} size="sm" />
-        </div>
-      </ScrollArea>
-
-      {/* Add New - Vendor Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Activity"
-        padding="xl"
-        size="xl"
-        position="right"
+      <Table
+        horizontalSpacing="md"
+        verticalSpacing="xs"
+        className={classes.childTable}
       >
-        <CreateForm />
-      </Drawer>
+        <thead>
+          <tr>
+            <Th
+              sorted={sortBy === 'name'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('name')}
+            >
+              Role Name
+            </Th>
+
+            <th className={classes.action}>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {rows.length > 0 ? (
+            rows
+          ) : (
+            <tr>
+              <td colSpan={Object.keys(data[0]).length}>
+                <Text weight={500} align="center">
+                  No records found
+                </Text>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
 
       {/* Edit Vendor - Vendor Edit Form Drawer*/}
       <Drawer
