@@ -552,15 +552,15 @@ export default function CreateForm() {
           </Stepper>
           {/* prev and next button */}
           <Group position="center" mt="xl">
-            {active !== 0 && (
+            {/* {active !== 0 && (
               <Button variant="default" onClick={prevStep}>
                 Prev
               </Button>
             )}
-            {active !== 1 && <Button onClick={nextStep}>Next</Button>}
-            {/* <Button fullWidth type="submit" mt="xl">
+            {active !== 1 && <Button onClick={nextStep}>Next</Button>} */}
+            <Button fullWidth type="submit" mt="xl">
               Save
-            </Button> */}
+            </Button>
           </Group>
         </form>
       </Paper>

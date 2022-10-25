@@ -14,11 +14,23 @@ interface IActivityResponse {
   uuid: string
   assigned_to: string
   assigned_by: string
+  assignedByUser: {
+    uuid: string
+    first_name: string
+    last_name: string
+  }
+
+  assignedToUser: {
+    uuid: string
+    first_name: string
+    last_name: string
+  }
+
   activity_status: string
 }
 
 export interface ITaskResponse {
-  id: string
+  uuid: string
   task_name: string
   is_complete: string
   completed_datetime: string
@@ -103,7 +115,7 @@ export const getActivitiesByOnboardingId = async (
 export const getTasksByActivityId = async (activityId: string) => {
   try {
     const { data } = await axiosPrivate.get<{ data: ITaskResponse[] }>(
-      `/task/${activityId}`
+      `/task/get/activity/${activityId}`
     )
     console.log(data)
     return data.data
@@ -118,9 +130,8 @@ export const updateTaskStatusByTaskId = async (
 ) => {
   try {
     const { data } = await axiosPrivate.post<{ data: { message: string } }>(
-      `/onboarding/status/update?task_id=${taskId}&is_complete=${status}`
+      `/onboarding/status/update?task_uuid=${taskId}&is_complete=${status}`
     )
-    console.log(data)
     return data.data.message
   } catch (error) {
     console.log(error)

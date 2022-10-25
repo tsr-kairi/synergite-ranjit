@@ -78,9 +78,13 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
                   onClick={() => onPressed(activity.uuid)}
                   style={{ cursor: 'pointer' }}
                 >
-                  Assigned To: {activity.assigned_to}
+                  Assigned To:{' '}
+                  {`${activity.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
                 </p>
-                <p>Assigned By: {activity.assigned_by}</p>
+                <p>
+                  Assigned By:{' '}
+                  {`${activity.assignedByUser.first_name} ${activity.assignedByUser.last_name}`}
+                </p>
                 <p>Status: {activity.activity_status}</p>
               </Group>
             </Paper>

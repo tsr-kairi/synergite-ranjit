@@ -365,6 +365,7 @@ export function CandidateList({ data }: ICandidateProps) {
     <>
       <ListViewLayout
         title="Candidates"
+        createDrawerSize={1200}
         createDrawerTitle="Add New Candidate"
         isError={false}
         isLoading={false}

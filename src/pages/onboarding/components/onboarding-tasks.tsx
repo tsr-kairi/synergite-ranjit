@@ -15,19 +15,9 @@ interface OnboardingTasks {
 }
 
 const OnboardingTasks: React.FC<OnboardingTasks> = ({ activityId }) => {
-  console.log('[OnboardingTasks] activityId =', activityId)
   const { data, isLoading, isError } = useQuery(activityId, () =>
     getTasksByActivityId(activityId)
   )
-  console.log(data)
-
-  const [taskList, setTaskList] = useState<ITaskResponse[]>([])
-
-  // useEffect(() => {
-  //   getTasksByActivityId(activityId)
-  //     .then((data) => setTaskList(data || []))
-  //     .catch((error) => console.log(error))
-  // }, [activityId])
 
   let element: React.ReactNode = <></>
   if (isError) {
@@ -60,17 +50,17 @@ const OnboardingTasks: React.FC<OnboardingTasks> = ({ activityId }) => {
     <div>
       {element}
 
-      {taskList?.map((task) => {
-        const { id } = task
+      {data?.map((task) => {
+        const { uuid } = task
         return (
           <OnboardingTaskTile
-            key={id}
-            id={id}
+            key={uuid}
+            id={uuid}
             title={task.task_name}
             checked={task.is_complete === 'Y' ? true : false}
             onStatusChange={(status) => {
-              updateTaskStatusByTaskId(id, status ? 'Y' : 'N').catch((error) =>
-                console.log(error)
+              updateTaskStatusByTaskId(uuid, status ? 'Y' : 'N').catch(
+                (error) => console.log(error)
               )
               return null
             }}
