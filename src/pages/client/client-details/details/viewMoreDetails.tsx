@@ -1,72 +1,55 @@
+import useEditClient from '@/pages/client/hooks/useEditClient'
 import TextDivider from '@/components/elements/text-divider'
-import useCreateClient from '@/pages/client/hooks/useCreateClient'
-import { TClientCreate } from '@/types'
-// import { useState } from 'react'
-
+import theme from '@/theme/theme'
+import { TClient } from '@/types'
 import {
-  TextInput,
-  Button,
-  Group,
   createStyles,
-  Paper,
-  FileInput,
+  Group,
   Accordion,
-  Select,
+  TextInput,
   Textarea,
+  Tooltip,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { IconPaperclip } from '@tabler/icons'
+import { IconChevronsRight } from '@tabler/icons'
 const useStyles = createStyles(() => ({
   paper: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    backgroundColor: 'transparent',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+  },
+  dividerText: {
+    color: theme.colors?.blue?.[9],
   },
 }))
 
-export default function CreateForm() {
+export default function ClientDetails(clientDetailsData: TClient) {
   const { classes } = useStyles()
-  const { mutate: addClient } = useCreateClient()
-  // const [accountData, setAccountData] = useState({} as TClient)
+  const { mutate: clientDetails } = useEditClient()
 
-  const form = useForm<TClientCreate>({
-    // validate: zodResolver(zClientCreate),
-    initialValues: {
-      first_name: '',
-      last_name: '',
-      address_line2: '',
-      zip: '',
-      country: '',
-      city: '',
-      state: '',
-      primary_email: '',
-      primary_phone: '',
-    },
+  const form = useForm<TClient>({
+    initialValues: clientDetailsData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TClientCreate) => {
-    const clientCreateData = {
+  const handleSubmit = (values: TClient) => {
+    const clientDetailsData = {
       ...values,
-      // status: 'published',
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    addClient(clientCreateData)
+    clientDetails(clientDetailsData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Client Created successfully.',
+      message: 'Client Details Fetched Successfully.',
     })
   }
 
-  // const accName = `${accountData?.first_name || ''} ${
-  //   accountData?.last_name || ''
-  // }`
-
   return (
     <>
-      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
+      <div className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Accordion defaultValue="client_details">
             <Accordion.Item
@@ -81,90 +64,87 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
-                    {...form.getInputProps('first_name')}
+                    value={clientDetailsData.first_name}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
-                    {...form.getInputProps('last_name')}
+                    value={clientDetailsData.last_name}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Display Name"
                     type={'text'}
                     placeholder="Display Name"
-                    {...form.getInputProps('display_name')}
+                    // value={clientDetailsData.display_name}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Account Status"
+                    type={'text'}
                     placeholder="Account Status"
-                    {...form.getInputProps('account_status')}
-                    data={[
-                      { value: 'active', label: 'Active' },
-                      { value: 'inactive', label: 'Inactive' },
-                    ]}
+                    // value={clientDetailsData.account_status}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Account Owner"
+                    type={'text'}
                     placeholder="Account Owner"
-                    {...form.getInputProps('account_owner')}
-                    data={[
-                      {
-                        value: 'get_from_api',
-                        label: 'Acc Owner Get From Api...',
-                      },
-                    ]}
+                    // value={clientDetailsData.account_owner}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Phone"
                     type={'number'}
                     placeholder="Phone"
-                    {...form.getInputProps('primary_phone')}
+                    value={clientDetailsData.primary_phone}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Email"
                     type={'email'}
                     placeholder="Email"
-                    {...form.getInputProps('primary_email')}
+                    value={clientDetailsData.primary_email}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Industry"
+                    type={'text'}
                     placeholder="Industry"
-                    {...form.getInputProps('industry')}
-                    data={[
-                      {
-                        value: 'active',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
+                    // value={clientDetailsData.industry}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="Website"
                     type={'text'}
                     placeholder="Website"
-                    {...form.getInputProps('website')}
+                    // value={clientDetailsData.website}
                   />
 
                   <TextInput
+                    readOnly={true}
                     label="Contract End Date"
                     type={'date'}
                     placeholder="Contract End Date"
-                    {...form.getInputProps('contract_end_date')}
+                    // value={clientDetailsData.contract_end_date}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <Textarea
+                    readOnly={true}
                     label="Description"
-                    type={'text'}
                     placeholder="Description"
-                    {...form.getInputProps('description')}
+                    // value={clientDetailsData.description}
                   />
                 </Group>
               </Accordion.Panel>
@@ -179,51 +159,38 @@ export default function CreateForm() {
               </Accordion.Control>
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="BIlling Cycle"
+                    type={'text'}
                     placeholder="BIlling Cycle"
-                    data={[
-                      { value: 'weekly', label: 'Weekly' },
-                      { value: 'bi_weekly', label: 'Bi-Weekly' },
-                      { value: 'monthly', label: 'Monthly' },
-                      { value: 'semi_monthly', label: 'Semi-Monthly' },
-                    ]}
-                    {...form.getInputProps('billing_cycle')}
+                    // value={clientDetailsData.billing_cycle}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Payment Frequency"
+                    type={'text'}
                     placeholder="Payment Frequency"
-                    data={[
-                      { value: 'NET_0', label: 'Net 0' },
-                      { value: 'NET_3', label: 'Net 3' },
-                      {
-                        value: 'NET_5',
-                        label: 'Net 5',
-                      },
-                      { value: 'NET_10', label: 'Net 10' },
-                      { value: 'NET_30', label: 'Net 30' },
-                      { value: 'NET_45', label: 'Net 45' },
-                    ]}
-                    {...form.getInputProps('payment_frequency')}
+                    // value={clientDetailsData.payment_frequency}
                   />
-                  <FileInput
+                  <TextInput
+                    readOnly={true}
                     label="Invoicing Template"
                     placeholder="Invoicing Template"
-                    icon={<IconPaperclip size={14} />}
-                    {...form.getInputProps('invoicing_template')}
+                    // value={clientDetailsData.invoicing_template}
                   />
-                  <FileInput
+                  <TextInput
+                    readOnly={true}
                     label="Format of Timesheet"
                     placeholder="Format of Timesheet"
-                    icon={<IconPaperclip size={14} />}
-                    {...form.getInputProps('format_of_template')}
+                    // value={clientDetailsData.format_of_template}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <Textarea
                     label="Remarks"
                     placeholder="Remarks"
-                    {...form.getInputProps('remarks')}
+                    // value={clientDetailsData.remarks}
                   />
                 </Group>
               </Accordion.Panel>
@@ -239,44 +206,39 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="Address 1"
                     type={'text'}
                     placeholder="Address 1"
-                    {...form.getInputProps('address_line1')}
+                    value={clientDetailsData.address_line1}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Address 2"
                     type={'text'}
                     placeholder="Address 2"
-                    {...form.getInputProps('address_line2')}
-                  />
-                  <Select
-                    label="City"
-                    placeholder="City"
-                    data={[
-                      {
-                        value: 'come_from_api_json_format',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
-                    {...form.getInputProps('city')}
-                  />
-                  <Select
-                    label="State"
-                    placeholder="State"
-                    data={[
-                      {
-                        value: 'come_from_api_json_format',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
-                    {...form.getInputProps('state')}
+                    value={clientDetailsData.address_line2}
                   />
                   <TextInput
+                    readOnly={true}
+                    label="City"
+                    type={'text'}
+                    placeholder="City"
+                    value={clientDetailsData.city}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="State"
+                    type={'text'}
+                    placeholder="State"
+                    value={clientDetailsData.state}
+                  />
+                  <TextInput
+                    readOnly={true}
                     label="Zip Code"
                     type={'number'}
                     placeholder="Zip Code"
-                    {...form.getInputProps('zip')}
+                    value={clientDetailsData.zip}
                   />
                 </Group>
               </Accordion.Panel>
@@ -293,44 +255,39 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="Address 1"
                     type={'text'}
                     placeholder="Address 1"
-                    {...form.getInputProps('address_line1')}
+                    value={clientDetailsData.address_line1}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Address 2"
                     type={'text'}
                     placeholder="Address 2"
-                    {...form.getInputProps('address_line2')}
-                  />
-                  <Select
-                    label="City"
-                    placeholder="City"
-                    data={[
-                      {
-                        value: 'come_from_api_json_format',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
-                    {...form.getInputProps('city')}
-                  />
-                  <Select
-                    label="State"
-                    placeholder="State"
-                    data={[
-                      {
-                        value: 'come_from_api_json_format',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
-                    {...form.getInputProps('state')}
+                    value={clientDetailsData.address_line2}
                   />
                   <TextInput
+                    readOnly={true}
+                    label="City"
+                    type={'text'}
+                    placeholder="City"
+                    value={clientDetailsData.city}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="State"
+                    type={'text'}
+                    placeholder="State"
+                    value={clientDetailsData.state}
+                  />
+                  <TextInput
+                    readOnly={true}
                     label="Zip Code"
                     type={'number'}
                     placeholder="Zip Code"
-                    {...form.getInputProps('zip')}
+                    value={clientDetailsData.zip}
                   />
                 </Group>
               </Accordion.Panel>
@@ -343,62 +300,46 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    label="Document Name "
+                    readOnly={true}
+                    label="Document Name"
                     type={'text'}
-                    placeholder="Document Name "
-                    {...form.getInputProps('document_name')}
-                  />
-                  <Select
-                    label="Document Type "
-                    placeholder="Document Type "
-                    data={[
-                      {
-                        value: 'premium',
-                        label: 'Premium',
-                      },
-                      {
-                        value: 'regular',
-                        label: 'Regular',
-                      },
-                    ]}
-                    {...form.getInputProps('document_type')}
-                  />
-                  <Select
-                    label="Status"
-                    placeholder="Status"
-                    data={[
-                      {
-                        value: 'blank',
-                        label: 'Blank',
-                      },
-                    ]}
-                    {...form.getInputProps('status')}
-                  />
-
-                  <FileInput
-                    label="Attachments"
-                    placeholder="Attachments"
-                    icon={<IconPaperclip size={14} />}
-                    {...form.getInputProps('attachments')}
-
-                    // accept="image/png,image/jpeg, "
+                    placeholder="Document Name"
+                    // value={clientDetailsData.document_name}
                   />
                   <TextInput
+                    readOnly={true}
+                    label="Document Type"
+                    type={'text'}
+                    placeholder="Document Type"
+                    // value={clientDetailsData.document_type}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Status"
+                    type={'text'}
+                    placeholder="Status"
+                    value={clientDetailsData.status}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Attachments"
+                    type={'text'}
+                    placeholder="Attachments"
+                    // value={clientDetailsData.attachments}
+                  />
+                  <TextInput
+                    readOnly={true}
                     label="Expiry Date"
                     type={'date'}
                     placeholder="Expiry Date"
-                    {...form.getInputProps('expiry_date')}
+                    // value={clientDetailsData.expiry_date}
                   />
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-
-          <Button fullWidth type="submit" mt="md" mb="lg">
-            Add New
-          </Button>
         </form>
-      </Paper>
+      </div>
     </>
   )
 }

@@ -1,3 +1,4 @@
+import { TClient } from '@/types'
 import {
   Avatar,
   Text,
@@ -7,12 +8,14 @@ import {
   Button,
   Drawer,
   ActionIcon,
+  Tooltip,
 } from '@mantine/core'
-import { IconAddressBook, IconArrowBackUp, IconView360 } from '@tabler/icons'
+import { IconAddressBook, IconArrowBackUp, IconEye } from '@tabler/icons'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useGetClientById from '../hooks/useGetClientById'
 import Contacts from './contacts'
+import ClientDetails from './details/viewMoreDetails'
 
 const useStyles = createStyles((theme) => ({
   main: {
@@ -36,12 +39,16 @@ const useStyles = createStyles((theme) => ({
     border: `1px solid ${theme.colors.blue[1]}`,
   },
   personalDetailsInner: {
+    display: 'flex',
+    justifyContent: 'space-between',
     borderRadius: '5px',
-    border: `1px solid ${theme.colors.blue[1]}`,
-    padding: '10px',
+    gap: '10px',
+    // border: `1px solid ${theme.colors.blue[1]}`,
+    // padding: '10px',
   },
   personalDetailsMain: {
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px',
     gap: '10px',
@@ -83,6 +90,7 @@ const useStyles = createStyles((theme) => ({
 
 export default function Personal() {
   const [opened, setOpened] = useState(false)
+  const [clientDetailsOpened, setClientDetailsIsOpened] = useState(false)
   const { clientId } = useParams()
   const { classes } = useStyles()
 
@@ -110,26 +118,41 @@ export default function Personal() {
               <Button
                 className={classes.detailHead}
                 rightIcon={<IconArrowBackUp />}
-                onClick={() => {
-                  setOpened(true)
-                }}
                 variant="subtle"
               >
                 Back to Client List
               </Button>
             </Link>
+            <Tooltip
+              label="Click to view Contacts"
+              color="blue"
+              withArrow
+              transition="slide-right"
+              transitionDuration={500}
+              onClick={() => setOpened(true)}
+            >
+              {/* <Button
+                className={classes.detailHead}
+                // rightIcon={<IconBriefcase />}
+                // variant="subtle"
+              > */}
+              <ActionIcon variant="light" radius="xl" color={'blue'}>
+                <IconAddressBook size={26} />
+              </ActionIcon>
+              {/* </Button> */}
+            </Tooltip>
           </Group>
         </div>
         <div className={classes.personalDetailsMain}>
-          <div className={classes.clientUserCard}>
-            <Avatar size={40} radius={120} mx="auto" color="cyan">
-              C
-            </Avatar>
-            <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              {data?.data?.first_name} {data?.data?.last_name}
-            </Text>
-          </div>
           <div className={classes.personalDetailsInner}>
+            <div className={classes.clientUserCard}>
+              <Avatar size={40} radius={120} mx="auto" color="cyan">
+                C
+              </Avatar>
+              <Text align="center" color="blue" size="xl" weight={700} mt="sm">
+                {data?.data?.first_name} {data?.data?.last_name}
+              </Text>
+            </div>
             {/* <Text size="lg" color="blue" weight={600} mb="xs">
               Client Details
             </Text> */}
@@ -137,7 +160,7 @@ export default function Personal() {
             <div className={classes.personalDetails}>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Client Name :</b>
+                  <b>Name :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
                   {data?.data?.first_name} {data?.data?.last_name}
@@ -183,17 +206,28 @@ export default function Personal() {
                   {data?.data?.country}
                 </Text>
               </Group>
-              <ActionIcon
-                color={'blue'}
-                // variant="transparent"
-                onClick={() => {
-                  setOpened(true)
-                }}
-              >
-                <IconAddressBook size={26} />
-              </ActionIcon>
             </div>
           </div>
+          <Button
+            className={classes.detailHead}
+            leftIcon={<IconEye />}
+            variant="subtle"
+            onClick={() => {
+              setClientDetailsIsOpened(true)
+            }}
+          >
+            View More
+          </Button>
+          {/* <ActionIcon
+            variant="light"
+            radius="xl"
+            color={'blue'}
+            onClick={() => {
+              setClientDetailsIsOpened(true)
+            }}
+          >
+            View More <IconEye size={26} />
+          </ActionIcon> */}
         </div>
         <Drawer
           opened={opened}
@@ -203,6 +237,32 @@ export default function Personal() {
           position="right"
         >
           <Contacts />
+        </Drawer>
+
+        {/* client details */}
+        <Drawer
+          opened={clientDetailsOpened}
+          onClose={() => setClientDetailsIsOpened(false)}
+          transitionDuration={700}
+          transitionTimingFunction="ease"
+          title="Client Details"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          {/* <Divider
+            className={classes.dividerText}
+            my="10px"
+            label={
+              <>
+                <IconChevronsRight />
+                <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                  {clName}
+                </Box>
+              </>
+            }
+          /> */}
+          <ClientDetails key={clientId} {...((data?.data || {}) as TClient)} />
         </Drawer>
       </div>
     </>
