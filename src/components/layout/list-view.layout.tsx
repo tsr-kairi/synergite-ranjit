@@ -19,8 +19,8 @@ import {
   IconColumns,
   IconGripVertical,
 } from '@tabler/icons'
-import { Column } from '@ant-design/plots'
 import AdjustableColumn from '../adjustable-column/adjustable-column-list'
+import theme from '@/theme/theme'
 
 interface IListViewLayoutProps {
   title: string
@@ -95,16 +95,24 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
 
         {/* Add New - Button*/}
         {!hideActionButton && (
-          <Button
+          <button
             onClick={() => {
               setIsAddNewDrawerOpen(true)
             }}
+            style={{
+              borderRadius: '100%',
+              width: '48px',
+              height: '48px',
+              background: theme.colors?.blue?.[6],
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              border: 'none',
+              cursor: 'pointer',
+            }}
           >
-            <Group spacing="sm" align="center">
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
+            <IconPlus color="white" size={40} />
+          </button>
         )}
       </div>
 
