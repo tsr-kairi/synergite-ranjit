@@ -22,7 +22,7 @@ const zDocument = z.object({
 })
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
-  uuid: z.string(),
+  uuid: z.string().optional(),
   created_by: z.string(),
   created_date: z.date(),
   modified_by: z.string(),

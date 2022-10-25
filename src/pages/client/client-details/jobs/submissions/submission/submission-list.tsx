@@ -280,12 +280,16 @@ export function SubmissionList({ data }: ISubmissionProps) {
           <Badge color="red">Rejected</Badge>
         ) : row.status === 'On Hold' ? (
           <Badge color="yellow">On Hold</Badge>
-        ) : row.status === 'Selected' ? (
+        ) : row.status === 'Selected' || row.status === null ? (
           <Badge
             color="blue"
             onClick={() =>
               navigate(
-                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${row.vendor_uuid}&employee_uuid=${row.employee_uuid}`
+                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${
+                  row.vendor_uuid
+                }&employee_uuid=${row.employee_uuid}&submission_uuid=${
+                  row.uuid || ''
+                }`
               )
             }
             style={{ cursor: 'pointer' }}
