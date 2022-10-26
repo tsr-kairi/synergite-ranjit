@@ -33,6 +33,7 @@ import EditCandidate from '@/components/form/candidate/editForm'
 import CreateCandidate from '@/components/form/candidate/createForm'
 import { Link } from 'react-router-dom'
 import useDeleteCandidateById from './hooks/useDeleteCandidateById'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -213,11 +214,14 @@ export function CandidateList({ data }: ICandidateProps) {
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget
-    setSearch(value)
+  const handleSearchChange = (searchTerm: string) => {
+    setSearch(searchTerm)
     setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+      sortData(data, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: searchTerm,
+      })
     )
   }
 
@@ -302,8 +306,6 @@ export function CandidateList({ data }: ICandidateProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.candidateRowData}>
-      {/* <td>{row?.employee_id}</td> */}
-      <td>{/* {row?.uuid} */}</td>
       <td>
         <Link
           to={`/candidate-details/${row?.uuid}`}
@@ -361,59 +363,23 @@ export function CandidateList({ data }: ICandidateProps) {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ScrollArea>
-        <div className={classes.tableHead}>
-          <Group spacing="sm">
-            <Text size={'xl'} weight="600" className={classes.text}>
-              Candidates
-            </Text>
-            <IconFilter
-              className={classes.filterIcon}
-              onClick={() => openModalForFilter()}
-              cursor="pointer"
-            />
-          </Group>
-          <TextInput
-            placeholder="Search by any field"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            value={search}
-            onChange={handleSearchChange}
-            radius="xl"
-            className={classes.searchField}
-          />
-          {/* Add New - Client Button*/}
-          <Button
-            onClick={() => setOpened(true)}
-            styles={(theme) => ({
-              root: {
-                backgroundColor: '#04334c',
-                '&:hover': {
-                  backgroundColor: theme.fn.darken('#04334c', 0.05),
-                },
-              },
-            })}
-          >
-            <Group spacing="sm" align="center">
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
-        </div>
+      <ListViewLayout
+        title="Candidates"
+        createDrawerSize={1200}
+        createDrawerTitle="Add New Candidate"
+        isError={false}
+        isLoading={false}
+        createDrawerChildren={<CreateCandidate />}
+        onFilterClick={openModalForFilter}
+        onSearchChange={handleSearchChange}
+      >
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
           className={classes.childTable}
-          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
         >
           <thead>
             <tr>
-              <Th
-                sorted={sortBy === 'employee_id'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('employee_id')}
-              >
-                Candidate Id
-              </Th>
               <Th
                 sorted={sortBy === 'fname'}
                 reversed={reverseSortDirection}
@@ -481,25 +447,7 @@ export function CandidateList({ data }: ICandidateProps) {
             )}
           </tbody>
         </Table>
-
-        <div className={classes.tableBottom}>
-          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-          <Pagination total={5} size="sm" />
-        </div>
-      </ScrollArea>
-
-      {/* Add New - employee Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Candidate"
-        padding="xl"
-        // size="xl"
-        size="1400px"
-        position="right"
-      >
-        <CreateCandidate />
-      </Drawer>
+      </ListViewLayout>
 
       {/* Edit Employee - Employee Edit Form Drawer*/}
       <Drawer

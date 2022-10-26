@@ -41,6 +41,8 @@ const OnboardingList = () => {
         hideActionButton={true}
         hideColumnButton={true}
         onSearchChange={setSearchTerm}
+        isError={false}
+        isLoading={false}
       >
         <Table horizontalSpacing="md" verticalSpacing="xs">
           <thead>
@@ -69,7 +71,9 @@ const OnboardingList = () => {
                   <td>
                     {isPreOnboardingStatus ? (
                       <Link
-                        to={`/onboarding?onboarding_uuid${onboarding.uuid}`}
+                        to={`/onboarding?onboarding_uuid${
+                          onboarding.uuid || ''
+                        }`}
                         style={{
                           textDecoration: 'none',
                           color: theme?.colors?.grey?.[9],
@@ -112,7 +116,7 @@ const OnboardingList = () => {
                       }}
                       onClick={() => {
                         setIsActivityOpen(true)
-                        setSelectedOnboardingId(onboarding.uuid)
+                        setSelectedOnboardingId(onboarding.uuid || '')
                       }}
                     />
                   </td>
@@ -154,17 +158,19 @@ const OnboardingList = () => {
         size="xl"
         position="right"
       >
-        <OnboardingActivitySidebar
-          onboardingId={selectedOnboardingId}
-          onDepartmentChange={() => setSelectedActivityUUID('')}
-          onPressed={(activityId) => {
-            setSelectedActivityUUID(activityId)
-          }}
-        />
+        <div style={{ height: '100vh', overflowY: 'auto' }}>
+          <OnboardingActivitySidebar
+            onboardingId={selectedOnboardingId}
+            onDepartmentChange={() => setSelectedActivityUUID('')}
+            onPressed={(activityId) => {
+              setSelectedActivityUUID(activityId)
+            }}
+          />
 
-        {selectedActivityUUID && (
-          <OnboardingTasks activityId={selectedActivityUUID} />
-        )}
+          {selectedActivityUUID && (
+            <OnboardingTasks activityId={selectedActivityUUID} />
+          )}
+        </div>
       </Drawer>
     </>
   )

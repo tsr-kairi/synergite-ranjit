@@ -179,6 +179,12 @@ export default function Onboarding() {
       vendor_uuid: vendorUUID,
       client_uuid: clientUUID,
       submission_uuid: submissionUUID,
+
+      // TODO: This is going to be fetched from backend
+      immigration_status: 'H1',
+      employee_type: 'W2',
+      new_client: 'Yes',
+      new_sub_vendor: 'N/A',
     }
 
     console.log(onboardingData)

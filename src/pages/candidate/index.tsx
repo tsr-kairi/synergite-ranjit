@@ -13,7 +13,6 @@ export const Candidate = () => {
 
   if (data?.data.length) {
     return <CandidateList data={data?.data} />
-    // return <>Candidate List</>
   } else {
     return <Loader variant="dots" />
   }

@@ -303,134 +303,73 @@ export function ClientTable({ data }: IClientTableProps) {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ScrollArea>
-        <div className={classes.tableHead}>
-          <Group spacing="sm">
-            <Text size={'xl'} weight="600" className={classes.text}>
-              Clients
-            </Text>
-            <IconFilter className={classes.filterIcon} />
-          </Group>
-          <TextInput
-            placeholder="Search by any field"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            value={search}
-            onChange={handleSearchChange}
-            radius="xl"
-            className={classes.searchField}
-          />
-          {/* Add New - Client Button*/}
-          <Button
-            onClick={() => setOpened(true)}
-            styles={(theme) => ({
-              root: {
-                backgroundColor: '#04334c',
-                '&:hover': {
-                  backgroundColor: theme.fn.darken('#04334c', 0.05),
-                },
-              },
-            })}
-          >
-            <Group spacing="sm" align="center">
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
-        </div>
-
-        <Table
-          horizontalSpacing="md"
-          verticalSpacing="xs"
-          className={classes.childTable}
-          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
-        >
-          <thead>
-            <tr>
-              {/* <Th
-                sorted={sortBy === 'id'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('id')}
-              >
-                ID
-              </Th> */}
-              <Th
-                sorted={sortBy === 'first_name'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('first_name')}
-              >
-                Name
-              </Th>
-              <Th
-                sorted={sortBy === 'primary_email'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('primary_email')}
-              >
-                Email
-              </Th>
-              <Th
-                sorted={sortBy === 'primary_phone'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('primary_phone')}
-              >
-                Phone
-              </Th>
-              <Th
-                sorted={sortBy === 'city'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('city')}
-              >
-                City
-              </Th>
-              <Th
-                sorted={sortBy === 'state'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('state')}
-              >
-                State
-              </Th>
-              <Th
-                sorted={sortBy === 'country'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('country')}
-              >
-                Country
-              </Th>
-              <th className={classes.action}>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {rows.length > 0 ? (
-              rows
-            ) : (
-              <tr>
-                <td colSpan={Object.keys(data[0]).length}>
-                  <Text weight={500} align="center">
-                    No records found
-                  </Text>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-
-        <div className={classes.tableBottom}>
-          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-          <Pagination total={5} size="sm" />
-        </div>
-      </ScrollArea>
-
-      {/* Add New - Client Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Client"
-        padding="xl"
-        size="1200px"
-        position="right"
+      <Table
+        horizontalSpacing="md"
+        verticalSpacing="xs"
+        className={classes.childTable}
       >
-        <CreateClient />
-      </Drawer>
+        <thead>
+          <tr>
+            <Th
+              sorted={sortBy === 'first_name'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('first_name')}
+            >
+              Name
+            </Th>
+            <Th
+              sorted={sortBy === 'primary_email'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('primary_email')}
+            >
+              Email
+            </Th>
+            <Th
+              sorted={sortBy === 'primary_phone'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('primary_phone')}
+            >
+              Phone
+            </Th>
+            <Th
+              sorted={sortBy === 'city'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('city')}
+            >
+              City
+            </Th>
+            <Th
+              sorted={sortBy === 'state'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('state')}
+            >
+              State
+            </Th>
+            <Th
+              sorted={sortBy === 'country'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('country')}
+            >
+              Country
+            </Th>
+            <th className={classes.action}>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {rows.length > 0 ? (
+            rows
+          ) : (
+            <tr>
+              <td colSpan={Object.keys(data[0]).length}>
+                <Text weight={500} align="center">
+                  No records found
+                </Text>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
 
       {/* Edit Client - Client Edit Form Drawer*/}
       <Drawer

@@ -304,13 +304,55 @@ export default function VendorTable({ data }: IVendorTableProps) {
   // Returning the Scroll Area of Table
   return (
     <>
+      <div className={classes.tableHead}>
+        <Group spacing="sm">
+          <Text size={'xl'} weight="600" className={classes.text}>
+            Vendors
+          </Text>
+          <IconFilter className={classes.filterIcon} />
+        </Group>
+        <TextInput
+          placeholder="Search by any field"
+          icon={<IconSearch size={14} stroke={1.5} />}
+          value={search}
+          onChange={handleSearchChange}
+          radius="xl"
+          className={classes.searchField}
+        />
+        {/* Add New - Client Button*/}
+        <Button
+          onClick={() => setOpened(true)}
+          styles={(theme) => ({
+            root: {
+              backgroundColor: '#04334c',
+              '&:hover': {
+                backgroundColor: theme.fn.darken('#04334c', 0.05),
+              },
+            },
+          })}
+        >
+          <Group spacing="sm" align="center">
+            <IconPlus color="white" />
+            <Text weight={400}>Add New</Text>
+          </Group>
+        </Button>
+      </div>
+
       <Table
         horizontalSpacing="md"
         verticalSpacing="xs"
         className={classes.childTable}
+        // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
       >
         <thead>
           <tr>
+            {/* <Th
+                sorted={sortBy === 'id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('id')}
+              >
+                ID
+              </Th> */}
             <Th
               sorted={sortBy === 'first_name'}
               reversed={reverseSortDirection}
@@ -378,7 +420,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
         onClose={() => setIsOpened(false)}
         title="Edit Vendor"
         padding="xl"
-        size="1200px"
+        size="xl"
         position="right"
       >
         <EditVendor {...vendorEditData} />

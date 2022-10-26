@@ -200,7 +200,6 @@ interface JobsProps {
 // Exporting Default ClientTable Component
 
 export default function JobsTable({ data }: JobsProps) {
-  // const { clientId } = useParams()
   /* Add New - Client state*/
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
@@ -212,10 +211,6 @@ export default function JobsTable({ data }: JobsProps) {
   const { classes } = useStyles()
   const { mutate: deleteJob } = useDeleteJobById()
 
-  // const { jobId } = useParams()
-  // console.log('empType', jobId)
-
-  // const { state } = useLocation()
   const setJob = useOnboarding((state) => state.setJob)
 
   const setSorting = (field: keyof TJobs) => {
@@ -351,7 +346,7 @@ export default function JobsTable({ data }: JobsProps) {
                       transition="pop-top-right"
                       transitionDuration={300}
                     >
-                      <div>{row?.title}</div>
+                      <div>{row?.job_title}</div>
                     </Tooltip>
                   </Link>
                 </td>

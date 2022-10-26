@@ -41,7 +41,6 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const params = new URLSearchParams(search)
   const clientUuid = params.get('client_id')
   const { jobId } = useParams()
-  // console.log('newJobId', jobId)
 
   const { classes } = useStyles()
   const { mutate: addSubmission } = useCreateSubmission()
@@ -73,7 +72,6 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
-  // console.log(form.values)
 
   const employeeName = `${employeeDetails?.fname || ''} ${
     employeeDetails?.lname || ''

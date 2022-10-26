@@ -144,12 +144,11 @@ const NavBar: React.FC<NavBarProps> = ({
   const { classes } = useStyles()
 
   const links = navLinkList.map((item) => {
-    console.log(item.isActive, isBurgerIconOpen)
-    // true || false = true
-    // true || true = true
     let isOpen = item.isActive
     if (item.isActive && isBurgerIconOpen) {
       isOpen = true
+    } else if (item.isActive && !isBurgerIconOpen) {
+      isOpen = false
     }
 
     return (
