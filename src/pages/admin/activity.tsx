@@ -201,6 +201,8 @@ export const AdminActivity: React.FC = () => {
       title="Activity Table"
       createDrawerTitle="Add new Activity"
       createDrawerChildren={<ActivityForm />}
+      isError={false}
+      isLoading={false}
     >
       <thead>
         <tr>

@@ -350,7 +350,6 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                 <Grid>
                   <Grid.Col span={4}>
                     <FileInput
-                      readOnly={true}
                       label="Attachment"
                       placeholder="Attachment"
                       icon={<IconUpload size={14} />}
@@ -403,7 +402,6 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                   </Grid.Col>
                   <Grid.Col span={4}>
                     <FileInput
-                      readOnly={true}
                       label="Upload Resume"
                       placeholder="Upload Resume"
                       icon={<IconUpload size={14} />}

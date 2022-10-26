@@ -78,6 +78,8 @@ export const AdminActivityDetails = () => {
           title="Task"
           createDrawerTitle="Add Task"
           createDrawerChildren={<TaskForm />}
+          isError={false}
+          isLoading={false}
         >
           <Table
             horizontalSpacing="md"

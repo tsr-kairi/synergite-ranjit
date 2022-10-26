@@ -30,7 +30,13 @@ const Timesheet = () => {
       )}
       {!createSheet && (
         <>
-          <ListViewLayout title="Timesheets" hideActionButton hideColumnButton>
+          <ListViewLayout
+            title="Timesheets"
+            hideActionButton
+            hideColumnButton
+            isError={false}
+            isLoading={false}
+          >
             <Table horizontalSpacing="md" verticalSpacing="xs">
               <thead>
                 <tr>

@@ -256,6 +256,8 @@ const JobList = () => {
           <CreateJobForm />
         </div>
       }
+      isError={false}
+      isLoading={false}
     >
       <>
         <thead>
