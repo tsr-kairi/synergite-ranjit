@@ -1,18 +1,13 @@
 import { useState } from 'react'
 import {
   createStyles,
-  Table,
-  ScrollArea,
   UnstyledButton,
+  Table,
   Group,
   Text,
   Center,
-  TextInput,
-  Button,
   Drawer,
-  Pagination,
   Tooltip,
-  Checkbox,
   Avatar,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -20,11 +15,8 @@ import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
   IconEdit,
   IconTrash,
-  IconPlus,
-  IconFilter,
 } from '@tabler/icons'
 import { TCandidate } from '@/types/candidate-type'
 import { openConfirmModal } from '@mantine/modals'
@@ -197,7 +189,6 @@ interface ICandidateProps {
 
 // Exporting Default ClientTable Component
 export function CandidateList({ data }: ICandidateProps) {
-  const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)

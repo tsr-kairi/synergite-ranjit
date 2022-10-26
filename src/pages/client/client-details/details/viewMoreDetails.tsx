@@ -8,11 +8,9 @@ import {
   Accordion,
   TextInput,
   Textarea,
-  Tooltip,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { IconChevronsRight } from '@tabler/icons'
 const useStyles = createStyles(() => ({
   paper: {
     backgroundColor: 'transparent',

@@ -213,18 +213,6 @@ export default function Personal() {
           size="1200px"
           position="right"
         >
-          {/* <Divider
-            className={classes.dividerText}
-            my="10px"
-            label={
-              <>
-                <IconChevronsRight />
-                <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
-                  {clName}
-                </Box>
-              </>
-            }
-          /> */}
           <CandidateDetails
             key={candidateId}
             {...((data?.data || {}) as TCandidate)}
