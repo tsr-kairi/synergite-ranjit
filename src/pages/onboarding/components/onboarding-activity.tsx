@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { getActivitiesByOnboardingId } from '@/services/onboarding.services'
-import { Button, Group, Loader, Paper } from '@mantine/core'
+import { Badge, Button, Group, Loader, Paper } from '@mantine/core'
 import { useQuery } from 'react-query'
 import useGetAllDepartment from '@/pages/department/hooks/useGetAllDepartment'
 
@@ -73,19 +73,55 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
         {data?.map((activity) => {
           return (
             <Paper key={activity.uuid}>
-              <Group>
+              <Group align={'center'}>
                 <p
                   onClick={() => onPressed(activity.uuid)}
                   style={{ cursor: 'pointer' }}
                 >
                   Assigned To:{' '}
-                  {`${activity.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
+                  {`${activity?.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
                 </p>
                 <p>
                   Assigned By:{' '}
-                  {`${activity.assignedByUser.first_name} ${activity.assignedByUser.last_name}`}
+                  {`${activity?.assignedByUser.first_name} ${activity.assignedByUser.last_name}`}
                 </p>
-                <p>Status: {activity.activity_status}</p>
+                {/* {activity.activity_status} */}
+                <Group align={'center'}>
+                  <p>Status:</p>
+                  <p>
+                    {activity.activity_status === 'ASSIGNED' ? (
+                      <Badge
+                        style={{
+                          border: `2px solid #808080`,
+                        }}
+                        size="lg"
+                        color="grey"
+                      >
+                        ASSIGNED
+                      </Badge>
+                    ) : activity.activity_status === 'IN-PROGRESS' ? (
+                      <Badge
+                        style={{
+                          border: `2px solid #FFFF00`,
+                        }}
+                        size="lg"
+                        color="yellow"
+                      >
+                        IN-PROGRESS
+                      </Badge>
+                    ) : activity.activity_status === 'COMPLETED' ? (
+                      <Badge
+                        style={{
+                          border: `2px solid #008000`,
+                        }}
+                        size="lg"
+                        color="green"
+                      >
+                        COMPLETED
+                      </Badge>
+                    ) : null}
+                  </p>
+                </Group>
               </Group>
             </Paper>
           )
