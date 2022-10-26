@@ -82,7 +82,7 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
                   {`${activity?.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
                 </p>
                 <p>
-                  Assigned By:{' '}
+                  Assigned By:
                   {`${activity?.assignedByUser.first_name} ${activity.assignedByUser.last_name}`}
                 </p>
                 {/* {activity.activity_status} */}
