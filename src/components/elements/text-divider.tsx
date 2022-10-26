@@ -21,7 +21,7 @@ const TextDivider: React.FC<TextDividerProps> = ({ label }) => {
       label={
         <>
           <IconChevronsRight />
-          <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+          <Box style={{ fontFamily: '-moz-initial', fontSize: '18px' }} ml={5}>
             {label}
           </Box>
         </>

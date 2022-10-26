@@ -1,53 +1,52 @@
-import useEditVendor from '@/pages/vendor/hooks/useEditVendor'
 import TextDivider from '@/components/elements/text-divider'
-
 import { TVendor } from '@/types'
 import {
-  TextInput,
-  Button,
-  Group,
   createStyles,
-  Paper,
+  Group,
   Accordion,
-  Select,
+  TextInput,
   Textarea,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-const useStyles = createStyles(() => ({
+import useEditVendor from '../../hooks/useEditVendor'
+const useStyles = createStyles((theme) => ({
   paper: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    backgroundColor: 'transparent',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+  },
+  dividerText: {
+    color: theme.colors?.blue?.[9],
   },
 }))
 
-export default function EditForm(vendorData: TVendor) {
+export default function VendorDetails(vendorDetailsData: TVendor) {
   const { classes } = useStyles()
-  const { mutate: editVendor } = useEditVendor()
+  const { mutate: vendorDetails } = useEditVendor()
 
   const form = useForm<TVendor>({
-    // validate: zodResolver(zVendorEdit),
-    initialValues: vendorData,
+    initialValues: vendorDetailsData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
   const handleSubmit = (values: TVendor) => {
-    const vendorCreateData = {
+    const vendorDetailsData = {
       ...values,
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    editVendor(vendorCreateData)
+    vendorDetails(vendorDetailsData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Vendor Edited successfully.',
+      message: 'Client Details Fetched Successfully.',
     })
   }
 
   return (
     <>
-      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
+      <div className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Accordion defaultValue="vendor_details">
             <Accordion.Item
@@ -62,84 +61,85 @@ export default function EditForm(vendorData: TVendor) {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
-                    {...form.getInputProps('first_name')}
+                    value={vendorDetailsData.first_name}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
-                    {...form.getInputProps('last_name')}
+                    value={vendorDetailsData.last_name}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Address 1"
                     type={'text'}
                     placeholder="Address 1"
-                    {...form.getInputProps('address_line1')}
+                    // value={vendorDetailsData.address_line1}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Address 2"
                     type={'text'}
                     placeholder="Address 2"
-                    {...form.getInputProps('address_line2')}
+                    // value={vendorDetailsData.address_line2}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="City"
                     type={'text'}
                     placeholder="City"
-                    {...form.getInputProps('city')}
+                    value={vendorDetailsData.city}
                   />
                   <TextInput
+                    readOnly={true}
                     label="County"
                     type={'text'}
                     placeholder="County"
-                    {...form.getInputProps('county')}
+                    // value={vendorDetailsData.county}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Country"
+                    type={'text'}
                     placeholder="Country"
-                    {...form.getInputProps('country')}
-                    data={[
-                      {
-                        value: 'country',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
+                    value={vendorDetailsData.country}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="State"
+                    type={'text'}
                     placeholder="State"
-                    {...form.getInputProps('state')}
-                    data={[
-                      {
-                        value: 'state',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
+                    value={vendorDetailsData.state}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="Zip"
                     type={'number'}
                     placeholder="Zip"
-                    {...form.getInputProps('zip')}
+                    // value={vendorDetailsData.zip}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Phone"
                     type={'number'}
                     placeholder="Phone"
-                    {...form.getInputProps('primary_phone')}
+                    value={vendorDetailsData.primary_phone}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Email"
                     type={'email'}
                     placeholder="Email"
-                    {...form.getInputProps('primary_email')}
+                    value={vendorDetailsData.primary_email}
                   />
                 </Group>
               </Accordion.Panel>
@@ -155,40 +155,40 @@ export default function EditForm(vendorData: TVendor) {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="Invoicing Frequency"
                     type={'email'}
                     placeholder="Invoicing Frequency"
-                    {...form.getInputProps('invoicing_frequency')}
+                    // value={vendorDetailsData.invoicing_frequency}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Format of Timesheet"
                     type={'email'}
                     placeholder="Format of Timesheet"
-                    {...form.getInputProps('format_of_timesheet')}
+                    // value={vendorDetailsData.format_of_timesheet}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Additional Details"
                     type={'email'}
                     placeholder="Additional Details"
-                    {...form.getInputProps('additional_details')}
+                    // value={vendorDetailsData.additional_details}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <Textarea
+                    readOnly={true}
                     label="Remarks"
                     placeholder="Remarks"
-                    {...form.getInputProps('remarks')}
+                    // value={vendorDetailsData.remarks}
                   />
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-
-          <Button fullWidth type="submit" mt="md" mb="lg">
-            Update Now
-          </Button>
         </form>
-      </Paper>
+      </div>
     </>
   )
 }
