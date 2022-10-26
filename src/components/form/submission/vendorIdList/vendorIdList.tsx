@@ -210,9 +210,15 @@ export function VendorId({ data, setVendor }: IVendorProps) {
         <Radio value={item.uuid} onClick={() => setVendor(item)} />
       </td>
       <td>
-        <Text size="sm" weight={500}>
-          {item.first_name} {item.last_name}
-        </Text>
+        {item ? (
+          <Text size="sm" weight={500}>
+            {item.first_name} {item.last_name}
+          </Text>
+        ) : (
+          <Text size="sm" weight={500}>
+            NA
+          </Text>
+        )}
       </td>
     </tr>
   ))

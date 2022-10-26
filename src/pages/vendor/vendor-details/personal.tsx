@@ -1,4 +1,4 @@
-import { TClient, TVendor } from '@/types'
+import { TVendor } from '@/types'
 import {
   Avatar,
   Text,
@@ -7,14 +7,11 @@ import {
   Loader,
   Button,
   Drawer,
-  ActionIcon,
-  Tooltip,
 } from '@mantine/core'
-import { IconAddressBook, IconArrowBackUp, IconEye } from '@tabler/icons'
+import { IconArrowBackUp, IconEye } from '@tabler/icons'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import useGetVendorById from '../hooks/useGetVendorById'
-import Contacts from './contacts'
 import VendorDetails from './details/viewMoreDetails'
 
 const useStyles = createStyles((theme) => ({
@@ -90,7 +87,6 @@ const useStyles = createStyles((theme) => ({
 
 export default function Personal() {
   const { classes } = useStyles()
-  const [opened, setOpened] = useState(false)
   const [vendorDetailsOpened, setVendorDetailsIsOpened] = useState(false)
   const { vendorId } = useParams()
 

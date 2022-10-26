@@ -5,47 +5,68 @@ import {
   Loader,
   Avatar,
   Button,
+  Drawer,
 } from '@mantine/core'
-import { IconArrowBackUp } from '@tabler/icons'
+import { IconArrowBackUp, IconEye } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
 import useGetCandidateById from '../hooks/useGetCandidateById'
+import { useState } from 'react'
+import { TCandidate } from '@/types/candidate-type'
+import CandidateDetails from './details/viewMoreDetails'
 
 const useStyles = createStyles((theme) => ({
   main: {
     display: 'flex',
-    gap: '20px',
-  },
-  mainInner: {
-    display: 'flex',
     flexDirection: 'column',
-    gap: '20px',
+    gap: '10px',
   },
-  candidateUserCard: {
-    display: 'flex',
-    justifyContent: 'center',
+  clientUserCard: {
     border: `1px solid ${theme.colors.blue[1]}`,
     borderRadius: '5px',
     paddingLeft: '20px',
     paddingRight: '20px',
-    marginTop: '10px',
-  },
-  UserCardInner: {
-    paddingTop: '20px',
-    paddingBottom: '20px',
+    paddingTop: '13px',
+    paddingBottom: '13px',
   },
   personalDetails: {
     display: 'flex',
     padding: '10px',
-    gap: '50px',
+    gap: '40px',
     borderRadius: '5px',
     border: `1px solid ${theme.colors.blue[1]}`,
   },
+  personalDetailsInner: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    borderRadius: '5px',
+    gap: '10px',
+    // border: `1px solid ${theme.colors.blue[1]}`,
+    // padding: '10px',
+  },
+  personalDetailsMain: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px',
+    gap: '10px',
+    borderRadius: '5px',
+    border: `1px solid ${theme.colors.blue[1]}`,
+  },
+
   detailHead: {
     border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
     paddingLeft: '20px',
     paddingRight: '20px',
     borderRadius: '5px',
+  },
+  detailBottom: {
+    marginBottom: '5px',
+    borderBottom: `1px solid transparent`,
+
+    '&:hover': {
+      borderBottom: `1px solid blue`,
+    },
   },
   detailsIcon: {
     '&:hover': {
@@ -65,6 +86,8 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Personal() {
+  const [candidateDetailsOpened, setCandidateDetailsIsOpened] = useState(false)
+
   const { candidateId } = useParams()
   const { classes } = useStyles()
 
@@ -86,293 +109,128 @@ export default function Personal() {
   }
 
   return (
-    <div className={classes.main}>
-      {/* back to Employ table list */}
-      <div>
-        <Link to={`/candidate`} className={classes.userLink}>
-          <Button
-            className={classes.detailHead}
-            rightIcon={<IconArrowBackUp />}
-            variant="subtle"
-          >
-            Back to Candidate List
-          </Button>
-        </Link>
-        <div className={classes.candidateUserCard}>
-          <div className={classes.UserCardInner}>
-            <Avatar size={40} radius={120} mx="auto" color="cyan">
-              C
-            </Avatar>
-            <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              {data?.data?.fname} {data?.data?.lname}
-            </Text>
-          </div>
+    <>
+      <div className={classes.main}>
+        <div>
+          <Group position="apart">
+            <Link to={`/candidate`} className={classes.userLink}>
+              <Button
+                className={classes.detailHead}
+                rightIcon={<IconArrowBackUp />}
+                variant="subtle"
+              >
+                Back to Candidate List
+              </Button>
+            </Link>
+          </Group>
         </div>
-      </div>
-      <div className={classes.mainInner}>
-        <div className={classes.personalDetails}>
-          <div>
-            <Text size="md" color="blue" weight={600} mb="xs">
-              Personal Information
-            </Text>
+        <div className={classes.personalDetailsMain}>
+          <div className={classes.personalDetailsInner}>
+            <div className={classes.clientUserCard}>
+              <Avatar size={40} radius={120} mx="auto" color="cyan">
+                C
+              </Avatar>
+              <Text align="center" color="blue" size="xl" weight={700} mt="sm">
+                {data?.data?.fname} {data?.data?.lname}
+              </Text>
+            </div>
+            {/* <Text size="lg" color="blue" weight={600} mb="xs">
+              Client Details
+            </Text> */}
+
             <div className={classes.personalDetails}>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Employee Id :</b>
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
                   <b>Name :</b>
                 </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+                <Text size="lg" color="#686969" weight={400}>
                   {data?.data?.fname} {data?.data?.lname}
                 </Text>
               </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
                   <b>Email :</b>
                 </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+                <Text size="lg" color="#686969" weight={400}>
                   {data?.data?.email}
                 </Text>
               </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
                   <b>Phone :</b>
                 </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+                <Text size="lg" color="#686969" weight={400}>
                   {data?.data?.phone}
                 </Text>
               </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Ssn :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.ssn_no}
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Date of Birth :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.dob}
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Gender :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.gender}
-                </Text>
-              </Group>
-            </div>
-          </div>
-        </div>
-        <div className={classes.personalDetails}>
-          <div>
-            <Text size="md" color="blue" weight={600} mb="xs">
-              Address Information
-            </Text>
-            <div className={classes.personalDetails}>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Address Line 1 :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.address1}
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Address line 2 :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.address2}
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
                   <b>City :</b>
                 </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+                <Text size="lg" color="#686969" weight={400}>
                   {data?.data?.city}
                 </Text>
               </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
                   <b>State :</b>
                 </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
+                <Text size="lg" color="#686969" weight={400}>
                   {data?.data?.state}
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>County :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.county}
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Country :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.country}
-                </Text>
-              </Group>
-              <Group spacing="xs">
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  <b>Zip Code :</b>
-                </Text>
-                <Text
-                  size="sm"
-                  color="#686969"
-                  weight={400}
-                  transform="capitalize"
-                >
-                  {data?.data?.zip}
                 </Text>
               </Group>
             </div>
           </div>
+          <Button
+            className={classes.detailHead}
+            leftIcon={<IconEye />}
+            variant="subtle"
+            onClick={() => {
+              setCandidateDetailsIsOpened(true)
+            }}
+          >
+            View More
+          </Button>
+          {/* <ActionIcon
+            variant="light"
+            radius="xl"
+            color={'blue'}
+            onClick={() => {
+              setCandidateDetailsIsOpened(true)
+            }}
+          >
+            View More <IconEye size={26} />
+          </ActionIcon> */}
         </div>
+        {/* client details */}
+        <Drawer
+          opened={candidateDetailsOpened}
+          onClose={() => setCandidateDetailsIsOpened(false)}
+          transitionDuration={700}
+          transitionTimingFunction="ease"
+          title="Candidate Details"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          {/* <Divider
+            className={classes.dividerText}
+            my="10px"
+            label={
+              <>
+                <IconChevronsRight />
+                <Box style={{ fontFamily: '-moz-initial' }} ml={5}>
+                  {clName}
+                </Box>
+              </>
+            }
+          /> */}
+          <CandidateDetails
+            key={candidateId}
+            {...((data?.data || {}) as TCandidate)}
+          />
+        </Drawer>
       </div>
-    </div>
+    </>
   )
 }

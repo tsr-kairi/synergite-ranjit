@@ -22,6 +22,10 @@ import VendorIdList from './vendorIdList'
 import { TAEmployee } from '@/types/employee-type'
 import { TVendor } from '@/types'
 import { IconExternalLink } from '@tabler/icons'
+import { TRecruitersFindAll } from '@/types/recruiters-type'
+import axiosPrivate from '@/services/axiosPrivate'
+import { recruitersQueryKeys } from '@/react-query/queryKeys'
+import { useQuery } from 'react-query'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -58,9 +62,21 @@ export default function EditForm(submissionData: TSubmission) {
     vendorDetails?.last_name || ''
   }`
 
+  // get recruiters api function
+  const findAlRecruiter = async () => {
+    const response = await axiosPrivate.get<TRecruitersFindAll>(`/recruiters`)
+    return response.data
+  }
+  const { data: recruiters } = useQuery<TRecruitersFindAll, Error>(
+    recruitersQueryKeys.recruiters,
+    findAlRecruiter
+  )
+
   const handleSubmit = (values: TSubmission) => {
     const submissionCreateData = {
       ...values,
+      employeeName,
+      vendorName,
     }
 
     editSubmission(submissionCreateData)
@@ -75,6 +91,32 @@ export default function EditForm(submissionData: TSubmission) {
     <>
       <Paper p={20} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <TextInput
+            key={employeeDetails?.uuid}
+            mt="md"
+            required
+            label="Candidate"
+            type={'text'}
+            placeholder="Candidate"
+            onClick={() => {
+              employeeListIsOpened(true)
+            }}
+            value={employeeName || ''}
+            rightSection={
+              employeeDetails?.uuid ? (
+                <IconExternalLink
+                  size="20"
+                  color="grey"
+                  cursor="pointer"
+                  onClick={() => {
+                    setEmployeeOpened(true)
+                    // setEmployeeDetails(employeeDetails)
+                  }}
+                />
+              ) : null
+            }
+          />
+          {/* {employeeType.state === 'UP' && ( */}
           <TextInput
             mt="md"
             required
@@ -99,33 +141,9 @@ export default function EditForm(submissionData: TSubmission) {
               ) : null
             }
           />
-          <TextInput
-            key={employeeDetails?.uuid}
-            mt="md"
-            required
-            label="Candidate"
-            type={'text'}
-            placeholder="Candidate"
-            onClick={() => {
-              employeeListIsOpened(true)
-            }}
-            value={employeeName || employeeName}
-            rightSection={
-              employeeDetails?.uuid ? (
-                <IconExternalLink
-                  size="20"
-                  color="grey"
-                  cursor="pointer"
-                  onClick={() => {
-                    setEmployeeOpened(true)
-                    // setEmployeeDetails(employeeDetails)
-                  }}
-                />
-              ) : null
-            }
-          />
+          {/* )} */}
           <Grid mt="md">
-            <Grid.Col span={6}>
+            <Grid.Col span={12}>
               <Select
                 data={[
                   { value: 'Selected', label: 'Selected' },
@@ -134,37 +152,40 @@ export default function EditForm(submissionData: TSubmission) {
                 ]}
                 placeholder="Submission Status"
                 label="Submission Status"
-                {...form.getInputProps('submission_status')}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <TextInput
-                placeholder="Pay Rate"
-                label="Pay Rate"
-                type="number"
-                // {...form.getInputProps('submission_status')}
+                {...form.getInputProps('status')}
               />
             </Grid.Col>
           </Grid>
-          <Grid mt="md">
-            <Grid.Col span={6}>
-              <TextInput
-                required
-                label="Recruiters"
-                type={'text'}
-                placeholder="Recruiters"
-                {...form.getInputProps('recruiters')}
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <TextInput
-                label="Rejection Reason"
-                type={'text'}
-                placeholder="Rejection Reason"
-                {...form.getInputProps('rejection_reason')}
-              />
-            </Grid.Col>
-          </Grid>
+          <Select
+            mt={'md'}
+            data={
+              recruiters?.data.map((r) => {
+                return { value: r.uuid, label: r.fname }
+              }) || []
+            }
+            label="Recruiters"
+            type={'text'}
+            placeholder="Recruiters"
+            {...form.getInputProps('recruiters')}
+          />
+          {form.values.status === 'Rejected' && (
+            <Select
+              mt={'md'}
+              data={[
+                { value: 'Client Rejected', label: 'Client Rejected' },
+                { value: 'Position on Hold', label: 'Position on Hold' },
+                {
+                  value: 'Internally rejected',
+                  label: 'Internally rejected',
+                },
+                { value: 'Others', label: 'Others' },
+              ]}
+              label="Rejection Reason"
+              type={'text'}
+              placeholder="Rejection Reason"
+              {...form.getInputProps('rejection_reason')}
+            />
+          )}
 
           <Textarea
             required

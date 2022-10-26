@@ -42,6 +42,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const clientUuid = params.get('client_id')
   const { jobId } = useParams()
 
+  console.log('JobID-New', jobId)
+
   const { classes } = useStyles()
   const { mutate: addSubmission } = useCreateSubmission()
   const [employeeOpened, setEmployeeOpened] = useState(false)
@@ -144,7 +146,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
-          {/* {employeeType.state === 'UP' && ( */}
+          {/* {vendorName ? ( */}
           <TextInput
             mt="md"
             required
@@ -169,7 +171,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ) : null
             }
           />
-          {/* )} */}
+          {/* ) : null} */}
+
           <Grid mt="md">
             <Grid.Col span={12}>
               <Select
@@ -187,11 +190,9 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <Select
             mt={'md'}
             data={
-              recruiters?.data
-                ? recruiters?.data.map((r) => {
-                    return { value: r.uuid, label: r.fname }
-                  })
-                : []
+              recruiters?.data.map((r) => {
+                return { value: r.uuid, label: r.fname }
+              }) || []
             }
             label="Recruiters"
             type={'text'}

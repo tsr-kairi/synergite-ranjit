@@ -455,7 +455,7 @@ export function CandidateList({ data }: ICandidateProps) {
         onClose={() => setIsOpened(false)}
         title="Edit Candidate"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
       >
         <EditCandidate {...candidateEditData} />

@@ -12,6 +12,7 @@ import {
   Checkbox,
   Popover,
   Loader,
+  ActionIcon,
 } from '@mantine/core'
 import {
   IconSearch,
@@ -114,8 +115,11 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
 
         {/* Add New - Button*/}
         {!hideActionButton && (
-          <Button
-            className={classes.actionButton}
+          <ActionIcon
+            variant="light"
+            radius="xl"
+            color={'blue'}
+            // className={classes.actionButton}
             onClick={() => {
               if (onAddNewClick) {
                 onAddNewClick()
@@ -124,8 +128,8 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
               }
             }}
           >
-            <IconPlus color="white" size={24} />
-          </Button>
+            <IconPlus size={30} />
+          </ActionIcon>
         )}
       </div>
 

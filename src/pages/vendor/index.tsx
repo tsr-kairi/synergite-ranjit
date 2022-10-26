@@ -13,6 +13,7 @@ export const Vendor = () => {
       createDrawerChildren={<CreateForm />}
       isError={isError}
       isLoading={isLoading}
+      createDrawerSize={'1200px'}
     >
       <VendorTable data={data?.data || []} />
     </ListViewLayout>
