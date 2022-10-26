@@ -377,7 +377,7 @@ export function ClientTable({ data }: IClientTableProps) {
         onClose={() => setIsOpened(false)}
         title="Edit Client"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
       >
         <EditClient {...clientEditData} />

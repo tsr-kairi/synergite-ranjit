@@ -378,7 +378,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
         onClose={() => setIsOpened(false)}
         title="Edit Vendor"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
       >
         <EditVendor {...vendorEditData} />
