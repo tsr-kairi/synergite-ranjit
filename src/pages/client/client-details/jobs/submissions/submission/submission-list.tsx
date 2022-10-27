@@ -2,15 +2,11 @@ import { useState } from 'react'
 import {
   createStyles,
   Table,
-  ScrollArea,
   UnstyledButton,
   Group,
   Text,
   Center,
-  TextInput,
-  Button,
   Drawer,
-  Pagination,
   Badge,
   Modal,
   // Tooltip,
@@ -20,11 +16,8 @@ import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
   IconEdit,
   IconTrash,
-  IconPlus,
-  IconFilter,
 } from '@tabler/icons'
 import { TSubmission } from '@/types/submission-type'
 import { openConfirmModal } from '@mantine/modals'
@@ -34,8 +27,7 @@ import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
 import { useNavigate } from 'react-router-dom'
-import axiosPrivate from '@/services/axiosPrivate'
-import { TPreonboard } from '@/types/prebonboard-type'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -220,11 +212,14 @@ export function SubmissionList({ data }: ISubmissionProps) {
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget
-    setSearch(value)
+  const handleSearchChange = (searchTerm: string) => {
+    setSearch(searchTerm)
     setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+      sortData(data, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: searchTerm,
+      })
     )
   }
 
@@ -396,43 +391,19 @@ export function SubmissionList({ data }: ISubmissionProps) {
   // Returning the Scroll Area of Table
   return (
     <>
-      <ScrollArea>
-        <div className={classes.tableHead}>
-          <Group spacing="sm">
-            <Text size={'xl'} weight="600" className={classes.text}>
-              Submissions
-            </Text>
-            <IconFilter className={classes.filterIcon} cursor="pointer" />
-          </Group>
-          <TextInput
-            placeholder="Search by any field"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            value={search}
-            onChange={handleSearchChange}
-            radius="xl"
-            className={classes.searchField}
-          />
-          {/* Add New - Client Button*/}
-          <Button>
-            <Group spacing="sm" align="center" onClick={() => setOpened(true)}>
-              <IconPlus color="white" />
-              <Text weight={400}>Add New</Text>
-            </Group>
-          </Button>
-          {/* <ActionIcon
-            variant="light"
-            radius="md"
-            color={'blue'}
-            onClick={() => setOpened(true)}
-          >
-            <IconPlus size={26} />
-          </ActionIcon> */}
-        </div>
+      <ListViewLayout
+        title="Submission"
+        createDrawerSize={'xl'}
+        createDrawerTitle="Add New Submission"
+        isError={false}
+        isLoading={false}
+        createDrawerChildren={<CreateForm onClose={() => setOpened(false)} />}
+        onSearchChange={handleSearchChange}
+      >
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
           className={classes.childTable}
-          // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
         >
           <thead>
             <tr>
@@ -461,38 +432,22 @@ export function SubmissionList({ data }: ISubmissionProps) {
             </tr>
           </thead>
 
+          {/* t-body */}
           <tbody>
-            {rows.length > 0 ? (
+            {rows.length ? (
               rows
             ) : (
               <tr>
-                <td colSpan={Object.keys(data[0] || {}).length}>
+                <td colSpan={Object.keys(data || {}).length}>
                   <Text weight={500} align="center">
-                    No submission found
+                    No records found
                   </Text>
                 </td>
               </tr>
             )}
           </tbody>
         </Table>
-
-        <div className={classes.tableBottom}>
-          <Text color={'grey'}>Showing 1 to 20 of 110 entries</Text>
-          <Pagination total={5} size="sm" />
-        </div>
-      </ScrollArea>
-
-      {/* Add New - employee Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Submission"
-        padding="xl"
-        size="xl"
-        position="right"
-      >
-        <CreateForm onClose={() => setOpened(false)} />
-      </Drawer>
+      </ListViewLayout>
 
       {/* Edit Submission - Submission Edit Form Drawer*/}
       <Drawer
