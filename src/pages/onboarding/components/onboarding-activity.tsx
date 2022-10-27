@@ -79,7 +79,7 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
                   style={{ cursor: 'pointer' }}
                 >
                   Assigned To:{' '}
-                  {`${activity?.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
+                  {`${activity.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
                 </p>
                 <p>
                   Assigned By:
@@ -155,7 +155,7 @@ const Department: React.FC<DepartmentProps> = ({ onDepartmentChange }) => {
       }
     }
     ;() => setSelectedDepartUUID('')
-  }, [departments?.data])
+  }, [departments?.data, onDepartmentChange, selectedDepartmentUUID])
 
   let element: React.ReactNode = <></>
 

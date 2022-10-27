@@ -1,0 +1,29 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/* scrollbar handeler style */
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to right bottom, #00f260, #0575e6);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 0px;
+}
+
+/* Line clamp */
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

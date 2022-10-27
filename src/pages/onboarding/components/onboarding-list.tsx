@@ -155,10 +155,16 @@ const OnboardingList = () => {
         }}
         title="Activity"
         padding="xl"
-        size="xl"
+        size="600px"
         position="right"
       >
-        <div style={{ height: '100vh', overflowY: 'auto' }}>
+        <div
+          style={{
+            height: '90vh',
+            overflowY: 'auto',
+            scrollbarWidth: 'none',
+          }}
+        >
           <OnboardingActivitySidebar
             onboardingId={selectedOnboardingId}
             onDepartmentChange={() => setSelectedActivityUUID('')}

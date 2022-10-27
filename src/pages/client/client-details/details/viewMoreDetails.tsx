@@ -9,18 +9,24 @@ import {
   TextInput,
   Textarea,
   Tooltip,
+  ActionIcon,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { IconChevronsRight } from '@tabler/icons'
-const useStyles = createStyles(() => ({
+import { Link } from 'react-router-dom'
+import { IconArrowBackUp } from '@tabler/icons'
+const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
     paddingLeft: '10px',
     paddingRight: '10px',
   },
-  dividerText: {
-    color: theme.colors?.blue?.[9],
+  userLink: {
+    textDecoration: 'none',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
   },
 }))
 
@@ -51,6 +57,21 @@ export default function ClientDetails(clientDetailsData: TClient) {
     <>
       <div className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Group position="apart">
+            <Link to={`/client`} className={classes.userLink}>
+              <Tooltip
+                label="Back to Client details"
+                color="blue"
+                withArrow
+                transition="slide-left"
+                transitionDuration={500}
+              >
+                <ActionIcon variant="light" radius="xl" color={'blue'}>
+                  <IconArrowBackUp size={18} />
+                </ActionIcon>
+              </Tooltip>
+            </Link>
+          </Group>
           <Accordion defaultValue="client_details">
             <Accordion.Item
               value="client_details"

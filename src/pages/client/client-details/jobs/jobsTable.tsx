@@ -2,26 +2,20 @@ import { useState } from 'react'
 import {
   createStyles,
   Table,
-  ScrollArea,
   UnstyledButton,
   Group,
   Text,
   Center,
-  TextInput,
   Drawer,
-  Button,
   Tooltip,
-  // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
   IconEdit,
   IconTrash,
-  IconPlus,
 } from '@tabler/icons'
 import { TJobs } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
@@ -32,6 +26,7 @@ import { showNotification } from '@mantine/notifications'
 import useDeleteJobById from '../../hooks/useDeleteJobById'
 import { Link, useParams } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
 // import { useQuery } from 'react-query'
 
 // Style for the Page
@@ -200,8 +195,6 @@ interface JobsProps {
 // Exporting Default ClientTable Component
 
 export default function JobsTable({ data }: JobsProps) {
-  /* Add New - Client state*/
-  const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [jobEditData, setJobEditData] = useState({} as TJobs)
   const [search, setSearch] = useState('')
@@ -210,6 +203,7 @@ export default function JobsTable({ data }: JobsProps) {
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
   const { mutate: deleteJob } = useDeleteJobById()
+  const { clientId } = useParams()
 
   const setJob = useOnboarding((state) => state.setJob)
 
@@ -220,11 +214,15 @@ export default function JobsTable({ data }: JobsProps) {
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget
-    setSearch(value)
-    // setSortedData()
-    sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+  const handleSearchChange = (searchTerm: string) => {
+    setSearch(searchTerm)
+    setSortedData(
+      sortData(data, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: searchTerm,
+      })
+    )
   }
   //   client data Delete handler
   const openModalForDelete = (job: TJobs) => {
@@ -247,155 +245,126 @@ export default function JobsTable({ data }: JobsProps) {
       },
     })
   }
-  const { clientId } = useParams()
+
+  // Create Rows
+  const rows = sortedData?.map((row) => (
+    <tr key={row.uuid} className={classes.companyDetails}>
+      <td>
+        <Link
+          to={`/submissions/${row?.uuid}?client_id=${String(
+            clientId
+          )}&job_id=${String(row.uuid)}`}
+          className={classes.userLink}
+          onClick={() => setJob(row)}
+        >
+          <Tooltip
+            label="Click to view"
+            color="blue"
+            withArrow
+            transition="pop-top-right"
+            transitionDuration={300}
+          >
+            <div>{row?.job_title}</div>
+          </Tooltip>
+        </Link>
+      </td>
+      <td>{row?.city}</td>
+      <td>{row?.country}</td>
+      <td>{row?.visa_status}</td>
+      <td>{row?.job_status}</td>
+      <td>
+        <Group spacing="sm">
+          <IconEdit
+            className={classes.editIcon}
+            cursor="pointer"
+            onClick={() => {
+              setIsOpened(true)
+              setJobEditData(row)
+            }}
+          />
+          <IconTrash
+            className={classes.deleteIcon}
+            cursor="pointer"
+            onClick={() => openModalForDelete(row)}
+          />
+        </Group>
+      </td>
+    </tr>
+  ))
 
   return (
-    <ScrollArea>
-      <div className={classes.tableHead}>
-        <Text size={'xl'} weight="600" className={classes.text}>
-          Jobs
-        </Text>
-        <TextInput
-          placeholder="Search by any field"
-          icon={<IconSearch size={14} stroke={1.5} />}
-          value={search}
-          onChange={handleSearchChange}
-          radius="xl"
-          className={classes.searchField}
-        />
-        {/* Add New - Client Button*/}
-        <Button
-          onClick={() => setOpened(true)}
-          styles={(theme) => ({
-            root: {
-              backgroundColor: '#04334c',
-              '&:hover': {
-                backgroundColor: theme.fn.darken('#04334c', 0.05),
-              },
-            },
-          })}
-        >
-          <Group spacing="sm" align="center">
-            <IconPlus color="white" />
-            <Text weight={400}>Add New</Text>
-          </Group>
-        </Button>
-      </div>
-      <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        className={classes.childTable}
-        // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
+    <>
+      <ListViewLayout
+        title="Jobs"
+        createDrawerSize={1200}
+        createDrawerTitle="Add New Job"
+        isError={false}
+        isLoading={false}
+        createDrawerChildren={<CreateJob />}
+        onSearchChange={handleSearchChange}
       >
-        <thead>
-          <tr>
-            <Th
-              sorted={sortBy === 'title'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('title')}
-            >
-              Job Title
-            </Th>
-            <Th
-              sorted={sortBy === 'city'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('city')}
-            >
-              City
-            </Th>
-            <Th
-              sorted={sortBy === 'country'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('country')}
-            >
-              Country
-            </Th>
-            <Th
-              sorted={sortBy === 'visa_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('visa_status')}
-            >
-              Visa Status
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Status
-            </Th>
-            <th className={classes.action}>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data && data?.length > 0 ? (
-            sortedData.map((row) => (
-              <tr key={row.id} className={classes.companyDetails}>
-                <td>
-                  <Link
-                    to={`/submissions/${row?.uuid}?client_id=${String(
-                      clientId
-                    )}&job_id=${String(row.uuid)}&employee_type='C2C`}
-                    className={classes.userLink}
-                    onClick={() => setJob(row)}
-                  >
-                    <Tooltip
-                      label="Click to view"
-                      color="blue"
-                      withArrow
-                      transition="pop-top-right"
-                      transitionDuration={300}
-                    >
-                      <div>{row?.job_title}</div>
-                    </Tooltip>
-                  </Link>
-                </td>
-                <td>{row?.city}</td>
-                <td>{row?.country}</td>
-                <td>{row?.visa_status}</td>
-                <td>{row?.job_status}</td>
-                <td>
-                  <Group spacing="sm">
-                    <IconEdit
-                      className={classes.editIcon}
-                      cursor="pointer"
-                      onClick={() => {
-                        setIsOpened(true)
-                        setJobEditData(row)
-                      }}
-                    />
-                    <IconTrash
-                      className={classes.deleteIcon}
-                      cursor="pointer"
-                      onClick={() => openModalForDelete(row)}
-                    />
-                  </Group>
+        <Table
+          horizontalSpacing="md"
+          verticalSpacing="xs"
+          className={classes.childTable}
+        >
+          <thead>
+            <tr>
+              <Th
+                sorted={sortBy === 'job_title'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('job_title')}
+              >
+                Job Title
+              </Th>
+              <Th
+                sorted={sortBy === 'city'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('city')}
+              >
+                City
+              </Th>
+              <Th
+                sorted={sortBy === 'country'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('country')}
+              >
+                Country
+              </Th>
+              <Th
+                sorted={sortBy === 'visa_status'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('visa_status')}
+              >
+                Visa Status
+              </Th>
+              <Th
+                sorted={sortBy === 'job_status'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('job_status')}
+              >
+                Status
+              </Th>
+              <th className={classes.action}>Action</th>
+            </tr>
+          </thead>
+
+          {/* t-body */}
+          <tbody>
+            {rows.length ? (
+              rows
+            ) : (
+              <tr>
+                <td colSpan={Object.keys(data || {}).length}>
+                  <Text weight={500} align="center">
+                    No records found
+                  </Text>
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={4}>
-                <Text weight={500} align="center">
-                  No jobs available
-                </Text>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-      {/* Add New - Client Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Job"
-        padding="xl"
-        size="1200px"
-        position="right"
-        transitionDuration={500}
-      >
-        <CreateJob />
-      </Drawer>
+            )}
+          </tbody>
+        </Table>
+      </ListViewLayout>
       {/* Edit - Contact Form Drawer*/}
 
       <Drawer
@@ -403,11 +372,11 @@ export default function JobsTable({ data }: JobsProps) {
         onClose={() => setIsOpened(false)}
         title="Edit Contact"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
       >
         <EditJob {...jobEditData} />
       </Drawer>
-    </ScrollArea>
+    </>
   )
 }

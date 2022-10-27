@@ -105,7 +105,9 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         {!hideColumnButton && (
           <Popover width={200} position="bottom" withArrow shadow="md">
             <Popover.Target>
-              <Button>Column</Button>
+              <ActionIcon variant="light" radius="xl" color={'blue'}>
+                <IconColumns size={26} />
+              </ActionIcon>
             </Popover.Target>
             <Popover.Dropdown>
               <AdjustableColumn />

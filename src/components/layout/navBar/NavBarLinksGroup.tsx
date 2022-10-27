@@ -26,9 +26,10 @@ const parentBackgroundColor = {
 const useStyles = createStyles((theme) => ({
   control: {
     fontWeight: 500,
-    display: 'block',
+    // display: 'block',
     width: '100%',
     padding: `${theme.spacing.md}px ${theme.spacing.xl}px`,
+    margin: `1px`,
     color:
       theme.colorScheme === 'dark'
         ? theme.colors.grey[0]

@@ -34,7 +34,6 @@ export default function EditForm(vendorData: TVendor) {
   const handleSubmit = (values: TVendor) => {
     const vendorCreateData = {
       ...values,
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
     editVendor(vendorCreateData)

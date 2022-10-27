@@ -1,56 +1,90 @@
+import TextDivider from '@/components/elements/text-divider'
 import useEditJob from '@/pages/client/hooks/useEditJob'
+import theme from '@/theme/theme'
 import { TJobs } from '@/types'
-import { useState } from 'react'
-import { UsData } from '@/pages/data/usData'
+import { TCandidate } from '@/types/candidate-type'
 import {
-  TextInput,
-  Button,
-  Group,
   createStyles,
-  Paper,
-  Select,
-  Textarea,
+  Group,
   Accordion,
+  TextInput,
+  Textarea,
+  Grid,
   FileInput,
+  ActionIcon,
+  Tooltip,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import TextDivider from '@/components/elements/text-divider'
-const useStyles = createStyles(() => ({
+import { IconArrowBackUp, IconBriefcase, IconUpload } from '@tabler/icons'
+import { Link, useParams } from 'react-router-dom'
+const useStyles = createStyles((theme) => ({
   paper: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    backgroundColor: 'transparent',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+  },
+  dividerText: {
+    color: theme.colors?.blue?.[9],
+  },
+  userLink: {
+    textDecoration: 'none',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
   },
 }))
-
-export default function EditForm(jobData: TJobs) {
-  const [searchValue, onSearchChange] = useState('')
+export default function JobDetails(jobDetailsData: TJobs) {
   const { classes } = useStyles()
-  const { mutate: editJob } = useEditJob()
+  const { mutate: jobDetails } = useEditJob()
+
+  const search = window.location.search
+  const params = new URLSearchParams(search)
+  const clientId = params.get('client_id')
 
   const form = useForm<TJobs>({
-    // validate: zodResolver(zJobEdit),
-    initialValues: jobData,
+    initialValues: jobDetailsData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
   const handleSubmit = (values: TJobs) => {
-    const jobEditData = {
+    const jobDetailsData = {
       ...values,
     }
 
-    editJob(jobEditData)
+    jobDetails(jobDetailsData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Job Edited successfully.',
+      message: 'Job Details Fetched Successfully.',
     })
   }
-
+  // value={clientDetailsData.first_name}
   return (
     <>
-      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
+      <div className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Group position="apart">
+            <Link
+              to={`/client-details/${String(clientId)}`}
+              className={classes.userLink}
+            >
+              <Tooltip
+                label="Back to Client details"
+                color="blue"
+                withArrow
+                transition="slide-left"
+                transitionDuration={500}
+              >
+                <ActionIcon variant="light" radius="xl" color={'blue'}>
+                  <IconArrowBackUp size={18} />
+                </ActionIcon>
+              </Tooltip>
+            </Link>
+          </Group>
+          {/* main details */}
           <Accordion defaultValue="job_details">
             <Accordion.Item
               value="job_details"
@@ -64,173 +98,161 @@ export default function EditForm(jobData: TJobs) {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
+                    label="Job ID"
+                    type={'text'}
+                    placeholder="Job-001"
+                    // value={jobDetails.job_id}
+                  />
+                  <TextInput
+                    readOnly={true}
                     label="Client request ID"
                     type={'text'}
                     placeholder="Client request ID"
-                    {...form.getInputProps('client_req_id')}
+                    value={jobDetailsData.client_req_id}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Start Date"
                     type={'date'}
                     placeholder="Start Date"
-                    {...form.getInputProps('start_date')}
+                    value={jobDetailsData.start_date}
                   />
                   <TextInput
+                    readOnly={true}
                     label="City"
                     type={'text'}
                     placeholder="City"
-                    {...form.getInputProps('city')}
-                  />
-                  <Select
-                    label="Created By"
-                    type={'text'}
-                    placeholder="Created By"
-                    data={[
-                      { value: 'Raj', label: 'Raj' },
-                      { value: 'Abhay', label: 'Abhay' },
-                      { value: 'Vivek', label: 'Vivek' },
-                    ]}
-                    {...form.getInputProps('created_by')}
+                    value={jobDetailsData.city}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="State"
+                    type={'text'}
                     placeholder="State"
-                    searchable
-                    onSearchChange={onSearchChange}
-                    searchValue={searchValue}
-                    nothingFound="No Matching State"
-                    data={UsData.map((s) => {
-                      return { value: s.state, label: s.state }
-                    })}
-                    {...form.getInputProps('state')}
+                    value={jobDetailsData.state}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Country"
                     type={'text'}
                     placeholder="Country"
-                    data={[
-                      { value: 'India', label: 'India' },
-                      { value: 'USA', label: 'USA' },
-                      { value: 'Nepal', label: 'Nepal' },
-                    ]}
-                    {...form.getInputProps('country')}
+                    value={jobDetailsData.country}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Job Title"
                     type={'text'}
                     placeholder="Job Title"
-                    {...form.getInputProps('job_title')}
+                    value={jobDetailsData.job_title}
                   />
                   <TextInput
+                    readOnly={true}
                     label="No of Positions"
-                    type={'number'}
+                    type={'text'}
                     placeholder="No of Positions"
-                    {...form.getInputProps('no_positions')}
+                    // value={jobDetailsData.no_positions}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Priority"
-                    type={'numbers'}
+                    type={'text'}
                     placeholder="Priority"
-                    data={[
-                      { value: 1, label: 1 },
-                      { value: 2, label: 2 },
-                      { value: 3, label: 3 },
-                    ]}
-                    {...form.getInputProps('priority')}
+                    // value={jobDetailsData.priority}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Priority reason"
                     type={'text'}
                     placeholder="Priority reason"
-                    {...form.getInputProps('priority_reason')}
+                    // value={jobDetailsData.priority_reason}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Status"
                     type={'text'}
                     placeholder="Status"
-                    {...form.getInputProps('job_status')}
+                    // value={jobDetailsData.job_status}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Employee Type"
                     type={'text'}
                     placeholder="Employee Type"
-                    data={[
-                      { value: 'C2C', label: 'C2C' },
-                      { value: '1099', label: '1099' },
-                      { value: 'W2', label: 'W2' },
-                    ]}
-                    {...form.getInputProps('employee_type')}
+                    // value={jobDetailsData.employee_type}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    readOnly={true}
                     label="Work Experience"
-                    type={'date'}
+                    type={'text'}
                     placeholder="Work Experience"
-                    {...form.getInputProps('work_experience')}
+                    // value={jobDetailsData.work_experience}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Primary Skills"
                     type={'text'}
                     placeholder="Primary Skills"
-                    {...form.getInputProps('primary_skills')}
+                    value={jobDetailsData.primary_skills}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Secondary Skills"
                     type={'text'}
                     placeholder="Secondary Skills"
-                    {...form.getInputProps('secondary_skills')}
+                    value={jobDetailsData.secondary_skills}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Visa Status"
                     type={'text'}
                     placeholder="Visa Status"
-                    data={[
-                      { value: 'USC', label: 'USC' },
-                      { value: 'H1', label: 'H1' },
-                      { value: 'Green Card', label: 'Green Card' },
-                    ]}
-                    {...form.getInputProps('visa_status')}
+                    value={jobDetailsData.visa_status}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Languages"
                     type={'text'}
                     placeholder="Languages"
-                    data={[
-                      { value: 'English', label: 'English' },
-                      { value: 'Hindi', label: 'Hindi' },
-                      { value: 'Bengali', label: 'Bengali' },
-                    ]}
-                    {...form.getInputProps('languages')}
+                    // value={jobDetailsData.languages}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Industry"
                     type={'text'}
                     placeholder="Industry"
-                    data={[
-                      { value: 'TATA', label: 'TATA' },
-                      { value: 'ITA', label: 'ITA' },
-                      { value: 'MDCI', label: 'MDCI' },
-                    ]}
-                    {...form.getInputProps('industry')}
+                    // value={jobDetailsData.industry}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Client Contact Email"
                     type={'text'}
                     placeholder="Client Contact Email"
-                    {...form.getInputProps('client_contact_email')}
+                    // value={jobDetailsData.client_contact_email}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Client Contact Phone"
                     type={'text'}
                     placeholder="Client Contact Phone"
-                    {...form.getInputProps('client_contact_phone')}
+                    // value={jobDetailsData.client_contact_phone}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Created By"
+                    type={'text'}
+                    placeholder="Created By"
+                    value={jobDetailsData.created_by}
                   />
                 </Group>
               </Accordion.Panel>
@@ -245,79 +267,56 @@ export default function EditForm(jobData: TJobs) {
               </Accordion.Control>
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Recruitment Manager"
                     type={'text'}
                     placeholder="Recruitment Manager"
-                    data={[
-                      { value: 'Jhon', label: 'Jhon' },
-                      { value: 'Rona', label: 'Rona' },
-                      { value: 'Dev', label: 'Dev' },
-                    ]}
-                    {...form.getInputProps('recruitment_manager')}
+                    // value={jobDetailsData.recruitment_manager}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Account Manager"
                     type={'text'}
                     placeholder="Account Manager"
-                    data={[
-                      { value: 'Pradeep', label: 'Pradeep' },
-                      { value: 'Rama', label: 'Rama' },
-                      { value: 'Rohit', label: 'Rohit' },
-                    ]}
-                    {...form.getInputProps('account_manager')}
+                    // value={jobDetailsData.account_manager}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Recruiters"
                     type={'text'}
                     placeholder="Recruiters"
-                    data={[
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Vishal', label: 'Vishal' },
-                      { value: 'Roshan', label: 'Roshan' },
-                    ]}
-                    {...form.getInputProps('recruiters')}
+                    // value={jobDetailsData.recruiters}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Source"
                     type={'text'}
                     placeholder="Source"
-                    data={[
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Vishal', label: 'Vishal' },
-                      { value: 'Roshan', label: 'Roshan' },
-                    ]}
-                    {...form.getInputProps('source')}
+                    // value={jobDetailsData.source}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Additional Recruiters"
                     type={'text'}
                     placeholder="Additional Recruiters"
-                    data={[
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Vishal', label: 'Vishal' },
-                      { value: 'Roshan', label: 'Roshan' },
-                    ]}
-                    {...form.getInputProps('additional_recruiters')}
+                    // value={jobDetailsData.additional_recruiters}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Maximum Submissions"
                     type={'text'}
                     placeholder="Maximum Submissions"
-                    {...form.getInputProps('maximum_submissions')}
+                    // value={jobDetailsData.maximum_submissions}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Interview Panel"
                     type={'text'}
                     placeholder="Interview Panel"
-                    data={[
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Vishal', label: 'Vishal' },
-                      { value: 'Roshan', label: 'Roshan' },
-                    ]}
-                    {...form.getInputProps('interview_panel')}
+                    // value={jobDetailsData.interview_panel}
                   />
                 </Group>
               </Accordion.Panel>
@@ -332,45 +331,40 @@ export default function EditForm(jobData: TJobs) {
               </Accordion.Control>
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Client Contract Period"
-                    type={'number'}
+                    type={'text'}
                     placeholder="Client Contract Period"
-                    data={[
-                      { value: 1, label: 1 },
-                      { value: 2, label: 2 },
-                      { value: 3, label: 3 },
-                    ]}
-                    {...form.getInputProps('client_contract_period')}
+                    // value={jobDetailsData.client_contract_period}
                   />
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Job Type"
                     type={'text'}
                     placeholder="Job Type"
-                    data={[
-                      { value: 'Fulltime', label: 'Fulltime' },
-                      { value: 'Contractual', label: 'Contractual' },
-                      { value: 'C2H', label: 'C2H' },
-                    ]}
-                    {...form.getInputProps('job_type')}
+                    value={jobDetailsData.job_type}
                   />
                   <TextInput
+                    readOnly={true}
                     label="W2 Pay Rate"
                     type={'text'}
                     placeholder="W2 Pay Rate"
-                    {...form.getInputProps('w2_ray_rate')}
+                    // value={jobDetailsData.w2_ray_rate}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Contract Period"
                     type={'text'}
                     placeholder="Contract Period"
-                    {...form.getInputProps('contract_period')}
+                    // value={jobDetailsData.contract_period}
                   />
                   <TextInput
+                    readOnly={true}
                     label="Contract Period"
                     type={'text'}
                     placeholder="Contract Period"
-                    {...form.getInputProps('contract_period')}
+                    // value={jobDetailsData.contract_period}
                   />
                 </Group>
               </Accordion.Panel>
@@ -386,21 +380,19 @@ export default function EditForm(jobData: TJobs) {
               </Accordion.Control>
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
+                    readOnly={true}
                     label="Job Domain"
                     type={'text'}
                     placeholder="Job Domain"
-                    data={[
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Vishal', label: 'Vishal' },
-                      { value: 'Roshan', label: 'Roshan' },
-                    ]}
-                    {...form.getInputProps('job_domain')}
+                    // value={jobDetailsData.job_domain}
                   />
-                  <Textarea
+                  <TextInput
+                    readOnly={true}
                     label="Job Description"
+                    type={'text'}
                     placeholder="Job Description"
-                    {...form.getInputProps('job_description')}
+                    // value={jobDetailsData.job_description}
                   />
                 </Group>
               </Accordion.Panel>
@@ -417,7 +409,7 @@ export default function EditForm(jobData: TJobs) {
                   <FileInput
                     label="Attachments"
                     placeholder="Attachments"
-                    {...form.getInputProps('attachments')}
+                    // value={jobDetailsData.attachments}
 
                     // accept="image/png,image/jpeg, "
                   />
@@ -425,12 +417,8 @@ export default function EditForm(jobData: TJobs) {
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-
-          <Button fullWidth type="submit" mt="md" mb="lg">
-            Update Now
-          </Button>
         </form>
-      </Paper>
+      </div>
     </>
   )
 }

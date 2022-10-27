@@ -1,4 +1,4 @@
-import { employeeQueryKeys } from '@/react-query/queryKeys'
+import { candidateQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { TCandidate, TCandidateFindById } from '@/types/candidate-type'
 import { useMutation, useQueryClient } from 'react-query'
@@ -20,7 +20,7 @@ const useEditCandidate = () => {
 
   return useMutation(editCandidate, {
     onSuccess: () => {
-      void queryClient.resetQueries(employeeQueryKeys.allEmployee)
+      void queryClient.resetQueries(candidateQueryKeys.allCandidate)
     },
   })
 }

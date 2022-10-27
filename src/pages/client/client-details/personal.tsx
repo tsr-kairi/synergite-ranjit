@@ -123,24 +123,6 @@ export default function Personal() {
                 Back to Client List
               </Button>
             </Link>
-            <Tooltip
-              label="Click to view Contacts"
-              color="blue"
-              withArrow
-              transition="slide-right"
-              transitionDuration={500}
-              onClick={() => setOpened(true)}
-            >
-              {/* <Button
-                className={classes.detailHead}
-                // rightIcon={<IconBriefcase />}
-                // variant="subtle"
-              > */}
-              <ActionIcon variant="light" radius="xl" color={'blue'}>
-                <IconAddressBook size={26} />
-              </ActionIcon>
-              {/* </Button> */}
-            </Tooltip>
           </Group>
         </div>
         <div className={classes.personalDetailsMain}>
@@ -149,7 +131,19 @@ export default function Personal() {
               <Avatar size={40} radius={120} mx="auto" color="cyan">
                 C
               </Avatar>
-              <Text align="center" color="blue" size="xl" weight={700} mt="sm">
+              <Text
+                align="center"
+                color="blue"
+                size="xl"
+                weight={700}
+                mt="sm"
+                style={{
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  maxWidth: '150px',
+                }}
+              >
                 {data?.data?.first_name} {data?.data?.last_name}
               </Text>
             </div>
@@ -208,26 +202,30 @@ export default function Personal() {
               </Group>
             </div>
           </div>
-          <Button
-            className={classes.detailHead}
-            leftIcon={<IconEye />}
-            variant="subtle"
-            onClick={() => {
-              setClientDetailsIsOpened(true)
-            }}
-          >
-            View More
-          </Button>
-          {/* <ActionIcon
-            variant="light"
-            radius="xl"
-            color={'blue'}
-            onClick={() => {
-              setClientDetailsIsOpened(true)
-            }}
-          >
-            View More <IconEye size={26} />
-          </ActionIcon> */}
+          <Group>
+            <Tooltip
+              label="Click to view Contacts"
+              color="blue"
+              withArrow
+              transition="slide-right"
+              transitionDuration={500}
+              onClick={() => setOpened(true)}
+            >
+              <ActionIcon variant="light" radius="xl" color={'blue'}>
+                <IconAddressBook size={26} />
+              </ActionIcon>
+            </Tooltip>
+            <ActionIcon
+              variant="light"
+              radius="xl"
+              color={'blue'}
+              onClick={() => {
+                setClientDetailsIsOpened(true)
+              }}
+            >
+              <IconEye size={26} />
+            </ActionIcon>
+          </Group>
         </div>
         <Drawer
           opened={opened}

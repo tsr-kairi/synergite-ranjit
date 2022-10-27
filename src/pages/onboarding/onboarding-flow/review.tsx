@@ -278,6 +278,8 @@ const Review: React.FC<ReviewProps> = ({
                   value={onboardingData.immigration_job_title}
                   style={{ minWidth: '100px' }}
                 />
+              </Group>
+              <Group grow align="center" mb="lg">
                 <TextInput
                   readOnly={true}
                   label="Current H1B validity"
