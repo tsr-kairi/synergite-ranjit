@@ -7,6 +7,7 @@ import {
   Loader,
   Button,
   Drawer,
+  ActionIcon,
 } from '@mantine/core'
 import { IconArrowBackUp, IconEye } from '@tabler/icons'
 import { useState } from 'react'
@@ -127,7 +128,19 @@ export default function Personal() {
               <Avatar size={40} radius={120} mx="auto" color="cyan">
                 V
               </Avatar>
-              <Text align="center" color="blue" size="xl" weight={700} mt="sm">
+              <Text
+                align="center"
+                color="blue"
+                size="xl"
+                weight={700}
+                mt="sm"
+                style={{
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  maxWidth: '150px',
+                }}
+              >
                 {data?.data?.first_name} {data?.data?.last_name}
               </Text>
             </div>
@@ -186,7 +199,7 @@ export default function Personal() {
               </Group>
             </div>
           </div>
-          <Button
+          {/* <Button
             className={classes.detailHead}
             leftIcon={<IconEye />}
             variant="subtle"
@@ -195,8 +208,8 @@ export default function Personal() {
             }}
           >
             View More
-          </Button>
-          {/* <ActionIcon
+          </Button> */}
+          <ActionIcon
             variant="light"
             radius="xl"
             color={'blue'}
@@ -204,8 +217,8 @@ export default function Personal() {
               setVendorDetailsIsOpened(true)
             }}
           >
-            View More <IconEye size={26} />
-          </ActionIcon> */}
+            <IconEye size={26} />
+          </ActionIcon>
         </div>
         {/* client details */}
         <Drawer

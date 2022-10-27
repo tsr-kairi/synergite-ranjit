@@ -50,18 +50,21 @@ export default function Job({ form }: onboardingStepperProps) {
         />
         <Group grow align="center" mt="md">
           <TextInput
+            required
             label="Start Date"
             type={'date'}
             placeholder="Start Date"
             {...form.getInputProps('start_date')}
           />
           <TextInput
+            required
             label="End Date"
             type={'date'}
             placeholder="End Date"
             {...form.getInputProps('end_date')}
           />
           <Select
+            required
             label="Reporting to"
             placeholder="Reporting to"
             {...form.getInputProps('reporting_to')}
@@ -71,6 +74,7 @@ export default function Job({ form }: onboardingStepperProps) {
             ]}
           />
           <TextInput
+            required
             label="Designation"
             placeholder="Designation"
             {...form.getInputProps('designation')}
@@ -98,6 +102,7 @@ export default function Job({ form }: onboardingStepperProps) {
         />
         <Group grow>
           <Select
+            required
             label="Overtime Exemption"
             placeholder="Overtime Exemption"
             {...form.getInputProps('overtime_exemption')}
@@ -107,6 +112,7 @@ export default function Job({ form }: onboardingStepperProps) {
             ]}
           />
           <Textarea
+            required
             mt={'30px'}
             label="Remarks"
             placeholder="Remarks"

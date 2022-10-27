@@ -45,7 +45,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   user: {
-    color: theme.colors.grey[0],
+    color: theme.colors.blue[5],
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
     borderRadius: theme.radius.sm,
     transition: 'background-color 100ms ease',
@@ -53,8 +53,7 @@ const useStyles = createStyles((theme) => ({
     // '&:hover': {
     // },
 
-    backgroundColor: theme.colors.blue[0],
-    // color: theme.colors.grey[0],
+    backgroundColor: 'transparent',
 
     [theme.fn.smallerThan('xs')]: {
       display: 'none',
@@ -68,7 +67,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   userActive: {
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.blue[8],
   },
 
   leftSide: {
@@ -188,7 +187,7 @@ export default function HeaderBar({
                     >
                       {user.name}
                     </Text>
-                    <IconChevronRight size={12} stroke={1.5} color="blue" />
+                    <IconChevronRight size={16} stroke={4.5} color="white" />
                   </Group>
                 </UnstyledButton>
               </Menu.Target>

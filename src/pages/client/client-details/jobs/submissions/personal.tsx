@@ -8,6 +8,7 @@ import {
   Avatar,
   Text,
   Drawer,
+  ActionIcon,
 } from '@mantine/core'
 import { IconArrowBackUp, IconEye } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
@@ -136,7 +137,19 @@ export default function Personal() {
               <Avatar size={40} radius={120} mx="auto" color="cyan">
                 C
               </Avatar>
-              <Text align="center" color="blue" size="xl" weight={700} mt="sm">
+              <Text
+                align="center"
+                color="blue"
+                size="xl"
+                weight={700}
+                mt="sm"
+                style={{
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  maxWidth: '150px',
+                }}
+              >
                 {clientData?.data?.first_name} {clientData?.data?.last_name}
               </Text>
             </div>
@@ -187,7 +200,7 @@ export default function Personal() {
               </Group>
             </div>
           </div>
-          <Button
+          {/* <Button
             className={classes.detailHead}
             leftIcon={<IconEye />}
             variant="subtle"
@@ -196,8 +209,8 @@ export default function Personal() {
             }}
           >
             View More
-          </Button>
-          {/* <ActionIcon
+          </Button> */}
+          <ActionIcon
             variant="light"
             radius="xl"
             color={'blue'}
@@ -205,8 +218,8 @@ export default function Personal() {
               setJobDetailsIsOpened(true)
             }}
           >
-            View More <IconEye size={26} />
-          </ActionIcon> */}
+            <IconEye size={26} />
+          </ActionIcon>
         </div>
         {/* client details */}
         <Drawer

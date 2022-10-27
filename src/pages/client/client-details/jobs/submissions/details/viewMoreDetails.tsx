@@ -146,7 +146,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="Job Title"
                     type={'text'}
                     placeholder="Job Title"
-                    value={jobDetailsData.title}
+                    value={jobDetailsData.job_title}
                   />
                   <TextInput
                     readOnly={true}

@@ -18,6 +18,7 @@ const navLinks = [
     label: 'Dashboard',
     icon: IconLayoutDashboard,
     isActive: false,
+    url: '/',
   },
   {
     id: '2',

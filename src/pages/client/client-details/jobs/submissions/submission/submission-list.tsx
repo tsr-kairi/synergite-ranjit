@@ -274,7 +274,83 @@ export function SubmissionList({ data }: ISubmissionProps) {
         row?.vendor_last_name || ''
       }`}</td>
       <td>{`${row?.emp_first_name || ''} ${row?.emp_last_name || ''}`}</td>
-      <td>{row?.status}</td>
+      {/* <td>{row?.status}</td> */}
+      <td>
+        {row.status === 'PRE_INITIATED' ? (
+          <Badge
+            color="grey"
+            style={{
+              border: `0.5px solid grey`,
+            }}
+          >
+            PRE INITIATED
+          </Badge>
+        ) : row.status === 'PRE_INPROGRESS' ? (
+          <Badge
+            color="blue"
+            style={{
+              border: `0.5px solid blue`,
+            }}
+          >
+            PRE INPROGRESS
+          </Badge>
+        ) : row.status === 'ONBOARDING_INITIATED' ? (
+          <Badge
+            color="grey"
+            style={{
+              border: `0.5px solid grey`,
+            }}
+          >
+            ONBOARDING INITIATED
+          </Badge>
+        ) : row.status === 'ONBOARDING_IN_PROGRESS' ? (
+          <Badge
+            color="yellow"
+            style={{
+              border: `0.5px solid yellow`,
+            }}
+          >
+            ONBOARDING IN PROGRESS
+          </Badge>
+        ) : row.status === 'ONBOARDING_COMPLETED' ? (
+          <Badge
+            color="green"
+            style={{
+              border: `0.5px solid green`,
+            }}
+          >
+            ONBOARDING COMPLETED
+          </Badge>
+        ) : row.status === 'HOLD' ? (
+          <Badge
+            color="orange"
+            style={{
+              border: `0.5px solid orange`,
+            }}
+          >
+            HOLD
+          </Badge>
+        ) : row.status === 'REINSTATED' ? (
+          <Badge
+            color="grey"
+            style={{
+              border: `0.5px solid grey`,
+            }}
+          >
+            REINSTATED
+          </Badge>
+        ) : row.status === 'CANCELLED' ? (
+          <Badge
+            color="red"
+            style={{
+              border: `0.5px solid red`,
+            }}
+          >
+            CANCELLED
+          </Badge>
+        ) : null}
+      </td>
+
       <td>
         {row.status === 'Rejected' ? (
           <Badge color="red">Rejected</Badge>

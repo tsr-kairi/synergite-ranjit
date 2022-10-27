@@ -563,6 +563,7 @@ export default function Onboarding() {
                 variant="default"
                 disabled={active <= 0}
                 onClick={prevStep}
+                hidden={active <= 0}
               >
                 Previous
               </Button>
@@ -578,7 +579,11 @@ export default function Onboarding() {
                   Initiate Onboarding
                 </Button>
               )}
-              {active <= 3 && <Button onClick={nextStep}>Next</Button>}
+              {active <= 3 && (
+                <Button onClick={nextStep} type="submit">
+                  Next
+                </Button>
+              )}
             </Group>
           </form>
         </div>
