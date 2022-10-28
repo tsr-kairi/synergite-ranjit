@@ -72,7 +72,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
               className={classes.userLink}
             >
               <Tooltip
-                label="Back to Client details"
+                label="Back to Client List"
                 color="blue"
                 withArrow
                 transition="slide-left"

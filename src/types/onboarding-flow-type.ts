@@ -10,7 +10,7 @@ const zOnboardingStatus = z.enum([
   'ONBOARDING_IN_PROGRESS',
   'ONBOARDING_COMPLETED',
   'HOLD',
-  'REINSTATED',
+  'REINITIATED',
   'CANCELLED',
 ])
 

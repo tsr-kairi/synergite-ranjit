@@ -39,7 +39,6 @@ const initialDoc = {
 }
 
 export default function Documents({ form }: onboardingStepperProps) {
-
   const documents = form.values.documents || []
 
   const [docs, setDocs] = useState<TDocument[]>(

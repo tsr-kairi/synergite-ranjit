@@ -90,7 +90,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const response = await axiosPrivate.get<TRecruitersFindAll>(`/recruiters`)
     return response.data
   }
-  const { data: recruiters } = useQuery<TRecruitersFindAll, Error>(
+  const { data: recruiter } = useQuery<TRecruitersFindAll, Error>(
     recruitersQueryKeys.recruiters,
     findAlRecruiter
   )
@@ -190,7 +190,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <Select
             mt={'md'}
             data={
-              recruiters?.data.map((r) => {
+              recruiter?.data.map((r) => {
                 return { value: r.uuid, label: r.fname }
               }) || []
             }
