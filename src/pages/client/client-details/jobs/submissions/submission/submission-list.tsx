@@ -262,7 +262,6 @@ export function SubmissionList({ data }: ISubmissionProps) {
     })
   }
   // Create Rows
-  // console.log('sortedDataNew', sortedData)
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
       <td>{`${row?.vendor_first_name || ''} ${
@@ -325,14 +324,14 @@ export function SubmissionList({ data }: ISubmissionProps) {
           >
             HOLD
           </Badge>
-        ) : row.status === 'REINSTATED' ? (
+        ) : row.status === 'REINITIATED' ? (
           <Badge
             color="grey"
             style={{
               border: `0.5px solid grey`,
             }}
           >
-            REINSTATED
+            REINITIATED
           </Badge>
         ) : row.status === 'CANCELLED' ? (
           <Badge

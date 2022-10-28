@@ -215,16 +215,20 @@ export default function Personal() {
                 <IconAddressBook size={26} />
               </ActionIcon>
             </Tooltip>
-            <ActionIcon
-              variant="light"
-              radius="xl"
-              color={'blue'}
+            <Tooltip
+              label="Click to view more"
+              color="blue"
+              withArrow
+              transition="slide-right"
+              transitionDuration={500}
               onClick={() => {
                 setClientDetailsIsOpened(true)
               }}
             >
-              <IconEye size={26} />
-            </ActionIcon>
+              <ActionIcon variant="light" radius="xl" color={'blue'}>
+                <IconEye size={26} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
         </div>
         <Drawer

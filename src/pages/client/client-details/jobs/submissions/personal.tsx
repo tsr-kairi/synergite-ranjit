@@ -9,6 +9,7 @@ import {
   Text,
   Drawer,
   ActionIcon,
+  Tooltip,
 } from '@mantine/core'
 import { IconArrowBackUp, IconEye } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
@@ -210,16 +211,20 @@ export default function Personal() {
           >
             View More
           </Button> */}
-          <ActionIcon
-            variant="light"
-            radius="xl"
-            color={'blue'}
+          <Tooltip
+            label="Click to view more"
+            color="blue"
+            withArrow
+            transition="slide-right"
+            transitionDuration={500}
             onClick={() => {
               setJobDetailsIsOpened(true)
             }}
           >
-            <IconEye size={26} />
-          </ActionIcon>
+            <ActionIcon variant="light" radius="xl" color={'blue'}>
+              <IconEye size={26} />
+            </ActionIcon>
+          </Tooltip>
         </div>
         {/* client details */}
         <Drawer
