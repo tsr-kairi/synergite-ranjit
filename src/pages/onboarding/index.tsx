@@ -28,6 +28,7 @@ import { useQuery } from 'react-query'
 import Review from './onboarding-flow/review'
 
 import {
+  updateOnboarding,
   createOnboarding,
   getOnboardingByUUID,
 } from '@/services/onboarding.services'
@@ -128,6 +129,7 @@ export default function Onboarding() {
   const vendorUUID = searchParams.get('vendor_uuid')
   const employeeUUID = searchParams.get('employee_uuid')
   const submissionUUID = searchParams.get('submission_uuid')
+  console.log('submissionUUID', submissionUUID)
 
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
@@ -185,8 +187,8 @@ export default function Onboarding() {
     }
   }, [active, form.values])
 
-  // onConfirmSaveOnboarding
-  const onConfirmSaveOnboarding = (values: TOnboarding) => {
+  // onConfirm Save Onboarding
+  const onConfirmUpdateOnboarding = (values: TOnboarding) => {
     const d = new Date(values.start_date)
     d.setHours(0, 0, 0, 0)
     const onboardingData = {
@@ -195,12 +197,7 @@ export default function Onboarding() {
       vendor_uuid: vendorUUID,
       client_uuid: clientUUID,
       submission_uuid: submissionUUID,
-
-      // // TODO: This is going to be fetched from backend
-      // immigration_status: 'H1',
-      // employee_type: 'W2',
-      // new_client: 'Yes',
-      // new_sub_vendor: 'N/A',
+      onboard_status: 'ONBOARDING_IN_PROGRESS',
     }
 
     console.log(onboardingData)
@@ -210,7 +207,7 @@ export default function Onboarding() {
     }
 
     setIsOnboardingInitiated(true)
-    createOnboarding(onboardingData, String(onboardingUuid))
+    updateOnboarding(onboardingData, String(onboardingUuid))
       .then((data) => {
         if (active >= 4) {
           localStorage.removeItem('draft_onboarding_uuid')
@@ -220,6 +217,41 @@ export default function Onboarding() {
             data?.uuid ? data.uuid : ''
           )
         }
+
+        showNotification({
+          title: 'Success!!',
+          message: 'Onboarding save called successfully.',
+        })
+        // if (active === 4) {
+        //   navigate('/onboarding-list')
+        // }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => setIsOnboardingInitiated(false))
+  }
+
+  // onConfirm create onboarding
+  const onConfirmSaveOnboarding = (values: TOnboarding) => {
+    const onboardingData = {
+      ...values,
+      employee_uuid: employeeUUID,
+      vendor_uuid: vendorUUID,
+      client_uuid: clientUUID,
+      submission_uuid: submissionUUID,
+      uuid: String(onboardingUuid),
+    }
+    createOnboarding(onboardingData)
+      .then(() => {
+        // if (active >= 4) {
+        //   localStorage.removeItem('draft_onboarding_uuid')
+        // } else {
+        //   localStorage.setItem(
+        //     'draft_onboarding_uuid',
+        //     data?.uuid ? data.uuid : ''
+        //   )
+        // }
 
         showNotification({
           title: 'Success!!',
@@ -250,11 +282,13 @@ export default function Onboarding() {
         labels: { confirm: 'Yes', cancel: 'No' },
         onCancel: () => console.log('Cancel'),
         onConfirm: () => {
+          // onConfirmUpdateOnboarding(values)
           onConfirmSaveOnboarding(values)
         },
       })
     } else {
-      onConfirmSaveOnboarding(values)
+      onConfirmUpdateOnboarding(values)
+      // onConfirmSaveOnboarding(values)
     }
   } // End of handleSave function
 
@@ -583,7 +617,7 @@ export default function Onboarding() {
               >
                 Previous
               </Button>
-              {active < 5 ? (
+              {active < 4 ? (
                 <Button variant="light" type="submit">
                   Save
                 </Button>
@@ -592,7 +626,6 @@ export default function Onboarding() {
                   {isOnboardingInitiated
                     ? 'Onboarding Initiated'
                     : 'Initiate Onboarding'}
-                  Initiate Onboarding
                 </Button>
               )}
               {active <= 3 && (

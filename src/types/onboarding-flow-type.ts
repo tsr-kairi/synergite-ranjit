@@ -28,8 +28,9 @@ const zOnboarding = z.object({
   created_date: z.date(),
   modified_by: z.string(),
   modified_date: z.date(),
+  // submission_uuid: z.string(),
 
-  onboard_status: zOnboardingStatus,
+  // onboard_status: zOnboardingStatus.optional(),
 
   // Profile
   start_date: z.date(),

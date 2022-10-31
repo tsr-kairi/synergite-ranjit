@@ -48,7 +48,7 @@ const getFormattedDate = (date: Date): string => {
   } 00:00:00`
 }
 
-export const createOnboarding = async (
+export const updateOnboarding = async (
   onboarding: TOnboarding,
   onboarding_uuid: string
 ) => {
@@ -70,6 +70,35 @@ export const createOnboarding = async (
     const { data } = await axiosPrivate.patch<{
       data: { uuid: string }
     }>(`/onboarding/${String(onboarding_uuid)}`, {
+      ...onboarding,
+      ...onboardingData,
+      documents: undefined,
+    })
+    return data.data
+  } catch (error) {
+    console.log(error)
+  }
+} // End of updateOnboarding
+
+export const createOnboarding = async (onboarding: TOnboarding) => {
+  // const { onboardingUuid } = useParams()
+  // console.log('onboardingUuid', onboardingUuid)
+
+  const onboardingData: { start_date?: string; end_date?: string } = {}
+
+  if (onboarding.start_date) {
+    onboardingData.start_date = getFormattedDate(
+      new Date(onboarding.start_date)
+    )
+  }
+  if (onboarding.end_date) {
+    onboardingData.end_date = getFormattedDate(new Date(onboarding.end_date))
+  }
+
+  try {
+    const { data } = await axiosPrivate.post<{
+      data: { uuid: string }
+    }>(`/onboarding`, {
       ...onboarding,
       ...onboardingData,
       documents: undefined,
