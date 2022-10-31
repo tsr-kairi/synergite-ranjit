@@ -246,12 +246,10 @@ export function SubmissionList({ data }: ISubmissionProps) {
 
   const handlePreOnboarding = async (submissionData: TSubmission) => {
     const preOnboardingData: TPreonboard = {
-      job_uuid: submissionData?.job_uuid,
       client_uuid: submissionData?.client_uuid,
-      employee_id: submissionData?.employee_id,
       employee_uuid: submissionData?.employee_uuid,
       vendor_uuid: submissionData?.vendor_uuid,
-      submission_uuid: String(submissionData?.uuid),
+      submission_uuid: submissionData?.uuid,
     }
     try {
       // delete submissionData.uuid
@@ -261,13 +259,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
       )
       // console.log('PreData', pData.data.data.uuid)
       navigate(
-        `/onboarding?client_uuid=${submissionData.client_uuid}&vendor_uuid=${
-          submissionData.vendor_uuid
-        }&employee_uuid=${
-          submissionData.employee_uuid
-        }&submission_uuid=${String(submissionData?.uuid)}&onboarding_uuid=${
-          pData.data.data.uuid
-        }`
+        `/onboarding?client_uuid=${submissionData.client_uuid}&vendor_uuid=${submissionData.vendor_uuid}&employee_uuid=${submissionData.employee_uuid}&submission_uuid=${submissionData?.uuid}&onboarding_uuid=${pData.data.data.uuid}`
       )
     } catch (error) {
       console.log(error)

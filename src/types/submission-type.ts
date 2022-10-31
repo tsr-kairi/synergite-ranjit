@@ -25,7 +25,7 @@ const zSubmission = z.object({
   vendor_uuid: z.string(),
   vendor_first_name: z.string().optional(),
   vendor_last_name: z.string().optional(),
-  uuid: z.string().optional(),
+  uuid: z.string(),
 })
 
 // new Submission crate
