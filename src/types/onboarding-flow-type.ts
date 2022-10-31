@@ -20,6 +20,7 @@ const zDocument = z.object({
   document_type: z.string(),
   file: z.instanceof(File).optional(),
 })
+
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
   uuid: z.string().optional(),
@@ -68,6 +69,12 @@ const zOnboarding = z.object({
   immigration_job_title: z.string(),
   current_h1b_validity: z.string(),
   current_lac_number: z.string(),
+
+  // New added Onboarding fields
+  recruiter_contact_number: z.string(),
+  recruiter_name: z.string(),
+  others: z.string(),
+  // status: z.string(),
 
   // Document
   documents: z.array(zDocument),

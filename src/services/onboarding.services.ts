@@ -1,4 +1,5 @@
 import { TOnboarding } from '@/types/onboarding-flow-type'
+import { useParams } from 'react-router-dom'
 import axiosPrivate from './axiosPrivate'
 
 export type TDepartment = 'Accounts' | 'Contracts' | 'HR' | 'Immigration'
@@ -47,7 +48,13 @@ const getFormattedDate = (date: Date): string => {
   } 00:00:00`
 }
 
-export const createOnboarding = async (onboarding: TOnboarding) => {
+export const createOnboarding = async (
+  onboarding: TOnboarding,
+  onboarding_uuid: string
+) => {
+  // const { onboardingUuid } = useParams()
+  // console.log('onboardingUuid', onboardingUuid)
+
   const onboardingData: { start_date?: string; end_date?: string } = {}
 
   if (onboarding.start_date) {
@@ -60,9 +67,9 @@ export const createOnboarding = async (onboarding: TOnboarding) => {
   }
 
   try {
-    const { data } = await axiosPrivate.post<{
+    const { data } = await axiosPrivate.patch<{
       data: { uuid: string }
-    }>('/onboarding', {
+    }>(`/onboarding/${String(onboarding_uuid)}`, {
       ...onboarding,
       ...onboardingData,
       documents: undefined,
