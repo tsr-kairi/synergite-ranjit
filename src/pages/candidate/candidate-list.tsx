@@ -9,6 +9,7 @@ import {
   Drawer,
   Tooltip,
   Avatar,
+  Checkbox,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {

@@ -111,6 +111,29 @@ export default function Job({ form }: onboardingStepperProps) {
               { value: 'no', label: 'No' },
             ]}
           />
+          <TextInput
+            required
+            label="Recruiter Contact Number"
+            placeholder="Recruiter Contact Number"
+            {...form.getInputProps('recruiter_contact_number')}
+            type={'text'}
+          />
+          <TextInput
+            required
+            label="Recruiter Name"
+            placeholder="Recruiter Name"
+            {...form.getInputProps('recruiter_name')}
+            type={'text'}
+          />
+          <TextInput
+            required
+            label="Others"
+            placeholder="Others"
+            {...form.getInputProps('others')}
+            type={'text'}
+          />
+        </Group>
+        <Group grow>
           <Textarea
             required
             mt={'30px'}

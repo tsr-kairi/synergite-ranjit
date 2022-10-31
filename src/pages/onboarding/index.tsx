@@ -23,7 +23,7 @@ import Documents from './onboarding-flow/document'
 import Immigration from './onboarding-flow/immigration'
 import Job from './onboarding-flow/job'
 
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import Review from './onboarding-flow/review'
 
@@ -133,6 +133,12 @@ export default function Onboarding() {
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
   const { data: employeeData } = useGetCandidateById(employeeUUID || '')
 
+  // const { onboarding_uuid } = useParams()
+  const search = window.location.search
+  const params = new URLSearchParams(search)
+  const onboardingUuid = params.get('onboarding_uuid')
+  // console.log('onboardingUuid', onboardingUuid)
+
   // onboarding flow states
   const form = useForm<TOnboarding>({
     initialValues: {
@@ -142,20 +148,30 @@ export default function Onboarding() {
     clearInputErrorOnChange: true,
   })
 
-  // const handlePreOnboarding = async (preonboardData: TPreonboard) => {
+  // const handlePreOnboarding = async (preOnboardData: TPreonboard) => {
   //   try {
   //     // delete submissionData.uuid
-  //     await axiosPrivate.post(`/onboarding/preonboard`, preonboardData)
+  //     await axiosPrivate.post(`/onboarding/preonboard`, preOnboardData)
   //   } catch (error) {
   //     console.log(error)
   //   }
   // }
 
   // useEffect(() => {
-  //   if (preonboardData) {
-  //     void handlePreOnboarding(preonboardData)
-  //   }
+  //   void handlePreOnboarding(preOnboardData)
   // }, [])
+
+  // useEffect(() => {
+  //   void handlePreOnboarding()
+  // }, [])
+
+  // const handlePreOnboarding = async (preOnboardData: TPreonboard) => {
+  //   try {
+  //     await axiosPrivate.post(`/onboarding/preonboard`, preOnboardData)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   useEffect(() => {
     if (onboardingData) {
@@ -180,11 +196,11 @@ export default function Onboarding() {
       client_uuid: clientUUID,
       submission_uuid: submissionUUID,
 
-      // TODO: This is going to be fetched from backend
-      immigration_status: 'H1',
-      employee_type: 'W2',
-      new_client: 'Yes',
-      new_sub_vendor: 'N/A',
+      // // TODO: This is going to be fetched from backend
+      // immigration_status: 'H1',
+      // employee_type: 'W2',
+      // new_client: 'Yes',
+      // new_sub_vendor: 'N/A',
     }
 
     console.log(onboardingData)
@@ -194,7 +210,7 @@ export default function Onboarding() {
     }
 
     setIsOnboardingInitiated(true)
-    createOnboarding(onboardingData)
+    createOnboarding(onboardingData, String(onboardingUuid))
       .then((data) => {
         if (active >= 4) {
           localStorage.removeItem('draft_onboarding_uuid')

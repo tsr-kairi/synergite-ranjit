@@ -2,11 +2,11 @@ import { z } from 'zod'
 
 // Preonboard Validation
 const zPreonboard = z.object({
-  employee_type: z.string(),
-  new_client: z.string(),
-  immigration_status: z.string(),
-  recruiter_name: z.string(),
-  department: z.string(),
+  employee_type: z.string().optional(),
+  new_client: z.string().optional(),
+  immigration_status: z.string().optional(),
+  recruiter_name: z.string().optional(),
+  department: z.string().optional(),
   job_uuid: z.string(),
   client_uuid: z.string(),
   employee_id: z.string(),

@@ -26,8 +26,10 @@ import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import Questionnaire from '@/pages/onboarding/questionnaire'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
+import axiosPrivate from '@/services/axiosPrivate'
+import { TPreonboard } from '@/types/prebonboard-type'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -223,21 +225,54 @@ export function SubmissionList({ data }: ISubmissionProps) {
     )
   }
 
+  // preOnboardingData response type
+  type preRes = {
+    ok: boolean
+    message: string
+    data: {
+      uuid: string
+      // employee_uuid: string
+      // vendor_uuid: string
+      // client_uuid: string
+      // submission_uuid: string
+      // start_date: null
+      // end_date: null
+      // onboard_status: string
+      // completion_percentage: null
+    }
+  }
+
   // handlePreOnboarding handler function
-  // const handlePreOnboarding = async (
-  //   submissionData: TSubmission,
-  //   preonboardData: TPreonboard
-  // ) => {
-  //   try {
-  //     // delete submissionData.uuid
-  //     await axiosPrivate.post(`/onboarding/preonboard`, preonboardData)
-  //     navigate(
-  //       `/onboarding?client_uuid=${submissionData.client_uuid}&vendor_uuid=${submissionData.vendor_uuid}&employee_uuid=${submissionData.employee_uuid}`
-  //     )
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+
+  const handlePreOnboarding = async (submissionData: TSubmission) => {
+    const preOnboardingData: TPreonboard = {
+      job_uuid: submissionData?.job_uuid,
+      client_uuid: submissionData?.client_uuid,
+      employee_id: submissionData?.employee_id,
+      employee_uuid: submissionData?.employee_uuid,
+      vendor_uuid: submissionData?.vendor_uuid,
+      submission_uuid: String(submissionData?.uuid),
+    }
+    try {
+      // delete submissionData.uuid
+      const pData = await axiosPrivate.post<preRes>(
+        `/onboarding/preonboard`,
+        preOnboardingData
+      )
+      // console.log('PreData', pData.data.data.uuid)
+      navigate(
+        `/onboarding?client_uuid=${submissionData.client_uuid}&vendor_uuid=${
+          submissionData.vendor_uuid
+        }&employee_uuid=${
+          submissionData.employee_uuid
+        }&submission_uuid=${String(submissionData?.uuid)}&onboarding_uuid=${
+          pData.data.data.uuid
+        }`
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   // submission data Delete handler
   const openModalForDelete = (Submission: TSubmission) => {
@@ -353,15 +388,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         ) : row.status === 'Selected' || row.status === null ? (
           <Badge
             color="blue"
-            onClick={() =>
-              navigate(
-                `/onboarding?client_uuid=${row.client_uuid}&vendor_uuid=${
-                  row.vendor_uuid
-                }&employee_uuid=${row.employee_uuid}&submission_uuid=${
-                  row.uuid || ''
-                }`
-              )
-            }
+            onClick={() => void handlePreOnboarding(row)}
             style={{ cursor: 'pointer' }}
           >
             Onboard Now
