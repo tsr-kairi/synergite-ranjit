@@ -1,23 +1,19 @@
 import TextDivider from '@/components/elements/text-divider'
 import useEditJob from '@/pages/client/hooks/useEditJob'
-import theme from '@/theme/theme'
 import { TJobs } from '@/types'
-import { TCandidate } from '@/types/candidate-type'
 import {
   createStyles,
   Group,
   Accordion,
   TextInput,
-  Textarea,
-  Grid,
   FileInput,
   ActionIcon,
   Tooltip,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { IconArrowBackUp, IconBriefcase, IconUpload } from '@tabler/icons'
-import { Link, useParams } from 'react-router-dom'
+import { IconArrowBackUp } from '@tabler/icons'
+import { Link } from 'react-router-dom'
 const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
@@ -97,19 +93,19 @@ export default function JobDetails(jobDetailsData: TJobs) {
               {/* Job Details */}
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
-                  <TextInput
+                  {/* <TextInput
                     readOnly={true}
                     label="Job ID"
                     type={'text'}
                     placeholder="Job-001"
                     // value={jobDetails.job_id}
-                  />
+                  /> */}
                   <TextInput
                     readOnly={true}
                     label="Client request ID"
                     type={'text'}
                     placeholder="Client request ID"
-                    value={jobDetailsData.client_req_id}
+                    value={jobDetailsData.client_request_id}
                   />
                   <TextInput
                     readOnly={true}
@@ -136,10 +132,10 @@ export default function JobDetails(jobDetailsData: TJobs) {
                   />
                   <TextInput
                     readOnly={true}
-                    label="Country"
+                    label="Country Code"
                     type={'text'}
-                    placeholder="Country"
-                    value={jobDetailsData.country}
+                    placeholder="Country Code"
+                    value={jobDetailsData.country_code}
                   />
                   <TextInput
                     readOnly={true}
@@ -153,7 +149,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="No of Positions"
                     type={'text'}
                     placeholder="No of Positions"
-                    // value={jobDetailsData.no_positions}
+                    value={jobDetailsData.number_of_position}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -162,28 +158,28 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="Priority"
                     type={'text'}
                     placeholder="Priority"
-                    // value={jobDetailsData.priority}
+                    value={jobDetailsData.priority}
                   />
                   <TextInput
                     readOnly={true}
                     label="Priority reason"
                     type={'text'}
                     placeholder="Priority reason"
-                    // value={jobDetailsData.priority_reason}
+                    value={jobDetailsData.priority_reason}
                   />
                   <TextInput
                     readOnly={true}
                     label="Status"
                     type={'text'}
                     placeholder="Status"
-                    // value={jobDetailsData.job_status}
+                    value={jobDetailsData.job_status}
                   />
                   <TextInput
                     readOnly={true}
                     label="Employee Type"
                     type={'text'}
                     placeholder="Employee Type"
-                    // value={jobDetailsData.employee_type}
+                    value={jobDetailsData.employee_type}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -192,7 +188,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="Work Experience"
                     type={'text'}
                     placeholder="Work Experience"
-                    // value={jobDetailsData.work_experience}
+                    value={jobDetailsData.work_experience_in_years}
                   />
                   <TextInput
                     readOnly={true}
@@ -217,36 +213,36 @@ export default function JobDetails(jobDetailsData: TJobs) {
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <TextInput
+                  {/* <TextInput
                     readOnly={true}
                     label="Languages"
                     type={'text'}
                     placeholder="Languages"
-                    // value={jobDetailsData.languages}
-                  />
+                    value={jobDetailsData.languages}
+                  /> */}
                   <TextInput
                     readOnly={true}
                     label="Industry"
                     type={'text'}
                     placeholder="Industry"
-                    // value={jobDetailsData.industry}
+                    value={jobDetailsData.industry}
                   />
                   <TextInput
                     readOnly={true}
                     label="Client Contact Email"
                     type={'text'}
                     placeholder="Client Contact Email"
-                    // value={jobDetailsData.client_contact_email}
+                    value={jobDetailsData.client_contact_email}
                   />
                   <TextInput
                     readOnly={true}
                     label="Client Contact Phone"
                     type={'text'}
                     placeholder="Client Contact Phone"
-                    // value={jobDetailsData.client_contact_phone}
+                    value={jobDetailsData.client_contact_phone}
                   />
                 </Group>
-                <Group grow align="center" mt="md">
+                {/* <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     label="Created By"
@@ -254,7 +250,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="Created By"
                     value={jobDetailsData.created_by}
                   />
-                </Group>
+                </Group> */}
               </Accordion.Panel>
             </Accordion.Item>
             {/* Recruitment Team */}
@@ -272,28 +268,28 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="Recruitment Manager"
                     type={'text'}
                     placeholder="Recruitment Manager"
-                    // value={jobDetailsData.recruitment_manager}
+                    value={jobDetailsData.recruitment_manager_uuid}
                   />
                   <TextInput
                     readOnly={true}
                     label="Account Manager"
                     type={'text'}
                     placeholder="Account Manager"
-                    // value={jobDetailsData.account_manager}
+                    value={jobDetailsData.account_manager_uuid}
                   />
                   <TextInput
                     readOnly={true}
                     label="Recruiters"
                     type={'text'}
                     placeholder="Recruiters"
-                    // value={jobDetailsData.recruiters}
+                    value={jobDetailsData.recruiter_uuid}
                   />
                   <TextInput
                     readOnly={true}
-                    label="Source"
+                    label="Sourcer"
                     type={'text'}
-                    placeholder="Source"
-                    // value={jobDetailsData.source}
+                    placeholder="sourcer"
+                    value={jobDetailsData.sourcer_uuid}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -302,21 +298,21 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="Additional Recruiters"
                     type={'text'}
                     placeholder="Additional Recruiters"
-                    // value={jobDetailsData.additional_recruiters}
+                    value={jobDetailsData.additional_recruiter_uuid}
                   />
                   <TextInput
                     readOnly={true}
                     label="Maximum Submissions"
                     type={'text'}
                     placeholder="Maximum Submissions"
-                    // value={jobDetailsData.maximum_submissions}
+                    value={jobDetailsData.maximum_submission}
                   />
                   <TextInput
                     readOnly={true}
                     label="Interview Panel"
                     type={'text'}
                     placeholder="Interview Panel"
-                    // value={jobDetailsData.interview_panel}
+                    value={jobDetailsData.interview_panel_uuid}
                   />
                 </Group>
               </Accordion.Panel>
@@ -336,7 +332,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="Client Contract Period"
                     type={'text'}
                     placeholder="Client Contract Period"
-                    // value={jobDetailsData.client_contract_period}
+                    value={jobDetailsData.client_contract_period}
                   />
                   <TextInput
                     readOnly={true}
@@ -350,22 +346,22 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="W2 Pay Rate"
                     type={'text'}
                     placeholder="W2 Pay Rate"
-                    // value={jobDetailsData.w2_ray_rate}
+                    value={jobDetailsData.w2_pay_rate}
                   />
                   <TextInput
                     readOnly={true}
                     label="Contract Period"
                     type={'text'}
                     placeholder="Contract Period"
-                    // value={jobDetailsData.contract_period}
+                    value={jobDetailsData.contract_period}
                   />
-                  <TextInput
+                  {/* <TextInput
                     readOnly={true}
                     label="Contract Period"
                     type={'text'}
                     placeholder="Contract Period"
-                    // value={jobDetailsData.contract_period}
-                  />
+                    value={jobDetailsData.contract_period}
+                  /> */}
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
@@ -385,14 +381,14 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     label="Job Domain"
                     type={'text'}
                     placeholder="Job Domain"
-                    // value={jobDetailsData.job_domain}
+                    value={jobDetailsData.job_domain}
                   />
                   <TextInput
                     readOnly={true}
                     label="Job Description"
                     type={'text'}
                     placeholder="Job Description"
-                    // value={jobDetailsData.job_description}
+                    value={jobDetailsData.job_description}
                   />
                 </Group>
               </Accordion.Panel>
