@@ -269,7 +269,7 @@ export default function JobsTable({ data }: JobsProps) {
         </Link>
       </td>
       <td>{row?.city}</td>
-      <td>{row?.country}</td>
+      <td>{row?.country_code}</td>
       <td>{row?.visa_status}</td>
       <td>{row?.job_status}</td>
       <td>
@@ -325,11 +325,11 @@ export default function JobsTable({ data }: JobsProps) {
                 City
               </Th>
               <Th
-                sorted={sortBy === 'country'}
+                sorted={sortBy === 'country_code'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('country')}
+                onSort={() => setSorting('country_code')}
               >
-                Country
+                Country Code
               </Th>
               <Th
                 sorted={sortBy === 'visa_status'}

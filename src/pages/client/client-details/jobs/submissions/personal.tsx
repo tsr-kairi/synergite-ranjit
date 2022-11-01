@@ -177,10 +177,10 @@ export default function Personal() {
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Country :</b>
+                  <b>Country Code :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.country}
+                  {data?.data?.country_code}
                 </Text>
               </Group>
               <Group spacing="sm">

@@ -1,6 +1,6 @@
 import TextDivider from '@/components/elements/text-divider'
 import useCreateJob from '@/pages/client/hooks/useCreateJob'
-import { UsData } from '@/pages/data/usData'
+import { UsState } from '@/pages/data/usState'
 import { TJobCreate, zJobCreate } from '@/types'
 import { useState } from 'react'
 import {
@@ -17,6 +17,9 @@ import {
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useParams } from 'react-router-dom'
+import { WCountry } from '@/pages/data/wCountry'
+import { UsIndustry } from '@/pages/data/industry'
+// import { WLanguages } from '@/pages/data/languages'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -32,12 +35,11 @@ export default function CreateForm() {
   const { classes } = useStyles()
   const { mutate: addJob, isSuccess, isError } = useCreateJob()
 
-  console.log('clientId', clientId)
+  // console.log('clientId', clientId)
 
   const form = useForm<TJobCreate>({
     validate: zodResolver(zJobCreate),
     initialValues: {
-      title: '',
       city: '',
       country: '',
       state: '',
@@ -48,6 +50,31 @@ export default function CreateForm() {
       job_type: '',
       pay_rate: '',
       job_status: '',
+
+      // new added fields
+      recruiter_uuid: '',
+      client_request_id: '',
+      account_manager_uuid: '',
+      additional_recruiter_uuid: '',
+      recruitment_manager_uuid: '',
+      interview_panel_uuid: '',
+      sourcer_uuid: '',
+      client_contact_email: '',
+      client_contact_phone: '',
+      client_contract_period: '',
+      contract_period: '',
+      country_code: '',
+      employee_type: '',
+      industry: '',
+      job_description: '',
+      job_domain: '',
+      job_title: '',
+      priority: '',
+      priority_reason: '',
+      maximum_submission: 0,
+      number_of_position: 0,
+      w2_pay_rate: 0,
+      work_experience_in_years: 0,
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
@@ -58,8 +85,6 @@ export default function CreateForm() {
     d.setHours(0, 0, 0, 0)
     const jobCreateData = {
       ...values,
-      // status: 'published',
-      // clients: Number(clientId),
       client_uuid: String(clientId),
       job_id: String(jobId),
     }
@@ -94,7 +119,7 @@ export default function CreateForm() {
                     label="Client request ID"
                     type={'text'}
                     placeholder="Client request ID"
-                    {...form.getInputProps('client_req_id')}
+                    {...form.getInputProps('client_request_id')}
                   />
                   <TextInput
                     label="Start Date"
@@ -102,25 +127,18 @@ export default function CreateForm() {
                     placeholder="Start Date"
                     {...form.getInputProps('start_date')}
                   />
-                  <TextInput
+                  <Select
                     label="City"
-                    type={'text'}
                     placeholder="City"
+                    searchable
+                    onSearchChange={onSearchChange}
+                    searchValue={searchValue}
+                    nothingFound="No Matching City"
+                    data={UsState.map((s) => {
+                      return { value: s.code, label: s.state }
+                    })}
                     {...form.getInputProps('city')}
                   />
-                  <Select
-                    label="Created By"
-                    type={'text'}
-                    placeholder="Created By"
-                    data={[
-                      { value: 'Raj', label: 'Raj' },
-                      { value: 'Abhay', label: 'Abhay' },
-                      { value: 'Vivek', label: 'Vivek' },
-                    ]}
-                    {...form.getInputProps('created_by')}
-                  />
-                </Group>
-                <Group grow align="center" mt="md">
                   <Select
                     label="State"
                     placeholder="State"
@@ -128,33 +146,48 @@ export default function CreateForm() {
                     onSearchChange={onSearchChange}
                     searchValue={searchValue}
                     nothingFound="No Matching State"
-                    data={UsData.map((s) => {
-                      return { value: s.state, label: s.state }
+                    data={UsState.map((s) => {
+                      return { value: s.code, label: s.state }
                     })}
                     {...form.getInputProps('state')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <Select
-                    label="Country"
-                    type={'text'}
-                    placeholder="Country"
-                    data={[
-                      { value: 'India', label: 'India' },
-                      { value: 'USA', label: 'USA' },
-                      { value: 'Nepal', label: 'Nepal' },
-                    ]}
-                    {...form.getInputProps('country')}
+                    label="Country Code"
+                    placeholder="Country Code"
+                    searchable
+                    onSearchChange={onSearchChange}
+                    searchValue={searchValue}
+                    nothingFound="No Matching Country No"
+                    data={WCountry.map((c) => {
+                      return { value: c.code, label: c.code }
+                    })}
+                    {...form.getInputProps('country_code')}
                   />
+                  {/* <Select
+                    label="Country"
+                    placeholder="Country"
+                    searchable
+                    onSearchChange={onSearchChange}
+                    searchValue={searchValue}
+                    nothingFound="No Matching Country"
+                    data={WCountry.map((c) => {
+                      return { value: c.code, label: c.country }
+                    })}
+                    {...form.getInputProps('country')}
+                  /> */}
                   <TextInput
                     label="Job Title"
                     type={'text'}
                     placeholder="Job Title"
-                    {...form.getInputProps('title')}
+                    {...form.getInputProps('job_title')}
                   />
                   <TextInput
                     label="No of Positions"
                     type={'number'}
                     placeholder="No of Positions"
-                    {...form.getInputProps('no_positions')}
+                    {...form.getInputProps('number_of_position')}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -198,7 +231,7 @@ export default function CreateForm() {
                     label="Work Experience"
                     type={'date'}
                     placeholder="Work Experience"
-                    {...form.getInputProps('work_experience')}
+                    {...form.getInputProps('work_experience_in_years')}
                   />
                   <TextInput
                     label="Primary Skills"
@@ -225,26 +258,28 @@ export default function CreateForm() {
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <Select
+                  {/* <Select
                     label="Languages"
-                    type={'text'}
                     placeholder="Languages"
-                    data={[
-                      { value: 'English', label: 'English' },
-                      { value: 'Hindi', label: 'Hindi' },
-                      { value: 'Bengali', label: 'Bengali' },
-                    ]}
-                    {...form.getInputProps('languages')}
-                  />
+                    searchable
+                    onSearchChange={onSearchChange}
+                    searchValue={searchValue}
+                    nothingFound="No Matching Languages"
+                    data={WLanguages.map((l) => {
+                      return { value: l.code, label: l.language }
+                    })}
+                    {...form.getInputProps('language')}
+                  /> */}
                   <Select
                     label="Industry"
-                    type={'text'}
                     placeholder="Industry"
-                    data={[
-                      { value: 'TATA', label: 'TATA' },
-                      { value: 'ITA', label: 'ITA' },
-                      { value: 'MDCI', label: 'MDCI' },
-                    ]}
+                    searchable
+                    onSearchChange={onSearchChange}
+                    searchValue={searchValue}
+                    nothingFound="No Matching Industry"
+                    data={UsIndustry.map((i) => {
+                      return { value: i.industry, label: i.industry }
+                    })}
                     {...form.getInputProps('industry')}
                   />
                   <TextInput
@@ -281,7 +316,7 @@ export default function CreateForm() {
                       { value: 'Rona', label: 'Rona' },
                       { value: 'Dev', label: 'Dev' },
                     ]}
-                    {...form.getInputProps('recruitment_manager')}
+                    {...form.getInputProps('recruitment_manager_uuid')}
                   />
                   <Select
                     label="Account Manager"
@@ -292,7 +327,7 @@ export default function CreateForm() {
                       { value: 'Rama', label: 'Rama' },
                       { value: 'Rohit', label: 'Rohit' },
                     ]}
-                    {...form.getInputProps('account_manager')}
+                    {...form.getInputProps('account_manager_uuid')}
                   />
                   <Select
                     label="Recruiters"
@@ -303,7 +338,7 @@ export default function CreateForm() {
                       { value: 'Vishal', label: 'Vishal' },
                       { value: 'Roshan', label: 'Roshan' },
                     ]}
-                    {...form.getInputProps('recruiters')}
+                    {...form.getInputProps('recruiter_uuid')}
                   />
                   <Select
                     label="Source"
@@ -314,7 +349,7 @@ export default function CreateForm() {
                       { value: 'Vishal', label: 'Vishal' },
                       { value: 'Roshan', label: 'Roshan' },
                     ]}
-                    {...form.getInputProps('source')}
+                    {...form.getInputProps('sourcer_uuid')}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -327,13 +362,13 @@ export default function CreateForm() {
                       { value: 'Vishal', label: 'Vishal' },
                       { value: 'Roshan', label: 'Roshan' },
                     ]}
-                    {...form.getInputProps('additional_recruiters')}
+                    {...form.getInputProps('additional_recruiter_uuid')}
                   />
                   <TextInput
                     label="Maximum Submissions"
-                    type={'text'}
+                    type={'number'}
                     placeholder="Maximum Submissions"
-                    {...form.getInputProps('maximum_submissions')}
+                    {...form.getInputProps('maximum_submission')}
                   />
                   <Select
                     label="Interview Panel"
@@ -344,7 +379,7 @@ export default function CreateForm() {
                       { value: 'Vishal', label: 'Vishal' },
                       { value: 'Roshan', label: 'Roshan' },
                     ]}
-                    {...form.getInputProps('interview_panel')}
+                    {...form.getInputProps('interview_panel_uuid')}
                   />
                 </Group>
               </Accordion.Panel>
@@ -385,7 +420,7 @@ export default function CreateForm() {
                     label="W2 Pay Rate"
                     type={'text'}
                     placeholder="W2 Pay Rate"
-                    {...form.getInputProps('w2_ray_rate')}
+                    {...form.getInputProps('w2_pay_rate')}
                   />
                   <TextInput
                     label="Contract Period"
@@ -393,12 +428,12 @@ export default function CreateForm() {
                     placeholder="Contract Period"
                     {...form.getInputProps('contract_period')}
                   />
-                  <TextInput
+                  {/* <TextInput
                     label="Contract Period"
                     type={'text'}
                     placeholder="Contract Period"
                     {...form.getInputProps('contract_period')}
-                  />
+                  /> */}
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
