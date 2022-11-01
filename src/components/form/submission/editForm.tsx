@@ -26,6 +26,7 @@ import { TRecruitersFindAll } from '@/types/recruiters-type'
 import axiosPrivate from '@/services/axiosPrivate'
 import { recruitersQueryKeys } from '@/react-query/queryKeys'
 import { useQuery } from 'react-query'
+import { TCandidate } from '@/types/candidate-type'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -42,7 +43,7 @@ export default function EditForm(submissionData: TSubmission) {
   const [employeeOpened, setEmployeeOpened] = useState(false)
   const [vendorOpened, setVendorOpened] = useState(false)
 
-  const [employeeDetails, setEmployeeDetails] = useState({} as TAEmployee)
+  const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
 
   const [vendorListOpened, vendorListIsOpened] = useState(false)
@@ -55,8 +56,8 @@ export default function EditForm(submissionData: TSubmission) {
     clearInputErrorOnChange: true,
   })
 
-  const employeeName = `${employeeDetails?.fname || ''} ${
-    employeeDetails?.lname || ''
+  const employeeName = `${employeeDetails?.first_name || ''} ${
+    employeeDetails?.last_name || ''
   }`
   const vendorName = `${vendorDetails?.first_name || ''} ${
     vendorDetails?.last_name || ''
@@ -199,7 +200,6 @@ export default function EditForm(submissionData: TSubmission) {
             Submit Now
           </Button>
         </form>
-
         {/* Showing Vendor Details */}
         <Drawer
           opened={vendorOpened}
@@ -211,7 +211,6 @@ export default function EditForm(submissionData: TSubmission) {
         >
           <VendorDetailsForm {...vendorDetails} />
         </Drawer>
-
         {/* Showing Employee Details */}
         <Drawer
           opened={employeeOpened}
@@ -223,7 +222,7 @@ export default function EditForm(submissionData: TSubmission) {
         >
           <EmployeeDetailsForm employeeData={employeeDetails} />
         </Drawer>
-
+        {/* employeeData={employeeDetails} */}
         {/* Showing Employee IdList */}
         <Drawer
           opened={employeeListOpened}
@@ -235,11 +234,10 @@ export default function EditForm(submissionData: TSubmission) {
         >
           <EmployeeIdList
             setEmployee={(employee) => {
-              setEmployeeDetails(employee as TAEmployee)
+              setEmployeeDetails(employee)
             }}
           />
         </Drawer>
-
         <Drawer
           opened={vendorListOpened}
           onClose={() => vendorListIsOpened(false)}

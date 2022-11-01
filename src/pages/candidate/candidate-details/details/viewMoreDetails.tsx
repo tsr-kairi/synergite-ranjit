@@ -68,7 +68,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
-                    value={candidateDetailsData.fname}
+                    value={candidateDetailsData.first_name}
                   />
                   <TextInput
                     readOnly={true}
@@ -82,7 +82,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
-                    value={candidateDetailsData.lname}
+                    value={candidateDetailsData.last_name}
                   />
                   <TextInput
                     readOnly={true}

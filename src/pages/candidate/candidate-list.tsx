@@ -320,7 +320,7 @@ export function CandidateList({ data }: ICandidateProps) {
                 E
               </Avatar>
               <Text size="sm" weight={500}>
-                {row?.fname} {row?.lname}
+                {row?.first_name} {row?.last_name}
               </Text>
             </Group>
           </Tooltip>
@@ -373,9 +373,9 @@ export function CandidateList({ data }: ICandidateProps) {
           <thead>
             <tr>
               <Th
-                sorted={sortBy === 'fname'}
+                sorted={sortBy === 'first_name'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('fname')}
+                onSort={() => setSorting('first_name')}
               >
                 Name
               </Th>

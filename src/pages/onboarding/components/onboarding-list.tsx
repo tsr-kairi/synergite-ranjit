@@ -4,6 +4,7 @@ import useGetAllDepartment from '@/pages/department/hooks/useGetAllDepartment'
 import { Th } from '@/pages/employee/employee-list'
 import { getOnboardingList } from '@/services/onboarding.services'
 import theme from '@/theme/theme'
+import { TOnboarding, TOnboardingStatus } from '@/types/onboarding-flow-type'
 import {
   Badge,
   Button,
@@ -29,7 +30,7 @@ const OnboardingList = () => {
   const [selectedActivityUUID, setSelectedActivityUUID] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
 
-  const { data: onboardingList = [] } = useQuery(
+  const { data: onboardingList } = useQuery(
     ['onboarding-list', searchTerm],
     () => getOnboardingList(searchTerm)
   )
@@ -57,14 +58,16 @@ const OnboardingList = () => {
           <tbody>
             {onboardingList?.map((onboarding) => {
               const onboardingStatus =
-                onboardingStatusList[onboarding.onboard_status]
+                onboardingStatusList[
+                  onboarding.onboard_status as TOnboardingStatus
+                ]
 
               const isPreOnboardingStatus =
                 onboarding.onboard_status === 'PRE_INITIATED' ||
                 onboarding.onboard_status === 'PRE_INPROGRESS'
 
-              const candidateName = `${onboarding.employee?.fname || ''}
-                ${onboarding.employee?.lname || ''}`
+              const candidateName = `${onboarding.employee?.first_name || ''}
+                ${onboarding.employee?.last_name || ''}`
 
               return (
                 <tr key={onboarding.uuid}>
@@ -95,9 +98,15 @@ const OnboardingList = () => {
                       candidateName
                     )}
                   </td>
-                  <td>65%</td>
                   <td>
-                    <Badge color="cyan">{onboardingStatus.label}</Badge>
+                    {onboarding.completion_percentage
+                      ? `${onboarding.completion_percentage}%`
+                      : '0%'}
+                  </td>
+                  <td>
+                    <Badge color={onboardingStatus.color.background}>
+                      {onboardingStatus.label}
+                    </Badge>
                   </td>
                   <td>
                     <IconPlus

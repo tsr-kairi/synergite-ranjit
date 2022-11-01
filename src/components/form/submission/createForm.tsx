@@ -75,8 +75,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     clearInputErrorOnChange: true,
   })
 
-  const employeeName = `${employeeDetails?.fname || ''} ${
-    employeeDetails?.lname || ''
+  const employeeName = `${employeeDetails?.first_name || ''} ${
+    employeeDetails?.last_name || ''
   }`
   const vendorName = `${vendorDetails?.first_name || ''} ${
     vendorDetails?.last_name || ''
@@ -110,6 +110,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
     addSubmission(submissionCreateData)
     onClose()
+    form.reset()
 
     showNotification({
       title: 'Success!!',

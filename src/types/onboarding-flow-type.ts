@@ -28,9 +28,10 @@ const zOnboarding = z.object({
   created_date: z.date(),
   modified_by: z.string(),
   modified_date: z.date(),
+  completion_percentage: z.number(),
   // submission_uuid: z.string(),
 
-  // onboard_status: zOnboardingStatus.optional(),
+  onboard_status: zOnboardingStatus.optional(),
 
   // Profile
   start_date: z.date(),
@@ -59,8 +60,8 @@ const zOnboarding = z.object({
 
   employee: z
     .object({
-      fname: z.string(),
-      lname: z.string(),
+      first_name: z.string(),
+      last_name: z.string(),
     })
     .optional(),
 

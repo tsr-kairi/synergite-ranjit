@@ -64,19 +64,19 @@ export default function EditForm(candidateData: TCandidate) {
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
-                    {...form.getInputProps('fname')}
+                    {...form.getInputProps('first_name')}
                   />
                   <TextInput
                     label="Middle Name"
                     type={'text'}
                     placeholder="Middle Name"
-                    {...form.getInputProps('mname')}
+                    {...form.getInputProps('middle_name')}
                   />
                   <TextInput
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
-                    {...form.getInputProps('lname')}
+                    {...form.getInputProps('last_name')}
                   />
                   <TextInput
                     label="Email"
@@ -325,30 +325,36 @@ export default function EditForm(candidateData: TCandidate) {
                     placeholder="Github Url"
                   />
                   <TextInput
-                    label="Address"
+                    label="Address Line1"
                     type={'text'}
-                    placeholder="Address"
+                    placeholder="Address Line1"
                     {...form.getInputProps('address1')}
                   />
+                  <TextInput
+                    label="Address Line2"
+                    type={'text'}
+                    placeholder="Address Line1"
+                    {...form.getInputProps('address2')}
+                  />
+                </Group>
+
+                <Group grow align="center" mt="md">
                   <Select
                     label="City"
                     data={[
                       {
-                        value: 'from_api/json',
+                        value: 'from_api',
                         label: 'come from api/json format...',
                       },
                     ]}
                     placeholder="City"
                     {...form.getInputProps('city')}
                   />
-                </Group>
-
-                <Group grow align="center" mt="md">
                   <Select
                     label="State"
                     data={[
                       {
-                        value: 'from_api/json',
+                        value: 'from_api',
                         label: 'come from api/json format...',
                       },
                     ]}
@@ -360,7 +366,7 @@ export default function EditForm(candidateData: TCandidate) {
                     label="Country"
                     data={[
                       {
-                        value: 'from_api/json',
+                        value: 'from_api',
                         label: 'come from api/json format...',
                       },
                     ]}
@@ -473,6 +479,7 @@ export default function EditForm(candidateData: TCandidate) {
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
+
           <Button fullWidth type="submit" mt="xl">
             Update
           </Button>

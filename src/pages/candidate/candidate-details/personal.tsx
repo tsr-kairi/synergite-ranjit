@@ -145,7 +145,7 @@ export default function Personal() {
                   maxWidth: '150px',
                 }}
               >
-                {data?.data?.fname} {data?.data?.lname}
+                {data?.data?.first_name} {data?.data?.last_name}
               </Text>
             </div>
             {/* <Text size="lg" color="blue" weight={600} mb="xs">
@@ -158,7 +158,7 @@ export default function Personal() {
                   <b>Name :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.fname} {data?.data?.lname}
+                  {data?.data?.first_name} {data?.data?.last_name}
                 </Text>
               </Group>
               <Group spacing="sm">
