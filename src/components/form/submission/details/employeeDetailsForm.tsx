@@ -63,14 +63,14 @@ const EmployeeDetailsForm: React.FC<{ employeeData: TCandidate }> = ({
                   label="First Name"
                   type={'text'}
                   placeholder="First Name"
-                  value={employeeData?.fname}
+                  value={employeeData?.first_name}
                 />
                 <TextInput
                   required
                   label="Last Name"
                   type={'text'}
                   placeholder="Last Name"
-                  value={employeeData?.lname}
+                  value={employeeData?.last_name}
                 />
               </Group>
               <Group grow align="center" mt="md">
