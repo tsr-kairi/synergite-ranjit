@@ -129,7 +129,7 @@ export default function Onboarding() {
   const vendorUUID = searchParams.get('vendor_uuid')
   const employeeUUID = searchParams.get('employee_uuid')
   const submissionUUID = searchParams.get('submission_uuid')
-  console.log('submissionUUID', submissionUUID)
+  // console.log('submissionUUID', submissionUUID)
 
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
@@ -189,6 +189,18 @@ export default function Onboarding() {
 
   // onConfirm Save Onboarding
   const onConfirmUpdateOnboarding = (values: TOnboarding) => {
+    // let onboardStatus = 'PREONBOARDING_IN_PROGRESS'
+    let completion_percentage
+    if (active === 0) {
+      completion_percentage = 25
+    } else if (active === 1) {
+      completion_percentage = 50
+    } else if (active === 2) {
+      completion_percentage = 75
+    } else if (active === 3) {
+      completion_percentage = 100
+    }
+
     const d = new Date(values.start_date)
     d.setHours(0, 0, 0, 0)
     const onboardingData = {
@@ -197,7 +209,8 @@ export default function Onboarding() {
       vendor_uuid: vendorUUID,
       client_uuid: clientUUID,
       submission_uuid: submissionUUID,
-      onboard_status: 'ONBOARDING_IN_PROGRESS',
+      onboard_status: 'PRE_INPROGRESS',
+      completion_percentage,
     }
 
     console.log(onboardingData)
@@ -207,7 +220,7 @@ export default function Onboarding() {
     }
 
     setIsOnboardingInitiated(true)
-    updateOnboarding(onboardingData, String(onboardingUuid))
+    updateOnboarding(onboardingData as TOnboarding, String(onboardingUuid))
       .then((data) => {
         if (active >= 4) {
           localStorage.removeItem('draft_onboarding_uuid')
@@ -292,8 +305,8 @@ export default function Onboarding() {
     }
   } // End of handleSave function
 
-  const canName = `${employeeData?.data?.fname || ''} ${
-    employeeData?.data?.lname || ''
+  const canName = `${employeeData?.data?.first_name || ''} ${
+    employeeData?.data?.last_name || ''
   }`
 
   const clName = `${clientData?.data?.first_name || ''} ${

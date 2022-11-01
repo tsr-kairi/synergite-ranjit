@@ -320,7 +320,7 @@ export function CandidateList({ data }: ICandidateProps) {
                 E
               </Avatar>
               <Text size="sm" weight={500}>
-                {row?.fname} {row?.lname}
+                {row?.first_name} {row?.last_name}
               </Text>
             </Group>
           </Tooltip>

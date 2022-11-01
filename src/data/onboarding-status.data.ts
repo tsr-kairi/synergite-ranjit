@@ -3,7 +3,7 @@ export const onboardingStatusList = {
     key: 'PRE_INITIATED',
     label: 'Pre-Onboarding Initiated',
     color: {
-      background: 'cyan',
+      background: 'grey',
       font: 'white',
     },
   },
@@ -11,7 +11,7 @@ export const onboardingStatusList = {
     key: 'PRE_INPROGRESS',
     label: 'Pre-Onboarding InProgress',
     color: {
-      background: 'cyan',
+      background: 'yellow',
       font: 'white',
     },
   },
@@ -20,7 +20,7 @@ export const onboardingStatusList = {
     key: 'ONBOARDING_INITIATED',
     label: 'Onboarding Initiated',
     color: {
-      background: 'cyan',
+      background: 'grey',
       font: 'white',
     },
   },
@@ -28,7 +28,7 @@ export const onboardingStatusList = {
     key: 'ONBOARDING_IN_PROGRESS',
     label: 'Onboarding InProgress',
     color: {
-      background: 'cyan',
+      background: 'blue',
       font: 'white',
     },
   },
@@ -36,7 +36,7 @@ export const onboardingStatusList = {
     key: 'ONBOARDING_COMPLETED',
     label: 'Onboarding Completed',
     color: {
-      background: 'cyan',
+      background: 'green',
       font: 'white',
     },
   },
@@ -44,7 +44,7 @@ export const onboardingStatusList = {
     key: 'HOLD',
     label: 'Onboarding On Hold',
     color: {
-      background: 'cyan',
+      background: 'orange',
       font: 'white',
     },
   },
@@ -52,7 +52,7 @@ export const onboardingStatusList = {
     key: 'REINITIATED',
     label: 'Onboarding-Reinitiated',
     color: {
-      background: 'cyan',
+      background: 'grey',
       font: 'white',
     },
   },
@@ -60,7 +60,7 @@ export const onboardingStatusList = {
     key: 'CANCELLED',
     label: 'Onboarding Cancelled',
     color: {
-      background: 'cyan',
+      background: 'red',
       font: 'white',
     },
   },

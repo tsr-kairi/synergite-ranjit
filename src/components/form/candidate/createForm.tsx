@@ -34,8 +34,9 @@ export default function CreateForm() {
     validate: zodResolver(zCandidateCreate),
     initialValues: {
       employee_id: '',
-      fname: '',
-      lname: '',
+      first_name: '',
+      middle_name: '',
+      last_name: '',
       email: '',
       phone: '',
       ssn_no: '',
@@ -84,27 +85,24 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
-                    {...form.getInputProps('fname')}
+                    {...form.getInputProps('first_name')}
                   />
                   <TextInput
                     label="Middle Name"
                     type={'text'}
                     placeholder="Middle Name"
-                    {...form.getInputProps('lname')}
+                    {...form.getInputProps('middle_name')}
                   />
                   <TextInput
-                    required
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
-                    {...form.getInputProps('lname')}
+                    {...form.getInputProps('last_name')}
                   />
                   <TextInput
-                    required
                     label="Email"
                     type={'text'}
                     placeholder="Email"
@@ -113,14 +111,12 @@ export default function CreateForm() {
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     label="Phone"
                     type={'text'}
                     placeholder="Phone"
                     {...form.getInputProps('phone')}
                   />
                   <TextInput
-                    required
                     label="Date of birth"
                     type={'date'}
                     placeholder="Date of birth"
@@ -204,7 +200,6 @@ export default function CreateForm() {
                     label="Immigration status"
                   />
                   <TextInput
-                    required
                     label="Work Experience"
                     type={'text'}
                     placeholder="Work Experience"
@@ -240,7 +235,6 @@ export default function CreateForm() {
                     label="Employment Type"
                   />
                   <TextInput
-                    required
                     label="Skills"
                     type={'text'}
                     placeholder="Skills"
@@ -265,13 +259,11 @@ export default function CreateForm() {
 
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     label="Expected Rate"
                     type={'text'}
                     placeholder="Expected Rate"
                   />
                   <TextInput
-                    required
                     label="Current Rate Type"
                     type={'text'}
                     placeholder="Current Rate Type"
@@ -290,7 +282,6 @@ export default function CreateForm() {
                     label="Expected Rate Type"
                   />
                   <TextInput
-                    required
                     label="Languages Known"
                     type={'text'}
                     placeholder="Languages Known"
@@ -348,26 +339,31 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     label="Linkedin Url"
                     type={'text'}
                     placeholder="Linkedin Url"
                   />
                   <TextInput
-                    required
                     label="Github Url"
                     type={'text'}
                     placeholder="Github Url"
                   />
                   <TextInput
-                    required
-                    label="Address"
+                    label="Address Line1"
                     type={'text'}
-                    placeholder="Address"
+                    placeholder="Address Line1"
                     {...form.getInputProps('address1')}
                   />
+                  <TextInput
+                    label="Address Line2"
+                    type={'text'}
+                    placeholder="Address Line1"
+                    {...form.getInputProps('address2')}
+                  />
+                </Group>
+
+                <Group grow align="center" mt="md">
                   <Select
-                    required
                     label="City"
                     data={[
                       {
@@ -378,11 +374,7 @@ export default function CreateForm() {
                     placeholder="City"
                     {...form.getInputProps('city')}
                   />
-                </Group>
-
-                <Group grow align="center" mt="md">
                   <Select
-                    required
                     label="State"
                     data={[
                       {
@@ -395,7 +387,6 @@ export default function CreateForm() {
                   />
 
                   <Select
-                    required
                     label="Country"
                     data={[
                       {
@@ -407,7 +398,6 @@ export default function CreateForm() {
                     {...form.getInputProps('country')}
                   />
                   <TextInput
-                    required
                     label="Zip Code"
                     type={'text'}
                     placeholder="Zip Code"
@@ -427,7 +417,6 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     label="Current Employer name"
                     type={'text'}
                     placeholder="Current Employer name"
@@ -462,19 +451,16 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     label="Document Name"
                     type={'text'}
                     placeholder="Document Name"
                   />
                   <TextInput
-                    required
                     label="Status"
                     type={'text'}
                     placeholder="Status"
                   />
                   <TextInput
-                    required
                     label="Expiry date"
                     type={'text'}
                     placeholder="Expiry date"

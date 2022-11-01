@@ -210,7 +210,7 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
       </td>
       <td>
         <Text size="sm" weight={500}>
-          {item.fname} {item.lname}
+          {item.first_name} {item.last_name}
         </Text>
       </td>
     </tr>

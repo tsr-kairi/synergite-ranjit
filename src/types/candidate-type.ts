@@ -4,8 +4,9 @@ import { z } from 'zod'
 // Validation
 const zCandidate = z.object({
   employee_id: z.string(),
-  fname: z.string(),
-  lname: z.string(),
+  first_name: z.string(),
+  middle_name: z.string(),
+  last_name: z.string(),
   email: z.string(),
   phone: z.string(),
   ssn_no: z.string(),
@@ -25,8 +26,9 @@ const zCandidate = z.object({
 // new Active Candidate add and validation
 const zCandidateCreate = z.object({
   employee_id: z.string(),
-  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  middle_name: z.string(),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
   email: z.string().email({ message: 'Invalid email address' }),
   phone: z.string().min(10, { message: 'Phone Number should have 10' }),
   ssn_no: z.string(),
@@ -45,8 +47,9 @@ const zCandidateCreate = z.object({
 // employee edit
 const zCandidateEdit = z.object({
   employee_id: z.string(),
-  fname: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  lname: z.string().min(2, { message: 'L_N should have 2 letters' }),
+  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
+  middle_name: z.string(),
+  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
   email: z.string().email({ message: 'Invalid email address' }),
   phone: z.string().min(10, { message: 'Phone Number should have 10' }),
   ssn_no: z.string(),
