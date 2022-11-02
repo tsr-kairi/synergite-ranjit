@@ -111,9 +111,9 @@ export const createOnboarding = async (onboarding: TOnboarding) => {
 
 export const getOnboardingList = async (searchTerm?: string) => {
   try {
-    let url = `/onboarding?keyword=${searchTerm || ''}`
+    let url = `/onboarding?limit=100&keyword=${searchTerm || ''}`
     if (searchTerm) {
-      url = `/onboarding/search?keyword=${searchTerm || ''}`
+      url = `/onboarding/search?limit=100&keyword=${searchTerm || ''}`
     }
 
     const { data } = await axiosPrivate.get<{ data: TOnboarding[] }>(url)

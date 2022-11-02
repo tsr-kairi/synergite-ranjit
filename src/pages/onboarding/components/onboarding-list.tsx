@@ -5,6 +5,7 @@ import { Th } from '@/pages/employee/employee-list'
 import { getOnboardingList } from '@/services/onboarding.services'
 import theme from '@/theme/theme'
 import { TOnboarding, TOnboardingStatus } from '@/types/onboarding-flow-type'
+import { getQueryStringFromObject } from '@/utils/query-string.utils'
 import {
   Badge,
   Button,
@@ -16,7 +17,7 @@ import {
   Tooltip,
 } from '@mantine/core'
 import { IconChevronRight, IconPlus } from '@tabler/icons'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import NoteList from './notes/note-list'
@@ -74,9 +75,16 @@ const OnboardingList = () => {
                   <td>
                     {isPreOnboardingStatus ? (
                       <Link
-                        to={`/onboarding?onboarding_uuid${
-                          onboarding.uuid || ''
-                        }`}
+                        to={`/onboarding?${getQueryStringFromObject({
+                          onboarding_uuid: onboarding.uuid,
+                          completion_percentage:
+                            onboarding.completion_percentage,
+
+                          client_uuid: onboarding.client_uuid,
+                          vendor_uuid: onboarding.vendor_uuid,
+                          employee_uuid: onboarding.employee_uuid,
+                          submission_uuid: onboarding.submission_uuid,
+                        })}`}
                         style={{
                           textDecoration: 'none',
                           color: theme?.colors?.grey?.[9],

@@ -107,7 +107,7 @@ export default function Onboarding() {
   const [vendorDetailsOpened, setVendorDetailsIsOpened] = useState(false)
 
   // details states
-  const [active, setActive] = useState(0)
+  const [activeStepNumber, setActiveStepNumber] = useState(0)
 
   const draft_onboarding_uuid =
     localStorage.getItem('draft_onboarding_uuid') || ''
@@ -129,6 +129,9 @@ export default function Onboarding() {
   const vendorUUID = searchParams.get('vendor_uuid')
   const employeeUUID = searchParams.get('employee_uuid')
   const submissionUUID = searchParams.get('submission_uuid')
+
+  //
+  const completionPercentage = searchParams.get('completion_percentage')
   // console.log('submissionUUID', submissionUUID)
 
   const { data: clientData } = useGetClientById(clientUUID || '')
@@ -149,6 +152,20 @@ export default function Onboarding() {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  useEffect(() => {
+    if (completionPercentage) {
+      if (completionPercentage === '25') {
+        setActiveStepNumber(1)
+      } else if (completionPercentage === '50') {
+        setActiveStepNumber(2)
+      } else if (completionPercentage === '75') {
+        setActiveStepNumber(3)
+      } else if (completionPercentage === '100') {
+        setActiveStepNumber(4)
+      }
+    }
+  }, [completionPercentage])
 
   // const handlePreOnboarding = async (preOnboardData: TPreonboard) => {
   //   try {
@@ -182,22 +199,22 @@ export default function Onboarding() {
   }, [onboardingData])
 
   useEffect(() => {
-    if (active === 4) {
+    if (activeStepNumber === 4) {
       setOnboardingStepperData(form.values)
     }
-  }, [active, form.values])
+  }, [activeStepNumber, form.values])
 
   // onConfirm Save Onboarding
   const onConfirmUpdateOnboarding = (values: TOnboarding) => {
     // let onboardStatus = 'PREONBOARDING_IN_PROGRESS'
     let completion_percentage
-    if (active === 0) {
+    if (activeStepNumber === 0) {
       completion_percentage = 25
-    } else if (active === 1) {
+    } else if (activeStepNumber === 1) {
       completion_percentage = 50
-    } else if (active === 2) {
+    } else if (activeStepNumber === 2) {
       completion_percentage = 75
-    } else if (active === 3) {
+    } else if (activeStepNumber === 3) {
       completion_percentage = 100
     }
 
@@ -222,7 +239,7 @@ export default function Onboarding() {
     setIsOnboardingInitiated(true)
     updateOnboarding(onboardingData as TOnboarding, String(onboardingUuid))
       .then((data) => {
-        if (active >= 4) {
+        if (activeStepNumber >= 4) {
           localStorage.removeItem('draft_onboarding_uuid')
         } else {
           localStorage.setItem(
@@ -249,11 +266,11 @@ export default function Onboarding() {
   const onConfirmSaveOnboarding = (values: TOnboarding) => {
     const onboardingData = {
       ...values,
-      employee_uuid: employeeUUID,
-      vendor_uuid: vendorUUID,
-      client_uuid: clientUUID,
-      submission_uuid: submissionUUID,
-      uuid: String(onboardingUuid),
+      employee_uuid: employeeUUID || undefined,
+      vendor_uuid: vendorUUID || undefined,
+      client_uuid: clientUUID || undefined,
+      submission_uuid: submissionUUID || undefined,
+      uuid: String(onboardingUuid) || undefined,
     }
     createOnboarding(onboardingData)
       .then(() => {
@@ -270,7 +287,7 @@ export default function Onboarding() {
           title: 'Success!!',
           message: 'Onboarding save called successfully.',
         })
-        if (active === 4) {
+        if (activeStepNumber === 4) {
           navigate('/onboarding-list')
         }
       })
@@ -283,7 +300,7 @@ export default function Onboarding() {
   // handleSave function
   const handleSave = (values: TOnboarding) => {
     console.log(values)
-    if (active >= 4) {
+    if (activeStepNumber >= 4) {
       openConfirmModal({
         title: 'Are you sure you want to submit the details?',
         children: (
@@ -319,12 +336,12 @@ export default function Onboarding() {
 
   // next btn
   const nextStep = () => {
-    setActive((current) => (current < 5 ? current + 1 : current))
+    setActiveStepNumber((current) => (current < 5 ? current + 1 : current))
   }
 
   // prev btn
   const prevStep = () => {
-    setActive((current) => (current > 0 ? current - 1 : current))
+    setActiveStepNumber((current) => (current > 0 ? current - 1 : current))
   }
 
   return (
@@ -420,8 +437,8 @@ export default function Onboarding() {
             <Stepper
               color="green"
               size="sm"
-              active={active}
-              onStepClick={setActive}
+              active={activeStepNumber}
+              onStepClick={setActiveStepNumber}
               breakpoint="sm"
             >
               <Stepper.Step
@@ -617,20 +634,20 @@ export default function Onboarding() {
               >
                 <Review
                   onboardingData={onboardingStepperData}
-                  onReviewTileClick={(id) => setActive(+id)}
+                  onReviewTileClick={(id) => setActiveStepNumber(+id)}
                 />
               </Stepper.Step>
             </Stepper>
             <Group position="center" mt="5rem">
               <Button
                 variant="default"
-                disabled={active <= 0}
+                disabled={activeStepNumber <= 0}
                 onClick={prevStep}
-                hidden={active <= 0}
+                hidden={activeStepNumber <= 0}
               >
                 Previous
               </Button>
-              {active < 4 ? (
+              {activeStepNumber < 4 ? (
                 <Button variant="light" type="submit">
                   Save
                 </Button>
@@ -641,7 +658,7 @@ export default function Onboarding() {
                     : 'Initiate Onboarding'}
                 </Button>
               )}
-              {active <= 3 && (
+              {activeStepNumber <= 3 && (
                 <Button onClick={nextStep} type="submit">
                   Next
                 </Button>
