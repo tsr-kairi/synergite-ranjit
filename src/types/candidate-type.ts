@@ -3,7 +3,7 @@ import { z } from 'zod'
 // Active Candidate List Data
 // Validation
 const zCandidate = z.object({
-  employee_id: z.string(),
+  candidate_id: z.string(),
   first_name: z.string(),
   middle_name: z.string(),
   last_name: z.string(),
@@ -25,7 +25,7 @@ const zCandidate = z.object({
   candidate_ownership_uuid: z.string(),
   candidate_status: z.string(),
   current_employer_name: z.string(),
-  current_rate: z.number(),
+  current_rate: z.string(),
   current_rate_type: z.string(),
   degree: z.string(),
   employment_type: z.string(),
@@ -38,7 +38,7 @@ const zCandidate = z.object({
   marital_status: z.string(),
   payment_type: z.string(),
   profile_summary: z.string(),
-  salary_expectation: z.number(),
+  salary_expectation: z.string(),
   security_clearance: z.boolean(),
   skills: z.string(),
   source: z.string(),
@@ -49,7 +49,7 @@ const zCandidate = z.object({
 
 // new Active Candidate add and validation
 const zCandidateCreate = z.object({
-  employee_id: z.string(),
+  candidate_id: z.string(),
   first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
   middle_name: z.string(),
   last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
@@ -71,7 +71,7 @@ const zCandidateCreate = z.object({
   candidate_ownership_uuid: z.string(),
   candidate_status: z.string(),
   current_employer_name: z.string(),
-  current_rate: z.number(),
+  current_rate: z.string(),
   current_rate_type: z.string(),
   degree: z.string(),
   employment_type: z.string(),
@@ -84,52 +84,7 @@ const zCandidateCreate = z.object({
   marital_status: z.string(),
   payment_type: z.string(),
   profile_summary: z.string(),
-  salary_expectation: z.number(),
-  security_clearance: z.boolean(),
-  skills: z.string(),
-  source: z.string(),
-  willing_to_reallocate: z.boolean(),
-  work_experience: z.string(),
-})
-
-// employee edit
-const zCandidateEdit = z.object({
-  employee_id: z.string(),
-  first_name: z.string().min(2, { message: 'F_N should have 2 letters' }),
-  middle_name: z.string(),
-  last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
-  email: z.string().email({ message: 'Invalid email address' }),
-  phone: z.string().min(10, { message: 'Phone Number should have 10' }),
-  ssn_no: z.string(),
-  dob: z.string(),
-  gender: z.string(),
-  address1: z.string(),
-  address2: z.string(),
-  city: z.string(),
-  state: z.string(),
-  county: z.string(),
-  country: z.string(),
-  ethnic_origin: z.string(),
-  zip: z.string(),
-
-  // new added field
-  candidate_ownership_uuid: z.string(),
-  candidate_status: z.string(),
-  current_employer_name: z.string(),
-  current_rate: z.number(),
-  current_rate_type: z.string(),
-  degree: z.string(),
-  employment_type: z.string(),
-  expected_rate_type: z.string(),
-  github_url: z.string(),
-  linkedin_url: z.string(),
-  immigration_status: z.string(),
-  institution: z.string(),
-  language_known: z.string(),
-  marital_status: z.string(),
-  payment_type: z.string(),
-  profile_summary: z.string(),
-  salary_expectation: z.number(),
+  salary_expectation: z.string(),
   security_clearance: z.boolean(),
   skills: z.string(),
   source: z.string(),
@@ -161,4 +116,4 @@ export type {
 }
 
 // Active Candidate export ZOD
-export { zCandidateCreate, zCandidateEdit }
+export { zCandidateCreate }
