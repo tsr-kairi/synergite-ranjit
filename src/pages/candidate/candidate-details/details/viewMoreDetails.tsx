@@ -13,6 +13,7 @@ import {
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { IconUpload } from '@tabler/icons'
+import { boolean } from 'zod'
 import useEditCandidate from '../../hooks/useEditCandidate'
 const useStyles = createStyles(() => ({
   paper: {
@@ -65,6 +66,13 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                 <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
+                    label="Candidate ID"
+                    type={'text'}
+                    placeholder="Auto Generated number"
+                    {...form.getInputProps('candidate_id')}
+                  />
+                  <TextInput
+                    readOnly={true}
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
@@ -75,7 +83,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Middle Name"
                     type={'text'}
                     placeholder="Middle Name"
-                    // value={candidateDetailsData.mname}
+                    value={candidateDetailsData.middle_name}
                   />
                   <TextInput
                     readOnly={true}
@@ -84,6 +92,8 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     placeholder="Last Name"
                     value={candidateDetailsData.last_name}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     label="Email"
@@ -91,8 +101,6 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     placeholder="Email"
                     value={candidateDetailsData.email}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     label="Phone"
@@ -112,108 +120,113 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Candidate Ownership"
                     type={'text'}
                     placeholder="Candidate Ownership"
-                    // value={candidateDetailsData.dob}
-                  />
-                  <TextInput
-                    readOnly={true}
-                    label="Job Title"
-                    type={'text'}
-                    placeholder="Job Title"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.candidate_ownership_uuid}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
+                    label="Job Title"
+                    type={'text'}
+                    placeholder="Job Title"
+                    // value={candidateDetailsData.job_title} // not added in backend
+                  />
+                  <TextInput
+                    readOnly={true}
                     label="Immigration Status"
                     type={'text'}
                     placeholder="Immigration Status"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.immigration_status}
                   />
                   <TextInput
                     readOnly={true}
                     label="Work Experience"
                     type={'text'}
                     placeholder="Work Experience"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.work_experience}
                   />
                   <TextInput
                     readOnly={true}
                     label="Source"
                     type={'text'}
                     placeholder="Source"
-                    // value={candidateDetailsData.dob}
-                  />
-                  <TextInput
-                    readOnly={true}
-                    type={'date'}
-                    placeholder="Created Date"
-                    label="Created Date"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.source}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
+                    type={'date'}
+                    placeholder="Created Date"
+                    label="Created Date"
+                    // value={candidateDetailsData.created_date}
+                  />
+                  <TextInput
+                    readOnly={true}
                     label="Employment Type"
                     type={'text'}
                     placeholder="Employment Type"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.employment_type}
                   />
                   <TextInput
                     readOnly={true}
                     label="Skills"
                     type={'text'}
                     placeholder="Skills"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.skills}
                   />
                   <TextInput
                     readOnly={true}
                     label="Security Clearance"
                     type={'text'}
                     placeholder="Security Clearance"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.security_clearance}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     label="Willing to Relocate"
                     type={'text'}
                     placeholder="Willing to Relocate"
-                    // value={candidateDetailsData.dob}
-                  />
-                </Group>
-
-                <Group grow align="center" mt="md">
-                  <TextInput
-                    readOnly={true}
-                    label="Expected Rate"
-                    type={'text'}
-                    placeholder="Expected Rate"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.willing_to_reallocate}
                   />
                   <TextInput
                     readOnly={true}
-                    label="Current Rate Type"
-                    type={'text'}
-                    placeholder="Current Rate Type"
-                    // value={candidateDetailsData.dob}
+                    placeholder="Payment Type"
+                    label="Payment Type"
+                    value={candidateDetailsData.payment_type}
                   />
                   <TextInput
                     readOnly={true}
                     label="Expected Rate Type"
                     type={'text'}
                     placeholder="Expected Rate Type"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.expected_rate_type}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Current Rate Type"
+                    type={'text'}
+                    placeholder="Current Rate Type"
+                    value={candidateDetailsData.current_rate_type}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Current Pay Rate"
+                    type={'text'}
+                    placeholder="Current Pay Rate"
+                    value={candidateDetailsData.current_rate}
                   />
                   <TextInput
                     readOnly={true}
                     label="Languages Known"
                     type={'text'}
                     placeholder="Languages Known"
-                    // value={candidateDetailsData.dob}
+                    value={candidateDetailsData.language_known}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     label="Gender"
@@ -226,21 +239,23 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Marital Status"
                     type={'text'}
                     placeholder="Marital Status"
-                    // value={candidateDetailsData.gender}
+                    value={candidateDetailsData.marital_status}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     type={'text'}
                     placeholder="Salary Expectation"
                     label="Salary Expectation"
-                    // value={candidateDetailsData.gender}
+                    value={candidateDetailsData.salary_expectation}
                   />
                   <TextInput
                     readOnly={true}
+                    label="Status"
                     type={'text'}
-                    placeholder="Current Pay Rate"
-                    label="Current Pay Rate"
-                    // value={candidateDetailsData.gender}
+                    placeholder="Status"
+                    value={candidateDetailsData.candidate_status}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -251,7 +266,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     // autosize
                     // minRows={3}
                     // maxRows={4}
-                    // value={candidateDetailsData.gender}
+                    value={candidateDetailsData.profile_summary}
                   />
                 </Group>
               </Accordion.Panel>
@@ -271,14 +286,14 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Linkedin Url"
                     type={'text'}
                     placeholder="Linkedin Url"
-                    // value={candidateDetailsData.gender}
+                    value={candidateDetailsData.linkedin_url}
                   />
                   <TextInput
                     readOnly={true}
                     label="Github Url"
                     type={'text'}
                     placeholder="Github Url"
-                    // value={candidateDetailsData.gender}
+                    value={candidateDetailsData.github_url}
                   />
                   <TextInput
                     readOnly={true}
@@ -321,6 +336,39 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
+            {/* education Information */}
+            <Accordion.Item
+              value="education_details"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Education Details" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Institution"
+                    type={'text'}
+                    placeholder="Institution"
+                    value={candidateDetailsData.institution}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Degree"
+                    type={'text'}
+                    placeholder="Degree"
+                    value={candidateDetailsData.degree}
+                  />
+                  <FileInput
+                    label="Attachment"
+                    placeholder="Attachment"
+                    icon={<IconUpload size={14} />}
+                    // value={candidateDetailsData.attachments} // old field
+                  />
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
             {/* work_experience_details Information */}
             <Accordion.Item
               value="work_experience_details"
@@ -336,7 +384,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Current Employer name"
                     type={'text'}
                     placeholder="Current Employer name"
-                    // value={candidateDetailsData.zip}
+                    value={candidateDetailsData.current_employer_name}
                   />
                 </Group>
               </Accordion.Panel>
@@ -377,20 +425,20 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                   />
                   <TextInput
                     readOnly={true}
-                    label="Status"
-                    type={'text'}
-                    placeholder="Status"
-                    // value={candidateDetailsData.zip}
-                  />
-                  <TextInput
-                    readOnly={true}
                     label="Expiry date"
                     type={'text'}
                     placeholder="Expiry date"
                     // value={candidateDetailsData.zip}
                   />
+                  <TextInput
+                    readOnly={true}
+                    label="Document"
+                    type={'text'}
+                    placeholder="Document"
+                    // value={candidateDetailsData.zip}
+                  />
                 </Group>
-                <Grid mt="md">
+                {/* <Grid mt="md">
                   <Grid.Col span={4}>
                     <TextInput
                       readOnly={true}
@@ -409,7 +457,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     />
                   </Grid.Col>
                   <Grid.Col span={4}></Grid.Col>
-                </Grid>
+                </Grid> */}
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
