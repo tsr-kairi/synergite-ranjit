@@ -54,7 +54,7 @@ const EmployeeDetailsForm: React.FC<{ employeeData: TCandidate }> = ({
                   label="Employee Id"
                   type={'text'}
                   placeholder="Employee Id"
-                  value={employeeData?.employee_id}
+                  value={employeeData?.candidate_id}
                 />
               </Group>
               <Group grow align="center" mt="md">

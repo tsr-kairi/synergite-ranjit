@@ -263,9 +263,9 @@ const JobList = () => {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'title'}
+              sorted={sortBy === 'job_title'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('title')}
+              onSort={() => setSorting('job_title')}
             >
               Job ID
             </Th>
@@ -395,9 +395,9 @@ const JobList = () => {
                     {job.uuid}
                   </Link>
                 </td>
-                <td>{job?.client_req_id}</td>
+                <td>{job?.client_request_id}</td>
                 <td>{job?.start_date}</td>
-                <td>{job?.title}</td>
+                <td>{job?.job_title}</td>
                 <td>{'priority'}</td>
                 <td>{'priority reason'}</td>
                 <td>{job?.job_status}</td>
