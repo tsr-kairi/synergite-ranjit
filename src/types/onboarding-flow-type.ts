@@ -21,6 +21,12 @@ const zDocument = z.object({
   file: z.instanceof(File).optional(),
 })
 
+const zUserObject = z.object({
+  uuid: z.string(),
+  first_name: z.string(),
+  last_name: z.string(),
+})
+
 // onboarding flow - Onboarding Validation
 const zOnboarding = z.object({
   uuid: z.string().optional(),
@@ -58,12 +64,11 @@ const zOnboarding = z.object({
   remarks: z.string(),
   vendor: z.string(), // Dropdown
 
-  employee: z
-    .object({
-      first_name: z.string(),
-      last_name: z.string(),
-    })
-    .optional(),
+  employee: zUserObject.optional(),
+  client_uuid: z.string().optional(),
+  vendor_uuid: z.string().optional(),
+  employee_uuid: z.string().optional(),
+  submission_uuid: z.string().optional(),
 
   // Immigration
   processing_type: z.string(), // Dropdown
