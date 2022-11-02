@@ -37,7 +37,7 @@ export default function CreateForm() {
   const form = useForm<TCandidateCreate>({
     validate: zodResolver(zCandidateCreate),
     initialValues: {
-      employee_id: '',
+      candidate_id: '',
       first_name: '',
       middle_name: '',
       last_name: '',
@@ -59,7 +59,7 @@ export default function CreateForm() {
       candidate_ownership_uuid: '',
       candidate_status: '',
       current_employer_name: '',
-      current_rate: 0,
+      current_rate: '',
       current_rate_type: '',
       degree: '',
       employment_type: '',
@@ -72,16 +72,18 @@ export default function CreateForm() {
       marital_status: '',
       payment_type: '',
       profile_summary: '',
-      salary_expectation: 0,
-      security_clearance: Boolean(),
+      salary_expectation: '',
+      security_clearance: false,
       skills: '',
       source: '',
-      willing_to_reallocate: Boolean(),
+      willing_to_reallocate: false,
       work_experience: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  console.log('security_clearance', form.values.security_clearance)
 
   const handleSubmit = (values: TCandidateCreate) => {
     const candidateCreateData = {
@@ -113,6 +115,13 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    label="Candidate ID"
+                    type={'text'}
+                    placeholder="Auto Generated number"
+                    {...form.getInputProps('candidate_id')}
+                  />
+                  <TextInput
+                    required
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
@@ -125,22 +134,25 @@ export default function CreateForm() {
                     {...form.getInputProps('middle_name')}
                   />
                   <TextInput
+                    required
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
                     {...form.getInputProps('last_name')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
+                    required
                     label="Email"
                     type={'text'}
                     placeholder="Email"
                     {...form.getInputProps('email')}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <TextInput
+                    required
                     label="Phone"
-                    type={'text'}
+                    type={'number'}
                     placeholder="Phone"
                     {...form.getInputProps('phone')}
                   />
@@ -158,7 +170,10 @@ export default function CreateForm() {
                     label="Candidate ownership"
                     {...form.getInputProps('candidate_ownership_uuid')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <Select
+                    required
                     data={[
                       { value: 'None Selected', label: 'None Selected' },
                       {
@@ -218,9 +233,8 @@ export default function CreateForm() {
                     label="Job Title"
                     {...form.getInputProps('job_title')} // old field
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <Select
+                    required
                     data={[
                       { value: 'IS_H1', label: 'H1' },
                       { value: 'IS_USC', label: 'USC' },
@@ -241,21 +255,53 @@ export default function CreateForm() {
                       { value: 'Facebook', label: 'Facebook' },
                       { value: 'Twitter', label: 'Twitter' },
                       { value: 'Linked In', label: 'Linked In' },
-                      { value: 'Others', label: 'Others' },
+                      { value: 'Github', label: 'Github' },
+                      { value: 'Monster', label: 'Monster' },
+                      { value: 'Direct sourcing', label: 'Direct sourcing' },
+                      { value: 'Career Portal', label: 'Career Portal' },
+                      { value: 'Career Builder', label: 'Career Builder' },
+                      { value: 'Indeed', label: 'Indeed' },
+                      { value: 'Zip Recruiter', label: 'Zip Recruiter' },
+                      { value: 'Post Job Free', label: 'Post Job Free' },
+                      { value: 'JobRapido', label: 'JobRapido' },
+                      { value: 'GlassDoor', label: 'GlassDoor' },
+                      { value: 'GigaJobs', label: 'GigaJobs' },
+                      { value: 'Jooble', label: 'Jooble' },
+                      { value: 'Jobomas', label: 'Jobomas' },
+                      { value: 'TechFetch', label: 'TechFetch' },
+                      { value: 'Resume Inbox', label: 'Resume Inbox' },
+                      { value: 'Snaprecruit', label: 'Snaprecruit' },
+                      { value: 'Monsterindia', label: 'Monsterindia' },
+                      { value: 'Naukri', label: 'Naukri' },
+                      { value: 'Referral Portal', label: 'Referral Portal' },
+                      { value: 'Vendor', label: 'Vendor' },
+                      { value: 'Dr Jobs Pro', label: 'Dr Jobs Pro' },
+                      { value: 'Jora', label: 'Jora' },
+                      { value: 'WhatJobs ', label: 'WhatJobs ' },
+                      { value: 'Recruit.Net', label: 'Recruit.Net' },
+                      {
+                        value: 'Nexxt, NPAmarketplace',
+                        label: 'Nexxt, NPAmarketplace',
+                      },
+                      {
+                        value: 'Recruit. net Talent.com',
+                        label: 'Recruit. net Talent.com',
+                      },
                     ]}
                     placeholder="Source"
                     label="Source"
                     {...form.getInputProps('source')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
                     type={'date'}
                     placeholder="Created Date"
                     label="Created Date"
                     {...form.getInputProps('created_date')}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <Select
+                    required
                     data={[
                       { value: 'ET_W2', label: 'W2' },
                       { value: 'ET_C2C', label: 'C2C' },
@@ -276,45 +322,69 @@ export default function CreateForm() {
                     {...form.getInputProps('skills')}
                   />
                   <Select
+                    required
                     data={[
-                      { value: 'yes', label: 'Yes' },
-                      { value: 'no', label: 'No' },
+                      { value: true, label: 'Yes' },
+                      { value: false, label: 'No' },
                     ]}
                     placeholder="Security Clearance"
                     label="Security Clearance"
                     {...form.getInputProps('security_clearance')}
                   />
+                </Group>
+
+                <Group grow align="center" mt="md">
                   <Select
+                    required
                     data={[
-                      { value: 'yes', label: 'Yes' },
-                      { value: 'no', label: 'No' },
+                      { value: true, label: 'Yes' },
+                      { value: false, label: 'No' },
                     ]}
                     placeholder="Willing to Relocate"
                     label="Willing to Relocate"
                     {...form.getInputProps('willing_to_reallocate')}
                   />
-                </Group>
-
-                <Group grow align="center" mt="md">
+                  <Select
+                    required
+                    data={[
+                      { value: 'BILLABLE', label: 'Billable' },
+                      { value: 'NON_BILLABLE', label: 'Non Billable' },
+                    ]}
+                    placeholder="Payment Type"
+                    label="Payment Type"
+                    {...form.getInputProps('payment_type')}
+                  />
                   <TextInput
-                    label="Expected Rate"
-                    type={'text'}
-                    placeholder="Expected Rate"
+                    label="Current Pay Rate"
+                    type={'number'}
+                    placeholder="Current Pay Rate"
                     {...form.getInputProps('current_rate')}
                   />
-                  <TextInput
+                  <Select
+                    required
                     label="Current Rate Type"
-                    type={'text'}
                     placeholder="Current Rate Type"
+                    data={[
+                      { value: 'RT_MONTHLY', label: 'Hourly' },
+                      { value: 'RT_DAILY', label: 'Daily' },
+                      { value: 'RT_HOURLY', label: 'Weekly' },
+                      {
+                        value: 'RT_WEEKLY',
+                        label: 'Monthly',
+                      },
+                    ]}
                     {...form.getInputProps('current_rate_type')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <Select
+                    required
                     data={[
-                      { value: 'Hourly', label: 'Hourly' },
-                      { value: 'Daily', label: 'Daily' },
-                      { value: 'Weekly', label: 'Weekly' },
+                      { value: 'RT_MONTHLY', label: 'Hourly' },
+                      { value: 'RT_DAILY', label: 'Daily' },
+                      { value: 'RT_HOURLY', label: 'Weekly' },
                       {
-                        value: 'Monthly',
+                        value: 'RT_WEEKLY',
                         label: 'Monthly',
                       },
                     ]}
@@ -330,12 +400,10 @@ export default function CreateForm() {
                     searchValue={searchValue}
                     nothingFound="No Matching Languages"
                     data={WLanguages.map((l) => {
-                      return { value: l.code, label: l.language }
+                      return { value: l.language, label: l.language }
                     })}
                     {...form.getInputProps('language_known')}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <Select
                     data={[
                       { value: 'Male', label: 'Male' },
@@ -347,6 +415,7 @@ export default function CreateForm() {
                     {...form.getInputProps('gender')}
                   />
                   <Select
+                    required
                     data={[
                       { value: 'SINGLE', label: 'Single' },
                       { value: 'MARRIED', label: 'Married' },
@@ -358,17 +427,34 @@ export default function CreateForm() {
                     label="Marital Status"
                     {...form.getInputProps('marital_status')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
+                    required
                     type={'number'}
                     placeholder="Salary Expectation"
                     label="Salary Expectation"
                     {...form.getInputProps('salary_expectation')}
                   />
                   <TextInput
+                    required
                     type={'text'}
                     placeholder="Current Pay Rate"
                     label="Current Pay Rate"
                     {...form.getInputProps('current_pay_rate')} // old field
+                  />
+                  <Select
+                    required
+                    label="Status"
+                    placeholder="Status"
+                    data={[
+                      { value: 'AVAILABLE', label: 'Available' },
+                      { value: 'INACTIVE', label: 'Inactive' },
+                      { value: 'PLACED', label: 'Placed' },
+                      { value: 'DO_NOT_CALL', label: 'Do not call' },
+                      { value: 'NOT_AVAILABLE', label: 'Not available' },
+                    ]}
+                    {...form.getInputProps('candidate_status')}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -395,13 +481,13 @@ export default function CreateForm() {
                 <Group grow align="center" mt="md">
                   <TextInput
                     label="Linkedin Url"
-                    type={'url'}
+                    type={'text'}
                     placeholder="Linkedin Url"
                     {...form.getInputProps('linkedin_url')}
                   />
                   <TextInput
                     label="Github Url"
-                    type={'url'}
+                    type={'text'}
                     placeholder="Github Url"
                     {...form.getInputProps('github_url')}
                   />
@@ -439,7 +525,7 @@ export default function CreateForm() {
                     searchValue={searchValue}
                     nothingFound="No Matching State"
                     data={UsState.map((s) => {
-                      return { value: s.code, label: s.state }
+                      return { value: s.state, label: s.state }
                     })}
                     {...form.getInputProps('state')}
                   />
@@ -451,15 +537,46 @@ export default function CreateForm() {
                     searchValue={searchValue}
                     nothingFound="No Matching Country"
                     data={WCountry.map((c) => {
-                      return { value: c.code, label: c.country }
+                      return { value: c.country, label: c.country }
                     })}
                     {...form.getInputProps('country')}
                   />
                   <TextInput
                     label="Zip Code"
-                    type={'text'}
+                    type={'number'}
                     placeholder="Zip Code"
                     {...form.getInputProps('zip')}
+                  />
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* education Information */}
+            <Accordion.Item
+              value="education_details"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Education Details" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    label="Institution"
+                    type={'text'}
+                    placeholder="Institution"
+                    {...form.getInputProps('institution')}
+                  />
+                  <TextInput
+                    label="Degree"
+                    type={'text'}
+                    placeholder="Degree"
+                    {...form.getInputProps('degree')}
+                  />
+                  <FileInput
+                    label="Attachment"
+                    placeholder="Attachment"
+                    icon={<IconUpload size={14} />}
+                    {...form.getInputProps('attachments')} // old field
                   />
                 </Group>
               </Accordion.Panel>
@@ -517,26 +634,36 @@ export default function CreateForm() {
                     {...form.getInputProps('document_name')}
                   />
                   <Select
-                    label="Candidate Status"
-                    type={'text'}
-                    placeholder="Candidate Status"
                     data={[
-                      { value: 'AVAILABLE', label: 'Available' },
-                      { value: 'INACTIVE', label: 'Inactive' },
-                      { value: 'PLACED', label: 'Placed' },
-                      { value: 'DO_NOT_CALL', label: 'Do not call' },
-                      { value: 'NOT_AVAILABLE', label: 'Not available' },
+                      { value: 'Cover Letter,', label: 'Cover Letter,' },
+                      { value: 'Visa', label: 'Visa' },
+                      { value: 'Passport', label: 'Passport' },
+                      { value: 'Driving License', label: 'Driving License' },
+                      { value: 'Resume', label: 'Resume' },
+                      { value: 'H1-B', label: 'H1-B' },
+                      { value: 'L1', label: 'L1' },
+                      { value: 'EAD', label: 'EAD' },
+                      { value: 'Green Card', label: 'Green Card' },
+                      { value: 'Purchase Order', label: 'Purchase Order' },
+                      { value: 'Work Order', label: 'Work Order' },
+                      {
+                        value: 'Onboarding documents',
+                        label: 'Onboarding documents',
+                      },
+                      { value: 'Others', label: 'Others' },
                     ]}
-                    {...form.getInputProps('candidate_status')}
+                    placeholder="Document Type"
+                    label="Document Type"
+                    {...form.getInputProps('documents')} // old field
                   />
                   <TextInput
                     label="Expiry date"
-                    type={'text'}
+                    type={'date'}
                     placeholder="Expiry date"
                     {...form.getInputProps('expiry_date')} // old field
                   />
                 </Group>
-                <Grid mt="md">
+                {/* <Grid mt="md">
                   <Grid.Col span={4}>
                     <Select
                       data={[
@@ -571,7 +698,7 @@ export default function CreateForm() {
                     />
                   </Grid.Col>
                   <Grid.Col span={4}></Grid.Col>
-                </Grid>
+                </Grid> */}
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>

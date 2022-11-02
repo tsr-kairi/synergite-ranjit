@@ -454,8 +454,14 @@ export default function CreateForm() {
                     placeholder="Job Domain"
                     data={[
                       { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Vishal', label: 'Vishal' },
-                      { value: 'Roshan', label: 'Roshan' },
+                      { value: 'Ranjit', label: 'Ranjit' },
+                      { value: 'Ranjit', label: 'Ranjit' },
+                      { value: 'Ranjit', label: 'Ranjit' },
+                      { value: 'Ranjit', label: 'Ranjit' },
+                      { value: 'Ranjit', label: 'Ranjit' },
+                      { value: 'Ranjit', label: 'Ranjit' },
+                      { value: 'Ranjit', label: 'Ranjit' },
+                      { value: 'Ranjit', label: 'Ranjit' },
                     ]}
                     {...form.getInputProps('job_domain')}
                   />
