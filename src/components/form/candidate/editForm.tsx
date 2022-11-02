@@ -72,7 +72,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('candidate_id')}
                   />
                   <TextInput
-                    required
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
@@ -85,7 +84,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('middle_name')}
                   />
                   <TextInput
-                    required
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
@@ -94,14 +92,12 @@ export default function EditForm(candidateData: TCandidate) {
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     label="Email"
                     type={'text'}
                     placeholder="Email"
                     {...form.getInputProps('email')}
                   />
                   <TextInput
-                    required
                     label="Phone"
                     type={'number'}
                     placeholder="Phone"
@@ -124,7 +120,6 @@ export default function EditForm(candidateData: TCandidate) {
                 </Group>
                 <Group grow align="center" mt="md">
                   <Select
-                    required
                     data={[
                       { value: 'None Selected', label: 'None Selected' },
                       {
@@ -185,7 +180,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('job_title')} // old field
                   />
                   <Select
-                    required
                     data={[
                       { value: 'IS_H1', label: 'H1' },
                       { value: 'IS_USC', label: 'USC' },
@@ -252,7 +246,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('created_date')}
                   />
                   <Select
-                    required
                     data={[
                       { value: 'ET_W2', label: 'W2' },
                       { value: 'ET_C2C', label: 'C2C' },
@@ -273,7 +266,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('skills')}
                   />
                   <Select
-                    required
                     data={[
                       { value: true, label: 'Yes' },
                       { value: false, label: 'No' },
@@ -286,7 +278,6 @@ export default function EditForm(candidateData: TCandidate) {
 
                 <Group grow align="center" mt="md">
                   <Select
-                    required
                     data={[
                       { value: true, label: 'Yes' },
                       { value: false, label: 'No' },
@@ -296,7 +287,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('willing_to_reallocate')}
                   />
                   <Select
-                    required
                     data={[
                       { value: 'BILLABLE', label: 'Billable' },
                       { value: 'NON_BILLABLE', label: 'Non Billable' },
@@ -312,7 +302,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('current_rate')}
                   />
                   <Select
-                    required
                     label="Current Rate Type"
                     placeholder="Current Rate Type"
                     data={[
@@ -329,7 +318,6 @@ export default function EditForm(candidateData: TCandidate) {
                 </Group>
                 <Group grow align="center" mt="md">
                   <Select
-                    required
                     data={[
                       { value: 'RT_MONTHLY', label: 'Hourly' },
                       { value: 'RT_DAILY', label: 'Daily' },
@@ -366,7 +354,6 @@ export default function EditForm(candidateData: TCandidate) {
                     {...form.getInputProps('gender')}
                   />
                   <Select
-                    required
                     data={[
                       { value: 'SINGLE', label: 'Single' },
                       { value: 'MARRIED', label: 'Married' },
@@ -381,21 +368,18 @@ export default function EditForm(candidateData: TCandidate) {
                 </Group>
                 <Group grow align="center" mt="md">
                   <TextInput
-                    required
                     type={'number'}
                     placeholder="Salary Expectation"
                     label="Salary Expectation"
                     {...form.getInputProps('salary_expectation')}
                   />
                   <TextInput
-                    required
                     type={'text'}
                     placeholder="Current Pay Rate"
                     label="Current Pay Rate"
                     {...form.getInputProps('current_pay_rate')} // old field
                   />
                   <Select
-                    required
                     label="Status"
                     placeholder="Status"
                     data={[
