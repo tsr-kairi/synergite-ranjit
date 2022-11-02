@@ -373,12 +373,6 @@ export default function EditForm(candidateData: TCandidate) {
                     label="Salary Expectation"
                     {...form.getInputProps('salary_expectation')}
                   />
-                  <TextInput
-                    type={'text'}
-                    placeholder="Current Pay Rate"
-                    label="Current Pay Rate"
-                    {...form.getInputProps('current_pay_rate')} // old field
-                  />
                   <Select
                     label="Status"
                     placeholder="Status"

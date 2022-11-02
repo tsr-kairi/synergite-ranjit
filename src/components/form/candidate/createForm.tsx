@@ -73,17 +73,17 @@ export default function CreateForm() {
       payment_type: '',
       profile_summary: '',
       salary_expectation: '',
-      security_clearance: false,
+      security_clearance: true,
       skills: '',
       source: '',
-      willing_to_reallocate: false,
+      willing_to_reallocate: true,
       work_experience: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  console.log('security_clearance', form.values.security_clearance)
+  // console.log('security_clearance', form.values.security_clearance)
 
   const handleSubmit = (values: TCandidateCreate) => {
     const candidateCreateData = {
@@ -435,13 +435,6 @@ export default function CreateForm() {
                     placeholder="Salary Expectation"
                     label="Salary Expectation"
                     {...form.getInputProps('salary_expectation')}
-                  />
-                  <TextInput
-                    required
-                    type={'text'}
-                    placeholder="Current Pay Rate"
-                    label="Current Pay Rate"
-                    {...form.getInputProps('current_pay_rate')} // old field
                   />
                   <Select
                     required
