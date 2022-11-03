@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { TClient, TVendor } from '@/types'
 import { TCandidate } from '@/types/candidate-type'
-import { TOnboarding } from '@/types/onboarding-flow-type'
+import { TOnboarding, zOnboardingValidate } from '@/types/onboarding-flow-type'
 import {
   Button,
   Group,
@@ -15,7 +15,7 @@ import {
   Tooltip,
   Drawer,
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
+import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
 import Payment from './onboarding-flow/payment'
@@ -146,6 +146,7 @@ export default function Onboarding() {
 
   // onboarding flow states
   const form = useForm<TOnboarding>({
+    // validate: zodResolver(zOnboardingValidate),
     initialValues: {
       ...onboardingStepperData,
     },
@@ -659,9 +660,7 @@ export default function Onboarding() {
                 </Button>
               )}
               {activeStepNumber <= 3 && (
-                <Button onClick={nextStep} type="submit">
-                  Next
-                </Button>
+                <Button onClick={nextStep}>Next</Button>
               )}
             </Group>
           </form>

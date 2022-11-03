@@ -50,6 +50,8 @@ export default function Job({ form }: onboardingStepperProps) {
         />
         <Group grow align="center" mt="md">
           <TextInput
+            required
+            withAsterisk
             label="Start Date"
             type={'date'}
             placeholder="Start Date"
@@ -62,6 +64,8 @@ export default function Job({ form }: onboardingStepperProps) {
             {...form.getInputProps('end_date')}
           />
           <Select
+            required
+            withAsterisk
             label="Reporting to"
             placeholder="Reporting to"
             {...form.getInputProps('reporting_to')}
@@ -98,6 +102,8 @@ export default function Job({ form }: onboardingStepperProps) {
         />
         <Group grow>
           <Select
+            required
+            withAsterisk
             label="Overtime Exemption"
             placeholder="Overtime Exemption"
             {...form.getInputProps('overtime_exemption')}
@@ -125,9 +131,8 @@ export default function Job({ form }: onboardingStepperProps) {
             type={'text'}
           />
         </Group>
-        <Group grow>
+        <Group grow mt="md">
           <Textarea
-            mt={'30px'}
             label="Remarks"
             placeholder="Remarks"
             {...form.getInputProps('remarks')}

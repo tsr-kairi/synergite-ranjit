@@ -179,11 +179,11 @@ export default function HeaderBar({
                       size={28}
                     />
                     <Text
-                      weight={600}
+                      weight={500}
                       size="md"
                       sx={{ lineHeight: 1 }}
                       mr={3}
-                      color="blue"
+                      color="white"
                     >
                       {user.name}
                     </Text>
