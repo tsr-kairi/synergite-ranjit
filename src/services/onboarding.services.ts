@@ -4,11 +4,11 @@ import axiosPrivate from './axiosPrivate'
 
 export type TDepartment = 'Accounts' | 'Contracts' | 'HR' | 'Immigration'
 
-interface IOnboardingResponse {
-  id: string
-  uuid: string
-  onboard_status: string
-}
+// interface UserAssigned {
+//   uuid: string
+//   first_name: string
+//   last_name: string
+// }
 
 interface IActivityResponse {
   id: string

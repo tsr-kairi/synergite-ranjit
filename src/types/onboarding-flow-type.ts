@@ -36,7 +36,6 @@ const zOnboarding = z.object({
   modified_date: z.date(),
   completion_percentage: z.number(),
   // submission_uuid: z.string(),
-
   onboard_status: zOnboardingStatus.optional(),
 
   // Profile
@@ -46,7 +45,7 @@ const zOnboarding = z.object({
   client_location: z.string(), // Dropdown
   experience: z.string(),
   department: z.string(), // Dropdown
-  reporting_to: z.string(), // Dropdown
+  reporting_to: z.string(), //.min(0, { message: 'This is required' }), // Dropdown
   designation: z.string(),
   overtime_exemption: z.string(), // Dropdown
 
@@ -87,6 +86,26 @@ const zOnboarding = z.object({
   documents: z.array(zDocument),
 })
 
+//  validation
+// const zOnboardingValidate = z.object({
+//   // job
+//   reporting_to: z.string().min(0, { message: 'This is required' }),
+//   overtime_exemption: z.string().min(0, { message: 'This is required' }),
+
+//   // payment
+//   bill_rate: z.string().min(0, { message: 'This is required' }),
+//   pay_rate: z.string().min(0, { message: 'This is required' }),
+//   payment_frequency: z.string().min(0, { message: 'This is required' }),
+
+//   // Immigration
+//   processing_type: z.string().min(0, { message: 'This is required' }),
+//   who_is_going_to_pay_premium: z
+//     .string()
+//     .min(0, { message: 'This is required' }),
+//   current_h1b_validity: z.string().min(0, { message: 'This is required' }),
+//   current_lac_number: z.string().min(0, { message: 'This is required' }),
+// })
+
 export interface TOnboardingFindById {
   data: TOnboarding[]
   ok: boolean
@@ -100,3 +119,5 @@ export type TOnboardingStatus = z.infer<typeof zOnboardingStatus>
 
 // export types
 // export type { TOnboarding, TOnboardingFindById, TOnboardingStatus }
+
+export { zOnboardingValidate }

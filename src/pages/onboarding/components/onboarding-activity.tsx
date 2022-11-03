@@ -1,11 +1,36 @@
 import { useEffect, useState } from 'react'
 
 import { getActivitiesByOnboardingId } from '@/services/onboarding.services'
-import { Badge, Button, Group, Loader, Paper } from '@mantine/core'
+import {
+  Badge,
+  Button,
+  createStyles,
+  Divider,
+  Drawer,
+  Group,
+  Loader,
+  Paper,
+  Text,
+  TextInput,
+} from '@mantine/core'
 import { useQuery } from 'react-query'
 import useGetAllDepartment from '@/pages/department/hooks/useGetAllDepartment'
+import { IconEdit } from '@tabler/icons'
 
-type TDepartment = 'Accounts' | 'Contracts' | 'HR' | 'Immigration'
+// type TDepartment = 'Accounts' | 'Contracts' | 'HR' | 'Immigration'
+
+const useStyles = createStyles(() => ({
+  editIcon: {
+    color: '#04334c',
+    '&:hover': {
+      color: '#04334c',
+    },
+  },
+  assignedToByUser: {
+    color: '#04334c',
+    borderBottom: `1px solid #04334c`,
+  },
+}))
 
 interface OnboardingActivity {
   onboardingId: string
@@ -18,7 +43,10 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
   onDepartmentChange,
   onPressed,
 }) => {
+  const { classes } = useStyles()
+
   const [selectedDepartmentUUID, setSelectedDepartUUID] = useState<string>('')
+  const [isOpened, setIsOpened] = useState(false)
 
   const { data, isLoading, error } = useQuery(
     ['activity-by-department', selectedDepartmentUUID],
@@ -73,56 +101,95 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
         {data?.map((activity) => {
           return (
             <Paper key={activity.uuid}>
-              <Group align={'center'}>
-                <p
-                  onClick={() => onPressed(activity.uuid)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  Assigned To:{' '}
-                  {`${activity.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
-                </p>
-                <p>
+              <Group
+              // align={'center'}
+              // className={classes.assignedToByUser}
+              // position={'apart'}
+              >
+                <Group>
+                  <Text
+                    onClick={() => onPressed(activity.uuid)}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Assigned To:{' '}
+                    {`${activity.assignedToUser.first_name} ${activity.assignedToUser.last_name}`}
+                  </Text>
+                  <IconEdit
+                    className={classes.editIcon}
+                    cursor="pointer"
+                    onClick={() => {
+                      setIsOpened(true)
+                      // setClientEditData(row)
+                    }}
+                  />
+                </Group>
+                <Divider orientation="vertical" />
+                <Text>
                   Assigned By:
                   {`${activity?.assignedByUser.first_name} ${activity.assignedByUser.last_name}`}
-                </p>
+                </Text>
                 {/* {activity.activity_status} */}
-                <Group align={'center'}>
-                  <p>Status:</p>
-                  <p>
-                    {activity.activity_status === 'ASSIGNED' ? (
-                      <Badge
-                        style={{
-                          border: `2px solid #808080`,
-                        }}
-                        size="lg"
-                        color="grey"
-                      >
-                        ASSIGNED
-                      </Badge>
-                    ) : activity.activity_status === 'IN-PROGRESS' ? (
-                      <Badge
-                        style={{
-                          border: `2px solid #FFFF00`,
-                        }}
-                        size="lg"
-                        color="yellow"
-                      >
-                        IN-PROGRESS
-                      </Badge>
-                    ) : activity.activity_status === 'COMPLETED' ? (
-                      <Badge
-                        style={{
-                          border: `2px solid #008000`,
-                        }}
-                        size="lg"
-                        color="green"
-                      >
-                        COMPLETED
-                      </Badge>
-                    ) : null}
-                  </p>
-                </Group>
               </Group>
+              <Group mt={'md'}>
+                <Text>Status:</Text>
+                <Text>
+                  {activity.activity_status === 'ASSIGNED' ? (
+                    <Badge
+                      style={{
+                        border: `2px solid #808080`,
+                      }}
+                      size="lg"
+                      color="grey"
+                    >
+                      ASSIGNED
+                    </Badge>
+                  ) : activity.activity_status === 'IN-PROGRESS' ? (
+                    <Badge
+                      style={{
+                        border: `2px solid #FFFF00`,
+                      }}
+                      size="lg"
+                      color="yellow"
+                    >
+                      IN-PROGRESS
+                    </Badge>
+                  ) : activity.activity_status === 'COMPLETED' ? (
+                    <Badge
+                      style={{
+                        border: `2px solid #008000`,
+                      }}
+                      size="lg"
+                      color="green"
+                    >
+                      COMPLETED
+                    </Badge>
+                  ) : null}
+                </Text>
+              </Group>
+              <Divider my={'md'} />
+
+              {/* Assigned To User form drawer */}
+              <Drawer
+                opened={isOpened}
+                onClose={() => setIsOpened(false)}
+                title="Update"
+                padding="xl"
+                size="xl"
+                position="right"
+              >
+                <Group align="center" grow>
+                  <TextInput
+                    label="Assigned To User"
+                    type={'text'}
+                    placeholder="Assigned To User"
+                  />
+                  <Button type="submit" mt={'xl'}>
+                    Update
+                  </Button>
+                </Group>
+              </Drawer>
             </Paper>
           )
         })}
@@ -195,7 +262,7 @@ const Department: React.FC<DepartmentProps> = ({ onDepartmentChange }) => {
   return (
     <>
       {element}
-      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+      <Group grow>
         {filteredDepartment?.map(({ uuid, name }) => (
           <Button
             key={uuid}
@@ -208,7 +275,7 @@ const Department: React.FC<DepartmentProps> = ({ onDepartmentChange }) => {
             {name}
           </Button>
         ))}
-      </div>
+      </Group>
     </>
   )
 } // End of Department

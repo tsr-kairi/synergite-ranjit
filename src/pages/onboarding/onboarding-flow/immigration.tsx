@@ -22,6 +22,7 @@ export default function Immigration({ form }: onboardingStepperProps) {
       <div className={classes.paper}>
         <Group grow align="center" mt="md">
           <Select
+            required
             label="Processing Type"
             placeholder="Processing Type"
             {...form.getInputProps('processing_type')}
@@ -30,15 +31,18 @@ export default function Immigration({ form }: onboardingStepperProps) {
               { value: 'premium', label: 'Premium' },
             ]}
           />
-          <Select
-            allowDeselect="No"
-            label="Who is going to pay Premium"
-            placeholder="Who is going to pay Premium"
-            {...form.getInputProps('who_is_going_to_pay_premium')}
-            data={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
+          <TextInput
+            required
+            label="Is Company going to Pay the Premium"
+            type={'text'}
+            placeholder="Is Company going to Pay the Premium"
+            {...form.getInputProps('is_company_going_to_pay_the_premium')}
+          />
+          <TextInput
+            label="Reason for not Paying"
+            type={'text'}
+            placeholder="Reason for not Paying"
+            {...form.getInputProps('reason_for_not_paying')}
           />
         </Group>
         <Group grow align="center" mt="md">
@@ -49,12 +53,14 @@ export default function Immigration({ form }: onboardingStepperProps) {
             {...form.getInputProps('immigration_job_title')}
           />
           <TextInput
+            required
             label="Current H1B validity"
             type={'text'}
             placeholder="Current H1B validity"
             {...form.getInputProps('current_h1b_validity')}
           />
           <TextInput
+            required
             label="Current LCA number"
             type={'text'}
             placeholder="Current LCA number"

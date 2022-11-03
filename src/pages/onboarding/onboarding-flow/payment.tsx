@@ -31,18 +31,21 @@ export default function Payment({ form }: onboardingStepperProps) {
       <div className={classes.paper}>
         <Group grow align="center" mt="lg">
           <TextInput
+            required
             label="Bill rate"
             type={'text'}
             placeholder="Bill rate"
             {...form.getInputProps('bill_rate')}
           />
           <TextInput
+            required
             label="Pay rate"
             type={'text'}
             placeholder="Pay rate"
             {...form.getInputProps('pay_rate')}
           />
           <Select
+            required
             label="Payment frequency"
             placeholder="Payment frequency"
             {...form.getInputProps('payment_frequency')}
