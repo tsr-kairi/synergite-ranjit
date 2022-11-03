@@ -161,11 +161,6 @@ export default function EditForm(contactData: TVContacts) {
             />
           </Group>
           <div>
-            <FileInput
-              label="Profile Image"
-              mt="md"
-              {...form.getInputProps('profile_image')}
-            />
             <Button fullWidth type="submit" mt="md" mb="lg">
               Edit Contact
             </Button>

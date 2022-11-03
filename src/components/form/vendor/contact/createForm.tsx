@@ -50,10 +50,10 @@ export default function CreateForm() {
       // status: 'published',
       // vendors: Number(vendorId),
       vendor_uuid: String(vendorId),
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
+      // profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    const data = addContact(contactCreateData)
+    addContact(contactCreateData)
 
     showNotification({
       title: 'Success!!',
@@ -178,11 +178,6 @@ export default function CreateForm() {
             />
           </Group>
           <div>
-            <FileInput
-              label="Profile Image"
-              mt="md"
-              {...form.getInputProps('profile_image')}
-            />
             <Button fullWidth type="submit" mt="md" mb="lg">
               Add New
             </Button>
