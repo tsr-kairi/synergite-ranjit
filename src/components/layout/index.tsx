@@ -66,7 +66,7 @@ const AppShellMain = () => {
       className={classes.outletStyle}
     >
       {online ? (
-        <div style={{ width: isSidebarOpen ? '85vw' : '95vw' }}>
+        <div style={{ width: isSidebarOpen ? '80vw' : '90vw' }}>
           <Outlet />
         </div>
       ) : (
