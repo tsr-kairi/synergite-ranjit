@@ -15,6 +15,7 @@ interface OnboardingTasks {
 }
 
 const OnboardingTasks: React.FC<OnboardingTasks> = ({ activityId }) => {
+  console.log('activityId =', activityId)
   const { data, isLoading, isError } = useQuery(activityId, () =>
     getTasksByActivityId(activityId)
   )

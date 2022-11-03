@@ -56,6 +56,15 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
         : null
   )
 
+  useEffect(() => {
+    if (data && data?.length > 0) {
+      const activity = data[0]
+      onPressed(activity.uuid)
+    } else {
+      onPressed('')
+    }
+  }, [data])
+
   let element: React.ReactNode = <></>
 
   if (error) {
@@ -101,11 +110,7 @@ const OnboardingActivity: React.FC<OnboardingActivity> = ({
         {data?.map((activity) => {
           return (
             <Paper key={activity.uuid}>
-              <Group
-              // align={'center'}
-              // className={classes.assignedToByUser}
-              // position={'apart'}
-              >
+              <Group>
                 <Group>
                   <Text
                     onClick={() => onPressed(activity.uuid)}

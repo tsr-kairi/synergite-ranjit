@@ -169,6 +169,7 @@ const OnboardingList = () => {
           setIsActivityOpen(false)
           setSelectedOnboardingId('')
           setSelectedActivityUUID('')
+          console.log('closing')
         }}
         title="Activity"
         padding="xl"
@@ -191,7 +192,10 @@ const OnboardingList = () => {
           />
 
           {selectedActivityUUID && (
-            <OnboardingTasks activityId={selectedActivityUUID} />
+            <OnboardingTasks
+              key={selectedOnboardingId}
+              activityId={selectedActivityUUID}
+            />
           )}
         </div>
       </Drawer>
