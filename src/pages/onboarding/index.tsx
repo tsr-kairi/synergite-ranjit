@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { TClient, TVendor } from '@/types'
 import { TCandidate } from '@/types/candidate-type'
-import { TOnboarding, zOnboardingValidate } from '@/types/onboarding-flow-type'
+import { TOnboarding } from '@/types/onboarding-flow-type'
 import {
   Button,
   Group,
@@ -144,15 +144,89 @@ export default function Onboarding() {
   const onboardingUuid = params.get('onboarding_uuid')
   // console.log('onboardingUuid', onboardingUuid)
 
-  // onboarding flow states
+  // requiredMsg errorNMsg
+  const requiredMsg = 'This field is required'
+  const errorNMsg = 'Please fill required fields'
+
+  // use form
   const form = useForm<TOnboarding>({
-    // validate: zodResolver(zOnboardingValidate),
     initialValues: {
       ...onboardingStepperData,
+    },
+
+    // ? functions will be used to validate values at corresponding key
+    validate: {
+      //  in job form validation
+      reporting_to: (value) => (value?.length > 1 ? null : requiredMsg),
+      overtime_exemption: (value) => (value?.length > 1 ? null : requiredMsg),
+
+      // ! in job form validation
+      // bill_rate: (value) => (value?.length > 1 ? null : requiredMsg),
+      // pay_rate: (value) => (value?.length > 1 ? null : requiredMsg),
+      // payment_frequency: (value) => (value?.length > 1 ? null : requiredMsg),
+
+      // ! in immigration form validation
+      // processing_type: (value) => (value?.length > 1 ? null : requiredMsg),
+      // who_is_going_to_pay_premium: (value) =>
+      //   value?.length > 1 ? null : requiredMsg,
+      // current_h1b_validity: (value) => (value?.length > 1 ? null : requiredMsg),
+      // current_lac_number: (value) => (value?.length > 1 ? null : requiredMsg),
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  // ?  handleError function for form validation
+  const handleError = (errors: typeof form.errors) => {
+    if (errors.reporting_to) {
+      showNotification({
+        message: errorNMsg,
+        color: 'red',
+      })
+    } else if (errors.overtime_exemption) {
+      showNotification({
+        message: errorNMsg,
+        color: 'red',
+      })
+    }
+    // ! Payment form validate notify
+    // else if (errors.bill_rate) {
+    //   showNotification({
+    //     message: errorNMsg,
+    //     color: 'red',
+    //   })
+    // } else if (errors.pay_rate) {
+    //   showNotification({
+    //     message: errorNMsg,
+    //     color: 'red',
+    //   })
+    // } else if (errors.payment_frequency) {
+    //   showNotification({
+    //     message: errorNMsg,
+    //     color: 'red',
+    //   })
+    // } else if (errors.processing_type) {
+    //   showNotification({
+    //     message: errorNMsg,
+    //     color: 'red',
+    //   })
+    // } else if (errors.who_is_going_to_pay_premium) {
+    //   showNotification({
+    //     message: errorNMsg,
+    //     color: 'red',
+    //   })
+    // } else if (errors.current_h1b_validity) {
+    //   showNotification({
+    //     message: errorNMsg,
+    //     color: 'red',
+    //   })
+    // } else if (errors.current_lac_number) {
+    //   showNotification({
+    //     message: errorNMsg,
+    //     color: 'red',
+    //   })
+    // }
+  }
 
   useEffect(() => {
     if (completionPercentage) {
@@ -167,31 +241,6 @@ export default function Onboarding() {
       }
     }
   }, [completionPercentage])
-
-  // const handlePreOnboarding = async (preOnboardData: TPreonboard) => {
-  //   try {
-  //     // delete submissionData.uuid
-  //     await axiosPrivate.post(`/onboarding/preonboard`, preOnboardData)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   void handlePreOnboarding(preOnboardData)
-  // }, [])
-
-  // useEffect(() => {
-  //   void handlePreOnboarding()
-  // }, [])
-
-  // const handlePreOnboarding = async (preOnboardData: TPreonboard) => {
-  //   try {
-  //     await axiosPrivate.post(`/onboarding/preonboard`, preOnboardData)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   useEffect(() => {
     if (onboardingData) {
@@ -350,7 +399,7 @@ export default function Onboarding() {
       <div className={classes.onboarding}>
         {/* Onboarding flow stepper */}
         <div className={classes.stepperMain}>
-          <form onSubmit={form.onSubmit(handleSave)}>
+          <form onSubmit={form.onSubmit(handleSave, handleError)}>
             {/* Candidate */}
             <Accordion defaultValue="">
               <Accordion.Item
@@ -660,7 +709,9 @@ export default function Onboarding() {
                 </Button>
               )}
               {activeStepNumber <= 3 && (
-                <Button onClick={nextStep}>Next</Button>
+                <Button type="submit" onClick={nextStep}>
+                  Next
+                </Button>
               )}
             </Group>
           </form>
