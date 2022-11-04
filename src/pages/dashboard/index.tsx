@@ -117,21 +117,25 @@ export default function DashBoard() {
               title={'Message Board'}
               data={[
                 {
+                  id: 1,
                   title: 'Jone Doe',
                   description: 'Messages you have received',
                   image: 'https://randomuser.me/api/portraits/women/90.jpg',
                 },
                 {
+                  id: 2,
                   title: 'Jone Doe',
                   description: 'Messages you have received',
                   image: 'https://randomuser.me/api/portraits/women/90.jpg',
                 },
                 {
+                  id: 3,
                   title: 'Jone Doe',
                   description: 'Messages you have received',
                   image: 'https://randomuser.me/api/portraits/women/90.jpg',
                 },
                 {
+                  id: 4,
                   title: 'Jone Doe',
                   description: 'Messages you have received',
                   image: 'https://randomuser.me/api/portraits/women/90.jpg',
@@ -144,18 +148,21 @@ export default function DashBoard() {
               title={'Event Board'}
               data={[
                 {
+                  id: 1,
                   title: 'Mark Jupiter',
                   description: 'Hey dude whatsapp',
                   image:
                     'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
                 },
                 {
+                  id: 2,
                   title: 'Mark Jupiter',
                   description: 'Hey dude whatsapp',
                   image:
                     'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
                 },
                 {
+                  id: 3,
                   title: 'Mark Jupiter',
                   description: 'Hey dude whatsapp',
                   image:

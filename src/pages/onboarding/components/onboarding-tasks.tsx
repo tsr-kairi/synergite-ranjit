@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import {
-  getActivitiesByOnboardingId,
   getTasksByActivityId,
   updateTaskStatusByTaskId,
 } from '@/services/onboarding.services'
-import { Button, Group, Loader, Paper, Switch } from '@mantine/core'
+import { Group, Loader, Paper, Switch } from '@mantine/core'
 import { useQuery } from 'react-query'
-import { ITaskResponse } from '../../../services/onboarding.services'
 import { IconChevronsRight } from '@tabler/icons'
 
 interface OnboardingTasks {

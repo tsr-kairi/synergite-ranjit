@@ -6,6 +6,9 @@ import {
   IconFileAnalytics,
   IconSettings,
   IconContrast2,
+  IconBriefcase,
+  IconTableOptions,
+  IconBookUpload,
 } from '@tabler/icons'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -34,7 +37,7 @@ const navLinks = [
   {
     id: '3',
     label: 'Resources',
-    icon: IconWallet,
+    icon: IconTableOptions,
     initiallyOpened: false,
     isActive: false,
     links: [
@@ -54,10 +57,6 @@ const navLinks = [
       { label: 'Roles', link: '/roles' },
     ],
   },
-
-  // { label: 'Employees', icon: IconUsers, url: '/employee' },
-  // { label: 'Activities', icon: IconActivity, url: '/activity' },
-  // { label: 'Contacts', icon: IconFileAnalytics },
   {
     id: '5',
     label: 'TimeSheets',
@@ -76,12 +75,19 @@ const navLinks = [
   {
     id: '7',
     label: 'Job',
-    icon: IconContrast2,
+    icon: IconBriefcase,
     url: '/job',
     isActive: false,
   },
   {
     id: '8',
+    label: 'Submission',
+    icon: IconBookUpload,
+    url: '/submission',
+    isActive: false,
+  },
+  {
+    id: '9',
     label: 'Settings',
     icon: IconSettings,
     isActive: false,
