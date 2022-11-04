@@ -267,7 +267,15 @@ const Department: React.FC<DepartmentProps> = ({ onDepartmentChange }) => {
   return (
     <>
       {element}
-      <Group grow>
+      <div
+        style={{
+          paddingRight: '50px',
+          marginTop: '10px',
+          gap: '45px',
+          display: 'flex',
+          // justifyContent: 'space-between',
+        }}
+      >
         {filteredDepartment?.map(({ uuid, name }) => (
           <Button
             key={uuid}
@@ -280,7 +288,7 @@ const Department: React.FC<DepartmentProps> = ({ onDepartmentChange }) => {
             {name}
           </Button>
         ))}
-      </Group>
+      </div>
     </>
   )
 } // End of Department

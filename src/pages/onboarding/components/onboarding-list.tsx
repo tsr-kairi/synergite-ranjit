@@ -11,6 +11,7 @@ import {
   Button,
   Drawer,
   Group,
+  Paper,
   Table,
   Text,
   TextInput,
@@ -173,11 +174,13 @@ const OnboardingList = () => {
         }}
         title="Activity"
         padding="xl"
-        size="600px"
+        size="620px"
         position="right"
       >
-        <div
+        <Paper
           style={{
+            boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.50)',
+            padding: '10px',
             height: '90vh',
             overflowY: 'auto',
             scrollbarWidth: 'none',
@@ -197,7 +200,7 @@ const OnboardingList = () => {
               activityId={selectedActivityUUID}
             />
           )}
-        </div>
+        </Paper>
       </Drawer>
     </>
   )
