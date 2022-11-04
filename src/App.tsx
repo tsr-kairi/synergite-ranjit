@@ -34,6 +34,7 @@ import RolesDetails from './pages/roles/roles-details'
 import JobList from './pages/job/job-list'
 import CreateJobForm from './pages/job/create-job-form'
 import Timesheets from './pages/timesheets/timesheets'
+import Submission from './pages/submission'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -208,6 +209,14 @@ function App() {
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <SubmissionMain />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/submission"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Submission client_id={''} job_id={''} />
                 </ProtectedRoute>
               }
             />

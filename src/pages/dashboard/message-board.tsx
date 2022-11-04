@@ -34,6 +34,7 @@ const useStyles = createStyles((theme) => ({
 interface MessageBoardProps {
   title: string
   data: {
+    id: number
     title: string
     description: string
     image: string
@@ -51,7 +52,7 @@ export function MessageBoard({ title, data }: MessageBoardProps) {
       className={classes.item}
       noWrap
       spacing="xl"
-      key={item.title}
+      key={item?.id}
     >
       <div style={{ display: 'flex', placeItems: 'center' }}>
         <Avatar src={item.image} size={`md`} radius={`xl`} />
