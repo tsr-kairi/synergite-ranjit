@@ -9,7 +9,7 @@ export const Greeting = () => {
   if (hours < 12)
     greet = (
       <span style={{ display: 'flex', gap: '5px' }}>
-        morning <IconHaze color="#E9A338" />
+        Morning <IconHaze color="#E9A338" />
       </span>
     )
   else if (hours >= 12 && hours <= 17)
@@ -17,14 +17,14 @@ export const Greeting = () => {
       <span
         style={{ display: 'flex', gap: '5px', justifyContent: 'space-between' }}
       >
-        afternoon
+        Afternoon
         <IconSunset2 color="#E9A338" />
       </span>
     )
   else if (hours >= 17 && hours <= 24)
     greet = (
       <span style={{ display: 'flex', gap: '5px' }}>
-        evening
+        Evening
         <IconSunset color="#E9A338" />
       </span>
     )

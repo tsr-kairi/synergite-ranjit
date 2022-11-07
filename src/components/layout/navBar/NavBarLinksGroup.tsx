@@ -9,7 +9,10 @@ import {
   createStyles,
   Anchor,
   Tooltip,
-  Button,
+  Menu,
+  Card,
+  Image,
+  Badge,
 } from '@mantine/core'
 import { TablerIcon, IconChevronLeft, IconChevronRight } from '@tabler/icons'
 import { Link } from 'react-router-dom'
@@ -26,7 +29,7 @@ const parentBackgroundColor = {
 const useStyles = createStyles((theme) => ({
   control: {
     fontWeight: 500,
-    // display: 'block',
+    display: 'block',
     width: '100%',
     padding: `${theme.spacing.md}px ${theme.spacing.xl}px`,
     margin: `1px`,
@@ -44,13 +47,13 @@ const useStyles = createStyles((theme) => ({
     display: 'block',
     textDecoration: 'none',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    paddingLeft: 40,
-    marginLeft: 37,
+    // paddingLeft: 40,
+    // marginLeft: 37,
     fontSize: theme.fontSizes.sm,
     color:
       theme.colorScheme === 'dark'
-        ? theme.colors.grey[4]
-        : theme.colors.gray[4],
+        ? theme.colors.grey[9]
+        : theme.colors.gray[9],
     borderLeft: `1px solid ${theme.colors.blue[6]}`,
 
     '&:hover': {
@@ -87,8 +90,20 @@ const useStyles = createStyles((theme) => ({
       textDecoration: 'none',
     },
   },
-  chevron: {
-    transition: 'transform 200ms ease',
+
+  user: {
+    color: theme.colors.blue[5],
+    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
+    borderRadius: theme.radius.sm,
+    transition: 'background-color 100ms ease',
+  },
+  userActive: {
+    backgroundColor: 'rgba(103, 169, 241, 0.14)',
+  },
+  accSet: {
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
   },
 }))
 
@@ -117,7 +132,9 @@ export default function LinksGroup({
 
   const [isOnHoverOpen, setIsOnHoverOpen] = useState(false)
   const [active, setActive] = useState('Dashboard')
-  const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
+  const [menuOpened, setMenuOpened] = useState(false)
+
+  // const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
 
   const items = (hasLinks ? links : []).map((link) => (
     <Text
@@ -137,46 +154,87 @@ export default function LinksGroup({
 
   return (
     <>
-      <UnstyledButton
-        className={classes.control}
-        style={isActive ? parentBackgroundColor : {}}
+      <Menu
+        width={500}
+        position="right-start"
+        offset={7}
+        transition="pop-top-right"
+        onClose={() => setMenuOpened(false)}
+        onOpen={() => setMenuOpened(true)}
+        openDelay={100}
+        closeDelay={400}
+        zIndex={1000}
       >
-        <Anchor
-          className={classes.anchor}
-          onClick={onTopLinkClick}
-          onMouseEnter={() => (isSidebarOpen ? setIsOnHoverOpen(true) : null)}
-          onMouseLeave={() => setIsOnHoverOpen(false)}
-        >
-          <Group position="apart" spacing={0}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ThemeIcon
-                className={classes.icoTheme}
-                size={30}
-                style={isActive ? parentBackgroundColor : {}}
-              >
-                <Icon size={20} />
-              </ThemeIcon>
-              {isSidebarOpen && <Box ml="md">{label}</Box>}
-            </Box>
+        <Menu.Target>
+          <UnstyledButton
+            // className={classes.control}
+            style={isActive ? parentBackgroundColor : {}}
+            className={cx(classes.control, {
+              [classes.userActive]: menuOpened,
+            })}
+          >
+            <Anchor
+              className={classes.anchor}
+              onClick={onTopLinkClick}
+              // onMouseEnter={() => (isSidebarOpen ? setIsOnHoverOpen(true) : null)}
+              onMouseLeave={() => setIsOnHoverOpen(false)}
+            >
+              <Group position="apart" spacing={0}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Tooltip
+                    label={label}
+                    position="right"
+                    transitionDuration={0}
+                  >
+                    <ThemeIcon
+                      className={classes.icoTheme}
+                      size={30}
+                      style={isActive ? parentBackgroundColor : {}}
+                      onClick={() => setMenuOpened(true)}
+                    >
+                      <Icon size={20} />
+                    </ThemeIcon>
+                  </Tooltip>
+                  {/* {isSidebarOpen && <Box ml="md">{label}</Box>} */}
+                </Box>
+              </Group>
+            </Anchor>
+          </UnstyledButton>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>{label}</Menu.Label>
+          {/* <Menu.Item icon={items} className={classes.accSet}> */}
+          {menuOpened ? (
+            <Card shadow="sm" radius="md" withBorder>
+              <Group position="apart">
+                <Text weight={500}>{items}</Text>
+              </Group>
+            </Card>
+          ) : null}
+          {/* </Menu.Item> */}
+        </Menu.Dropdown>
+      </Menu>
 
-            {hasLinks && isSidebarOpen && (
-              <ChevronIcon
-                className={classes.chevron}
-                size={14}
-                stroke={1.5}
-                style={{
-                  transform: isActive
-                    ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)`
-                    : 'none',
-                }}
-              />
-            )}
-          </Group>
-        </Anchor>
-      </UnstyledButton>
-      {hasLinks ? (
+      {/* {menuOpened ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: '100px',
+            top: '0px',
+            zIndex: 10,
+          }}
+        >
+          <Card shadow="sm" p="lg" radius="md" withBorder>
+            <Group position="apart" mt="md" mb="xs">
+              <Text weight={500}>{items}</Text>
+            </Group>
+          </Card>
+        </div>
+      ) : null} */}
+
+      {/* {hasLinks ? (
         <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
-      ) : null}
+      ) : null} */}
     </>
   )
 }

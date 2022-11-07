@@ -10,9 +10,18 @@ import HeaderBar from './HeaderBar'
 import { useAuth } from '@/store/auth.store'
 import { useNetwork } from '@mantine/hooks'
 import useNetworkStatus from '@/hooks/useNetworkStatus'
+import { NavbarMain } from './navBar/NavbarMain'
 const useStyles = createStyles((theme) => ({
   outletStyle: {
     backgroundColor: theme.colors.grey[0],
+    zIndex: -1,
+  },
+
+  nav: {
+    position: 'absolute',
+    left: '100px',
+    top: '0px',
+    zIndex: 1000,
   },
 }))
 
@@ -50,7 +59,9 @@ const AppShellMain = () => {
           onNavbarSideIconClick={() =>
             setIsSidebarOpen((prevState) => !prevState)
           }
+          // className={classes.nav}
         />
+        // <NavbarMain />
       }
       header={
         <HeaderBar

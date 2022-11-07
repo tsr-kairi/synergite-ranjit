@@ -196,13 +196,13 @@ const NavBar: React.FC<NavBarProps> = ({
     >
       <div className={classes.linksInner}>{links}</div>
 
-      <button
+      {/* <button
         className={classes.navbarSideIcon}
         style={{
           left: isBurgerIconOpen ? '255px' : '60px',
         }}
         onClick={onNavbarSideIconClick}
-      ></button>
+      ></button> */}
     </div>
   )
 }

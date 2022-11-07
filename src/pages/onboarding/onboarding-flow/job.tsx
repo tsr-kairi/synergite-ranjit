@@ -69,10 +69,7 @@ export default function Job({ form }: onboardingStepperProps) {
             label="Reporting to"
             placeholder="Reporting to"
             {...form.getInputProps('reporting_to')}
-            data={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
+            data={[{ value: 'Stephanie Hyatt', label: 'Stephanie Hyatt' }]}
           />
           <TextInput
             label="Designation"
@@ -125,8 +122,8 @@ export default function Job({ form }: onboardingStepperProps) {
             placeholder="Recruiter Name"
             {...form.getInputProps('recruiter_name')}
             data={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
+              { value: 'Srinivas Gaikwad', label: 'Srinivas Gaikwad' },
+              { value: 'Saiababu Relangi', label: 'Saiababu Relangi' },
             ]}
           />
           <TextInput
