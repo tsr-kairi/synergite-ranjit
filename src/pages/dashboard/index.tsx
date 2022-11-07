@@ -1,6 +1,7 @@
 import { Grid, createStyles, Text } from '@mantine/core'
 import AnalyticsBoard from './analytics-graph'
 import { EventBoard } from './event-board'
+import { Greeting } from './greet'
 import { MessageBoard } from './message-board'
 import { Guadrant } from './quadrant'
 const useStyles = createStyles((theme) => ({
@@ -35,15 +36,15 @@ const useStyles = createStyles((theme) => ({
     },
   },
   // left side
-  wellCome: {
+  greeting: {
     backgroundColor: theme.colors.grey[0],
     border: `1px solid ${theme.colors.blue[3]}`,
-    paddingLeft: '30px',
-    padding: '10px',
+    paddingLeft: '20px',
+    // padding: '8px',
     borderRadius: '10px',
     height: '50px',
     '&:hover': {
-      backgroundColor: theme.colors.blue[0],
+      backgroundColor: theme.colors.accent[0],
     },
   },
   analyticBoard: {
@@ -51,7 +52,7 @@ const useStyles = createStyles((theme) => ({
     border: `1px solid ${theme.colors.blue[3]}`,
     borderRadius: '10px',
     '&:hover': {
-      backgroundColor: theme.colors.blue[0],
+      backgroundColor: theme.colors.accent[0],
     },
   },
   eventBoard: {
@@ -60,7 +61,7 @@ const useStyles = createStyles((theme) => ({
     padding: '10px',
     borderRadius: '10px',
     '&:hover': {
-      backgroundColor: theme.colors.blue[0],
+      backgroundColor: theme.colors.accent[0],
     },
   },
   // right side
@@ -70,7 +71,7 @@ const useStyles = createStyles((theme) => ({
     padding: '10px',
     borderRadius: '10px',
     '&:hover': {
-      backgroundColor: theme.colors.blue[0],
+      backgroundColor: theme.colors.accent[0],
     },
   },
   unknown: {
@@ -80,7 +81,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: '10px',
     height: '404px',
     '&:hover': {
-      backgroundColor: theme.colors.blue[0],
+      backgroundColor: theme.colors.accent[0],
     },
   },
   footer: {
@@ -99,10 +100,8 @@ export default function DashBoard() {
     <div className={classes.FirstParentGrid}>
       <div className={classes.SecParentGrid}>
         <Grid className={classes.leftSide}>
-          <Grid.Col className={classes.wellCome}>
-            <Text size={'xl'} style={{ fontFamily: 'cursive' }}>
-              Welcome to <b>Synergite</b> ! We are exited to have you !
-            </Text>
+          <Grid.Col className={classes.greeting}>
+            <Greeting />
           </Grid.Col>
           <Grid.Col className={classes.unknown}>
             <Guadrant />

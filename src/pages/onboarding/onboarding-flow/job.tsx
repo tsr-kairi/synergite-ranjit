@@ -118,11 +118,16 @@ export default function Job({ form }: onboardingStepperProps) {
             {...form.getInputProps('recruiter_contact_number')}
             type={'text'}
           />
-          <TextInput
+          <Select
+            required
+            withAsterisk
             label="Recruiter Name"
             placeholder="Recruiter Name"
             {...form.getInputProps('recruiter_name')}
-            type={'text'}
+            data={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+            ]}
           />
           <TextInput
             label="Others"

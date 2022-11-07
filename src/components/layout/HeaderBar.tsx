@@ -53,7 +53,7 @@ const useStyles = createStyles((theme) => ({
     // '&:hover': {
     // },
 
-    backgroundColor: 'rgba(103, 169, 241, 0.14)',
+    // backgroundColor: 'rgba(103, 169, 241, 0.14)',
 
     [theme.fn.smallerThan('xs')]: {
       display: 'none',
@@ -67,7 +67,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   userActive: {
-    backgroundColor: 'rgba(103, 169, 241, 0.44)',
+    backgroundColor: 'rgba(103, 169, 241, 0.14)',
   },
 
   leftSide: {

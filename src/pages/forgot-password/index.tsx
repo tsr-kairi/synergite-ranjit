@@ -54,12 +54,14 @@ const useStyles = createStyles((theme) => ({
     color: 'rgba(252,185,0,1)',
     fontWeight: 700,
   },
-  loginImg: {
-    width: '60%',
-    maxWidth: '50%',
+  forgotImg: {
+    width: '100%',
+    maxWidth: '55%',
     height: '100vh',
     marginLeft: 'auto',
     marginRight: 'auto',
+    display: 'flex',
+    alignItems: 'center',
 
     [theme.fn.smallerThan('xs')]: {
       display: 'none',
@@ -167,12 +169,12 @@ export function ForgotPassword() {
         </form>
       </Paper>
 
-      <Paper className={classes.loginImg} radius={0}>
+      <Paper className={classes.forgotImg} radius={0}>
         <Image
-          src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg?w=826&t=st=1660660363~exp=1660660963~hmac=a28395f313fa9a6cdea1d4136512a85c35e1c45ba624ff177be76e735b858dd8"
+          src="/src/assets/images/forgot.png"
           alt="Forgot_Img"
-          height="100vh"
-          width="100%"
+          // height="100vh"
+          // width="100%"
         />
       </Paper>
     </div>
@@ -180,3 +182,5 @@ export function ForgotPassword() {
 }
 
 export default ForgotPassword
+
+//  old forgot img link : https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg?w=826&t=st=1660660363~exp=1660660963~hmac=a28395f313fa9a6cdea1d4136512a85c35e1c45ba624ff177be76e735b858dd8

@@ -4,7 +4,6 @@ import {
   IconWallet,
   IconActivity,
   IconFileAnalytics,
-  IconSettings,
   IconContrast2,
   IconBriefcase,
   IconTableOptions,
@@ -45,8 +44,38 @@ const navLinks = [
       { label: 'Employees', link: '/employee' },
     ],
   },
+
   {
     id: '4',
+    label: 'TimeSheets',
+    icon: IconFileAnalytics,
+    url: '/timesheets',
+    isActive: false,
+  },
+
+  {
+    id: '5',
+    label: 'On Boarding List',
+    icon: IconContrast2,
+    url: '/onboarding-list',
+    isActive: false,
+  },
+  {
+    id: '6',
+    label: 'Job',
+    icon: IconBriefcase,
+    url: '/job',
+    isActive: false,
+  },
+  {
+    id: '7',
+    label: 'Submission',
+    icon: IconBookUpload,
+    url: '/submission',
+    isActive: false,
+  },
+  {
+    id: '8',
     label: 'Admin',
     icon: IconActivity,
     initiallyOpened: false,
@@ -57,41 +86,12 @@ const navLinks = [
       { label: 'Roles', link: '/roles' },
     ],
   },
-  {
-    id: '5',
-    label: 'TimeSheets',
-    icon: IconFileAnalytics,
-    url: '/timesheets',
-    isActive: false,
-  },
-
-  {
-    id: '6',
-    label: 'On Boarding List',
-    icon: IconContrast2,
-    url: '/onboarding-list',
-    isActive: false,
-  },
-  {
-    id: '7',
-    label: 'Job',
-    icon: IconBriefcase,
-    url: '/job',
-    isActive: false,
-  },
-  {
-    id: '8',
-    label: 'Submission',
-    icon: IconBookUpload,
-    url: '/submission',
-    isActive: false,
-  },
-  {
-    id: '9',
-    label: 'Settings',
-    icon: IconSettings,
-    isActive: false,
-  },
+  // {
+  //   id: '9',
+  //   label: 'Settings',
+  //   icon: IconSettings,
+  //   isActive: false,
+  // },
 ]
 
 const useStyles = createStyles((theme) => ({

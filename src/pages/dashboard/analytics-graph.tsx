@@ -1,5 +1,6 @@
 import { Line } from '@ant-design/plots'
-import { createStyles, Group, Text, TextInput } from '@mantine/core'
+import { ActionIcon, createStyles, Group, Text, TextInput } from '@mantine/core'
+import { IconActivity } from '@tabler/icons'
 
 const useStyles = createStyles((theme) => ({
   analytics: {
@@ -97,12 +98,15 @@ export default function AnalyticsBoard() {
       <Group position="apart" noWrap spacing="xl" align={'center'} mb="md">
         <Text
           weight="lighter"
-          color="blueviolet"
+          color="#E39133"
           style={{ fontFamily: '-moz-initial', fontSize: '20px' }}
         >
           Analytics
         </Text>
-        <TextInput type={'month'} placeholder="Monthly" color="blueviolet" />
+        {/* <TextInput type={'month'} placeholder="Monthly" color="#E39133" /> */}
+        <ActionIcon variant="light" radius="xl" color={'#E39133'}>
+          <IconActivity size={28} color={'#E39133'} />
+        </ActionIcon>
       </Group>
       <Line {...config} />
     </div>
