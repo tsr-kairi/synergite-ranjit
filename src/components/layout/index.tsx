@@ -5,14 +5,23 @@ import NavBar from '@/components/layout/navBar/NavBar'
 // import axiosPrivate from '@/services/axiosPrivate'
 import { AppShell, createStyles } from '@mantine/core'
 // import { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
 import HeaderBar from './HeaderBar'
 import { useAuth } from '@/store/auth.store'
 import { useNetwork } from '@mantine/hooks'
 import useNetworkStatus from '@/hooks/useNetworkStatus'
+import { NavbarMain } from './navBar/NavbarMain'
+import { Outlet } from 'react-router-dom'
 const useStyles = createStyles((theme) => ({
   outletStyle: {
     backgroundColor: theme.colors.grey[0],
+    // display: 'none',
+  },
+
+  nav: {
+    position: 'absolute',
+    left: '100px',
+    top: '0px',
+    zIndex: 1000,
   },
 }))
 
@@ -50,7 +59,9 @@ const AppShellMain = () => {
           onNavbarSideIconClick={() =>
             setIsSidebarOpen((prevState) => !prevState)
           }
+          // className={classes.nav}
         />
+        // <NavbarMain />
       }
       header={
         <HeaderBar
@@ -66,7 +77,7 @@ const AppShellMain = () => {
       className={classes.outletStyle}
     >
       {online ? (
-        <div style={{ width: isSidebarOpen ? '85vw' : '95vw' }}>
+        <div>
           <Outlet />
         </div>
       ) : (

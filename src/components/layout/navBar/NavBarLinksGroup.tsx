@@ -9,9 +9,18 @@ import {
   createStyles,
   Anchor,
   Tooltip,
-  Button,
+  Menu,
+  Card,
+  Image,
+  Badge,
+  Divider,
 } from '@mantine/core'
-import { TablerIcon, IconChevronLeft, IconChevronRight } from '@tabler/icons'
+import {
+  TablerIcon,
+  IconChevronLeft,
+  IconChevronRight,
+  IconSearch,
+} from '@tabler/icons'
 import { Link } from 'react-router-dom'
 import theme from '@/theme/theme'
 
@@ -26,7 +35,7 @@ const parentBackgroundColor = {
 const useStyles = createStyles((theme) => ({
   control: {
     fontWeight: 500,
-    // display: 'block',
+    display: 'block',
     width: '100%',
     padding: `${theme.spacing.md}px ${theme.spacing.xl}px`,
     margin: `1px`,
@@ -44,13 +53,11 @@ const useStyles = createStyles((theme) => ({
     display: 'block',
     textDecoration: 'none',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    paddingLeft: 40,
-    marginLeft: 37,
     fontSize: theme.fontSizes.sm,
     color:
       theme.colorScheme === 'dark'
-        ? theme.colors.grey[4]
-        : theme.colors.gray[4],
+        ? theme.colors.grey[9]
+        : theme.colors.gray[9],
     borderLeft: `1px solid ${theme.colors.blue[6]}`,
 
     '&:hover': {
@@ -87,8 +94,16 @@ const useStyles = createStyles((theme) => ({
       textDecoration: 'none',
     },
   },
-  chevron: {
-    transition: 'transform 200ms ease',
+
+  userActive: {
+    backgroundColor: 'rgba(103, 169, 241, 0.14)',
+  },
+  accSet: {
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
   },
 }))
 
@@ -98,7 +113,7 @@ interface LinksGroupProps {
   label: string
   initiallyOpened?: boolean
   links?: { label: string; link: string }[]
-  url?: string
+  // url?: string
   isSidebarOpen?: boolean
   isActive: boolean
   onTopLinkClick: () => void
@@ -108,16 +123,15 @@ export default function LinksGroup({
   icon: Icon,
   label,
   links,
-  isSidebarOpen,
   isActive,
   onTopLinkClick,
 }: LinksGroupProps) {
-  const { classes, theme, cx } = useStyles()
+  const { classes, cx } = useStyles()
   const hasLinks = Array.isArray(links)
 
   const [isOnHoverOpen, setIsOnHoverOpen] = useState(false)
   const [active, setActive] = useState('Dashboard')
-  const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
+  const [menuOpened, setMenuOpened] = useState(false)
 
   const items = (hasLinks ? links : []).map((link) => (
     <Text
@@ -137,46 +151,62 @@ export default function LinksGroup({
 
   return (
     <>
-      <UnstyledButton
-        className={classes.control}
-        style={isActive ? parentBackgroundColor : {}}
+      <Menu
+        width={200}
+        position="right-start"
+        offset={12}
+        transition="pop-top-right"
+        onClose={() => setMenuOpened(false)}
+        onOpen={() => setMenuOpened(true)}
+        openDelay={100}
+        closeDelay={400}
+        withArrow
       >
-        <Anchor
-          className={classes.anchor}
-          onClick={onTopLinkClick}
-          onMouseEnter={() => (isSidebarOpen ? setIsOnHoverOpen(true) : null)}
-          onMouseLeave={() => setIsOnHoverOpen(false)}
-        >
-          <Group position="apart" spacing={0}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ThemeIcon
-                className={classes.icoTheme}
-                size={30}
-                style={isActive ? parentBackgroundColor : {}}
+        <Menu.Target>
+          <Tooltip
+            label={label}
+            position="right-start"
+            transitionDuration={300}
+            color="#67A9F1"
+            withArrow
+          >
+            <UnstyledButton
+              style={isActive ? parentBackgroundColor : {}}
+              className={cx(classes.control, {
+                [classes.userActive]: menuOpened,
+              })}
+            >
+              <Anchor
+                className={classes.anchor}
+                onClick={onTopLinkClick}
+                onMouseLeave={() => setIsOnHoverOpen(false)}
               >
-                <Icon size={20} />
-              </ThemeIcon>
-              {isSidebarOpen && <Box ml="md">{label}</Box>}
-            </Box>
-
-            {hasLinks && isSidebarOpen && (
-              <ChevronIcon
-                className={classes.chevron}
-                size={14}
-                stroke={1.5}
-                style={{
-                  transform: isActive
-                    ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)`
-                    : 'none',
-                }}
-              />
-            )}
-          </Group>
-        </Anchor>
-      </UnstyledButton>
-      {hasLinks ? (
-        <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
-      ) : null}
+                {/* <Group position="apart" spacing={0}> */}
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ThemeIcon
+                    className={classes.icoTheme}
+                    size={30}
+                    style={isActive ? parentBackgroundColor : {}}
+                    onClick={() => setMenuOpened(true)}
+                  >
+                    <Icon size={20} />
+                  </ThemeIcon>
+                </Box>
+                {/* </Group> */}
+              </Anchor>
+            </UnstyledButton>
+          </Tooltip>
+        </Menu.Target>
+        <Menu.Dropdown className={classes.accSet}>
+          <Menu.Label>{label}</Menu.Label>
+          <Divider />
+          <Menu.Item>
+            {menuOpened ? (
+              <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
+            ) : null}
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     </>
   )
 }

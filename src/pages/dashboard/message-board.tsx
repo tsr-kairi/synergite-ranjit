@@ -1,4 +1,12 @@
-import { createStyles, Card, Group, Text, Avatar, Button } from '@mantine/core'
+import {
+  createStyles,
+  Card,
+  Group,
+  Text,
+  Avatar,
+  Button,
+  ActionIcon,
+} from '@mantine/core'
 import { IconCalendarEvent, IconClock, IconMessage } from '@tabler/icons'
 
 const useStyles = createStyles((theme) => ({
@@ -86,12 +94,14 @@ export function MessageBoard({ title, data }: MessageBoardProps) {
           style={{
             fontFamily: '-moz-initial',
             fontSize: '20px',
-            color: 'blueviolet',
+            color: '#E39133',
           }}
         >
           {title}
         </Text>
-        <IconMessage color="blueviolet" />
+        <ActionIcon variant="light" radius="xl" color={'#E39133'}>
+          <IconMessage size={28} color={'#E39133'} />
+        </ActionIcon>
       </Group>
       {items}
       <Button variant="light" color="blue" mt={'lg'} fullWidth>

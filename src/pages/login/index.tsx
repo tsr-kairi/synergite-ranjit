@@ -17,7 +17,7 @@ import {
 import Logo from '@/components/logo'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm, zodResolver } from '@mantine/form'
-import useLogin, { ILoginRequest } from './hooks/useLogin'
+import { ILoginRequest } from './hooks/useLogin'
 import { zLoginValidation } from '@/types/login-type'
 import { AxiosError } from 'axios'
 import { useAuth } from '@/store/auth.store'
@@ -73,16 +73,19 @@ const useStyles = createStyles((theme) => ({
     fontSize: '1.4rem',
   },
   password: {
-    // color: theme.colors.accent[9],
     color: 'rgba(252,185,0,1)',
     fontWeight: 700,
   },
+
+  // login IMG
   loginImg: {
-    width: '60%',
+    width: '100%',
     maxWidth: '50%',
     height: '100vh',
     marginLeft: 'auto',
     marginRight: 'auto',
+    display: 'flex',
+    alignItems: 'center',
 
     [theme.fn.smallerThan('xs')]: {
       display: 'none',
@@ -215,10 +218,10 @@ export function Login() {
 
       <div className={classes.loginImg}>
         <Image
-          src="https://www.allen.ac.in/apps2223/assets/images/login.jpg"
+          src="/src/assets/images/login.png"
           alt="Login_Img"
-          height="100vh"
-          width="100%"
+          // height="100vh"
+          // width="100%"
         />
       </div>
     </div>
@@ -226,3 +229,5 @@ export function Login() {
 }
 
 export default Login
+
+// login img old link : https://www.allen.ac.in/apps2223/assets/images/login.jpg

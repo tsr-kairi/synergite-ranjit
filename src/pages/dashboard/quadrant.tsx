@@ -1,4 +1,4 @@
-import { createStyles, Text, Button, Group } from '@mantine/core'
+import { createStyles, Text, Button, Group, ActionIcon } from '@mantine/core'
 import { IconChevronsRight, IconEmpathize } from '@tabler/icons'
 import { Link } from 'react-router-dom'
 
@@ -33,12 +33,14 @@ export function Guadrant() {
           style={{
             fontFamily: '-moz-initial',
             fontSize: '20px',
-            color: 'blueviolet',
+            color: '#E39133',
           }}
         >
           What would you like to do today?
         </Text>
-        <IconEmpathize color="blueviolet" />
+        <ActionIcon variant="light" radius="xl" color={'#E39133'}>
+          <IconEmpathize size={28} color={'#E39133'} />
+        </ActionIcon>
       </Group>
       <div style={{ display: 'flex', gap: '20px' }}>
         <Link to={`/onboarding`} className={classes.userLink}>

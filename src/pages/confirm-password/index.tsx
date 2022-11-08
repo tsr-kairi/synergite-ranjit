@@ -55,12 +55,14 @@ const useStyles = createStyles((theme) => ({
     color: 'rgba(252,185,0,1)',
     fontWeight: 700,
   },
-  loginImg: {
-    width: '60%',
+  confirmImg: {
+    width: '100%',
     maxWidth: '50%',
     height: '100vh',
     marginLeft: 'auto',
     marginRight: 'auto',
+    display: 'flex',
+    alignItems: 'center',
 
     [theme.fn.smallerThan('xs')]: {
       display: 'none',
@@ -95,7 +97,7 @@ function useQuery() {
   return useMemo(() => new URLSearchParams(search), [search])
 }
 
-export function Login() {
+export function ConfirmPassword() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const query = useQuery()
   const navigate = useNavigate()
@@ -197,16 +199,18 @@ export function Login() {
         </form>
       </Paper>
 
-      <Paper className={classes.loginImg} radius={0}>
+      <Paper className={classes.confirmImg} radius={0}>
         <Image
-          src="https://img.freepik.com/free-vector/login-concept-illustration_114360-757.jpg?w=826&t=st=1660660487~exp=1660661087~hmac=25452a9c404715893a9a1fcb9a5cfc8056a60a06dae96319cdd8cca781672bbb"
+          src="/src/assets/images/confirm.png"
           alt="Login_Img"
-          height="100vh"
-          width="100%"
+          // height="100vh"
+          // width="100%"
         />
       </Paper>
     </div>
   )
 }
 
-export default Login
+export default ConfirmPassword
+
+//  old confirm img link : https://img.freepik.com/free-vector/login-concept-illustration_114360-757.jpg?w=826&t=st=1660660487~exp=1660661087~hmac=25452a9c404715893a9a1fcb9a5cfc8056a60a06dae96319cdd8cca781672bbb
