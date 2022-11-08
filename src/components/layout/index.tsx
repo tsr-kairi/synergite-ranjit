@@ -9,7 +9,6 @@ import HeaderBar from './HeaderBar'
 import { useAuth } from '@/store/auth.store'
 import { useNetwork } from '@mantine/hooks'
 import useNetworkStatus from '@/hooks/useNetworkStatus'
-import { NavbarMain } from './navBar/NavbarMain'
 import { Outlet } from 'react-router-dom'
 const useStyles = createStyles((theme) => ({
   outletStyle: {
