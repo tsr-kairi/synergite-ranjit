@@ -250,10 +250,10 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose={() => setEmployeeOpened(false)}
           title="Candidate details"
           padding="xl"
-          size="xl"
+          size="1200px"
           position="right"
         >
-          <EmployeeDetailsForm employeeData={employeeDetails} />
+          <EmployeeDetailsForm {...employeeDetails} />
         </Drawer>
 
         {/* Showing Employee IdList */}

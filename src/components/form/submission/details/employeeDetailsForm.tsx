@@ -1,204 +1,467 @@
+import TextDivider from '@/components/elements/text-divider'
+import useEditCandidate from '@/pages/candidate/hooks/useEditCandidate'
+import theme from '@/theme/theme'
 import { TCandidate } from '@/types/candidate-type'
 import {
-  TextInput,
-  Button,
-  Group,
   createStyles,
-  Paper,
+  Group,
+  Accordion,
+  TextInput,
+  Textarea,
+  Grid,
   FileInput,
-  Stepper,
 } from '@mantine/core'
-import { useState } from 'react'
+import { useForm } from '@mantine/form'
+import { showNotification } from '@mantine/notifications'
+import { IconUpload } from '@tabler/icons'
 const useStyles = createStyles(() => ({
   paper: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    backgroundColor: 'transparent',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+  },
+  dividerText: {
+    color: theme.colors?.blue?.[9],
   },
 }))
 
-// employeeData: TCandidate
-const EmployeeDetailsForm: React.FC<{ employeeData: TCandidate }> = ({
-  employeeData,
-}) => {
-  const [active, setActive] = useState(0)
-
-  console.log('employeeData = ', employeeData)
+export default function EmployeeDetailsForm(candidateDetailsData: TCandidate) {
   const { classes } = useStyles()
-  // next btn
-  const nextStep = () =>
-    setActive((current) => {
-      // if (hasErrors) {
-      //   return current
-      // }
-      return current < 2 ? current + 1 : current
-    })
-  // prev btn
-  const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current))
+  const { mutate: candidateDetails } = useEditCandidate()
 
+  const form = useForm<TCandidate>({
+    initialValues: candidateDetailsData,
+    validateInputOnChange: true,
+    clearInputErrorOnChange: true,
+  })
+
+  const handleSubmit = (values: TCandidate) => {
+    const candidateDetailsData = {
+      ...values,
+    }
+
+    candidateDetails(candidateDetailsData)
+
+    showNotification({
+      title: 'Success!!',
+      message: 'Candidate Details Fetched Successfully.',
+    })
+  }
+  // value={clientDetailsData.first_name}
   return (
     <>
-      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
-        {/* onSubmit={form.onSubmit(handleSubmit)} */}
-        <form>
-          <Stepper active={active} breakpoint="sm">
-            {/* Personal Information */}
-            <Stepper.Step label="Info" description="Personal information">
-              <Group grow align="center" mt="md">
-                <FileInput
-                  label="Profile Image"
-                  // mt="md"
-                  // {...form.getInputProps('profile_image')}
-                />
-                <TextInput
-                  required
-                  label="Employee Id"
-                  type={'text'}
-                  placeholder="Employee Id"
-                  value={employeeData?.candidate_id}
-                />
-              </Group>
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="First Name"
-                  type={'text'}
-                  placeholder="First Name"
-                  value={employeeData?.first_name}
-                />
-                <TextInput
-                  required
-                  label="Last Name"
-                  type={'text'}
-                  placeholder="Last Name"
-                  value={employeeData?.last_name}
-                />
-              </Group>
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="Email"
-                  type={'text'}
-                  placeholder="Email"
-                  value={employeeData?.email}
-                />
-                <TextInput
-                  required
-                  label="Phone"
-                  type={'text'}
-                  placeholder="Phone"
-                  value={employeeData?.phone}
-                />
-              </Group>
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="SSN"
-                  type={'text'}
-                  placeholder="SSN"
-                  value={employeeData?.ssn_no}
-                />
-                <TextInput
-                  required
-                  label="Date of birth"
-                  type={'date'}
-                  placeholder="Date of birth"
-                  value={employeeData?.dob}
-                />
-              </Group>
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="Gender"
-                  type={'text'}
-                  placeholder="Gender"
-                  value={employeeData?.gender}
-                />
-                <TextInput
-                  required
-                  label="Ethnic Origin"
-                  type={'text'}
-                  placeholder="Ethnic Origin"
-                  value={employeeData?.ethnic_origin}
-                />
-              </Group>
-            </Stepper.Step>
-            {/* Address */}
-            <Stepper.Step label="Address" description="Employee address">
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="Address line 1"
-                  type={'text'}
-                  placeholder="Address line 1"
-                  value={employeeData?.address1}
-                />
-                <TextInput
-                  required
-                  label="Address line 2"
-                  type={'text'}
-                  placeholder="Address line 2"
-                  value={employeeData?.address2}
-                />
-              </Group>
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="City"
-                  type={'text'}
-                  placeholder="City"
-                  value={employeeData?.city}
-                />
-                <TextInput
-                  required
-                  label="State"
-                  type={'text'}
-                  placeholder="State"
-                  value={employeeData?.state}
-                />
-              </Group>
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="Country"
-                  type={'text'}
-                  placeholder="Country"
-                  value={employeeData?.country}
-                />
-                <TextInput
-                  required
-                  label="Zip Code"
-                  type={'text'}
-                  placeholder="Zip Code"
-                  value={employeeData?.zip}
-                />
-              </Group>
-              <Group grow align="center" mt="md">
-                <TextInput
-                  required
-                  label="County"
-                  type={'text'}
-                  placeholder="County"
-                  value={employeeData?.county}
-                />
-                <Button fullWidth type="submit" mt="xl">
-                  Update
-                </Button>
-              </Group>
-            </Stepper.Step>
-          </Stepper>
-          {/* prev and next button */}
-          <Group position="right" mt="xl">
-            {active !== 0 && (
-              <Button variant="default" onClick={prevStep}>
-                Prev
-              </Button>
-            )}
-            {active !== 1 && <Button onClick={nextStep}>Next</Button>}
-          </Group>
+      <div className={classes.paper}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Accordion defaultValue="candidate_details">
+            {/* Personal Details Information */}
+            <Accordion.Item
+              value="candidate_details"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Personal Details" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Candidate ID"
+                    type={'text'}
+                    placeholder="Auto Generated number"
+                    {...form.getInputProps('candidate_id')}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="First Name"
+                    type={'text'}
+                    placeholder="First Name"
+                    value={candidateDetailsData.first_name}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Middle Name"
+                    type={'text'}
+                    placeholder="Middle Name"
+                    value={candidateDetailsData.middle_name}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Last Name"
+                    type={'text'}
+                    placeholder="Last Name"
+                    value={candidateDetailsData.last_name}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Email"
+                    type={'text'}
+                    placeholder="Email"
+                    value={candidateDetailsData.email}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Phone"
+                    type={'text'}
+                    placeholder="Phone"
+                    value={candidateDetailsData.phone}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Date of birth"
+                    type={'date'}
+                    placeholder="Date of birth"
+                    value={candidateDetailsData.dob}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Candidate Ownership"
+                    type={'text'}
+                    placeholder="Candidate Ownership"
+                    value={candidateDetailsData.candidate_ownership_uuid}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Job Title"
+                    type={'text'}
+                    placeholder="Job Title"
+                    // value={candidateDetailsData.job_title} // not added in backend
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Immigration Status"
+                    type={'text'}
+                    placeholder="Immigration Status"
+                    value={candidateDetailsData.immigration_status}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Work Experience"
+                    type={'text'}
+                    placeholder="Work Experience"
+                    value={candidateDetailsData.work_experience}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Source"
+                    type={'text'}
+                    placeholder="Source"
+                    value={candidateDetailsData.source}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    type={'date'}
+                    placeholder="Created Date"
+                    label="Created Date"
+                    // value={candidateDetailsData.created_date}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Employment Type"
+                    type={'text'}
+                    placeholder="Employment Type"
+                    value={candidateDetailsData.employment_type}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Skills"
+                    type={'text'}
+                    placeholder="Skills"
+                    value={candidateDetailsData.skills}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Security Clearance"
+                    type={'text'}
+                    placeholder="Security Clearance"
+                    value={candidateDetailsData.security_clearance}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Willing to Relocate"
+                    type={'text'}
+                    placeholder="Willing to Relocate"
+                    value={candidateDetailsData.willing_to_reallocate}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    placeholder="Payment Type"
+                    label="Payment Type"
+                    value={candidateDetailsData.payment_type}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Expected Rate Type"
+                    type={'text'}
+                    placeholder="Expected Rate Type"
+                    value={candidateDetailsData.expected_rate_type}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Current Rate Type"
+                    type={'text'}
+                    placeholder="Current Rate Type"
+                    value={candidateDetailsData.current_rate_type}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Current Pay Rate"
+                    type={'text'}
+                    placeholder="Current Pay Rate"
+                    value={candidateDetailsData.current_rate}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Languages Known"
+                    type={'text'}
+                    placeholder="Languages Known"
+                    value={candidateDetailsData.language_known}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Gender"
+                    type={'text'}
+                    placeholder="Gender"
+                    value={candidateDetailsData.gender}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Marital Status"
+                    type={'text'}
+                    placeholder="Marital Status"
+                    value={candidateDetailsData.marital_status}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    type={'text'}
+                    placeholder="Salary Expectation"
+                    label="Salary Expectation"
+                    value={candidateDetailsData.salary_expectation}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Status"
+                    type={'text'}
+                    placeholder="Status"
+                    value={candidateDetailsData.candidate_status}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <Textarea
+                    readOnly={true}
+                    label="Profile Summary"
+                    placeholder="Profile Summary"
+                    // autosize
+                    // minRows={3}
+                    // maxRows={4}
+                    value={candidateDetailsData.profile_summary}
+                  />
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* contact Information */}
+            <Accordion.Item
+              value="contact_details"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Contact Details" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Linkedin Url"
+                    type={'text'}
+                    placeholder="Linkedin Url"
+                    value={candidateDetailsData.linkedin_url}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Github Url"
+                    type={'text'}
+                    placeholder="Github Url"
+                    value={candidateDetailsData.github_url}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Address"
+                    type={'text'}
+                    placeholder="Address"
+                    value={candidateDetailsData.address1}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="City"
+                    type={'text'}
+                    placeholder="City"
+                    value={candidateDetailsData.city}
+                  />
+                </Group>
+
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="State"
+                    type={'text'}
+                    placeholder="State"
+                    value={candidateDetailsData.state}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Country"
+                    type={'text'}
+                    placeholder="Country"
+                    value={candidateDetailsData.country}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Zip Code"
+                    type={'text'}
+                    placeholder="Zip Code"
+                    value={candidateDetailsData.zip}
+                  />
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* education Information */}
+            <Accordion.Item
+              value="education_details"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Education Details" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Institution"
+                    type={'text'}
+                    placeholder="Institution"
+                    value={candidateDetailsData.institution}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Degree"
+                    type={'text'}
+                    placeholder="Degree"
+                    value={candidateDetailsData.degree}
+                  />
+                  <FileInput
+                    label="Attachment"
+                    placeholder="Attachment"
+                    icon={<IconUpload size={14} />}
+                    // value={candidateDetailsData.attachments} // old field
+                  />
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* work_experience_details Information */}
+            <Accordion.Item
+              value="work_experience_details"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Work Experience Details" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Current Employer name"
+                    type={'text'}
+                    placeholder="Current Employer name"
+                    value={candidateDetailsData.current_employer_name}
+                  />
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* resumes Information */}
+            <Accordion.Item value="resumes" style={{ borderBottom: 'none' }}>
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Resumes" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Grid>
+                  <Grid.Col span={4}>
+                    <FileInput
+                      label="Attachment"
+                      placeholder="Attachment"
+                      icon={<IconUpload size={14} />}
+                      // value={candidateDetailsData.zip}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={4}></Grid.Col>
+                  <Grid.Col span={4}></Grid.Col>
+                </Grid>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* documents Information */}
+            <Accordion.Item value="documents" style={{ borderBottom: 'none' }}>
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Documents" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Document Name"
+                    type={'text'}
+                    placeholder="Document Name"
+                    // value={candidateDetailsData.zip}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Expiry date"
+                    type={'text'}
+                    placeholder="Expiry date"
+                    // value={candidateDetailsData.zip}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Document"
+                    type={'text'}
+                    placeholder="Document"
+                    // value={candidateDetailsData.zip}
+                  />
+                </Group>
+                {/* <Grid mt="md">
+                  <Grid.Col span={4}>
+                    <TextInput
+                      readOnly={true}
+                      label="Document"
+                      type={'text'}
+                      placeholder="Document"
+                      // value={candidateDetailsData.zip}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={4}>
+                    <FileInput
+                      label="Upload Resume"
+                      placeholder="Upload Resume"
+                      icon={<IconUpload size={14} />}
+                      // value={candidateDetailsData.zip}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={4}></Grid.Col>
+                </Grid> */}
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
         </form>
-      </Paper>
+      </div>
     </>
   )
 }
-
-export default EmployeeDetailsForm

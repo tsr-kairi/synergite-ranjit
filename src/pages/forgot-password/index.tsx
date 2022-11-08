@@ -56,7 +56,7 @@ const useStyles = createStyles((theme) => ({
   },
   forgotImg: {
     width: '100%',
-    maxWidth: '55%',
+    maxWidth: '50%',
     height: '100vh',
     marginLeft: 'auto',
     marginRight: 'auto',

@@ -13,8 +13,14 @@ import {
   Card,
   Image,
   Badge,
+  Divider,
 } from '@mantine/core'
-import { TablerIcon, IconChevronLeft, IconChevronRight } from '@tabler/icons'
+import {
+  TablerIcon,
+  IconChevronLeft,
+  IconChevronRight,
+  IconSearch,
+} from '@tabler/icons'
 import { Link } from 'react-router-dom'
 import theme from '@/theme/theme'
 
@@ -47,8 +53,6 @@ const useStyles = createStyles((theme) => ({
     display: 'block',
     textDecoration: 'none',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    // paddingLeft: 40,
-    // marginLeft: 37,
     fontSize: theme.fontSizes.sm,
     color:
       theme.colorScheme === 'dark'
@@ -91,16 +95,12 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  user: {
-    color: theme.colors.blue[5],
-    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-    borderRadius: theme.radius.sm,
-    transition: 'background-color 100ms ease',
-  },
   userActive: {
     backgroundColor: 'rgba(103, 169, 241, 0.14)',
   },
   accSet: {
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    backgroundColor: 'white',
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
     },
@@ -113,7 +113,7 @@ interface LinksGroupProps {
   label: string
   initiallyOpened?: boolean
   links?: { label: string; link: string }[]
-  url?: string
+  // url?: string
   isSidebarOpen?: boolean
   isActive: boolean
   onTopLinkClick: () => void
@@ -123,18 +123,15 @@ export default function LinksGroup({
   icon: Icon,
   label,
   links,
-  isSidebarOpen,
   isActive,
   onTopLinkClick,
 }: LinksGroupProps) {
-  const { classes, theme, cx } = useStyles()
+  const { classes, cx } = useStyles()
   const hasLinks = Array.isArray(links)
 
   const [isOnHoverOpen, setIsOnHoverOpen] = useState(false)
   const [active, setActive] = useState('Dashboard')
   const [menuOpened, setMenuOpened] = useState(false)
-
-  // const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft
 
   const items = (hasLinks ? links : []).map((link) => (
     <Text
@@ -155,86 +152,61 @@ export default function LinksGroup({
   return (
     <>
       <Menu
-        width={500}
+        width={200}
         position="right-start"
-        offset={7}
+        offset={12}
         transition="pop-top-right"
         onClose={() => setMenuOpened(false)}
         onOpen={() => setMenuOpened(true)}
         openDelay={100}
         closeDelay={400}
-        zIndex={1000}
+        withArrow
       >
         <Menu.Target>
-          <UnstyledButton
-            // className={classes.control}
-            style={isActive ? parentBackgroundColor : {}}
-            className={cx(classes.control, {
-              [classes.userActive]: menuOpened,
-            })}
+          <Tooltip
+            label={label}
+            position="right-start"
+            transitionDuration={300}
+            color="#67A9F1"
+            withArrow
           >
-            <Anchor
-              className={classes.anchor}
-              onClick={onTopLinkClick}
-              // onMouseEnter={() => (isSidebarOpen ? setIsOnHoverOpen(true) : null)}
-              onMouseLeave={() => setIsOnHoverOpen(false)}
+            <UnstyledButton
+              style={isActive ? parentBackgroundColor : {}}
+              className={cx(classes.control, {
+                [classes.userActive]: menuOpened,
+              })}
             >
-              <Group position="apart" spacing={0}>
+              <Anchor
+                className={classes.anchor}
+                onClick={onTopLinkClick}
+                onMouseLeave={() => setIsOnHoverOpen(false)}
+              >
+                {/* <Group position="apart" spacing={0}> */}
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Tooltip
-                    label={label}
-                    position="right"
-                    transitionDuration={0}
+                  <ThemeIcon
+                    className={classes.icoTheme}
+                    size={30}
+                    style={isActive ? parentBackgroundColor : {}}
+                    onClick={() => setMenuOpened(true)}
                   >
-                    <ThemeIcon
-                      className={classes.icoTheme}
-                      size={30}
-                      style={isActive ? parentBackgroundColor : {}}
-                      onClick={() => setMenuOpened(true)}
-                    >
-                      <Icon size={20} />
-                    </ThemeIcon>
-                  </Tooltip>
-                  {/* {isSidebarOpen && <Box ml="md">{label}</Box>} */}
+                    <Icon size={20} />
+                  </ThemeIcon>
                 </Box>
-              </Group>
-            </Anchor>
-          </UnstyledButton>
+                {/* </Group> */}
+              </Anchor>
+            </UnstyledButton>
+          </Tooltip>
         </Menu.Target>
-        <Menu.Dropdown>
+        <Menu.Dropdown className={classes.accSet}>
           <Menu.Label>{label}</Menu.Label>
-          {/* <Menu.Item icon={items} className={classes.accSet}> */}
-          {menuOpened ? (
-            <Card shadow="sm" radius="md" withBorder>
-              <Group position="apart">
-                <Text weight={500}>{items}</Text>
-              </Group>
-            </Card>
-          ) : null}
-          {/* </Menu.Item> */}
+          <Divider />
+          <Menu.Item>
+            {menuOpened ? (
+              <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
+            ) : null}
+          </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-
-      {/* {menuOpened ? (
-        <div
-          style={{
-            position: 'absolute',
-            left: '100px',
-            top: '0px',
-            zIndex: 10,
-          }}
-        >
-          <Card shadow="sm" p="lg" radius="md" withBorder>
-            <Group position="apart" mt="md" mb="xs">
-              <Text weight={500}>{items}</Text>
-            </Group>
-          </Card>
-        </div>
-      ) : null} */}
-
-      {/* {hasLinks ? (
-        <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
-      ) : null} */}
     </>
   )
 }

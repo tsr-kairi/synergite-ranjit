@@ -80,7 +80,7 @@ const useStyles = createStyles((theme) => ({
   // login IMG
   loginImg: {
     width: '100%',
-    maxWidth: '55%',
+    maxWidth: '50%',
     height: '100vh',
     marginLeft: 'auto',
     marginRight: 'auto',

@@ -13,7 +13,6 @@ import {
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { IconUpload } from '@tabler/icons'
-import { boolean } from 'zod'
 import useEditCandidate from '../../hooks/useEditCandidate'
 const useStyles = createStyles(() => ({
   paper: {

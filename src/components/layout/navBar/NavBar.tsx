@@ -8,6 +8,8 @@ import {
   IconBriefcase,
   IconTableOptions,
   IconBookUpload,
+  IconUserCircle,
+  IconFileReport,
 } from '@tabler/icons'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +22,8 @@ const navLinks = [
     label: 'Dashboard',
     icon: IconLayoutDashboard,
     isActive: false,
-    url: '/',
+    // url: '/',
+    links: [{ label: 'Dashboard', link: '/' }],
   },
   {
     id: '2',
@@ -49,35 +52,35 @@ const navLinks = [
     id: '4',
     label: 'TimeSheets',
     icon: IconFileAnalytics,
-    url: '/timesheets',
     isActive: false,
+    links: [{ label: 'TimeSheets', link: '/timesheets' }],
   },
 
   {
     id: '5',
     label: 'On Boarding List',
-    icon: IconContrast2,
-    url: '/onboarding-list',
+    icon: IconFileReport,
     isActive: false,
+    links: [{ label: 'On Boarding List', link: '/onboarding-list' }],
   },
   {
     id: '6',
     label: 'Job',
     icon: IconBriefcase,
-    url: '/job',
     isActive: false,
+    links: [{ label: 'Job', link: '/job' }],
   },
   {
     id: '7',
     label: 'Submission',
     icon: IconBookUpload,
-    url: '/submission',
     isActive: false,
+    links: [{ label: 'Submission', link: '/submission' }],
   },
   {
     id: '8',
     label: 'Admin',
-    icon: IconActivity,
+    icon: IconUserCircle,
     initiallyOpened: false,
     isActive: false,
     links: [
@@ -86,25 +89,9 @@ const navLinks = [
       { label: 'Roles', link: '/roles' },
     ],
   },
-  // {
-  //   id: '9',
-  //   label: 'Settings',
-  //   icon: IconSettings,
-  //   isActive: false,
-  // },
 ]
 
 const useStyles = createStyles((theme) => ({
-  mainNav: {
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none',
-    },
-  },
-  navbar: {
-    backgroundColor: '#04334c',
-    height: '100vh',
-    borderTop: `1px solid #04334c`,
-  },
   links: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
@@ -114,25 +101,12 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: theme.spacing.xl,
   },
 
-  // classes
   container: {
-    marginTop: '16px',
+    justifyContent: 'center',
+    marginTop: '80px',
     background: '#04334c',
-    overflow: 'hidden',
     display: 'flex',
     position: 'relative',
-  },
-  navbarSideIcon: {
-    outline: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    width: '8px',
-    height: '40px',
-    borderTopRightRadius: '8px',
-    backgroundColor: '#04334c',
-    position: 'fixed',
-    zIndex: 8000,
-    bottom: 0,
   },
 }))
 
@@ -146,7 +120,7 @@ const NavBar: React.FC<NavBarProps> = ({
   onNavbarSideIconClick,
 }) => {
   const [navLinkList, setNavLinkList] = useState(navLinks)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const { classes } = useStyles()
 
@@ -177,32 +151,18 @@ const NavBar: React.FC<NavBarProps> = ({
           setNavLinkList(updatedNavLinks)
           if (!isBurgerIconOpen && item.isActive) {
             onNavbarSideIconClick()
-          } else if (item.url) {
-            navigate(item.url)
           }
+          // else if (item.links) {
+          //   navigate(item.links)
+          // }
         }}
       />
     )
   })
 
   return (
-    <div
-      className={classes.container}
-      style={{
-        width: isBurgerIconOpen ? '300px' : '60px',
-        justifyContent: isBurgerIconOpen ? 'start' : 'center',
-        marginTop: '80px',
-      }}
-    >
+    <div className={classes.container}>
       <div className={classes.linksInner}>{links}</div>
-
-      {/* <button
-        className={classes.navbarSideIcon}
-        style={{
-          left: isBurgerIconOpen ? '255px' : '60px',
-        }}
-        onClick={onNavbarSideIconClick}
-      ></button> */}
     </div>
   )
 }

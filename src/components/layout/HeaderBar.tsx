@@ -1,7 +1,6 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import {
   createStyles,
-  // Container,
   Avatar,
   UnstyledButton,
   Group,
@@ -9,22 +8,11 @@ import {
   Menu,
   Burger,
   Header,
-  MediaQuery,
   Box,
-  Divider,
-  AppShell,
 } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import {
-  IconLogout,
-  IconSettings,
-  IconClock,
-  IconChevronRight,
-  IconRoute,
-} from '@tabler/icons'
+import { IconLogout, IconSettings, IconChevronRight } from '@tabler/icons'
 import Logo from '../logo'
 import { Link, useNavigate } from 'react-router-dom'
-import useLogout from '@/pages/login/hooks/useLogout'
 import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
 import { useAuth } from '@/store/auth.store'
 import AppBar from '../elements/app-bar'
@@ -61,9 +49,9 @@ const useStyles = createStyles((theme) => ({
   },
 
   burger: {
-    // [theme.fn.largerThan('xs')]: {
-    //   display: 'none',
-    // },
+    [theme.fn.largerThan('xs')]: {
+      display: 'none',
+    },
   },
 
   userActive: {
