@@ -220,7 +220,7 @@ export default function EditForm(submissionData: TSubmission) {
           size="xl"
           position="right"
         >
-          <EmployeeDetailsForm employeeData={employeeDetails} />
+          <EmployeeDetailsForm {...employeeDetails} />
         </Drawer>
         {/* employeeData={employeeDetails} */}
         {/* Showing Employee IdList */}
