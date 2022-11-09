@@ -50,10 +50,18 @@ const OnboardingList = () => {
         <Table horizontalSpacing="md" verticalSpacing="xs">
           <thead>
             <tr>
-              <Th onSort={() => null}>Name</Th>
-              <Th onSort={() => null}>Percent</Th>
-              <Th onSort={() => null}>Status</Th>
-              <th>Action</th>
+              <Th onSort={() => null}>
+                <b>Name</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Percent</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Status</b>
+              </Th>
+              <th>
+                <b>Action</b>
+              </th>
             </tr>
           </thead>
 

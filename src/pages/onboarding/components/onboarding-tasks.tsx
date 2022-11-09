@@ -4,9 +4,10 @@ import {
   getTasksByActivityId,
   updateTaskStatusByTaskId,
 } from '@/services/onboarding.services'
-import { Group, Loader, Paper, Switch } from '@mantine/core'
+import { Group, Loader, Paper, Switch, Text } from '@mantine/core'
 import { useQuery } from 'react-query'
 import { IconChevronsRight } from '@tabler/icons'
+import { openConfirmModal } from '@mantine/modals'
 
 interface OnboardingTasks {
   activityId: string
@@ -84,6 +85,22 @@ const OnboardingTaskTile: React.FC<OnboardingTaskTileProps> = (props) => {
 
   const [isActive, setIsActive] = useState<boolean>(checked)
 
+  const onConfirmToggle = () => {
+    if (checked === isActive) {
+      openConfirmModal({
+        centered: false,
+        title: 'Are you sure you want to update this?',
+        labels: { confirm: 'Yes', cancel: 'No' },
+        onCancel: () => console.log('Cancel'),
+        onConfirm: () => {
+          const updatedStatus = !isActive
+          setIsActive(updatedStatus)
+          onStatusChange(updatedStatus)
+        },
+      })
+    }
+  }
+
   return (
     <Group key={id} style={{ borderBottom: '1px gray solid' }} position="apart">
       <Group>
@@ -92,11 +109,15 @@ const OnboardingTaskTile: React.FC<OnboardingTaskTileProps> = (props) => {
       </Group>
       <Switch
         checked={isActive}
+        // onChange={() => {
+        //   const updatedStatus = !isActive
+        //   setIsActive(updatedStatus)
+        //   onStatusChange(updatedStatus)
+        // }}
         onChange={() => {
-          const updatedStatus = !isActive
-          setIsActive(updatedStatus)
-          onStatusChange(updatedStatus)
+          onConfirmToggle()
         }}
+        style={{ cursor: 'pointer' }}
       />
     </Group>
   )

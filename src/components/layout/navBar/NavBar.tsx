@@ -2,17 +2,21 @@ import { createStyles } from '@mantine/core'
 import {
   IconLayoutDashboard,
   IconWallet,
-  IconActivity,
   IconFileAnalytics,
-  IconContrast2,
   IconBriefcase,
   IconTableOptions,
   IconBookUpload,
   IconUserCircle,
   IconFileReport,
+  IconHome2,
+  IconActivity,
+  IconBuildingCommunity,
+  IconDivide,
+  IconUser,
+  IconUsers,
 } from '@tabler/icons'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 import LinksGroup from './NavBarLinksGroup'
 
@@ -20,83 +24,99 @@ const navLinks = [
   {
     id: '1',
     label: 'Dashboard',
-    icon: IconLayoutDashboard,
+    icons: IconLayoutDashboard,
     isActive: false,
     // url: '/',
-    links: [{ label: 'Dashboard', link: '/' }],
+    links: [{ label: 'Home', link: '/', icon: IconHome2 }],
   },
   {
     id: '2',
     label: 'Account',
-    icon: IconWallet,
+    icons: IconWallet,
     initiallyOpened: false,
     isActive: false,
     links: [
-      { label: 'Clients', link: '/client' },
-      { label: 'Vendors', link: '/vendor' },
+      { label: 'Clients', link: '/client', icon: IconHome2 },
+      { label: 'Vendors', link: '/vendor', icon: IconHome2 },
     ],
   },
   {
     id: '3',
     label: 'Resources',
-    icon: IconTableOptions,
+    icons: IconTableOptions,
     initiallyOpened: false,
     isActive: false,
     links: [
-      { label: 'Candidates', link: '/candidate' },
-      { label: 'Employees', link: '/employee' },
+      { label: 'Candidates', link: '/candidate', icon: IconUser },
+      { label: 'Employees', link: '/employee', icon: IconUsers },
     ],
   },
 
   {
     id: '4',
     label: 'TimeSheets',
-    icon: IconFileAnalytics,
+    icons: IconFileAnalytics,
     isActive: false,
-    links: [{ label: 'TimeSheets', link: '/timesheets' }],
+    links: [
+      {
+        label: 'Submit Timesheet',
+        link: '/timesheets',
+        icon: IconFileAnalytics,
+      },
+    ],
   },
 
   {
     id: '5',
     label: 'On Boarding List',
-    icon: IconFileReport,
+    icons: IconFileReport,
     isActive: false,
-    links: [{ label: 'On Boarding List', link: '/onboarding-list' }],
+    links: [
+      {
+        label: 'On Boarding List',
+        link: '/onboarding-list',
+        icon: IconFileReport,
+      },
+    ],
   },
   {
     id: '6',
     label: 'Job',
-    icon: IconBriefcase,
+    icons: IconBriefcase,
     isActive: false,
-    links: [{ label: 'Job', link: '/job' }],
+    links: [{ label: 'Job', link: '/job', icon: IconBriefcase }],
   },
   {
     id: '7',
     label: 'Submission',
-    icon: IconBookUpload,
+    icons: IconBookUpload,
     isActive: false,
-    links: [{ label: 'Submission', link: '/submission' }],
+    links: [{ label: 'Submission', link: '/submission', icon: IconBookUpload }],
   },
   {
     id: '8',
     label: 'Admin',
-    icon: IconUserCircle,
+    icons: IconUserCircle,
     initiallyOpened: false,
     isActive: false,
     links: [
-      { label: 'Activities', link: '/activity' },
-      { label: 'Departments', link: '/department' },
-      { label: 'Roles', link: '/roles' },
+      { label: 'Activities', link: '/activity', icon: IconActivity },
+      {
+        label: 'Departments',
+        link: '/department',
+        icon: IconBuildingCommunity,
+      },
+      { label: 'Roles', link: '/roles', icon: IconDivide },
     ],
   },
 ]
 
 const useStyles = createStyles((theme) => ({
-  links: {
-    marginLeft: -theme.spacing.md,
-    marginRight: -theme.spacing.md,
-    backgroundColor: '#04334c',
-  },
+  // links: {
+  //   marginLeft: -theme.spacing.md,
+  //   marginRight: -theme.spacing.md,
+  //   backgroundColor: '#04334c',
+  // },
   linksInner: {
     paddingBottom: theme.spacing.xl,
   },

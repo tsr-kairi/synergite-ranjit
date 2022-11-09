@@ -94,7 +94,7 @@ export default function CreateForm() {
 
     showNotification({
       title: 'Success!!',
-      message: 'Employee Created successfully.',
+      message: 'Candidate Created successfully.',
     })
   }
 
@@ -115,6 +115,7 @@ export default function CreateForm() {
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
                   <TextInput
+                    disabled
                     label="Candidate ID"
                     type={'text'}
                     placeholder="Auto Generated number"
@@ -503,7 +504,7 @@ export default function CreateForm() {
                     label="City"
                     data={[
                       {
-                        value: 'from_api',
+                        value: 'from_api/json',
                         label: 'come from api/json format...',
                       },
                     ]}
@@ -525,13 +526,16 @@ export default function CreateForm() {
                   <Select
                     label="Country"
                     placeholder="Country"
-                    searchable
-                    onSearchChange={onSearchChange}
-                    searchValue={searchValue}
-                    nothingFound="No Matching Country"
-                    data={WCountry.map((c) => {
-                      return { value: c.country, label: c.country }
-                    })}
+                    // searchable
+                    // onSearchChange={onSearchChange}
+                    // searchValue={searchValue}
+                    // nothingFound="No Matching Country"
+                    data={[
+                      {
+                        value: 'United States of America',
+                        label: 'United States of America',
+                      },
+                    ]}
                     {...form.getInputProps('country')}
                   />
                   <TextInput

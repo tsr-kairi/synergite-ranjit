@@ -34,7 +34,7 @@ export const Greeting = () => {
       style={{
         display: 'flex',
         alignContent: 'center',
-        fontFamily: 'sans-serif',
+        fontFamily: '-moz-initial',
         gap: '5px',
         fontWeight: '400',
       }}
