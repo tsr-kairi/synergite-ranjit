@@ -8,19 +8,10 @@ import {
   UnstyledButton,
   createStyles,
   Anchor,
-  Tooltip,
   Menu,
-  Card,
-  Image,
-  Badge,
   Divider,
 } from '@mantine/core'
-import {
-  TablerIcon,
-  IconChevronLeft,
-  IconChevronRight,
-  IconSearch,
-} from '@tabler/icons'
+import { TablerIcon } from '@tabler/icons'
 import { Link } from 'react-router-dom'
 import theme from '@/theme/theme'
 
@@ -49,16 +40,26 @@ const useStyles = createStyles((theme) => ({
   },
 
   link: {
-    fontWeight: 500,
-    display: 'block',
+    // fontWeight: 500,
+    // fontSize: theme.fontSizes.sm,
     textDecoration: 'none',
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    fontSize: theme.fontSizes.sm,
+    // padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
+  },
+
+  linkActive: {
+    '&, &:hover': {
+      backgroundColor: 'rgba(252,185,0,1)',
+    },
+  },
+
+  linkGroup: {
+    marginTop: '2px',
+    padding: `${theme.spacing.xs}px ${theme.spacing.xs}px`,
     color:
       theme.colorScheme === 'dark'
-        ? theme.colors.grey[9]
-        : theme.colors.gray[9],
-    borderLeft: `1px solid ${theme.colors.blue[6]}`,
+        ? theme.colors.grey[0]
+        : theme.colors.gray[0],
+    borderLeft: `1px solid ${theme.colors.grey[0]}`,
 
     '&:hover': {
       backgroundColor:
@@ -66,12 +67,6 @@ const useStyles = createStyles((theme) => ({
           ? 'rgba(252,185,0,1)'
           : 'rgba(252,185,0,1)',
       color: theme.colors.grey[0],
-    },
-  },
-
-  linkActive: {
-    '&, &:hover': {
-      backgroundColor: 'rgba(252,185,0,1)',
     },
   },
 
@@ -95,24 +90,21 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  userActive: {
+  controlActive: {
     backgroundColor: 'rgba(103, 169, 241, 0.14)',
   },
-  accSet: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
-    backgroundColor: 'white',
-    '&:hover': {
-      backgroundColor: theme.colors.blue[0],
-    },
+  menuDD: {
+    // boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
+    backgroundColor: '#04334c',
   },
 }))
 
 interface LinksGroupProps {
   id: string
-  icon: TablerIcon
+  icons: TablerIcon
   label: string
   initiallyOpened?: boolean
-  links?: { label: string; link: string }[]
+  links?: { label: string; link: string; icon: TablerIcon }[]
   // url?: string
   isSidebarOpen?: boolean
   isActive: boolean
@@ -120,7 +112,7 @@ interface LinksGroupProps {
 }
 
 export default function LinksGroup({
-  icon: Icon,
+  icons: Icons,
   label,
   links,
   isActive,
@@ -134,25 +126,32 @@ export default function LinksGroup({
   const [menuOpened, setMenuOpened] = useState(false)
 
   const items = (hasLinks ? links : []).map((link) => (
-    <Text
-      component={Link}
-      to={link.link}
-      className={cx(classes.link, {
+    <Group
+      key={link.label}
+      className={cx(classes.linkGroup, {
         [classes.linkActive]: link.label === active,
       })}
-      onClick={() => {
-        setActive(link.label)
-      }}
-      key={link.label}
     >
-      {link.label}
-    </Text>
+      {/* <span>{link.icon}</span> */}
+      <Icons size={20} />
+      {/* <span dangerouslySetInnerHTML={{ __html: link.icon }}></span> */}
+      <Text
+        component={Link}
+        to={link.link}
+        className={classes.link}
+        onClick={() => {
+          setActive(link.label)
+        }}
+      >
+        {link.label}
+      </Text>
+    </Group>
   ))
 
   return (
     <>
       <Menu
-        width={200}
+        width={230}
         position="right-start"
         offset={12}
         transition="pop-top-right"
@@ -163,44 +162,46 @@ export default function LinksGroup({
         withArrow
       >
         <Menu.Target>
-          <Tooltip
-            label={label}
-            position="right-start"
-            transitionDuration={300}
-            color="#67A9F1"
-            withArrow
+          <UnstyledButton
+            style={isActive ? parentBackgroundColor : {}}
+            className={cx(classes.control, {
+              [classes.controlActive]: menuOpened,
+            })}
           >
-            <UnstyledButton
-              style={isActive ? parentBackgroundColor : {}}
-              className={cx(classes.control, {
-                [classes.userActive]: menuOpened,
-              })}
+            <Anchor
+              className={classes.anchor}
+              onClick={onTopLinkClick}
+              onMouseLeave={() => setIsOnHoverOpen(false)}
             >
-              <Anchor
-                className={classes.anchor}
-                onClick={onTopLinkClick}
-                onMouseLeave={() => setIsOnHoverOpen(false)}
-              >
-                {/* <Group position="apart" spacing={0}> */}
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <ThemeIcon
-                    className={classes.icoTheme}
-                    size={30}
-                    style={isActive ? parentBackgroundColor : {}}
-                    onClick={() => setMenuOpened(true)}
-                  >
-                    <Icon size={20} />
-                  </ThemeIcon>
-                </Box>
-                {/* </Group> */}
-              </Anchor>
-            </UnstyledButton>
-          </Tooltip>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <ThemeIcon
+                  className={classes.icoTheme}
+                  size={30}
+                  style={isActive ? parentBackgroundColor : {}}
+                  onClick={() => setMenuOpened(true)}
+                >
+                  <Icons size={20} />
+                </ThemeIcon>
+              </Box>
+            </Anchor>
+          </UnstyledButton>
         </Menu.Target>
-        <Menu.Dropdown className={classes.accSet}>
-          <Menu.Label>{label}</Menu.Label>
+        <Menu.Dropdown className={classes.menuDD}>
+          <Menu.Label
+            style={{
+              fontSize: '16px',
+              fontWeight: 'lighter',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              color: '#fff',
+            }}
+          >
+            {label}
+            <Icons size={20} />
+          </Menu.Label>
           <Divider />
-          <Menu.Item>
+          <Menu.Item style={{ padding: '5px', backgroundColor: 'transparent' }}>
             {menuOpened ? (
               <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
             ) : null}

@@ -461,13 +461,16 @@ export default function EditForm(candidateData: TCandidate) {
                   <Select
                     label="Country"
                     placeholder="Country"
-                    searchable
-                    onSearchChange={onSearchChange}
-                    searchValue={searchValue}
-                    nothingFound="No Matching Country"
-                    data={WCountry.map((c) => {
-                      return { value: c.country, label: c.country }
-                    })}
+                    // searchable
+                    // onSearchChange={onSearchChange}
+                    // searchValue={searchValue}
+                    // nothingFound="No Matching Country"
+                    data={[
+                      {
+                        value: 'United States of America',
+                        label: 'United States of America',
+                      },
+                    ]}
                     {...form.getInputProps('country')}
                   />
                   <TextInput

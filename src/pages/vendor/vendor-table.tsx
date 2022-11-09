@@ -316,44 +316,46 @@ export default function VendorTable({ data }: IVendorTableProps) {
               reversed={reverseSortDirection}
               onSort={() => setSorting('first_name')}
             >
-              Name
+              <b>Name</b>
             </Th>
             <Th
               sorted={sortBy === 'primary_email'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('primary_email')}
             >
-              Email
+              <b>Email</b>
             </Th>
             <Th
               sorted={sortBy === 'primary_phone'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('primary_phone')}
             >
-              Phone
+              <b>Phone</b>
             </Th>
             <Th
               sorted={sortBy === 'city'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('city')}
             >
-              City
+              <b>City</b>
             </Th>
             <Th
               sorted={sortBy === 'state'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('state')}
             >
-              State
+              <b>State</b>
             </Th>
             <Th
               sorted={sortBy === 'country'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('country')}
             >
-              Country
+              <b>Country</b>
             </Th>
-            <th className={classes.action}>Action</th>
+            <th className={classes.action}>
+              <b>Action</b>
+            </th>
           </tr>
         </thead>
 

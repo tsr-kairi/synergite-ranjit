@@ -39,7 +39,10 @@ const Review: React.FC<ReviewProps> = ({
         style={{ textAlign: 'right' }}
         onClick={() => onReviewTileClick(index)}
       >
-        <IconEdit size={16} style={{ textAlign: 'right', color: 'blue' }} />
+        <IconEdit
+          size={16}
+          style={{ textAlign: 'right', color: 'rgba(252,185,0,1)' }}
+        />
       </ActionIcon>
     )
   }
@@ -81,7 +84,10 @@ const Review: React.FC<ReviewProps> = ({
           <Accordion.Control>
             <div style={styles.accordionControl}>
               <Group>
-                <IconBriefcase size={18} style={{ color: 'blue' }} />
+                <IconBriefcase
+                  size={18}
+                  style={{ color: 'rgba(252,185,0,1)' }}
+                />
                 <span>Jobs</span>
               </Group>
               <span>{actionIcon('0')}</span>
@@ -153,7 +159,7 @@ const Review: React.FC<ReviewProps> = ({
           <Accordion.Control>
             <div style={styles.accordionControl}>
               <Group>
-                <IconWallet size={18} style={{ color: 'blue' }} />
+                <IconWallet size={18} style={{ color: 'rgba(252,185,0,1)' }} />
                 <span>Payments</span>
               </Group>
               <span>{actionIcon('1')}</span>
@@ -241,7 +247,10 @@ const Review: React.FC<ReviewProps> = ({
           <Accordion.Control>
             <div style={styles.accordionControl}>
               <Group>
-                <IconWorldUpload size={18} style={{ color: 'blue' }} />
+                <IconWorldUpload
+                  size={18}
+                  style={{ color: 'rgba(252,185,0,1)' }}
+                />
                 <span>Immigration</span>
               </Group>
               <span>{actionIcon('2')}</span>
@@ -305,7 +314,10 @@ const Review: React.FC<ReviewProps> = ({
           <Accordion.Control>
             <div style={styles.accordionControl}>
               <Group>
-                <IconFileDots size={18} style={{ color: 'blue' }} />
+                <IconFileDots
+                  size={18}
+                  style={{ color: 'rgba(252,185,0,1)' }}
+                />
                 <span>Document</span>
               </Group>
               <span>{actionIcon('3')}</span>
