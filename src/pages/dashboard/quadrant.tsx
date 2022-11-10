@@ -1,6 +1,15 @@
-import { createStyles, Text, Button, Group, ActionIcon } from '@mantine/core'
+import {
+  createStyles,
+  Text,
+  Button,
+  Group,
+  ActionIcon,
+  Modal,
+} from '@mantine/core'
 import { IconChevronsRight, IconEmpathize } from '@tabler/icons'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Questionnaire from './questionnaire/questionnaire'
 
 const useStyles = createStyles((theme) => ({
   detailHead: {
@@ -24,6 +33,7 @@ const useStyles = createStyles((theme) => ({
 
 export function Guadrant() {
   const { classes } = useStyles()
+  const [popUpIsOpen, setPopUpIsOpen] = useState(false)
 
   return (
     <div>
@@ -43,17 +53,20 @@ export function Guadrant() {
         </ActionIcon>
       </Group>
       <div style={{ display: 'flex', gap: '20px' }}>
-        <Link to={`/onboarding`} className={classes.userLink}>
-          <Button
-            className={classes.detailHead}
-            rightIcon={<IconChevronsRight />}
-            variant="subtle"
-            mt={'md'}
-            size="md"
-          >
-            Onboard a candidate
-          </Button>
-        </Link>
+        {/* <Link to={`/onboarding`} className={classes.userLink}> */}
+        <Button
+          className={classes.detailHead}
+          rightIcon={<IconChevronsRight />}
+          variant="subtle"
+          mt={'md'}
+          size="md"
+          onClick={() => {
+            setPopUpIsOpen(true)
+          }}
+        >
+          Onboard a candidate
+        </Button>
+        {/* </Link> */}
         <Link to={`/onboarding-list`} className={classes.userLink}>
           <Button
             className={classes.detailHead}
@@ -77,6 +90,28 @@ export function Guadrant() {
           </Button>
         </Link>
       </div>
+
+      {/* On Board PopUp */}
+      <Modal
+        title={
+          <Text
+            weight="500"
+            style={{
+              textAlign: 'center',
+              fontFamily: '-moz-initial',
+              fontSize: '20px',
+            }}
+          >
+            Questionnaire
+            {/* Proceed To Onboarding */}
+          </Text>
+        }
+        size="500px"
+        onClose={() => setPopUpIsOpen(false)}
+        opened={popUpIsOpen}
+      >
+        <Questionnaire />
+      </Modal>
     </div>
   )
 }

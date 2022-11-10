@@ -2,13 +2,13 @@ import { useState } from 'react'
 import {
   createStyles,
   Table,
+  ScrollArea,
   UnstyledButton,
   Group,
   Text,
   Center,
-  Radio,
-  ScrollArea,
   TextInput,
+  Radio,
   ActionIcon,
   Drawer,
 } from '@mantine/core'
@@ -17,13 +17,12 @@ import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconCircleCheck,
   IconSearch,
+  IconCircleCheck,
   IconPlus,
 } from '@tabler/icons'
-import { TCandidate } from '@/types/candidate-type'
-import { ListViewLayout } from '@/components/layout/list-view.layout'
-import CreateForm from '../../candidate/createForm'
+import { TClient } from '@/types'
+import CreateForm from '../../client/createForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -36,13 +35,6 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
-    },
-  },
-
-  employeeRowData: {
-    border: 'none',
-    '&:hover': {
-      backgroundColor: theme.colors.blue[1],
     },
   },
 
@@ -145,7 +137,7 @@ export function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TCandidate[], search: string) {
+function filterData(data: TClient[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -154,9 +146,9 @@ function filterData(data: TCandidate[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TCandidate[],
+  data: TClient[],
   payload: {
-    sortBy: keyof TCandidate | null
+    sortBy: keyof TClient | null
     reversed: boolean
     search: string
   }
@@ -170,6 +162,7 @@ function sortData(
   return filterData(
     [...data].sort((a, b) => {
       if (payload.reversed) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
         return String(b[sortBy]).localeCompare(String(a[sortBy]))
       }
 
@@ -179,46 +172,46 @@ function sortData(
   )
 }
 
-interface IEmployeeProps {
-  data: TCandidate[]
-  setEmployee: (value: TCandidate) => void
+interface IClientProps {
+  data: TClient[]
+  setClient: (value: TClient) => void
 }
 
 // Exporting Default ClientTable Component
-export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
+export function ClientId({ data, setClient }: IClientProps) {
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [search, setSearch] = useState('')
-  const [empData, setEmpDataMain] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
+  const [cliData, setCliDataMain] = useState(data)
+  const [sortBy, setSortBy] = useState<keyof TClient | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
 
-  const setSorting = (field: keyof TCandidate) => {
+  const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
-    setEmpDataMain(sortData(data, { sortBy: field, reversed, search }))
+    setCliDataMain(sortData(data, { sortBy: field, reversed, search }))
   }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget
     setSearch(value)
-    setEmpDataMain(
+    setCliDataMain(
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
   // Create Rows
-  const rows = empData?.map((item) => (
+  const rows = cliData?.map((item) => (
     <tr key={item.uuid}>
       <td>
         <Radio
-          onClick={() => setEmployee(item)}
           value={item.uuid}
+          onClick={() => setClient(item)}
           label={`${item?.first_name || ''} ${item?.last_name || ''}`}
         />
       </td>
       {/* <td>
-        <Text size="sm" weight={500} onClick={() => setEmployee(item)}>
+        <Text size="sm" weight={500}>
           {item.first_name} {item.last_name}
         </Text>
       </td> */}
@@ -249,7 +242,7 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
             <IconPlus size={30} />
           </ActionIcon>
         </div>
-        <Radio.Group spacing="xl">
+        <Radio.Group>
           <Table
             horizontalSpacing="md"
             verticalSpacing="xs"
@@ -269,7 +262,7 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
                   reversed={reverseSortDirection}
                   onSort={() => setSorting('uuid')}
                 >
-                  Candidate Name
+                  Client Name
                 </Th>
               </tr>
             </thead>
@@ -280,7 +273,7 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
                 <tr>
                   <td colSpan={Object.keys(data[0] || {}).length}>
                     <Text weight={500} align="center">
-                      No Candidate found
+                      No Client found
                     </Text>
                   </td>
                 </tr>
@@ -288,12 +281,11 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
             </tbody>
           </Table>
         </Radio.Group>
-
         {/* Add New - Drawer */}
         <Drawer
           opened={isAddNewDrawerOpen}
           onClose={() => setIsAddNewDrawerOpen(false)}
-          title="Add New Candidate"
+          title="Add New Client"
           padding="xl"
           size={'1200px'}
           position="right"

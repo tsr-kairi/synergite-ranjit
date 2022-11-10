@@ -9,6 +9,8 @@ import {
   Center,
   TextInput,
   Radio,
+  Drawer,
+  ActionIcon,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -17,8 +19,10 @@ import {
   IconChevronUp,
   IconSearch,
   IconCircleCheck,
+  IconPlus,
 } from '@tabler/icons'
 import { TVendor } from '@/types'
+import CreateForm from '../../vendor/createForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -183,6 +187,7 @@ interface IVendorProps {
 
 // Exporting Default ClientTable Component
 export function VendorId({ data, setVendor }: IVendorProps) {
+  const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [vendorData, setVendorDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TVendor | null>(null)
@@ -207,9 +212,13 @@ export function VendorId({ data, setVendor }: IVendorProps) {
   const rows = vendorData?.map((item) => (
     <tr key={item.uuid}>
       <td>
-        <Radio value={item.uuid} onClick={() => setVendor(item)} />
+        <Radio
+          value={item.uuid}
+          onClick={() => setVendor(item)}
+          label={`${item?.first_name || ''} ${item?.last_name || ''}`}
+        />
       </td>
-      <td>
+      {/* <td>
         {item ? (
           <Text size="sm" weight={500}>
             {item.first_name} {item.last_name}
@@ -219,7 +228,7 @@ export function VendorId({ data, setVendor }: IVendorProps) {
             NA
           </Text>
         )}
-      </td>
+      </td> */}
     </tr>
   ))
 
@@ -236,23 +245,32 @@ export function VendorId({ data, setVendor }: IVendorProps) {
             radius="xl"
             className={classes.searchField}
           />
+          <ActionIcon
+            variant="light"
+            radius="xl"
+            color={'blue'}
+            onClick={() => {
+              setIsAddNewDrawerOpen(true)
+            }}
+          >
+            <IconPlus size={30} />
+          </ActionIcon>
         </div>
         <Radio.Group>
           <Table
-            sx={{ minWidth: 400 }}
             horizontalSpacing="md"
             verticalSpacing="xs"
             className={classes.childTable}
           >
             <thead>
               <tr>
-                <th>
+                {/* <th>
                   <IconCircleCheck
                     style={{
                       marginTop: '10px',
                     }}
                   />
-                </th>
+                </th> */}
                 <Th
                   sorted={sortBy === 'uuid'}
                   reversed={reverseSortDirection}
@@ -277,6 +295,17 @@ export function VendorId({ data, setVendor }: IVendorProps) {
             </tbody>
           </Table>
         </Radio.Group>
+        {/* Add New - Drawer */}
+        <Drawer
+          opened={isAddNewDrawerOpen}
+          onClose={() => setIsAddNewDrawerOpen(false)}
+          title="Add New Vendor"
+          padding="xl"
+          size={'1200px'}
+          position="right"
+        >
+          <CreateForm />
+        </Drawer>
       </ScrollArea>
     </>
   )
