@@ -20,10 +20,14 @@ import {
   IconCircleCheck,
   IconSearch,
   IconPlus,
+  IconTrash,
 } from '@tabler/icons'
 import { TCandidate } from '@/types/candidate-type'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import CreateForm from '../../candidate/createForm'
+import { openConfirmModal } from '@mantine/modals'
+import useDeleteCandidateById from '@/pages/candidate/hooks/useDeleteCandidateById'
+import { showNotification } from '@mantine/notifications'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -186,12 +190,13 @@ interface IEmployeeProps {
 
 // Exporting Default ClientTable Component
 export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
+  const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [empData, setEmpDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
+  const { mutate: deleteCandidate } = useDeleteCandidateById()
 
   const setSorting = (field: keyof TCandidate) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -207,6 +212,16 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
+
+  // candidate data Delete handler
+  const openModalForDelete = (Candidate: TCandidate) => {
+    deleteCandidate(Candidate.uuid)
+    showNotification({
+      title: 'Candidate Deleted !!',
+      message: 'Candidate has been deleted successfully.',
+    })
+  }
+
   // Create Rows
   const rows = empData?.map((item) => (
     <tr key={item.uuid}>
@@ -222,6 +237,13 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
           {item.first_name} {item.last_name}
         </Text>
       </td> */}
+      <td>
+        <IconTrash
+          className={classes.deleteIcon}
+          cursor="pointer"
+          onClick={() => openModalForDelete(item)}
+        />
+      </td>
     </tr>
   ))
 
@@ -271,6 +293,7 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
                 >
                   Candidate Name
                 </Th>
+                <th className={classes.action}>Action</th>
               </tr>
             </thead>
             <tbody>

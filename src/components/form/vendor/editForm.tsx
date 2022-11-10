@@ -14,6 +14,8 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { useState } from 'react'
+import { UsState } from '@/pages/data/usState'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -23,6 +25,7 @@ const useStyles = createStyles(() => ({
 export default function EditForm(vendorData: TVendor) {
   const { classes } = useStyles()
   const { mutate: editVendor } = useEditVendor()
+  const [searchValue, onSearchChange] = useState('')
 
   const form = useForm<TVendor>({
     // validate: zodResolver(zVendorEdit),
@@ -86,10 +89,19 @@ export default function EditForm(vendorData: TVendor) {
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <TextInput
+                  <Select
                     label="City"
-                    type={'text'}
                     placeholder="City"
+                    // searchable
+                    // onSearchChange={onSearchChange}
+                    // searchValue={searchValue}
+                    // nothingFound="No Matching City"
+                    data={[
+                      {
+                        value: 'Come from json/api',
+                        label: 'Come from json/api',
+                      },
+                    ]}
                     {...form.getInputProps('city')}
                   />
                   <TextInput
@@ -98,27 +110,33 @@ export default function EditForm(vendorData: TVendor) {
                     placeholder="County"
                     {...form.getInputProps('county')}
                   />
-                  <Select
-                    label="Country"
-                    placeholder="Country"
-                    {...form.getInputProps('country')}
-                    data={[
-                      {
-                        value: 'country',
-                        label: 'Come from Api/JSON format...',
-                      },
-                    ]}
-                  />
+
                   <Select
                     label="State"
                     placeholder="State"
+                    searchable
+                    onSearchChange={onSearchChange}
+                    searchValue={searchValue}
+                    nothingFound="No Matching State"
+                    data={UsState.map((s) => {
+                      return { value: s.state, label: s.state }
+                    })}
                     {...form.getInputProps('state')}
+                  />
+                  <Select
+                    label="Country"
+                    placeholder="Country"
+                    // searchable
+                    // onSearchChange={onSearchChange}
+                    // searchValue={searchValue}
+                    // nothingFound="No Matching Country"
                     data={[
                       {
-                        value: 'state',
-                        label: 'Come from Api/JSON format...',
+                        value: 'United States of America',
+                        label: 'United States of America',
                       },
                     ]}
+                    {...form.getInputProps('country')}
                   />
                 </Group>
                 <Group grow align="center" mt="md">

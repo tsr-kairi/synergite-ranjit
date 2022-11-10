@@ -12,6 +12,7 @@ import {
   Drawer,
   Group,
   Loader,
+  MantineProvider,
   Select,
   TextInput,
 } from '@mantine/core'
@@ -226,9 +227,27 @@ const Questionnaire = () => {
               />
             </Group>
           )}
-          <Button variant="outline" color="yellow" mt="xl">
-            Initiate Onboarding
-          </Button>
+          <MantineProvider
+            inherit
+            theme={{
+              defaultGradient: {
+                from: 'rgba(252,185,0,1)',
+                to: 'rgba(252,185,0,1)',
+                deg: 45,
+              },
+            }}
+          >
+            <Button
+              type="submit"
+              variant="gradient"
+              size="md"
+              fullWidth
+              mt="xl"
+              color="indigo"
+            >
+              Initiate Onboarding
+            </Button>
+          </MantineProvider>
         </form>
       )}
 

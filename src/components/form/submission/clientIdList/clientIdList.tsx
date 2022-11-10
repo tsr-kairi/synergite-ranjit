@@ -20,9 +20,12 @@ import {
   IconSearch,
   IconCircleCheck,
   IconPlus,
+  IconTrash,
 } from '@tabler/icons'
 import { TClient } from '@/types'
 import CreateForm from '../../client/createForm'
+import { showNotification } from '@mantine/notifications'
+import useDeleteClientById from '@/pages/client/hooks/useDeleteClientById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -179,12 +182,13 @@ interface IClientProps {
 
 // Exporting Default ClientTable Component
 export function ClientId({ data, setClient }: IClientProps) {
+  const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [cliData, setCliDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TClient | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
+  const { mutate: deleteClient } = useDeleteClientById()
 
   const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -200,6 +204,16 @@ export function ClientId({ data, setClient }: IClientProps) {
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
+
+  // candidate data Delete handler
+  const openModalForDelete = (Client: TClient) => {
+    deleteClient(Client.uuid)
+    showNotification({
+      title: 'Client Deleted !!',
+      message: 'Client has been deleted successfully.',
+    })
+  }
+
   // Create Rows
   const rows = cliData?.map((item) => (
     <tr key={item.uuid}>
@@ -215,6 +229,13 @@ export function ClientId({ data, setClient }: IClientProps) {
           {item.first_name} {item.last_name}
         </Text>
       </td> */}
+      <td>
+        <IconTrash
+          className={classes.deleteIcon}
+          cursor="pointer"
+          onClick={() => openModalForDelete(item)}
+        />
+      </td>
     </tr>
   ))
 
@@ -264,6 +285,7 @@ export function ClientId({ data, setClient }: IClientProps) {
                 >
                   Client Name
                 </Th>
+                <th className={classes.action}>Action</th>
               </tr>
             </thead>
             <tbody>

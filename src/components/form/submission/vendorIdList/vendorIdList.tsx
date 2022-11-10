@@ -20,9 +20,12 @@ import {
   IconSearch,
   IconCircleCheck,
   IconPlus,
+  IconTrash,
 } from '@tabler/icons'
 import { TVendor } from '@/types'
 import CreateForm from '../../vendor/createForm'
+import { showNotification } from '@mantine/notifications'
+import useDeleteVendorById from '@/pages/vendor/hooks/useDeleteVendorById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -185,7 +188,7 @@ interface IVendorProps {
   setVendor: (value: TVendor) => void
 }
 
-// Exporting Default ClientTable Component
+// Exporting Default VendorTable Component
 export function VendorId({ data, setVendor }: IVendorProps) {
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -193,6 +196,7 @@ export function VendorId({ data, setVendor }: IVendorProps) {
   const [sortBy, setSortBy] = useState<keyof TVendor | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
+  const { mutate: deleteVendor } = useDeleteVendorById()
 
   const setSorting = (field: keyof TVendor) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -208,6 +212,16 @@ export function VendorId({ data, setVendor }: IVendorProps) {
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
+
+  // candidate data Delete handler
+  const openModalForDelete = (Vendor: TVendor) => {
+    deleteVendor(Vendor.uuid)
+    showNotification({
+      title: 'Vendor Deleted !!',
+      message: 'Vendor has been deleted successfully.',
+    })
+  }
+
   // Create Rows
   const rows = vendorData?.map((item) => (
     <tr key={item.uuid}>
@@ -229,6 +243,13 @@ export function VendorId({ data, setVendor }: IVendorProps) {
           </Text>
         )}
       </td> */}
+      <td>
+        <IconTrash
+          className={classes.deleteIcon}
+          cursor="pointer"
+          onClick={() => openModalForDelete(item)}
+        />
+      </td>
     </tr>
   ))
 
@@ -278,6 +299,7 @@ export function VendorId({ data, setVendor }: IVendorProps) {
                 >
                   Vendor Name
                 </Th>
+                <th className={classes.action}>Action</th>
               </tr>
             </thead>
             <tbody>
