@@ -9,6 +9,8 @@ import {
   Center,
   TextInput,
   Radio,
+  Drawer,
+  ActionIcon,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -17,8 +19,15 @@ import {
   IconChevronUp,
   IconSearch,
   IconCircleCheck,
+  IconPlus,
+  IconTrash,
+  IconEdit,
 } from '@tabler/icons'
 import { TVendor } from '@/types'
+import CreateForm from '../../vendor/createForm'
+import { showNotification } from '@mantine/notifications'
+import useDeleteVendorById from '@/pages/vendor/hooks/useDeleteVendorById'
+import EditForm from '../../vendor/editForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -75,9 +84,9 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.blue[8],
   },
   editIcon: {
-    color: theme.colors.blue[5],
+    color: '#04334c',
     '&:hover': {
-      color: theme.colors.blue[9],
+      color: '#04334c',
     },
   },
   deleteIcon: {
@@ -181,13 +190,17 @@ interface IVendorProps {
   setVendor: (value: TVendor) => void
 }
 
-// Exporting Default ClientTable Component
+// Exporting Default VendorTable Component
 export function VendorId({ data, setVendor }: IVendorProps) {
+  const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+  const [vendorEditData, setVendorEditData] = useState({} as TVendor)
   const [search, setSearch] = useState('')
   const [vendorData, setVendorDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TVendor | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
+  const { mutate: deleteVendor } = useDeleteVendorById()
 
   const setSorting = (field: keyof TVendor) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -203,13 +216,27 @@ export function VendorId({ data, setVendor }: IVendorProps) {
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
   }
+
+  // candidate data Delete handler
+  const openModalForDelete = (Vendor: TVendor) => {
+    deleteVendor(Vendor.uuid)
+    showNotification({
+      title: 'Vendor Deleted !!',
+      message: 'Vendor has been deleted successfully.',
+    })
+  }
+
   // Create Rows
   const rows = vendorData?.map((item) => (
     <tr key={item.uuid}>
       <td>
-        <Radio value={item.uuid} onClick={() => setVendor(item)} />
+        <Radio
+          value={item.uuid}
+          onClick={() => setVendor(item)}
+          label={`${item?.first_name || ''} ${item?.last_name || ''}`}
+        />
       </td>
-      <td>
+      {/* <td>
         {item ? (
           <Text size="sm" weight={500}>
             {item.first_name} {item.last_name}
@@ -219,6 +246,16 @@ export function VendorId({ data, setVendor }: IVendorProps) {
             NA
           </Text>
         )}
+      </td> */}
+      <td>
+        <IconEdit
+          className={classes.editIcon}
+          cursor="pointer"
+          onClick={() => {
+            setIsOpened(true)
+            setVendorEditData(item)
+          }}
+        />
       </td>
     </tr>
   ))
@@ -236,23 +273,32 @@ export function VendorId({ data, setVendor }: IVendorProps) {
             radius="xl"
             className={classes.searchField}
           />
+          <ActionIcon
+            variant="light"
+            radius="xl"
+            color={'blue'}
+            onClick={() => {
+              setIsAddNewDrawerOpen(true)
+            }}
+          >
+            <IconPlus size={30} />
+          </ActionIcon>
         </div>
         <Radio.Group>
           <Table
-            sx={{ minWidth: 400 }}
             horizontalSpacing="md"
             verticalSpacing="xs"
             className={classes.childTable}
           >
             <thead>
               <tr>
-                <th>
+                {/* <th>
                   <IconCircleCheck
                     style={{
                       marginTop: '10px',
                     }}
                   />
-                </th>
+                </th> */}
                 <Th
                   sorted={sortBy === 'uuid'}
                   reversed={reverseSortDirection}
@@ -260,6 +306,7 @@ export function VendorId({ data, setVendor }: IVendorProps) {
                 >
                   Vendor Name
                 </Th>
+                <th className={classes.action}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -277,6 +324,29 @@ export function VendorId({ data, setVendor }: IVendorProps) {
             </tbody>
           </Table>
         </Radio.Group>
+        {/* Add New - Drawer */}
+        <Drawer
+          opened={isAddNewDrawerOpen}
+          onClose={() => setIsAddNewDrawerOpen(false)}
+          title="Add New Vendor"
+          padding="xl"
+          size={'1200px'}
+          position="right"
+        >
+          <CreateForm />
+        </Drawer>
+
+        {/* Edit Vendor - Vendor Edit Form Drawer*/}
+        <Drawer
+          opened={isOpened}
+          onClose={() => setIsOpened(false)}
+          title="Edit Vendor"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          <EditForm {...vendorEditData} />
+        </Drawer>
       </ScrollArea>
     </>
   )
