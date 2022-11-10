@@ -196,7 +196,6 @@ interface IVendorTableProps {
 
 // Exporting Default ClientTable Component
 export default function VendorTable({ data }: IVendorTableProps) {
-  const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [vendorEditData, setVendorEditData] = useState({} as TVendor)
   const [search, setSearch] = useState('')

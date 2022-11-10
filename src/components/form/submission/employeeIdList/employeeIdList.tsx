@@ -21,6 +21,7 @@ import {
   IconSearch,
   IconPlus,
   IconTrash,
+  IconEdit,
 } from '@tabler/icons'
 import { TCandidate } from '@/types/candidate-type'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
@@ -28,6 +29,7 @@ import CreateForm from '../../candidate/createForm'
 import { openConfirmModal } from '@mantine/modals'
 import useDeleteCandidateById from '@/pages/candidate/hooks/useDeleteCandidateById'
 import { showNotification } from '@mantine/notifications'
+import EditForm from '../../candidate/editForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -83,9 +85,9 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.blue[8],
   },
   editIcon: {
-    color: theme.colors.blue[5],
+    color: '#04334c',
     '&:hover': {
-      color: theme.colors.blue[9],
+      color: '#04334c',
     },
   },
   deleteIcon: {
@@ -192,6 +194,8 @@ interface IEmployeeProps {
 export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
   const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+  const [candidateEditData, setCandidateEditData] = useState({} as TCandidate)
   const [search, setSearch] = useState('')
   const [empData, setEmpDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
@@ -213,15 +217,6 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
     )
   }
 
-  // candidate data Delete handler
-  const openModalForDelete = (Candidate: TCandidate) => {
-    deleteCandidate(Candidate.uuid)
-    showNotification({
-      title: 'Candidate Deleted !!',
-      message: 'Candidate has been deleted successfully.',
-    })
-  }
-
   // Create Rows
   const rows = empData?.map((item) => (
     <tr key={item.uuid}>
@@ -238,10 +233,13 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
         </Text>
       </td> */}
       <td>
-        <IconTrash
-          className={classes.deleteIcon}
+        <IconEdit
+          className={classes.editIcon}
           cursor="pointer"
-          onClick={() => openModalForDelete(item)}
+          onClick={() => {
+            setIsOpened(true)
+            setCandidateEditData(item)
+          }}
         />
       </td>
     </tr>
@@ -322,6 +320,18 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
           position="right"
         >
           <CreateForm />
+        </Drawer>
+
+        {/* Edit Employee - Employee Edit Form Drawer*/}
+        <Drawer
+          opened={isOpened}
+          onClose={() => setIsOpened(false)}
+          title="Edit Candidate"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          <EditForm {...candidateEditData} />
         </Drawer>
       </ScrollArea>
     </>

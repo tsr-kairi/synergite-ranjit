@@ -21,11 +21,13 @@ import {
   IconCircleCheck,
   IconPlus,
   IconTrash,
+  IconEdit,
 } from '@tabler/icons'
 import { TClient } from '@/types'
 import CreateForm from '../../client/createForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteClientById from '@/pages/client/hooks/useDeleteClientById'
+import EditForm from '../../client/editForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -74,9 +76,9 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.blue[8],
   },
   editIcon: {
-    color: theme.colors.blue[5],
+    color: '#04334c',
     '&:hover': {
-      color: theme.colors.blue[9],
+      color: '#04334c',
     },
   },
   deleteIcon: {
@@ -184,11 +186,12 @@ interface IClientProps {
 export function ClientId({ data, setClient }: IClientProps) {
   const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+  const [clientEditData, setClientEditData] = useState({} as TClient)
   const [search, setSearch] = useState('')
   const [cliData, setCliDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TClient | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { mutate: deleteClient } = useDeleteClientById()
 
   const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -203,15 +206,6 @@ export function ClientId({ data, setClient }: IClientProps) {
     setCliDataMain(
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
-  }
-
-  // candidate data Delete handler
-  const openModalForDelete = (Client: TClient) => {
-    deleteClient(Client.uuid)
-    showNotification({
-      title: 'Client Deleted !!',
-      message: 'Client has been deleted successfully.',
-    })
   }
 
   // Create Rows
@@ -229,13 +223,14 @@ export function ClientId({ data, setClient }: IClientProps) {
           {item.first_name} {item.last_name}
         </Text>
       </td> */}
-      <td>
-        <IconTrash
-          className={classes.deleteIcon}
-          cursor="pointer"
-          onClick={() => openModalForDelete(item)}
-        />
-      </td>
+      <IconEdit
+        className={classes.editIcon}
+        cursor="pointer"
+        onClick={() => {
+          setIsOpened(true)
+          setClientEditData(item)
+        }}
+      />
     </tr>
   ))
 
@@ -313,6 +308,18 @@ export function ClientId({ data, setClient }: IClientProps) {
           position="right"
         >
           <CreateForm />
+        </Drawer>
+
+        {/* Edit Client - Client Edit Form Drawer*/}
+        <Drawer
+          opened={isOpened}
+          onClose={() => setIsOpened(false)}
+          title="Edit Client"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          <EditForm {...clientEditData} />
         </Drawer>
       </ScrollArea>
     </>

@@ -106,7 +106,7 @@ export function Guadrant() {
             {/* Proceed To Onboarding */}
           </Text>
         }
-        size="500px"
+        size="600px"
         onClose={() => setPopUpIsOpen(false)}
         opened={popUpIsOpen}
       >

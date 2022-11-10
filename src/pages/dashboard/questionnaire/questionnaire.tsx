@@ -14,6 +14,7 @@ import {
   Loader,
   MantineProvider,
   Select,
+  Text,
   TextInput,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -120,11 +121,21 @@ const Questionnaire = () => {
           onSubmit={form.onSubmit(handleInitiate)}
           className={classes.formMain}
         >
-          <Group grow align={'center'}>
+          <Group grow spacing={'xs'}>
+            <Text
+              style={{
+                maxWidth: '30px',
+                marginBottom: '35px',
+                fontSize: '18px',
+              }}
+            >
+              Q.
+            </Text>
             <TextInput
+              style={{ maxWidth: '16000px' }}
               key={candidateDetails?.uuid}
               required
-              label="Candidate"
+              label="Select a candidate"
               type={'text'}
               placeholder="Candidate"
               onClick={() => {
@@ -146,8 +157,20 @@ const Questionnaire = () => {
               }
             />
           </Group>
-          <Group mt={'md'} align={'center'} grow>
+          <Group mt={'md'} grow spacing={'xs'}>
+            <Text
+              style={{
+                maxWidth: '30px',
+                marginBottom: '35px',
+                fontSize: '18px',
+              }}
+            >
+              Q.
+            </Text>
             <Select
+              style={{
+                maxWidth: '16000px',
+              }}
               required
               data={[
                 { value: 'BILLABLE', label: 'Billable' },
@@ -157,7 +180,21 @@ const Questionnaire = () => {
               label="Payment Type"
               {...form.getInputProps('payment_type')}
             />
+          </Group>
+          <Group mt={'md'} grow spacing={'xs'}>
+            <Text
+              style={{
+                maxWidth: '30px',
+                marginBottom: '35px',
+                fontSize: '18px',
+              }}
+            >
+              Q.
+            </Text>
             <Select
+              style={{
+                maxWidth: '16000px',
+              }}
               data={[
                 { value: 'ET_W2', label: 'W2' },
                 { value: 'ET_C2C', label: 'C2C' },
@@ -174,10 +211,22 @@ const Questionnaire = () => {
             />
           </Group>
           {form.values.employment_type === 'ET_INTERNAL' ? null : (
-            <Group mt={'md'} align={'center'} grow>
+            <Group mt={'md'} grow spacing={'xs'}>
+              <Text
+                style={{
+                  maxWidth: '30px',
+                  marginBottom: '35px',
+                  fontSize: '18px',
+                }}
+              >
+                Q.
+              </Text>
               <TextInput
+                style={{
+                  maxWidth: '16000px',
+                }}
                 key={clientDetails?.uuid}
-                label="Client"
+                label="Select a client"
                 type={'text'}
                 placeholder="Client"
                 onClick={() => {
@@ -202,9 +251,21 @@ const Questionnaire = () => {
           )}
 
           {form.values.employment_type === 'ET_C2C' && (
-            <Group mt={'md'} align={'center'} grow>
+            <Group mt={'md'} grow spacing={'xs'}>
+              <Text
+                style={{
+                  maxWidth: '30px',
+                  marginBottom: '35px',
+                  fontSize: '18px',
+                }}
+              >
+                Q.
+              </Text>
               <TextInput
-                label="Vendor"
+                style={{
+                  maxWidth: '16000px',
+                }}
+                label="Select a vendor"
                 type={'text'}
                 placeholder="Vendor"
                 onClick={() => {

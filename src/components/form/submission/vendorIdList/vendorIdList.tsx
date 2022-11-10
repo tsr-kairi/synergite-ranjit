@@ -21,11 +21,13 @@ import {
   IconCircleCheck,
   IconPlus,
   IconTrash,
+  IconEdit,
 } from '@tabler/icons'
 import { TVendor } from '@/types'
 import CreateForm from '../../vendor/createForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteVendorById from '@/pages/vendor/hooks/useDeleteVendorById'
+import EditForm from '../../vendor/editForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -82,9 +84,9 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.blue[8],
   },
   editIcon: {
-    color: theme.colors.blue[5],
+    color: '#04334c',
     '&:hover': {
-      color: theme.colors.blue[9],
+      color: '#04334c',
     },
   },
   deleteIcon: {
@@ -191,6 +193,8 @@ interface IVendorProps {
 // Exporting Default VendorTable Component
 export function VendorId({ data, setVendor }: IVendorProps) {
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
+  const [isOpened, setIsOpened] = useState(false)
+  const [vendorEditData, setVendorEditData] = useState({} as TVendor)
   const [search, setSearch] = useState('')
   const [vendorData, setVendorDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TVendor | null>(null)
@@ -244,10 +248,13 @@ export function VendorId({ data, setVendor }: IVendorProps) {
         )}
       </td> */}
       <td>
-        <IconTrash
-          className={classes.deleteIcon}
+        <IconEdit
+          className={classes.editIcon}
           cursor="pointer"
-          onClick={() => openModalForDelete(item)}
+          onClick={() => {
+            setIsOpened(true)
+            setVendorEditData(item)
+          }}
         />
       </td>
     </tr>
@@ -327,6 +334,18 @@ export function VendorId({ data, setVendor }: IVendorProps) {
           position="right"
         >
           <CreateForm />
+        </Drawer>
+
+        {/* Edit Vendor - Vendor Edit Form Drawer*/}
+        <Drawer
+          opened={isOpened}
+          onClose={() => setIsOpened(false)}
+          title="Edit Vendor"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          <EditForm {...vendorEditData} />
         </Drawer>
       </ScrollArea>
     </>
