@@ -18,15 +18,11 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconSearch,
-  IconCircleCheck,
   IconPlus,
-  IconTrash,
   IconEdit,
 } from '@tabler/icons'
 import { TVendor } from '@/types'
 import CreateForm from '../../vendor/createForm'
-import { showNotification } from '@mantine/notifications'
-import useDeleteVendorById from '@/pages/vendor/hooks/useDeleteVendorById'
 import EditForm from '../../vendor/editForm'
 
 // Style for the Page
@@ -192,6 +188,7 @@ interface IVendorProps {
 
 // Exporting Default VendorTable Component
 export function VendorId({ data, setVendor }: IVendorProps) {
+  const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [vendorEditData, setVendorEditData] = useState({} as TVendor)
@@ -199,8 +196,6 @@ export function VendorId({ data, setVendor }: IVendorProps) {
   const [vendorData, setVendorDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TVendor | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
-  const { mutate: deleteVendor } = useDeleteVendorById()
 
   const setSorting = (field: keyof TVendor) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -215,15 +210,6 @@ export function VendorId({ data, setVendor }: IVendorProps) {
     setVendorDataMain(
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
     )
-  }
-
-  // candidate data Delete handler
-  const openModalForDelete = (Vendor: TVendor) => {
-    deleteVendor(Vendor.uuid)
-    showNotification({
-      title: 'Vendor Deleted !!',
-      message: 'Vendor has been deleted successfully.',
-    })
   }
 
   // Create Rows

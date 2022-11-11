@@ -18,6 +18,7 @@ import {
   TextInput,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
+import { showNotification } from '@mantine/notifications'
 import { IconExternalLink } from '@tabler/icons'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -28,7 +29,6 @@ const useStyles = createStyles((theme) => ({
     flexDirection: 'column',
     padding: '30px',
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.40)',
-    // border: `1px solid ${theme.colors.blue[9]}`,
   },
   logo: {
     color: theme.colors.cyan,
@@ -68,15 +68,41 @@ const Questionnaire = () => {
   const { state } = useLocation()
   console.log('[Questionnaire] state =', state)
 
+  // requiredMsg errorNMsg
+  const requiredMsg = 'This field is required'
+  const errorNMsg = 'Please fill required fields'
+
   //  useForm var
   const form = useForm<IOnboardingQuestionnaireProps>({
     initialValues: {
-      employment_type: 'ET_INTERNAL',
+      employment_type: '',
       payment_type: '',
+    },
+
+    // ? functions will be used to validate values at corresponding key
+    validate: {
+      // Questionnaire form validation
+      employment_type: (value) => (value?.length > 1 ? null : requiredMsg),
+      payment_type: (value) => (value?.length > 1 ? null : requiredMsg),
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  // ?  handleError function for form validation
+  const handleError = (errors: typeof form.errors) => {
+    if (errors.employment_type) {
+      showNotification({
+        message: errorNMsg,
+        color: 'red',
+      })
+    } else if (errors.payment_type) {
+      showNotification({
+        message: errorNMsg,
+        color: 'red',
+      })
+    }
+  }
 
   //  name addition var of : candidate, Client and vendor
   const candidateName = `${candidateDetails?.first_name || ''} ${
@@ -118,7 +144,7 @@ const Questionnaire = () => {
       )}
       {!isInitiating && (
         <form
-          onSubmit={form.onSubmit(handleInitiate)}
+          onSubmit={form.onSubmit(handleInitiate, handleError)}
           className={classes.formMain}
         >
           <Group grow spacing={'xs'}>
@@ -176,8 +202,8 @@ const Questionnaire = () => {
                 { value: 'BILLABLE', label: 'Billable' },
                 { value: 'NON_BILLABLE', label: 'Non Billable' },
               ]}
-              placeholder="Payment Type"
-              label="Payment Type"
+              placeholder="Select a Payment Type"
+              label="Select a Payment Type"
               {...form.getInputProps('payment_type')}
             />
           </Group>
@@ -204,13 +230,15 @@ const Questionnaire = () => {
                   label: 'Internal Employees',
                 },
               ]}
-              label="Employment Type"
-              placeholder="Employment Type"
+              label="Select a Employment Type"
+              placeholder="Select a Employment Type"
               required
               {...form.getInputProps('employment_type')}
             />
           </Group>
-          {form.values.employment_type === 'ET_INTERNAL' ? null : (
+          {form.values.employment_type === 'ET_W2' ||
+          form.values.employment_type === 'ET_C2C' ||
+          form.values.employment_type === 'ET_1099' ? (
             <Group mt={'md'} grow spacing={'xs'}>
               <Text
                 style={{
@@ -248,7 +276,7 @@ const Questionnaire = () => {
                 }
               />
             </Group>
-          )}
+          ) : null}
 
           {form.values.employment_type === 'ET_C2C' && (
             <Group mt={'md'} grow spacing={'xs'}>
@@ -305,6 +333,15 @@ const Questionnaire = () => {
               fullWidth
               mt="xl"
               color="indigo"
+              // onClick={() =>
+              //   navigate(
+              //     `/onboarding?client_uuid=${String(
+              //       clientUUID
+              //     )}&vendor_uuid=${String(vendorUUID)}&employee_uuid=${String(
+              //       employeeUUID
+              //     )}&submission_uuid=${String(submissionUUID)}`
+              //   )
+              // }
             >
               Initiate Onboarding
             </Button>
@@ -332,7 +369,7 @@ const Questionnaire = () => {
       <Drawer
         opened={clientListIsOpened}
         onClose={() => setClientListIsOpened(false)}
-        title="Client"
+        title="Clients"
         padding="xl"
         size="xl"
         position="right"
@@ -348,7 +385,7 @@ const Questionnaire = () => {
       <Drawer
         opened={vendorListIsOpened}
         onClose={() => setVendorListIsOpened(false)}
-        title="Vendor"
+        title="Vendors"
         padding="xl"
         size="xl"
         position="right"
@@ -364,7 +401,7 @@ const Questionnaire = () => {
       <Drawer
         opened={candidateDetailsOpened}
         onClose={() => setCandidateDetailsOpened(false)}
-        title="Candidate details"
+        title="Candidate Details"
         padding="xl"
         size="1200px"
         position="right"
@@ -376,7 +413,7 @@ const Questionnaire = () => {
       <Drawer
         opened={clientDetailsOpened}
         onClose={() => setClientDetailsOpened(false)}
-        title="Client details"
+        title="Client Details"
         padding="xl"
         size="1200px"
         position="right"
@@ -388,9 +425,9 @@ const Questionnaire = () => {
       <Drawer
         opened={vendorDetailsOpened}
         onClose={() => setVendorDetailsOpened(false)}
-        title="Vendor details"
+        title="Vendor Details"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
       >
         <VendorDetailsForm {...vendorDetails} />

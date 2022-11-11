@@ -40,7 +40,7 @@ export default function VendorDetails(vendorDetailsData: TVendor) {
 
     showNotification({
       title: 'Success!!',
-      message: 'Client Details Fetched Successfully.',
+      message: 'Vendor Details Fetched Successfully.',
     })
   }
 

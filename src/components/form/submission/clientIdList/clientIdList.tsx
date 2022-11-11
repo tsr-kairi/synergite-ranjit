@@ -18,15 +18,11 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconSearch,
-  IconCircleCheck,
   IconPlus,
-  IconTrash,
   IconEdit,
 } from '@tabler/icons'
 import { TClient } from '@/types'
 import CreateForm from '../../client/createForm'
-import { showNotification } from '@mantine/notifications'
-import useDeleteClientById from '@/pages/client/hooks/useDeleteClientById'
 import EditForm from '../../client/editForm'
 
 // Style for the Page

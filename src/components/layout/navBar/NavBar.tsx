@@ -95,6 +95,25 @@ const navLinks = [
   },
   {
     id: '8',
+    label: 'Activities',
+    icons: IconActivity,
+    isActive: false,
+    links: [
+      { label: 'All Activities', link: '/all-activities', icon: IconActivity },
+      {
+        label: 'Delegates Activities',
+        link: '/delegates-activities',
+        icon: IconActivity,
+      },
+      {
+        label: 'Team Activities',
+        link: '/team-activities',
+        icon: IconActivity,
+      },
+    ],
+  },
+  {
+    id: '9',
     label: 'Admin',
     icons: IconUserCircle,
     initiallyOpened: false,
