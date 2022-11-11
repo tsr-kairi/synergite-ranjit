@@ -220,11 +220,11 @@ export function AllActivitiesList({ data }: IAllActivitiesProps) {
   // candidate data Delete handler
   const openModalForDelete = (AllActivities: TCandidate) => {
     openConfirmModal({
-      title: 'Do You want to delete this Employee?',
+      title: 'Do You want to delete this Activities?',
       children: (
         <Text size="sm">
-          After deleting an active candidate, You cannot recover them back. So,
-          please choose your action carefully.
+          After deleting an Activities, You cannot recover them back. So, please
+          choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },

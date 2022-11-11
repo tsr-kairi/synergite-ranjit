@@ -220,11 +220,11 @@ export function DelegatesActivitiesList({ data }: IDelegatesActivitiesProps) {
   // candidate data Delete handler
   const openModalForDelete = (DelegatesActivities: TCandidate) => {
     openConfirmModal({
-      title: 'Do You want to delete this Employee?',
+      title: 'Do You want to delete this My Team Delegated Activities?',
       children: (
         <Text size="sm">
-          After deleting an active candidate, You cannot recover them back. So,
-          please choose your action carefully.
+          After deleting an My Team Delegated Activities, You cannot recover
+          them back. So, please choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
@@ -302,7 +302,7 @@ export function DelegatesActivitiesList({ data }: IDelegatesActivitiesProps) {
   return (
     <>
       <ListViewLayout
-        title="Delegates Activities"
+        title="My Team Delegated Activities"
         createDrawerSize={1200}
         createDrawerTitle="Add New Delegates Activities "
         isError={false}
@@ -390,7 +390,7 @@ export function DelegatesActivitiesList({ data }: IDelegatesActivitiesProps) {
       <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
-        title="Edit Delegates Activities"
+        title="Edit My Team Delegated Activities"
         padding="xl"
         size="1200px"
         position="right"

@@ -99,15 +99,15 @@ const navLinks = [
     icons: IconActivity,
     isActive: false,
     links: [
-      { label: 'All Activities', link: '/all-activities', icon: IconActivity },
+      { label: 'All Activities', link: '/my-activities', icon: IconActivity },
       {
-        label: 'Delegates Activities',
-        link: '/delegates-activities',
+        label: 'My Team Activities',
+        link: '/my-team-activities',
         icon: IconActivity,
       },
       {
-        label: 'Team Activities',
-        link: '/team-activities',
+        label: 'My Team Delegated Activities',
+        link: '/my-team-delegated-activities',
         icon: IconActivity,
       },
     ],

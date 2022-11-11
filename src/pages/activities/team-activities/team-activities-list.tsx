@@ -302,9 +302,9 @@ export function TeamActivitiesList({ data }: ITeamActivitiesProps) {
   return (
     <>
       <ListViewLayout
-        title="Team Activities"
+        title="My Team Activities"
         createDrawerSize={1200}
-        createDrawerTitle="Add New Team Activities "
+        createDrawerTitle="Add New My Team Activities "
         isError={false}
         isLoading={false}
         createDrawerChildren={<CreateCandidate />}
@@ -390,7 +390,7 @@ export function TeamActivitiesList({ data }: ITeamActivitiesProps) {
       <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
-        title="Edit Team Activities"
+        title="Edit My Team Activities"
         padding="xl"
         size="1200px"
         position="right"
