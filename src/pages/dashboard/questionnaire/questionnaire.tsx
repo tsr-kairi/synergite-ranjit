@@ -202,8 +202,8 @@ const Questionnaire = () => {
                 { value: 'BILLABLE', label: 'Billable' },
                 { value: 'NON_BILLABLE', label: 'Non Billable' },
               ]}
-              placeholder="Payment Type"
-              label="Payment Type"
+              placeholder="Select a Payment Type"
+              label="Select a Payment Type"
               {...form.getInputProps('payment_type')}
             />
           </Group>
@@ -230,8 +230,8 @@ const Questionnaire = () => {
                   label: 'Internal Employees',
                 },
               ]}
-              label="Employment Type"
-              placeholder="Employment Type"
+              label="Select a Employment Type"
+              placeholder="Select a Employment Type"
               required
               {...form.getInputProps('employment_type')}
             />

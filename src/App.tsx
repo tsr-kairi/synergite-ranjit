@@ -1,4 +1,3 @@
-import React, { useContext, useEffect } from 'react'
 import Login from './pages/login'
 import ForgotPassword from './pages/forgot-password'
 import ConfirmPassword from './pages/confirm-password'
@@ -6,6 +5,10 @@ import ServerError from './pages/server-error'
 import NotFound from './pages/not-found'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React from 'react'
+import { Loader } from '@mantine/core'
+import { useAuth } from './store/auth.store'
+
 import DashBoard from './pages/dashboard'
 import Client from './pages/client'
 import Vendor from './pages/vendor'
@@ -14,14 +17,12 @@ import VendorDetails from './pages/vendor/vendor-details'
 import Employee from './pages/employee'
 import EmployeeDetails from './pages/employee/employee-details'
 import SubmissionMain from './pages/client/client-details/jobs/submissions'
-import { Loader } from '@mantine/core'
 import ProtectedRoute from './components/routes/protected-route'
 import PublicRoute from './components/routes/public-route'
 import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess'
 import OnboardingList from './pages/onboarding/components/onboarding-list'
 import { AdminActivity } from './pages/admin/activity'
 import AdminActivityDetails from './pages/admin/activity-details'
-import { useAuth } from './store/auth.store'
 import Onboarding from './pages/onboarding'
 import Activity from './pages/activity'
 import ActivityDetails from './pages/activity/activity-details'
@@ -35,6 +36,9 @@ import JobList from './pages/job/job-list'
 import CreateJobForm from './pages/job/create-job-form'
 import Timesheets from './pages/timesheets/timesheets'
 import Submission from './pages/submission'
+import AllActivities from './pages/activities/all-activities'
+import DelegatesActivities from './pages/activities/delegates-activities'
+import TeamActivities from './pages/activities/team-activities'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -72,14 +76,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/dashboard"
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <DashBoard />
                 </ProtectedRoute>
               }
-            />
+            /> */}
 
             <Route
               path="/onboarding-list"
@@ -221,6 +225,30 @@ function App() {
               }
             />
             <Route
+              path="/all-activities"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <AllActivities />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/delegates-activities"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <DelegatesActivities />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/team-activities"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <TeamActivities />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/activity-details/:activityId"
               element={
                 <ProtectedRoute isAuth={isAuth}>
@@ -244,10 +272,30 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/activity" element={<Activity />} />
-            <Route path="/department" element={<Department />} />
-            <Route path="/roles" element={<Roles />} />
-            {/* </Route> */}
+            <Route
+              path="/activity"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Activity />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/department"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Department />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/roles"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Roles />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </React.Suspense>
