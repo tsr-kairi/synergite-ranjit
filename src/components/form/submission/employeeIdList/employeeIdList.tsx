@@ -17,18 +17,12 @@ import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconCircleCheck,
   IconSearch,
   IconPlus,
-  IconTrash,
   IconEdit,
 } from '@tabler/icons'
 import { TCandidate } from '@/types/candidate-type'
-import { ListViewLayout } from '@/components/layout/list-view.layout'
 import CreateForm from '../../candidate/createForm'
-import { openConfirmModal } from '@mantine/modals'
-import useDeleteCandidateById from '@/pages/candidate/hooks/useDeleteCandidateById'
-import { showNotification } from '@mantine/notifications'
 import EditForm from '../../candidate/editForm'
 
 // Style for the Page
@@ -200,7 +194,6 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
   const [empData, setEmpDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { mutate: deleteCandidate } = useDeleteCandidateById()
 
   const setSorting = (field: keyof TCandidate) => {
     const reversed = field === sortBy ? !reverseSortDirection : false

@@ -15,7 +15,7 @@ import {
   Tooltip,
   Drawer,
 } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
 import Payment from './onboarding-flow/payment'
@@ -23,7 +23,7 @@ import Documents from './onboarding-flow/document'
 import Immigration from './onboarding-flow/immigration'
 import Job from './onboarding-flow/job'
 
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import Review from './onboarding-flow/review'
 
@@ -51,9 +51,6 @@ import { openConfirmModal } from '@mantine/modals'
 import CandidateDetails from '@/components/form/details/candidate-details/candidateDetails'
 import ClientDetails from '@/components/form/details/client-details/clientDetails'
 import VendorDetails from '@/components/form/details/vendor-details/vendorDetails'
-import { randomId } from '@mantine/hooks'
-import axiosPrivate from '@/services/axiosPrivate'
-import { TPreonboard } from '@/types/prebonboard-type'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -106,7 +103,7 @@ export default function Onboarding() {
   const [clientDetailsOpened, setClientDetailsIsOpened] = useState(false)
   const [vendorDetailsOpened, setVendorDetailsIsOpened] = useState(false)
 
-  // details states
+  // activeStep states
   const [activeStepNumber, setActiveStepNumber] = useState(0)
 
   const draft_onboarding_uuid =
@@ -160,7 +157,7 @@ export default function Onboarding() {
       reporting_to: (value) => (value?.length > 1 ? null : requiredMsg),
       overtime_exemption: (value) => (value?.length > 1 ? null : requiredMsg),
 
-      // ! in job form validation
+      // ! in payment form validation
       // bill_rate: (value) => (value?.length > 1 ? null : requiredMsg),
       // pay_rate: (value) => (value?.length > 1 ? null : requiredMsg),
       // payment_frequency: (value) => (value?.length > 1 ? null : requiredMsg),
@@ -256,7 +253,7 @@ export default function Onboarding() {
 
   // onConfirm Save Onboarding
   const onConfirmUpdateOnboarding = (values: TOnboarding) => {
-    // let onboardStatus = 'PREONBOARDING_IN_PROGRESS'
+    // let onboardStatus = 'PREONBOARD_IN_PROGRESS'
     let completion_percentage
     if (activeStepNumber === 0) {
       completion_percentage = 25
