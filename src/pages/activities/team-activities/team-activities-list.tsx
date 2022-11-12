@@ -322,49 +322,49 @@ export function TeamActivitiesList({ data }: ITeamActivitiesProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('first_name')}
               >
-                Name
+                Type
               </Th>
               <Th
                 sorted={sortBy === 'email'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('email')}
               >
-                Email
+                Sub Type
               </Th>
               <Th
                 sorted={sortBy === 'phone'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('phone')}
               >
-                Phone
+                Assigned By
               </Th>
               <Th
                 sorted={sortBy === 'gender'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('gender')}
               >
-                Gender
+                Assigned To
               </Th>
               <Th
                 sorted={sortBy === 'city'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('city')}
               >
-                City
+                Status
               </Th>
               <Th
                 sorted={sortBy === 'state'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('state')}
               >
-                State
+                Sub Status
               </Th>
               <Th
                 sorted={sortBy === 'country'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('country')}
               >
-                Country
+                Assigned Date
               </Th>
               <th className={classes.action}>Action</th>
             </tr>
