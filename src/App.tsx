@@ -224,8 +224,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* all Activities */}
             <Route
-              path="/all-activities"
+              path="/my-activities"
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <AllActivities />
@@ -233,21 +234,22 @@ function App() {
               }
             />
             <Route
-              path="/delegates-activities"
-              element={
-                <ProtectedRoute isAuth={isAuth}>
-                  <DelegatesActivities />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/team-activities"
+              path="/my-team-activities"
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <TeamActivities />
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/my-team-delegated-activities"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <DelegatesActivities />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/activity-details/:activityId"
               element={

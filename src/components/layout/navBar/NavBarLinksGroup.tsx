@@ -151,7 +151,7 @@ export default function LinksGroup({
   return (
     <>
       <Menu
-        width={230}
+        width={280}
         position="right-start"
         offset={12}
         transition="pop-top-right"

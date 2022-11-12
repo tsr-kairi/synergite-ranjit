@@ -220,11 +220,11 @@ export function DelegatesActivitiesList({ data }: IDelegatesActivitiesProps) {
   // candidate data Delete handler
   const openModalForDelete = (DelegatesActivities: TCandidate) => {
     openConfirmModal({
-      title: 'Do You want to delete this Employee?',
+      title: 'Do You want to delete this My Team Delegated Activities?',
       children: (
         <Text size="sm">
-          After deleting an active candidate, You cannot recover them back. So,
-          please choose your action carefully.
+          After deleting an My Team Delegated Activities, You cannot recover
+          them back. So, please choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
@@ -302,7 +302,7 @@ export function DelegatesActivitiesList({ data }: IDelegatesActivitiesProps) {
   return (
     <>
       <ListViewLayout
-        title="Delegates Activities"
+        title="My Team Delegated Activities"
         createDrawerSize={1200}
         createDrawerTitle="Add New Delegates Activities "
         isError={false}
@@ -322,49 +322,49 @@ export function DelegatesActivitiesList({ data }: IDelegatesActivitiesProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('first_name')}
               >
-                Name
+                Type
               </Th>
               <Th
                 sorted={sortBy === 'email'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('email')}
               >
-                Email
+                Sub Type
               </Th>
               <Th
                 sorted={sortBy === 'phone'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('phone')}
               >
-                Phone
+                Assigned By
               </Th>
               <Th
                 sorted={sortBy === 'gender'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('gender')}
               >
-                Gender
+                Assigned To
               </Th>
               <Th
                 sorted={sortBy === 'city'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('city')}
               >
-                City
+                Status
               </Th>
               <Th
                 sorted={sortBy === 'state'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('state')}
               >
-                State
+                Sub Status
               </Th>
               <Th
                 sorted={sortBy === 'country'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('country')}
               >
-                Country
+                Assigned Date
               </Th>
               <th className={classes.action}>Action</th>
             </tr>
@@ -390,7 +390,7 @@ export function DelegatesActivitiesList({ data }: IDelegatesActivitiesProps) {
       <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
-        title="Edit Delegates Activities"
+        title="Edit My Team Delegated Activities"
         padding="xl"
         size="1200px"
         position="right"

@@ -43,7 +43,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  candidateRowData: {
+  activitiesRowData: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -220,11 +220,11 @@ export function AllActivitiesList({ data }: IAllActivitiesProps) {
   // candidate data Delete handler
   const openModalForDelete = (AllActivities: TCandidate) => {
     openConfirmModal({
-      title: 'Do You want to delete this Employee?',
+      title: 'Do You want to delete this Activities?',
       children: (
         <Text size="sm">
-          After deleting an active candidate, You cannot recover them back. So,
-          please choose your action carefully.
+          After deleting an Activities, You cannot recover them back. So, please
+          choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
@@ -243,7 +243,7 @@ export function AllActivitiesList({ data }: IAllActivitiesProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.uuid} className={classes.candidateRowData}>
+    <tr key={row?.uuid} className={classes.activitiesRowData}>
       <td>
         <Link
           to={`/candidate-details/${row?.uuid}`}
@@ -322,49 +322,49 @@ export function AllActivitiesList({ data }: IAllActivitiesProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('first_name')}
               >
-                Name
+                Type
               </Th>
               <Th
                 sorted={sortBy === 'email'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('email')}
               >
-                Email
+                Sub Type
               </Th>
               <Th
                 sorted={sortBy === 'phone'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('phone')}
               >
-                Phone
+                Assigned By
               </Th>
               <Th
                 sorted={sortBy === 'gender'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('gender')}
               >
-                Gender
+                Assigned To
               </Th>
               <Th
                 sorted={sortBy === 'city'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('city')}
               >
-                City
+                Status
               </Th>
               <Th
                 sorted={sortBy === 'state'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('state')}
               >
-                State
+                Sub Status
               </Th>
               <Th
                 sorted={sortBy === 'country'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('country')}
               >
-                Country
+                Assigned Date
               </Th>
               <th className={classes.action}>Action</th>
             </tr>
