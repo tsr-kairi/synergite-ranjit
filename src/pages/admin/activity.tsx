@@ -1,17 +1,13 @@
 import { useState } from 'react'
 import {
   createStyles,
-  Table,
-  ScrollArea,
+  
   UnstyledButton,
   Group,
   Text,
   Center,
-  TextInput,
   Avatar,
-  Button,
-  Drawer,
-  Pagination,
+  
   Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -19,11 +15,7 @@ import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
-  IconEdit,
-  IconTrash,
-  IconPlus,
-  IconFilter,
+  
 } from '@tabler/icons'
 import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'

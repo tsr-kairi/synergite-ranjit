@@ -282,9 +282,11 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
                   reversed={reverseSortDirection}
                   onSort={() => setSorting('uuid')}
                 >
-                  Candidate Name
+                  <b>Candidate Name</b>
                 </Th>
-                <th className={classes.action}>Action</th>
+                <th className={classes.action}>
+                  <b>Action</b>
+                </th>
               </tr>
             </thead>
             <tbody>

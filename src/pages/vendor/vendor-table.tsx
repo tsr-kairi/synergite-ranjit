@@ -24,6 +24,7 @@ import {
   IconTrash,
   IconPlus,
   IconFilter,
+  IconAddressBook,
 } from '@tabler/icons'
 import { TVendor } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
@@ -32,6 +33,7 @@ import EditVendor from '@/components/form/vendor/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteVendorById from './hooks/useDeleteVendorById'
 import { Link } from 'react-router-dom'
+import Contacts from './vendor-details/contacts'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -197,6 +199,7 @@ interface IVendorTableProps {
 // Exporting Default ClientTable Component
 export default function VendorTable({ data }: IVendorTableProps) {
   const [isOpened, setIsOpened] = useState(false)
+  const [opened, setOpened] = useState(false)
   const [vendorEditData, setVendorEditData] = useState({} as TVendor)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
@@ -281,6 +284,13 @@ export default function VendorTable({ data }: IVendorTableProps) {
       <td>{row?.state}</td>
       <td>{row?.country}</td>
       <td>
+        <IconAddressBook
+          onClick={() => setOpened(true)}
+          cursor="pointer"
+          className={classes.editIcon}
+        />
+      </td>
+      <td>
         <Group spacing="sm">
           <IconEdit
             className={classes.editIcon}
@@ -306,7 +316,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
       <Table
         horizontalSpacing="md"
         verticalSpacing="xs"
-        className={classes.childTable}
+        // className={classes.childTable}
       >
         <thead>
           <tr>
@@ -353,6 +363,9 @@ export default function VendorTable({ data }: IVendorTableProps) {
               <b>Country</b>
             </Th>
             <th className={classes.action}>
+              <b>Contact</b>
+            </th>
+            <th className={classes.action}>
               <b>Action</b>
             </th>
           </tr>
@@ -372,6 +385,17 @@ export default function VendorTable({ data }: IVendorTableProps) {
           )}
         </tbody>
       </Table>
+
+      {/* contact -contact open drawer*/}
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        padding="md"
+        size="1200px"
+        position="right"
+      >
+        <Contacts />
+      </Drawer>
 
       {/* Edit Vendor - Vendor Edit Form Drawer*/}
       <Drawer

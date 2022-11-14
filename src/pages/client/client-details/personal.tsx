@@ -22,6 +22,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
   },
   clientUserCard: {
     border: `1px solid ${theme.colors.blue[1]}`,
@@ -112,21 +113,14 @@ export default function Personal() {
   return (
     <>
       <div className={classes.main}>
-        <div>
-          <Group position="apart">
-            <Link to={`/client`} className={classes.userLink}>
-              <Button
-                className={classes.detailHead}
-                rightIcon={<IconArrowBackUp />}
-                variant="subtle"
-              >
-                Back to Client List
-              </Button>
-            </Link>
-          </Group>
-        </div>
         <div className={classes.personalDetailsMain}>
           <div className={classes.personalDetailsInner}>
+            <Link to={`/client`} className={classes.userLink}>
+              <ActionIcon variant="light" radius="xl" color={'blue'}>
+                <IconArrowBackUp />
+              </ActionIcon>
+            </Link>
+
             <div className={classes.clientUserCard}>
               <Avatar size={40} radius={120} mx="auto" color="cyan">
                 C

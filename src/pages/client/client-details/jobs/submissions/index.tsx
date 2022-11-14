@@ -6,8 +6,8 @@ import Submission from './submission'
 
 const useStyles = createStyles(() => ({
   mainDetails: {
-    paddingLeft: '20px',
-    paddingRight: '20px',
+    // paddingLeft: '20px',
+    // paddingRight: '20px',
     width: '100%',
   },
   main: {

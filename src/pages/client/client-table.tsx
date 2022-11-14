@@ -13,6 +13,7 @@ import {
   Drawer,
   Pagination,
   Tooltip,
+  ActionIcon,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -24,6 +25,7 @@ import {
   IconTrash,
   IconPlus,
   IconFilter,
+  IconAddressBook,
 } from '@tabler/icons'
 import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
@@ -34,6 +36,7 @@ import { showNotification } from '@mantine/notifications'
 import EditClient from '@/components/form/client/editForm'
 import CreateClient from '@/components/form/client/createForm'
 import { useOnboarding } from '@/store/onboarding.store'
+import Contacts from './client-details/contacts'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -281,6 +284,13 @@ export function ClientTable({ data }: IClientTableProps) {
       <td>{row?.state}</td>
       <td>{row?.country}</td>
       <td>
+        <IconAddressBook
+          onClick={() => setOpened(true)}
+          cursor="pointer"
+          className={classes.editIcon}
+        />
+      </td>
+      <td>
         <Group spacing="sm">
           <IconEdit
             className={classes.editIcon}
@@ -306,7 +316,7 @@ export function ClientTable({ data }: IClientTableProps) {
       <Table
         horizontalSpacing="md"
         verticalSpacing="xs"
-        className={classes.childTable}
+        // className={classes.childTable}
       >
         <thead>
           <tr>
@@ -353,6 +363,9 @@ export function ClientTable({ data }: IClientTableProps) {
               <b>Country</b>
             </Th>
             <th className={classes.action}>
+              <b>Contact</b>
+            </th>
+            <th className={classes.action}>
               <b>Action</b>
             </th>
           </tr>
@@ -372,6 +385,17 @@ export function ClientTable({ data }: IClientTableProps) {
           )}
         </tbody>
       </Table>
+
+      {/* contact -contact open drawer*/}
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        padding="md"
+        size="600px"
+        position="right"
+      >
+        <Contacts />
+      </Drawer>
 
       {/* Edit Client - Client Edit Form Drawer*/}
       <Drawer

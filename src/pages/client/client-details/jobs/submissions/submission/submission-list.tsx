@@ -421,7 +421,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
-          className={classes.childTable}
+          // className={classes.childTable}
         >
           <thead>
             <tr>
@@ -430,23 +430,25 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('vendor_id')}
               >
-                Vendor
+                <b>Vendor</b>
               </Th>
               <Th
                 sorted={sortBy === 'employee_id'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('employee_id')}
               >
-                Candidate
+                <b>Candidate</b>
               </Th>
               <Th
                 sorted={sortBy === 'status'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('status')}
               >
-                Submission Status
+                <b>Submission Status</b>
               </Th>
-              <th className={classes.action}>Action</th>
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
             </tr>
           </thead>
 

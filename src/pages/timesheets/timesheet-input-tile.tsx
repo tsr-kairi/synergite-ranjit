@@ -155,19 +155,9 @@ export default TimesheetInputTile
 
 const useStyles = createStyles((theme) => ({
   tr: {
-    borderBottom: `1px solid ${theme?.colors?.gray?.[4]} !important`,
+    borderBottom: `1px solid ${theme?.colors?.gray?.[2]} !important`,
   },
   td: {
     border: 'none !important',
-  },
-  buttonContainer: {
-    position: 'absolute',
-    top: '180px',
-    right: '180px',
-  },
-  iconContainer: {
-    position: 'absolute',
-    top: '180px',
-    right: '150px',
   },
 }))

@@ -298,7 +298,7 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
       <Table
         horizontalSpacing="md"
         verticalSpacing="xs"
-        className={classes.childTable}
+        // className={classes.childTable}
       >
         <thead>
           <tr>
@@ -307,10 +307,12 @@ export default function DepartmentTable({ data }: IDepartmentTableProps) {
               reversed={reverseSortDirection}
               onSort={() => setSorting('name')}
             >
-              Department Name
+              <b>Department Name</b>
             </Th>
 
-            <th className={classes.action}>Action</th>
+            <th className={classes.action}>
+              <b>Action</b>
+            </th>
           </tr>
         </thead>
 

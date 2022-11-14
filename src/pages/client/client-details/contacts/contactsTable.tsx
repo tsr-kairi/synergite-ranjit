@@ -9,9 +9,6 @@ import {
   Center,
   TextInput,
   Drawer,
-  Button,
-  Avatar,
-  // Pagination,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -29,6 +26,7 @@ import CreateContact from '@/components/form/client/contact/createForm'
 import EditContact from '@/components/form/client/contact/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteContactById from '../../hooks/useDeleteContactById'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -211,15 +209,15 @@ export default function ContactsTable({ data }: ContactProps) {
   }
   const { mutate: deleteContact } = useDeleteContactById()
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget
-    setSearch(value)
-    // setSortedData()
-    sortData(data, {
-      sortBy,
-      reversed: reverseSortDirection,
-      search: value,
-    })
+  const handleSearchChange = (searchTerm: string) => {
+    setSearch(searchTerm)
+    setSortedData(
+      sortData(data, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: searchTerm,
+      })
+    )
   }
   //   contact data Delete handler model
   const openModalForDelete = (contact: TContacts) => {
@@ -237,147 +235,103 @@ export default function ContactsTable({ data }: ContactProps) {
         deleteContact(contact?.uuid)
         showNotification({
           title: 'Contact Deleted !!',
-          message: `${contact.fname} has been deleted successfully.`,
+          message: `Contact has been deleted successfully.`,
         })
       },
     })
   }
 
+  const rows = sortedData?.map((row) => (
+    <tr key={row?.id} className={classes.companyDetails}>
+      <td>
+        <Group spacing="sm">
+          <Text size="sm" weight={500}>
+            {row?.fname} {row?.lname}
+          </Text>
+        </Group>
+      </td>
+      <td>{row?.email1}</td>
+      <td>{row?.phone1}</td>
+      <td>
+        <Group spacing="sm">
+          <IconEdit
+            className={classes.editIcon}
+            cursor="pointer"
+            onClick={() => {
+              setIsOpened(true)
+              setContactEditData(row)
+            }}
+          />
+          <IconTrash
+            className={classes.deleteIcon}
+            cursor="pointer"
+            onClick={() => openModalForDelete(row)}
+          />
+        </Group>
+      </td>
+    </tr>
+  ))
+
   return (
-    <ScrollArea>
-      <div className={classes.tableHead}>
-        <Text size={'md'} weight="600" className={classes.text}>
-          Contacts
-        </Text>
-        <TextInput
-          placeholder="Search..."
-          icon={<IconSearch size={14} stroke={1.5} />}
-          value={search}
-          onChange={handleSearchChange}
-          radius="xl"
-          className={classes.searchField}
-        />
-        {/* Add New - Client Button*/}
-        <IconPlus
-          className={classes.iconPlus}
-          onClick={() => setOpened(true)}
-        />
-      </div>
-      <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        className={classes.childTable}
-        // sx={{ width: '100%', maxWidth: '90%', marginLeft: 0, marginRight: 0 }}
+    <>
+      <ListViewLayout
+        title="Contacts"
+        createDrawerSize={'xl'}
+        createDrawerTitle="Add New Contact"
+        isError={false}
+        isLoading={false}
+        createDrawerChildren={<CreateContact />}
+        onSearchChange={handleSearchChange}
       >
-        <thead>
-          <tr>
-            <Th
-              sorted={sortBy === 'fname'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('lname')}
-            >
-              Name
-            </Th>
-            <Th
-              sorted={sortBy === 'email1'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('email1')}
-            >
-              Email
-            </Th>
-            <Th
-              sorted={sortBy === 'phone1'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('phone1')}
-            >
-              Phone
-            </Th>
-            {/* <Th
-              sorted={sortBy === 'city'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('city')}
-            >
-              City
-            </Th>
-            <Th
-              sorted={sortBy === 'state'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('state')}
-            >
-              State
-            </Th>
-            <Th
-              sorted={sortBy === 'country'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('country')}
-            >
-              Country
-            </Th> */}
-            <th className={classes.action}>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data && data?.length > 0 ? (
-            sortedData.map((row) => (
-              <tr key={row?.id} className={classes.companyDetails}>
-                <td>
-                  <Group spacing="sm">
-                    {/* <Avatar
-                      size={26}
-                      src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.first_name}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-                      radius={26}
-                    /> */}
-                    <Text size="sm" weight={500}>
-                      {row?.fname} {row?.lname}
-                    </Text>
-                  </Group>
-                </td>
-                <td>{row?.email1}</td>
-                <td>{row?.phone1}</td>
-                {/* <td>{row?.city}</td>
-                <td>{row?.state}</td>
-                <td>{row?.country}</td> */}
-                <td>
-                  <Group spacing="sm">
-                    <IconEdit
-                      className={classes.editIcon}
-                      cursor="pointer"
-                      onClick={() => {
-                        setIsOpened(true)
-                        setContactEditData(row)
-                      }}
-                    />
-                    <IconTrash
-                      className={classes.deleteIcon}
-                      cursor="pointer"
-                      onClick={() => openModalForDelete(row)}
-                    />
-                  </Group>
+        <Table
+          horizontalSpacing="md"
+          verticalSpacing="xs"
+          // className={classes.childTable}
+        >
+          <thead>
+            <tr>
+              <Th
+                sorted={sortBy === 'fname'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('lname')}
+              >
+                <b>Name</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'email1'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('email1')}
+              >
+                <b>Email</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'phone1'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('phone1')}
+              >
+                <b>Phone</b>
+              </Th>
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
+            </tr>
+          </thead>
+          {/* T-Body */}
+          <tbody>
+            {rows ? (
+              rows
+            ) : (
+              <tr>
+                <td colSpan={Object.keys(data).length}>
+                  <Text weight={500} align="center">
+                    No records found
+                  </Text>
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={5}>
-                <Text weight={500} align="center">
-                  No contacts available
-                </Text>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-      {/* Add New Contact - Contact Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Contact"
-        padding="xl"
-        size="xl"
-        position="right"
-      >
-        <CreateContact />
-      </Drawer>
+            )}
+          </tbody>
+        </Table>
+      </ListViewLayout>
 
       {/* Edit Contact - Contact Edit Form Drawer*/}
       <Drawer
@@ -390,6 +344,6 @@ export default function ContactsTable({ data }: ContactProps) {
       >
         <EditContact {...contactEditData} />
       </Drawer>
-    </ScrollArea>
+    </>
   )
 }

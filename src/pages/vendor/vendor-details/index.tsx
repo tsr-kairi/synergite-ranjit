@@ -4,8 +4,8 @@ import Personal from './personal'
 
 const useStyles = createStyles(() => ({
   vendorDetails: {
-    paddingLeft: '20px',
-    paddingRight: '20px',
+    // paddingLeft: '20px',
+    // paddingRight: '20px',
     width: '100%',
   },
   vendor: {

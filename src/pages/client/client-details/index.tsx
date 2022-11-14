@@ -4,8 +4,8 @@ import Personal from './personal'
 
 const useStyles = createStyles(() => ({
   clientDetails: {
-    paddingLeft: '20px',
-    paddingRight: '20px',
+    // paddingLeft: '20px',
+    // paddingRight: '20px',
     width: '100%',
   },
   client: {

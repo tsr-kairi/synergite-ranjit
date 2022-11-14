@@ -290,7 +290,7 @@ export default function ContactsTable({ data }: ContactProps) {
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
-          className={classes.childTable}
+          // className={classes.childTable}
         >
           <thead>
             <tr>
@@ -299,44 +299,46 @@ export default function ContactsTable({ data }: ContactProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('lname')}
               >
-                Name
+                <b>Name</b>
               </Th>
               <Th
                 sorted={sortBy === 'email1'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('email1')}
               >
-                Email
+                <b>Email</b>
               </Th>
               <Th
                 sorted={sortBy === 'phone1'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('phone1')}
               >
-                Phone
+                <b>Phone</b>
               </Th>
               <Th
                 sorted={sortBy === 'city'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('city')}
               >
-                City
+                <b>City</b>
               </Th>
               <Th
                 sorted={sortBy === 'state'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('state')}
               >
-                State
+                <b>State</b>
               </Th>
               <Th
                 sorted={sortBy === 'country'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('country')}
               >
-                Country
+                <b>Country</b>
               </Th>
-              <th className={classes.action}>Action</th>
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
             </tr>
           </thead>
           {/* T-Body */}

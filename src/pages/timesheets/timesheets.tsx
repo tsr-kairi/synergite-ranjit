@@ -1,18 +1,7 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
-import {
-  Avatar,
-  Button,
-  Checkbox,
-  Group,
-  Select,
-  Table,
-  Text,
-  TextInput,
-  Tooltip,
-} from '@mantine/core'
+import { Group, Table, Text, Tooltip } from '@mantine/core'
 import { Th } from '../employee/employee-list'
-import React, { useState } from 'react'
-import { IconPlus, IconSubmarine } from '@tabler/icons'
+import { useState } from 'react'
 import { SheetData } from './data'
 import CreateTimeSheet from './createTimeSheet'
 import { Badge } from '@mantine/core'
@@ -90,13 +79,6 @@ const Timesheet = () => {
               </tbody>
             </Table>
           </ListViewLayout>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              flexDirection: 'row',
-            }}
-          ></div>
         </>
       )}
     </>
