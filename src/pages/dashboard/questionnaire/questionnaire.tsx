@@ -353,6 +353,7 @@ const Questionnaire = () => {
       <Drawer
         opened={candidateListIsOpened}
         onClose={() => setCandidateListIsOpened(false)}
+        onClick={() => setCandidateListIsOpened(false)}
         title="Candidates"
         padding="xl"
         size="xl"
@@ -369,6 +370,7 @@ const Questionnaire = () => {
       <Drawer
         opened={clientListIsOpened}
         onClose={() => setClientListIsOpened(false)}
+        onClick={() => setClientListIsOpened(false)}
         title="Clients"
         padding="xl"
         size="xl"
@@ -385,6 +387,7 @@ const Questionnaire = () => {
       <Drawer
         opened={vendorListIsOpened}
         onClose={() => setVendorListIsOpened(false)}
+        onClick={() => setVendorListIsOpened(false)}
         title="Vendors"
         padding="xl"
         size="xl"
