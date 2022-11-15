@@ -2,11 +2,36 @@ import { z } from 'zod'
 
 // Submission Validation
 const zSubmission = z.object({
+  uuid: z.string(),
+  submission_id: z.string(),
   first_name: z.string(),
   last_name: z.string(),
-  city: z.string(),
+
+  // new field Nov
+  job_title: z.string(),
+  candidate_location: z.string(),
+  client: z.string(),
+  employment_type: z.string(),
+  pay_rate: z.string(),
+  pay_type: z.string(),
+  bill_type: z.string(),
+  bill_rate: z.string(),
+  submission_status: z.string(),
+  submitted_by: z.string(),
+  submitted_date: z.string(),
+  ssn: z.string(),
+  dob: z.string(),
+  passport_no: z.string(),
+  linkedin_url: z.string(),
+  currently_working_with_employer: z.string(),
+  company_name: z.string(),
+  employer_name: z.string(),
+  employer_phone_no: z.string(),
+  employer_email_id: z.string(),
+  employer_fax_no: z.string(),
+  immigration_status: z.string(),
+
   state: z.string(),
-  country: z.string(),
   status: z.string(),
   remarks: z.string(),
   rejection_reason: z.string(),
@@ -25,7 +50,6 @@ const zSubmission = z.object({
   vendor_uuid: z.string(),
   vendor_first_name: z.string().optional(),
   vendor_last_name: z.string().optional(),
-  uuid: z.string(),
 })
 
 // new Submission crate

@@ -29,12 +29,24 @@ const Timesheet = () => {
             <Table horizontalSpacing="md" verticalSpacing="xs">
               <thead>
                 <tr>
-                  <Th onSort={() => null}>Name</Th>
-                  <Th onSort={() => null}>Week</Th>
-                  <Th onSort={() => null}>Billable </Th>
-                  <Th onSort={() => null}>Non-Billable</Th>
-                  <Th onSort={() => null}>Total Hours</Th>
-                  <Th onSort={() => null}>Status</Th>
+                  <Th onSort={() => null}>
+                    <b>Name</b>
+                  </Th>
+                  <Th onSort={() => null}>
+                    <b>Week</b>
+                  </Th>
+                  <Th onSort={() => null}>
+                    <b>Billable</b>
+                  </Th>
+                  <Th onSort={() => null}>
+                    <b>Non-Billable</b>
+                  </Th>
+                  <Th onSort={() => null}>
+                    <b>Total Hours</b>
+                  </Th>
+                  <Th onSort={() => null}>
+                    <b>Status</b>
+                  </Th>
                 </tr>
               </thead>
               <tbody>
@@ -69,7 +81,12 @@ const Timesheet = () => {
                       <td>{'40' || sheetValue.Billable}</td>
                       <td>{sheetValue.TotalHrs}</td>
                       <td>
-                        <Badge style={{ minWidth: '120px' }}>
+                        <Badge
+                          // color={sheetValue.color.background}
+                          style={{
+                            border: `0.5px solid grey`,
+                          }}
+                        >
                           <td>{sheetValue.Status}</td>
                         </Badge>
                       </td>
