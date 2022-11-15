@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { string, z } from 'zod'
 
 // Client List Data
 // Validation
@@ -113,88 +113,89 @@ const zContactEdit = z.object({
 
 // client list with jobs
 const zJobs = z.object({
-  id: z.number(),
   uuid: z.string(),
-  client_uuid: z.string(),
   client_request_id: z.string(),
-  start_date: z.string(),
   city: z.string(),
   country: z.string(),
-  state: z.string(),
   primary_skills: z.string(),
   secondary_skills: z.string(),
-  visa_status: z.string(),
   job_type: z.string(),
   pay_rate: z.string(),
-  job_status: z.string(),
 
-  // new added fields
+  // new added fields - nov
+  immigration_status: z.string(),
+  status: z.string(),
+  remote_status: z.string(),
+  customer_type: z.string(),
+  pay_type: z.string(),
+  client_contact_name: z.string(),
+  recruiter_instructions: z.string(),
+  primary_recruiter: z.string(),
+  bill_rate: string(),
+
+  // new added fields - oct
   recruiter_uuid: z.string(),
   account_manager_uuid: z.string(),
   additional_recruiter_uuid: z.string(),
   recruitment_manager_uuid: z.string(),
-  interview_panel_uuid: z.string(),
-  sourcer_uuid: z.string(),
   client_contact_email: z.string(),
   client_contact_phone: z.string(),
   client_contract_period: z.string(),
-  contract_period: z.string(),
-  country_code: z.string(),
-  employee_type: z.string(),
-  industry: z.string(),
+  employment_type: z.string(),
   job_description: z.string(),
   job_domain: z.string(),
   job_title: z.string(),
   priority: z.string(),
   priority_reason: z.string(),
-  maximum_submission: z.number(),
-  number_of_position: z.number(),
-  w2_pay_rate: z.number(),
-  work_experience_in_years: z.number(),
+  maximum_submission: z.string(),
+  number_of_position: z.string(),
+  work_experience_in_years: z.string(),
 
   // opt
   created_by: z.string(),
-  date_created: z.string(),
+  date_created: z.string().optional(),
   date_updated: z.string().optional(),
 })
 
 // Job create - new job
 const zJobCreate = z.object({
+  client_request_id: z.string(),
   city: z.string(),
   country: z.string(),
-  state: z.string(),
   primary_skills: z.string(),
   secondary_skills: z.string(),
-  start_date: z.string(),
-  visa_status: z.string(),
   job_type: z.string(),
   pay_rate: z.string(),
-  job_status: z.string(),
 
-  // new added fields
+  // new added fields - nov
+  immigration_status: z.string(),
+  status: z.string(),
+  remote_status: z.string(),
+  customer_type: z.string(),
+  pay_type: z.string(),
+  client_contact_name: z.string(),
+  recruiter_instructions: z.string(),
+  primary_recruiter: z.string(),
+  bill_rate: z.string(),
+  created_by: z.string(),
+
+  // new added fields - oct
   recruiter_uuid: z.string(),
-  client_request_id: z.string(),
   account_manager_uuid: z.string(),
   additional_recruiter_uuid: z.string(),
   recruitment_manager_uuid: z.string(),
-  interview_panel_uuid: z.string(),
-  sourcer_uuid: z.string(),
   client_contact_email: z.string(),
   client_contact_phone: z.string(),
   client_contract_period: z.string(),
-  contract_period: z.string(),
-  country_code: z.string(),
-  employee_type: z.string(),
-  industry: z.string(),
+  employment_type: z.string(),
   job_description: z.string(),
   job_domain: z.string(),
   job_title: z.string(),
   priority: z.string(),
   priority_reason: z.string(),
-  maximum_submission: z.number(),
-  number_of_position: z.number(),
-  w2_pay_rate: z.number(),
-  work_experience_in_years: z.number(),
+  maximum_submission: z.string(),
+  number_of_position: z.string(),
+  work_experience_in_years: z.string(),
 })
 
 // Job edit - edit job

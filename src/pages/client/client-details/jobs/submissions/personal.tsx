@@ -170,26 +170,26 @@ export default function Personal() {
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Country Code :</b>
+                  <b>Country :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.country_code}
-                </Text>
-              </Group>
-              <Group spacing="sm">
-                <Text size="lg" color="#686969" weight={400}>
-                  <b>Visa Status :</b>
-                </Text>
-                <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.visa_status}
+                  {data?.data?.country}
                 </Text>
               </Group>
               <Group spacing="sm">
                 <Text size="lg" color="#686969" weight={400}>
-                  <b>Job Status :</b>
+                  <b>Status :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.job_status}
+                  {data?.data?.status}
+                </Text>
+              </Group>
+              <Group spacing="sm">
+                <Text size="lg" color="#686969" weight={400}>
+                  <b>Immigration Status :</b>
+                </Text>
+                <Text size="lg" color="#686969" weight={400}>
+                  {data?.data?.immigration_status}
                 </Text>
               </Group>
             </div>

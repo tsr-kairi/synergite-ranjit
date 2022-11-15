@@ -109,10 +109,10 @@ export default function JobDetails(jobDetailsData: TJobs) {
                   />
                   <TextInput
                     readOnly={true}
-                    label="Start Date"
-                    type={'date'}
-                    placeholder="Start Date"
-                    value={jobDetailsData.start_date}
+                    label="Status"
+                    type={'text'}
+                    placeholder="Status"
+                    value={jobDetailsData.status}
                   />
                   <TextInput
                     readOnly={true}
@@ -121,22 +121,15 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="City"
                     value={jobDetailsData.city}
                   />
+                  <TextInput
+                    readOnly={true}
+                    label="Country"
+                    type={'text'}
+                    placeholder="Country"
+                    value={jobDetailsData.country}
+                  />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <TextInput
-                    readOnly={true}
-                    label="State"
-                    type={'text'}
-                    placeholder="State"
-                    value={jobDetailsData.state}
-                  />
-                  <TextInput
-                    readOnly={true}
-                    label="Country Code"
-                    type={'text'}
-                    placeholder="Country Code"
-                    value={jobDetailsData.country_code}
-                  />
                   <TextInput
                     readOnly={true}
                     label="Job Title"
@@ -151,8 +144,6 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="No of Positions"
                     value={jobDetailsData.number_of_position}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     label="Priority"
@@ -167,19 +158,35 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="Priority reason"
                     value={jobDetailsData.priority_reason}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
-                    label="Status"
+                    label="Customer Type"
                     type={'text'}
-                    placeholder="Status"
-                    value={jobDetailsData.job_status}
+                    placeholder="Customer Type"
+                    value={jobDetailsData.customer_type}
                   />
                   <TextInput
                     readOnly={true}
-                    label="Employee Type"
+                    label="Employment Type"
                     type={'text'}
-                    placeholder="Employee Type"
-                    value={jobDetailsData.employee_type}
+                    placeholder="Employment Type"
+                    value={jobDetailsData.employment_type}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Bill Rate"
+                    type={'text'}
+                    placeholder="Bill Rate"
+                    value={jobDetailsData.bill_rate}
+                  />
+                  <TextInput
+                    readOnly={true}
+                    label="Pay Rate"
+                    type={'text'}
+                    placeholder="Pay Rate"
+                    value={jobDetailsData.pay_rate}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -206,26 +213,19 @@ export default function JobDetails(jobDetailsData: TJobs) {
                   />
                   <TextInput
                     readOnly={true}
-                    label="Visa Status"
+                    label="Remote Status"
                     type={'text'}
-                    placeholder="Visa Status"
-                    value={jobDetailsData.visa_status}
+                    placeholder="Remote Status"
+                    value={jobDetailsData.remote_status}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  {/* <TextInput
-                    readOnly={true}
-                    label="Languages"
-                    type={'text'}
-                    placeholder="Languages"
-                    value={jobDetailsData.languages}
-                  /> */}
                   <TextInput
                     readOnly={true}
-                    label="Industry"
+                    label="Immigration Status"
                     type={'text'}
-                    placeholder="Industry"
-                    value={jobDetailsData.industry}
+                    placeholder="Immigration Status"
+                    value={jobDetailsData.immigration_status}
                   />
                   <TextInput
                     readOnly={true}
@@ -241,8 +241,15 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="Client Contact Phone"
                     value={jobDetailsData.client_contact_phone}
                   />
+                  <TextInput
+                    readOnly={true}
+                    label="Maximum Submission"
+                    type={'text'}
+                    placeholder="Maximum Submission"
+                    value={jobDetailsData.maximum_submission}
+                  />
                 </Group>
-                {/* <Group grow align="center" mt="md">
+                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
                     label="Created By"
@@ -250,7 +257,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="Created By"
                     value={jobDetailsData.created_by}
                   />
-                </Group> */}
+                </Group>
               </Accordion.Panel>
             </Accordion.Item>
             {/* Recruitment Team */}
@@ -284,15 +291,15 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="Recruiters"
                     value={jobDetailsData.recruiter_uuid}
                   />
-                  <TextInput
-                    readOnly={true}
-                    label="Sourcer"
-                    type={'text'}
-                    placeholder="sourcer"
-                    value={jobDetailsData.sourcer_uuid}
-                  />
                 </Group>
                 <Group grow align="center" mt="md">
+                  <TextInput
+                    readOnly={true}
+                    label="Primary Recruiters"
+                    type={'text'}
+                    placeholder="Primary Recruiters"
+                    value={jobDetailsData.primary_recruiter}
+                  />
                   <TextInput
                     readOnly={true}
                     label="Additional Recruiters"
@@ -300,19 +307,25 @@ export default function JobDetails(jobDetailsData: TJobs) {
                     placeholder="Additional Recruiters"
                     value={jobDetailsData.additional_recruiter_uuid}
                   />
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* Recruiter Instructions Details */}
+            <Accordion.Item
+              value="recruiter_instructions"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Recruiter Instructions" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
                   <TextInput
                     readOnly={true}
-                    label="Maximum Submissions"
+                    label="Recruiter Instructions"
                     type={'text'}
-                    placeholder="Maximum Submissions"
-                    value={jobDetailsData.maximum_submission}
-                  />
-                  <TextInput
-                    readOnly={true}
-                    label="Interview Panel"
-                    type={'text'}
-                    placeholder="Interview Panel"
-                    value={jobDetailsData.interview_panel_uuid}
+                    placeholder="Recruiter Instructions"
+                    {...form.getInputProps('recruiter_instructions')}
                   />
                 </Group>
               </Accordion.Panel>
@@ -343,29 +356,14 @@ export default function JobDetails(jobDetailsData: TJobs) {
                   />
                   <TextInput
                     readOnly={true}
-                    label="W2 Pay Rate"
+                    label="Pay Type"
                     type={'text'}
-                    placeholder="W2 Pay Rate"
-                    value={jobDetailsData.w2_pay_rate}
+                    placeholder="Pay Type"
+                    value={jobDetailsData.pay_type}
                   />
-                  <TextInput
-                    readOnly={true}
-                    label="Contract Period"
-                    type={'text'}
-                    placeholder="Contract Period"
-                    value={jobDetailsData.contract_period}
-                  />
-                  {/* <TextInput
-                    readOnly={true}
-                    label="Contract Period"
-                    type={'text'}
-                    placeholder="Contract Period"
-                    value={jobDetailsData.contract_period}
-                  /> */}
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
-
             {/* Job Description */}
             <Accordion.Item
               value="job_description"
@@ -393,6 +391,7 @@ export default function JobDetails(jobDetailsData: TJobs) {
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
+            {/* Docs Details */}
             <Accordion.Item
               value="attachments"
               style={{ borderBottom: 'none' }}

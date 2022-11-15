@@ -1,4 +1,4 @@
-import { Grid, createStyles, Text } from '@mantine/core'
+import { Grid, createStyles } from '@mantine/core'
 import AnalyticsBoard from './analytics-graph'
 import { EventBoard } from './event-board'
 import { Greeting } from './greet'

@@ -129,7 +129,7 @@ export function Login() {
     console.log('[handleSubmit] is called')
     login(values)
       .then(() => {
-        navigate('/')
+        navigate('/login')
       })
       .catch((error: AxiosError) => {
         console.log(error)
