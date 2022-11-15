@@ -8,7 +8,6 @@ import { AppShell, createStyles } from '@mantine/core'
 import HeaderBar from './HeaderBar'
 import { useAuth } from '@/store/auth.store'
 import { useNetwork } from '@mantine/hooks'
-import useNetworkStatus from '@/hooks/useNetworkStatus'
 import { Outlet } from 'react-router-dom'
 const useStyles = createStyles((theme) => ({
   outletStyle: {
@@ -48,7 +47,7 @@ const AppShellMain = () => {
 
   useEffect(() => {
     autoLogin().catch((error) => console.log(error))
-  }, [])
+  }, [autoLogin])
 
   return (
     <AppShell
@@ -88,7 +87,7 @@ const AppShellMain = () => {
             height: '100%',
           }}
         >
-          <p style={{ fontSize: '40px', opacity: 0.5 }}>Your offline</p>
+          <p style={{ fontSize: '40px', opacity: 0.5 }}>You are offline</p>
         </div>
       )}
     </AppShell>

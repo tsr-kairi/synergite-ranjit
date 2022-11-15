@@ -102,14 +102,8 @@ const useStyles = createStyles((theme) => ({
     },
   },
   childTable: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
-    backgroundColor: 'white',
-    borderRadius: '10px',
     width: '100%',
     maxWidth: '98.3%',
-    margin: '10px',
-    borderCollapse: 'collapse',
-    border: 'none',
   },
   iconPlus: {
     color: theme.colors.blue[6],
@@ -287,6 +281,7 @@ export default function ContactsTable({ data }: ContactProps) {
           horizontalSpacing="md"
           verticalSpacing="xs"
           // className={classes.childTable}
+          style={{ width: '32%' }}
         >
           <thead>
             <tr>

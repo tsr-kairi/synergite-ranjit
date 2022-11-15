@@ -4,11 +4,13 @@ import { IFindContactsByClientId, TContacts } from '@/types'
 import { Loader } from '@mantine/core'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
 import ContactsTable from './contactsTable'
 
-const Contacts = () => {
-  const { clientId } = useParams()
+interface contactsProps {
+  client_id: string
+}
+
+const Contacts = ({ client_id }: contactsProps) => {
   // const search = window.location.search
   // const params = new URLSearchParams(search)
   // const id = params.get('id')
@@ -20,8 +22,8 @@ const Contacts = () => {
     IFindContactsByClientId,
     Error
   >(
-    [clientQueryKeys.contactList, clientId],
-    async () => await ClientService.findContactsByClientId(String(clientId)),
+    [clientQueryKeys.contactList, client_id],
+    async () => await ClientService.findContactsByClientId(String(client_id)),
     {
       onSuccess: (data) => {
         setContactsData(data.data)

@@ -40,49 +40,51 @@ export default function CreateForm() {
   const form = useForm<TJobCreate>({
     validate: zodResolver(zJobCreate),
     initialValues: {
+      client_request_id: '',
       city: '',
       country: '',
-      state: '',
       primary_skills: '',
       secondary_skills: '',
-      start_date: '',
-      visa_status: '',
       job_type: '',
       pay_rate: '',
-      job_status: '',
 
-      // new added fields
+      // new added fields - nov
+      immigration_status: '',
+      status: '',
+      remote_status: '',
+      customer_type: '',
+      pay_type: '',
+      client_contact_name: '',
+      recruiter_instructions: '',
+      primary_recruiter: '',
+      bill_rate: '',
+      created_by: '',
+
+      // new added fields - oct
       recruiter_uuid: '',
-      client_request_id: '',
       account_manager_uuid: '',
       additional_recruiter_uuid: '',
       recruitment_manager_uuid: '',
-      interview_panel_uuid: '',
-      sourcer_uuid: '',
       client_contact_email: '',
       client_contact_phone: '',
       client_contract_period: '',
-      contract_period: '',
-      country_code: '',
-      employee_type: '',
-      industry: '',
+      employment_type: '',
       job_description: '',
       job_domain: '',
       job_title: '',
       priority: '',
       priority_reason: '',
-      maximum_submission: 0,
-      number_of_position: 0,
-      w2_pay_rate: 0,
-      work_experience_in_years: 0,
+      maximum_submission: '',
+      number_of_position: '',
+      work_experience_in_years: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
   const handleSubmit = (values: TJobCreate) => {
-    const d = new Date(values.start_date)
-    d.setHours(0, 0, 0, 0)
+    // const d = new Date(values.start_date)
+    // d.setHours(0, 0, 0, 0)
     const jobCreateData = {
       ...values,
       client_uuid: String(clientId),
@@ -121,11 +123,37 @@ export default function CreateForm() {
                     placeholder="Client request ID"
                     {...form.getInputProps('client_request_id')}
                   />
-                  <TextInput
-                    label="Start Date"
-                    type={'date'}
-                    placeholder="Start Date"
-                    {...form.getInputProps('start_date')}
+
+                  <Select
+                    label="Status"
+                    placeholder="Status"
+                    data={[
+                      { value: 'New', label: 'New' },
+                      { value: 'Active', label: 'Active' },
+                      { value: 'Rejected', label: 'Rejected' },
+                      {
+                        value: 'Max Submittals reached',
+                        label: 'Max Submittals reached',
+                      },
+                      { value: 'Closed Filled', label: 'Closed Filled' },
+                      {
+                        value: 'Closed not Filled',
+                        label: 'Closed not Filled',
+                      },
+                      { value: 'Synergy on Hold', label: 'Synergy on Hold' },
+                      {
+                        value: 'Synergy cancelled',
+                        label: 'Synergy cancelled',
+                      },
+                      { value: 'Client-Cancelled', label: 'Client-Cancelled' },
+                      { value: 'CLient-Closed', label: 'CLient-Closed' },
+                      { value: 'Pipeline', label: 'Pipeline' },
+                      {
+                        value: 'Target Date Expired',
+                        label: 'Target Date Expired',
+                      },
+                    ]}
+                    {...form.getInputProps('status')}
                   />
                   <Select
                     label="City"
@@ -140,32 +168,6 @@ export default function CreateForm() {
                     {...form.getInputProps('city')}
                   />
                   <Select
-                    label="State"
-                    placeholder="State"
-                    searchable
-                    onSearchChange={onSearchChange}
-                    searchValue={searchValue}
-                    nothingFound="No Matching State"
-                    data={UsState.map((s) => {
-                      return { value: s.code, label: s.state }
-                    })}
-                    {...form.getInputProps('state')}
-                  />
-                </Group>
-                <Group grow align="center" mt="md">
-                  <Select
-                    label="Country Code"
-                    placeholder="Country Code"
-                    searchable
-                    onSearchChange={onSearchChange}
-                    searchValue={searchValue}
-                    nothingFound="No Matching Country No"
-                    data={WCountry.map((c) => {
-                      return { value: c.code, label: c.code }
-                    })}
-                    {...form.getInputProps('country_code')}
-                  />
-                  {/* <Select
                     label="Country"
                     placeholder="Country"
                     searchable
@@ -176,7 +178,9 @@ export default function CreateForm() {
                       return { value: c.code, label: c.country }
                     })}
                     {...form.getInputProps('country')}
-                  /> */}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
                   <TextInput
                     label="Job Title"
                     type={'text'}
@@ -189,44 +193,79 @@ export default function CreateForm() {
                     placeholder="No of Positions"
                     {...form.getInputProps('number_of_position')}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <Select
                     label="Priority"
-                    type={'numbers'}
                     placeholder="Priority"
                     data={[
-                      { value: 1, label: 1 },
-                      { value: 2, label: 2 },
-                      { value: 3, label: 3 },
+                      { value: '1', label: '1' },
+                      { value: '2', label: '2' },
+                      { value: '3', label: '3' },
                     ]}
                     {...form.getInputProps('priority')}
                   />
-                  <TextInput
+                  <Select
                     label="Priority reason"
-                    type={'text'}
                     placeholder="Priority reason"
+                    data={[
+                      {
+                        value: 'Client wants to Hire Immediately',
+                        label: 'Client wants to Hire Immediately',
+                      },
+                      {
+                        value: 'Direct manager request',
+                        label: 'Direct manager request',
+                      },
+                      {
+                        value: 'Immediate Interviews',
+                        label: 'Immediate Interviews',
+                      },
+                      {
+                        value: 'Only Vendor',
+                        label: 'Only Vendor',
+                      },
+                      {
+                        value: 'SoW',
+                        label: 'SoW',
+                      },
+                    ]}
                     {...form.getInputProps('priority_reason')}
                   />
-                  <TextInput
-                    label="Status"
-                    type={'text'}
-                    placeholder="Status"
-                    {...form.getInputProps('job_status')}
+                </Group>
+                <Group grow align="center" mt="md">
+                  <Select
+                    label="Customer Type"
+                    placeholder="Customer Type"
+                    data={[
+                      { value: 'Direct Client', label: 'Direct Client' },
+                      { value: 'InDirect Client', label: 'InDirect Client' },
+                    ]}
+                    {...form.getInputProps('customer_type')}
                   />
                   <Select
-                    label="Employee Type"
-                    type={'text'}
-                    placeholder="Employee Type"
+                    label="Employment Type"
+                    placeholder="Employment Type"
                     data={[
                       { value: 'C2C', label: 'C2C' },
                       { value: '1099', label: '1099' },
                       { value: 'W2', label: 'W2' },
                     ]}
-                    {...form.getInputProps('employee_type')}
+                    {...form.getInputProps('employment_type')}
+                  />
+
+                  <TextInput
+                    label="Bill Rate"
+                    type={'number'}
+                    placeholder="Bill Rate"
+                    {...form.getInputProps('bill_rate')}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
+                  <TextInput
+                    label="Pay Rate"
+                    type={'number'}
+                    placeholder="Pay Rate"
+                    {...form.getInputProps('pay_rate')}
+                  />
                   <TextInput
                     label="Work Experience"
                     type={'date'}
@@ -245,42 +284,26 @@ export default function CreateForm() {
                     placeholder="Secondary Skills"
                     {...form.getInputProps('secondary_skills')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <Select
-                    label="Visa Status"
-                    type={'text'}
-                    placeholder="Visa Status"
+                    label="Remote Status"
+                    placeholder="Remote Status"
+                    data={[
+                      { value: 'No Remote', label: 'No Remote' },
+                      { value: 'Include Remote', label: 'Include Remote' },
+                    ]}
+                    {...form.getInputProps('remote_status')}
+                  />
+                  <Select
+                    label="Immigration Status"
+                    placeholder="Immigration Status"
                     data={[
                       { value: 'USC', label: 'USC' },
                       { value: 'H1', label: 'H1' },
                       { value: 'Green Card', label: 'Green Card' },
                     ]}
-                    {...form.getInputProps('visa_status')}
-                  />
-                </Group>
-                <Group grow align="center" mt="md">
-                  {/* <Select
-                    label="Languages"
-                    placeholder="Languages"
-                    searchable
-                    onSearchChange={onSearchChange}
-                    searchValue={searchValue}
-                    nothingFound="No Matching Languages"
-                    data={WLanguages.map((l) => {
-                      return { value: l.code, label: l.language }
-                    })}
-                    {...form.getInputProps('language')}
-                  /> */}
-                  <Select
-                    label="Industry"
-                    placeholder="Industry"
-                    searchable
-                    onSearchChange={onSearchChange}
-                    searchValue={searchValue}
-                    nothingFound="No Matching Industry"
-                    data={UsIndustry.map((i) => {
-                      return { value: i.industry, label: i.industry }
-                    })}
-                    {...form.getInputProps('industry')}
+                    {...form.getInputProps('immigration_status')}
                   />
                   <TextInput
                     label="Client Contact Email"
@@ -290,9 +313,23 @@ export default function CreateForm() {
                   />
                   <TextInput
                     label="Client Contact Phone"
-                    type={'text'}
+                    type={'number'}
                     placeholder="Client Contact Phone"
                     {...form.getInputProps('client_contact_phone')}
+                  />
+                </Group>
+                <Group grow align="center" mt="md">
+                  <TextInput
+                    label="Maximum Submissions"
+                    type={'number'}
+                    placeholder="Maximum Submissions"
+                    {...form.getInputProps('maximum_submission')}
+                  />
+                  <Select
+                    label="Created By"
+                    placeholder="Created By"
+                    data={[{ value: 'All Syn Mngr', label: 'All Syn Mngr' }]}
+                    {...form.getInputProps('created_by')}
                   />
                 </Group>
               </Accordion.Panel>
@@ -331,7 +368,6 @@ export default function CreateForm() {
                   />
                   <Select
                     label="Recruiters"
-                    type={'text'}
                     placeholder="Recruiters"
                     data={[
                       { value: 'Ranjit', label: 'Ranjit' },
@@ -340,10 +376,11 @@ export default function CreateForm() {
                     ]}
                     {...form.getInputProps('recruiter_uuid')}
                   />
+                </Group>
+                <Group grow align="center" mt="md">
                   <Select
-                    label="Source"
-                    type={'text'}
-                    placeholder="Source"
+                    label="Primary Recruiters"
+                    placeholder="Primary Recruiters"
                     data={[
                       { value: 'Ranjit', label: 'Ranjit' },
                       { value: 'Vishal', label: 'Vishal' },
@@ -351,8 +388,6 @@ export default function CreateForm() {
                     ]}
                     {...form.getInputProps('sourcer_uuid')}
                   />
-                </Group>
-                <Group grow align="center" mt="md">
                   <Select
                     label="Additional Recruiters"
                     type={'text'}
@@ -364,22 +399,24 @@ export default function CreateForm() {
                     ]}
                     {...form.getInputProps('additional_recruiter_uuid')}
                   />
-                  <TextInput
-                    label="Maximum Submissions"
+                </Group>
+              </Accordion.Panel>
+            </Accordion.Item>
+            {/* Recruiter Instructions Details */}
+            <Accordion.Item
+              value="recruiter_instructions"
+              style={{ borderBottom: 'none' }}
+            >
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Recruiter Instructions" />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Group grow align="center" mt="md">
+                  <Textarea
+                    label="Recruiter Instructions"
                     type={'number'}
-                    placeholder="Maximum Submissions"
-                    {...form.getInputProps('maximum_submission')}
-                  />
-                  <Select
-                    label="Interview Panel"
-                    type={'text'}
-                    placeholder="Interview Panel"
-                    data={[
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Vishal', label: 'Vishal' },
-                      { value: 'Roshan', label: 'Roshan' },
-                    ]}
-                    {...form.getInputProps('interview_panel_uuid')}
+                    placeholder="Recruiter Instructions"
+                    {...form.getInputProps('recruiter_instructions')}
                   />
                 </Group>
               </Accordion.Panel>
@@ -394,46 +431,36 @@ export default function CreateForm() {
               </Accordion.Control>
               <Accordion.Panel>
                 <Group grow align="center" mt="md">
-                  <Select
+                  <TextInput
                     label="Client Contract Period"
-                    type={'number'}
+                    type={'date'}
                     placeholder="Client Contract Period"
-                    data={[
-                      { value: 1, label: 1 },
-                      { value: 2, label: 2 },
-                      { value: 3, label: 3 },
-                    ]}
                     {...form.getInputProps('client_contract_period')}
                   />
                   <Select
                     label="Job Type"
-                    type={'text'}
                     placeholder="Job Type"
                     data={[
-                      { value: 'Fulltime', label: 'Fulltime' },
-                      { value: 'Contractual', label: 'Contractual' },
-                      { value: 'C2H', label: 'C2H' },
+                      { value: 'JT_FULL_TIME', label: 'Fulltime' },
+                      { value: 'JT_CONTRACTUAL', label: 'Contractual' },
+                      { value: 'JT_C2H', label: 'C2H' },
                     ]}
                     {...form.getInputProps('job_type')}
                   />
-                  <TextInput
-                    label="W2 Pay Rate"
-                    type={'text'}
-                    placeholder="W2 Pay Rate"
-                    {...form.getInputProps('w2_pay_rate')}
+                  <Select
+                    label="Pay Type"
+                    placeholder="Pay Type"
+                    data={[
+                      { value: 'PT_HOURLY', label: 'Hourly' },
+                      { value: 'PT_BI_WEEKLY', label: 'Bi-Weekly' },
+                      { value: 'PT_FORTNIGHT', label: 'Weekly' },
+                      { value: 'PT_MONTHLY', label: 'Monthly' },
+                      // { value: 'Semi-Monthly', label: 'Semi-Monthly' },
+                      { value: 'PT_ANNUALLY', label: 'Annual Salary' },
+                      { value: 'PR_PER_DAY', label: 'Per Day' },
+                    ]}
+                    {...form.getInputProps('pay_type')}
                   />
-                  <TextInput
-                    label="Contract Period"
-                    type={'text'}
-                    placeholder="Contract Period"
-                    {...form.getInputProps('contract_period')}
-                  />
-                  {/* <TextInput
-                    label="Contract Period"
-                    type={'text'}
-                    placeholder="Contract Period"
-                    {...form.getInputProps('contract_period')}
-                  /> */}
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
@@ -453,15 +480,80 @@ export default function CreateForm() {
                     type={'text'}
                     placeholder="Job Domain"
                     data={[
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
-                      { value: 'Ranjit', label: 'Ranjit' },
+                      {
+                        value: 'Administration/Operations',
+                        label: 'Administration/Operations',
+                      },
+                      {
+                        value: 'Financial Services',
+                        label: 'Financial Services',
+                      },
+                      {
+                        value: 'Recruitment Industry',
+                        label: 'Recruitment Industry',
+                      },
+                      { value: 'Marketing', label: 'Marketing' },
+                      {
+                        value: 'Healthcare Industry',
+                        label: 'Healthcare Industry',
+                      },
+                      {
+                        value: 'Quality Assurance/Quality control',
+                        label: 'Quality Assurance/Quality control',
+                      },
+                      {
+                        value: 'Supply Chain Management',
+                        label: 'Supply Chain Management',
+                      },
+                      { value: 'Education sector', label: 'Education sector' },
+                      {
+                        value: 'Information Technology and Services',
+                        label: 'Information Technology and Services',
+                      },
+                      {
+                        value: 'IT-Hardware and Networking',
+                        label: 'IT-Hardware and Networking',
+                      },
+                      {
+                        value: 'Mechanical Industry',
+                        label: 'Mechanical Industry',
+                      },
+                      {
+                        value: 'Sales/Business management',
+                        label: 'Sales/Business management',
+                      },
+                      {
+                        value: 'Creative/Design/Art and Performer',
+                        label: 'Creative/Design/Art and Performer',
+                      },
+                      {
+                        value: 'Customer and Personal Service',
+                        label: 'Customer and Personal Service',
+                      },
+                      {
+                        value: 'Legal and Regulatory',
+                        label: 'Legal and Regulatory',
+                      },
+                      {
+                        value: 'Protective Services',
+                        label: 'Protective Services',
+                      },
+                      {
+                        value: 'Purchasing and Procurement',
+                        label: 'Purchasing and Procurement',
+                      },
+                      {
+                        value: 'Scientific Research',
+                        label: 'Scientific Research',
+                      },
+                      {
+                        value: 'Transportation',
+                        label: 'Transportation',
+                      },
+                      {
+                        value: 'Warehouse and logistics',
+                        label: 'Warehouse and logistics',
+                      },
                     ]}
                     {...form.getInputProps('job_domain')}
                   />
@@ -473,6 +565,7 @@ export default function CreateForm() {
                 </Group>
               </Accordion.Panel>
             </Accordion.Item>
+            {/* Docs details */}
             <Accordion.Item
               value="attachments"
               style={{ borderBottom: 'none' }}

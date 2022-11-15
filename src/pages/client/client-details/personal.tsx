@@ -232,7 +232,7 @@ export default function Personal() {
           size="600px"
           position="right"
         >
-          <Contacts />
+          <Contacts client_id={String(clientId)} />
         </Drawer>
 
         {/* client details */}

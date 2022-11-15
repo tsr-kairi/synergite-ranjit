@@ -288,14 +288,18 @@ export function SubmissionList({ data }: ISubmissionProps) {
       },
     })
   }
+
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
+      <td>{row.submission_id}</td>
+      <td>{`${row?.first_name || ''} ${row?.last_name || ''}`}</td>
+      <td>{row.job_title}</td>
+      <td>{row.candidate_location}</td>
       <td>{`${row?.vendor_first_name || ''} ${
         row?.vendor_last_name || ''
       }`}</td>
       <td>{`${row?.emp_first_name || ''} ${row?.emp_last_name || ''}`}</td>
-      {/* <td>{row?.status}</td> */}
       <td>
         {row.status === 'PRE_INITIATED' ? (
           <Badge
@@ -371,7 +375,18 @@ export function SubmissionList({ data }: ISubmissionProps) {
           </Badge>
         ) : null}
       </td>
-
+      <td>{row.client}</td>
+      <td>{row.job_id}</td>
+      <td>{row.employment_type}</td>
+      <td>{row.pay_rate}</td>
+      <td>{row.pay_type}</td>
+      <td>{row.rejection_reason}</td>
+      <td>{row.state}</td>
+      <td>{row.submitted_by}</td>
+      <td>{row.submitted_date}</td>
+      <td>{row.recruiters}</td>
+      <td>{row.recruitment_mgr_id}</td>
+      <td>{row.acct_mgr_id}</td>
       <td>
         {row.status === 'Rejected' ? (
           <Badge color="red">Rejected</Badge>
@@ -425,6 +440,36 @@ export function SubmissionList({ data }: ISubmissionProps) {
         >
           <thead>
             <tr>
+              {/* new field */}
+              <Th
+                sorted={sortBy === 'submission_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('submission_id')}
+              >
+                <b>Submission Id</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'first_name'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('first_name')}
+              >
+                <b>Name</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'job_title'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('job_title')}
+              >
+                <b>Job Title</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'candidate_location'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('candidate_location')}
+              >
+                <b>Candidate Location</b>
+              </Th>
+              {/* old field */}
               <Th
                 sorted={sortBy === 'vendor_id'}
                 reversed={reverseSortDirection}
@@ -445,6 +490,91 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 onSort={() => setSorting('status')}
               >
                 <b>Submission Status</b>
+              </Th>
+              {/* new field */}
+              <Th
+                sorted={sortBy === 'client'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('client')}
+              >
+                <b>Client</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'job_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('job_id')}
+              >
+                <b>Job Id</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'employment_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('employment_type')}
+              >
+                <b>Employment Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'pay_rate'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('pay_rate')}
+              >
+                <b>Pay Rate</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'pay_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('pay_type')}
+              >
+                <b>Pay Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'rejection_reason'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('rejection_reason')}
+              >
+                <b>Rejection Reason</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'state'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('state')}
+              >
+                <b>State</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'submitted_by'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('submitted_by')}
+              >
+                <b>Submitted By</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'submitted_date'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('submitted_date')}
+              >
+                <b>Submitted Date</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruiters'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruiters')}
+              >
+                <b>Recruiters</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruitment_mgr_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruitment_mgr_id')}
+              >
+                <b>Recruitment Manager</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'acct_mgr_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('acct_mgr_id')}
+              >
+                <b>Account Manager</b>
               </Th>
               <th className={classes.action}>
                 <b>Action</b>

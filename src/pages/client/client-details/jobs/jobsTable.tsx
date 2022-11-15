@@ -249,6 +249,16 @@ export default function JobsTable({ data }: JobsProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row.uuid} className={classes.companyDetails}>
+      <td
+        style={{
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          maxWidth: '100px',
+        }}
+      >
+        {row?.uuid}
+      </td>
       <td>
         <Link
           to={`/submissions/${row?.uuid}?client_id=${String(
@@ -269,9 +279,30 @@ export default function JobsTable({ data }: JobsProps) {
         </Link>
       </td>
       <td>{row?.city}</td>
-      <td>{row?.country_code}</td>
-      <td>{row?.visa_status}</td>
-      <td>{row?.job_status}</td>
+      <td>{row?.client_request_id}</td>
+      <td>{row?.primary_skills}</td>
+      <td>{row?.customer_type}</td>
+      <td>{row?.employment_type}</td>
+      <td>{row?.bill_rate}</td>
+      <td>{row?.priority}</td>
+      <td>{row?.priority_reason}</td>
+      <td>{row?.status}</td>
+      <td>{row?.remote_status}</td>
+      <td
+        style={{
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          maxWidth: '100px',
+        }}
+      >
+        {row?.created_by}
+      </td>
+      <td>{row?.client_contact_name}</td>
+      <td>{row?.recruitment_manager_uuid}</td>
+      <td>{row?.account_manager_uuid}</td>
+      <td>{row?.recruiter_uuid}</td>
+
       <td>
         <Group spacing="sm">
           <IconEdit
@@ -311,6 +342,13 @@ export default function JobsTable({ data }: JobsProps) {
           <thead>
             <tr>
               <Th
+                sorted={sortBy === 'uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('uuid')}
+              >
+                <b>Job Id</b>
+              </Th>
+              <Th
                 sorted={sortBy === 'job_title'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('job_title')}
@@ -325,25 +363,103 @@ export default function JobsTable({ data }: JobsProps) {
                 <b>City</b>
               </Th>
               <Th
-                sorted={sortBy === 'country_code'}
+                sorted={sortBy === 'client_request_id'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('country_code')}
+                onSort={() => setSorting('client_request_id')}
               >
-                <b>Country Code</b>
+                <b>Client Request Id</b>
               </Th>
               <Th
-                sorted={sortBy === 'visa_status'}
+                sorted={sortBy === 'primary_skills'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('visa_status')}
+                onSort={() => setSorting('primary_skills')}
               >
-                <b>Visa Status</b>
+                <b>Primary Skill</b>
               </Th>
               <Th
-                sorted={sortBy === 'job_status'}
+                sorted={sortBy === 'customer_type'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('job_status')}
+                onSort={() => setSorting('customer_type')}
+              >
+                <b>Customer Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'employment_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('employment_type')}
+              >
+                <b>Employment Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'bill_rate'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('bill_rate')}
+              >
+                <b>Bill Rate</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'priority'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('priority')}
+              >
+                <b>Priority</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'priority_reason'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('priority_reason')}
+              >
+                <b>Priority Reason</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'status'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('status')}
               >
                 <b>Status</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'remote_status'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('remote_status')}
+              >
+                <b>Remote Status</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'created_by'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('created_by')}
+              >
+                <b>Created By</b>
+              </Th>
+
+              <Th
+                sorted={sortBy === 'client_contact_name'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('client_contact_name')}
+              >
+                <b>Client Contact Name</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruitment_manager_uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruitment_manager_uuid')}
+              >
+                <b>Recruitment Manager</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'account_manager_uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('account_manager_uuid')}
+              >
+                <b>Account Manager</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruiter_uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruiter_uuid')}
+              >
+                <b>Recruiter</b>
               </Th>
               <th className={classes.action}>
                 <b>Action</b>
