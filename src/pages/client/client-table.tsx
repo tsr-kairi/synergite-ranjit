@@ -307,6 +307,16 @@ export function ClientTable({ data }: IClientTableProps) {
           />
         </Group>
       </td>
+      {/* contact -contact open drawer*/}
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        padding="md"
+        size="600px"
+        position="right"
+      >
+        <Contacts client_id={row.uuid} />
+      </Drawer>
     </tr>
   ))
 
@@ -386,16 +396,7 @@ export function ClientTable({ data }: IClientTableProps) {
         </tbody>
       </Table>
 
-      {/* contact -contact open drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        padding="md"
-        size="600px"
-        position="right"
-      >
-        <Contacts />
-      </Drawer>
+      
 
       {/* Edit Client - Client Edit Form Drawer*/}
       <Drawer

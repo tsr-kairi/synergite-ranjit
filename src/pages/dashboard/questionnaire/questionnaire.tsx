@@ -353,7 +353,6 @@ const Questionnaire = () => {
       <Drawer
         opened={candidateListIsOpened}
         onClose={() => setCandidateListIsOpened(false)}
-        onClick={() => setCandidateListIsOpened(false)}
         title="Candidates"
         padding="xl"
         size="xl"
@@ -362,6 +361,7 @@ const Questionnaire = () => {
         <EmployeeIdList
           setEmployee={(candidate) => {
             setCandidateDetails(candidate)
+            setCandidateListIsOpened(false)
           }}
         />
       </Drawer>
@@ -370,7 +370,6 @@ const Questionnaire = () => {
       <Drawer
         opened={clientListIsOpened}
         onClose={() => setClientListIsOpened(false)}
-        onClick={() => setClientListIsOpened(false)}
         title="Clients"
         padding="xl"
         size="xl"
@@ -379,6 +378,7 @@ const Questionnaire = () => {
         <ClientIdList
           setClient={(client) => {
             setClientDetails(client)
+            setClientListIsOpened(false)
           }}
         />
       </Drawer>
@@ -387,7 +387,6 @@ const Questionnaire = () => {
       <Drawer
         opened={vendorListIsOpened}
         onClose={() => setVendorListIsOpened(false)}
-        onClick={() => setVendorListIsOpened(false)}
         title="Vendors"
         padding="xl"
         size="xl"
@@ -396,6 +395,7 @@ const Questionnaire = () => {
         <VendorIdList
           setVendor={(vendor) => {
             setVendorDetails(vendor)
+            setVendorListIsOpened(false)
           }}
         />
       </Drawer>

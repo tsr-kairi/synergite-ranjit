@@ -87,7 +87,7 @@ const AppShellMain = () => {
             height: '100%',
           }}
         >
-          <p style={{ fontSize: '40px', opacity: 0.5 }}>Your offline</p>
+          <p style={{ fontSize: '40px', opacity: 0.5 }}>You are offline</p>
         </div>
       )}
     </AppShell>

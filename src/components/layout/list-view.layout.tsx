@@ -137,7 +137,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
 
       <ScrollArea
         // scroll area style
-        style={{ height: 610, width: 1790 }}
+        style={{ height: 610, width: 1805 }}
         type="scroll"
         offsetScrollbars
         scrollbarSize={5}
@@ -303,13 +303,11 @@ export const listViewLayoutStyle = createStyles((theme) => ({
   },
   table: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
-    // boxShadow:
-    //   '0 10px 15px -3px rgba(152, 195, 255, 0.25),0 4px 6px -4px rgba(152, 195, 255, 0.25)',
     backgroundColor: 'white',
     borderRadius: '10px',
-    // width: '100vw',
-    // maxWidth: '99.9%',
     margin: '3px',
+    // overflowX: 'auto',
+    // scrollbarWidth: 'none',
   },
   userLink: {
     textDecoration: 'none',
