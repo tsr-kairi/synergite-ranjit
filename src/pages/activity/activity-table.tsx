@@ -300,7 +300,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
       <Table
         horizontalSpacing="md"
         verticalSpacing="xs"
-        className={classes.childTable}
+        // className={classes.childTable}
       >
         <thead>
           <tr>
@@ -309,7 +309,7 @@ export default function ActivityTable({ data }: IActivityTableProps) {
               reversed={reverseSortDirection}
               onSort={() => setSorting('immigration_status')}
             >
-              Immigration Status
+              <b>Immigration Status</b>
             </Th>
 
             <Th
@@ -317,37 +317,39 @@ export default function ActivityTable({ data }: IActivityTableProps) {
               reversed={reverseSortDirection}
               onSort={() => setSorting('employee_type')}
             >
-              Type of Employee
+              <b>Type of Employee</b>
             </Th>
             <Th
               sorted={sortBy === 'new_client'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('new_client')}
             >
-              New Client
+              <b>New Client</b>
             </Th>
             <Th
               sorted={sortBy === 'new_subvendor'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('new_subvendor')}
             >
-              New Sub Vendor
+              <b>New Sub Vendor</b>
             </Th>
             <Th
               sorted={sortBy === 'default_activity'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('default_activity')}
             >
-              Default Activity
+              <b>Default Activity</b>
             </Th>
             <Th
               sorted={sortBy === 'department_uuid'}
               reversed={reverseSortDirection}
               onSort={() => setSorting('department_uuid')}
             >
-              Department
+              <b>Department</b>
             </Th>
-            <th className={classes.action}>Action</th>
+            <th className={classes.action}>
+              <b>Action</b>
+            </th>
           </tr>
         </thead>
 

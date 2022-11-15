@@ -285,7 +285,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
       <Table
         horizontalSpacing="md"
         verticalSpacing="xs"
-        className={classes.childTable}
+        // className={classes.childTable}
       >
         <thead>
           <tr>
@@ -294,10 +294,12 @@ export default function RolesTable({ data }: IRolesTableProps) {
               reversed={reverseSortDirection}
               onSort={() => setSorting('name')}
             >
-              Role Name
+              <b>Role Name</b>
             </Th>
 
-            <th className={classes.action}>Action</th>
+            <th className={classes.action}>
+              <b>Action</b>
+            </th>
           </tr>
         </thead>
 

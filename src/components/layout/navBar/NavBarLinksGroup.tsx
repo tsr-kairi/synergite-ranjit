@@ -9,7 +9,6 @@ import {
   createStyles,
   Anchor,
   Menu,
-  Divider,
 } from '@mantine/core'
 import { TablerIcon } from '@tabler/icons'
 import { Link } from 'react-router-dom'
@@ -59,7 +58,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? theme.colors.grey[0]
         : theme.colors.gray[0],
-    borderLeft: `1px solid ${theme.colors.grey[0]}`,
+    // borderLeft: `1px solid ${theme.colors.grey[0]}`,
 
     '&:hover': {
       backgroundColor:
@@ -195,12 +194,12 @@ export default function LinksGroup({
               alignItems: 'center',
               justifyContent: 'space-between',
               color: '#fff',
+              // borderBottom: `1px solid white`,
             }}
           >
             {label}
             <Icons size={20} />
           </Menu.Label>
-          <Divider />
           <Menu.Item style={{ padding: '5px', backgroundColor: 'transparent' }}>
             {menuOpened ? (
               <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>

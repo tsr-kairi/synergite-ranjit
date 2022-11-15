@@ -135,7 +135,39 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         )}
       </div>
 
-      <ScrollArea>
+      <ScrollArea
+        // scroll area style
+        style={{ height: 610 }}
+        type="scroll"
+        offsetScrollbars
+        scrollbarSize={5}
+        styles={(theme) => ({
+          scrollbar: {
+            '&, &:hover': {
+              background:
+                theme.colorScheme === 'dark'
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+            },
+
+            '&[data-orientation="vertical"] .mantine-ScrollArea-thumb': {
+              backgroundColor: theme.colors.accent[5],
+            },
+
+            '&[data-orientation="horizontal"] .mantine-ScrollArea-thumb': {
+              backgroundColor: theme.colors.blue[6],
+            },
+          },
+
+          corner: {
+            opacity: 1,
+            background:
+              theme.colorScheme === 'dark'
+                ? theme.colors.dark[6]
+                : theme.colors.gray[0],
+          },
+        })}
+      >
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
@@ -270,12 +302,12 @@ export const listViewLayoutStyle = createStyles((theme) => ({
     },
   },
   table: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
     backgroundColor: 'white',
     borderRadius: '10px',
-    width: '100%',
-    maxWidth: '98.8%',
-    margin: '10px',
+    // width: '100vw',
+    // maxWidth: '99.9%',
+    margin: '3px',
   },
   userLink: {
     textDecoration: 'none',

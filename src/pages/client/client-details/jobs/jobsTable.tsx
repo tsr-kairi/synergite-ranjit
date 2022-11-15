@@ -306,7 +306,7 @@ export default function JobsTable({ data }: JobsProps) {
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
-          className={classes.childTable}
+          // className={classes.childTable}
         >
           <thead>
             <tr>
@@ -315,37 +315,39 @@ export default function JobsTable({ data }: JobsProps) {
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('job_title')}
               >
-                Job Title
+                <b>Job Title</b>
               </Th>
               <Th
                 sorted={sortBy === 'city'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('city')}
               >
-                City
+                <b>City</b>
               </Th>
               <Th
                 sorted={sortBy === 'country_code'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('country_code')}
               >
-                Country Code
+                <b>Country Code</b>
               </Th>
               <Th
                 sorted={sortBy === 'visa_status'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('visa_status')}
               >
-                Visa Status
+                <b>Visa Status</b>
               </Th>
               <Th
                 sorted={sortBy === 'job_status'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('job_status')}
               >
-                Status
+                <b>Status</b>
               </Th>
-              <th className={classes.action}>Action</th>
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
             </tr>
           </thead>
 

@@ -1,20 +1,7 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
-import {
-  ActionIcon,
-  Button,
-  Card,
-  Checkbox,
-  createStyles,
-  Select,
-  Table,
-  Text,
-  Textarea,
-  TextInput,
-} from '@mantine/core'
+import { Button, createStyles, Table } from '@mantine/core'
 import { Th } from '../employee/employee-list'
 import React, { useState } from 'react'
-import { IconPlus, IconSubmarine, IconTrash } from '@tabler/icons'
-import { randomId } from '@mantine/hooks'
 import TimesheetInputTile from './timesheet-input-tile'
 import TimesheetOverviewTile from './timesheet-overview-tile'
 
@@ -92,46 +79,52 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
   const { totalBillableHours, totalNonBillableHours } = calculateTotalHours()
 
   return (
-    <>
-      <Card mb={16}>
-        <TimesheetOverviewTile onBackClick={onBackClick} />
-      </Card>
-
-      <Card>
-        <Table horizontalSpacing="md" verticalSpacing="xs">
-          <thead>
-            <tr className={classes.tr}>
-              <th className={classes.th}>Date</th>
-              <th className={classes.th}>Project</th>
-              <th className={classes.th}>Billable/Non-billable</th>
-              <th className={classes.th}>Total Hours</th>
-              <th className={classes.th}>Project Updates</th>
-              <th className={classes.th}></th>
-            </tr>
-          </thead>
-
-          <tbody>{timesheetInputTileList}</tbody>
-        </Table>
-
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+    <div className={classes.main}>
+      <TimesheetOverviewTile onBackClick={onBackClick} />
+      <div className={classes.timesheet}>
+        <ListViewLayout
+          title="Create Timesheets"
+          hideActionButton
+          hideColumnButton
+          isError={false}
+          isLoading={false}
         >
-          <p style={{ marginRight: '24px' }}>
-            Total Billable Hours: {totalBillableHours.toString() + '.00'}
-          </p>
-          <p>
-            Total Non Billable Hours: {totalNonBillableHours.toString() + '.00'}
-          </p>
-          <Button ml={80} onClick={onSubmitHandler}>
-            Submit
-          </Button>
-        </div>
-      </Card>
-    </>
+          <Table horizontalSpacing="md" verticalSpacing="xs">
+            <thead className={classes.thead}>
+              <tr className={classes.tr}>
+                <th className={classes.th}>Date</th>
+                <th className={classes.th}>Project</th>
+                <th className={classes.th}>Billable/Non-billable</th>
+                <th className={classes.th}>Total Hours</th>
+                <th className={classes.th}>Project Updates</th>
+                <th className={classes.th}>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>{timesheetInputTileList}</tbody>
+          </Table>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <p style={{ marginRight: '24px' }}>
+              Total Billable Hours: {totalBillableHours.toString() + '.00'}
+            </p>
+            <p>
+              Total Non Billable Hours:{' '}
+              {totalNonBillableHours.toString() + '.00'}
+            </p>
+            <Button ml={80} onClick={onSubmitHandler}>
+              Submit
+            </Button>
+          </div>
+        </ListViewLayout>
+      </div>
+    </div>
   )
 }
 
@@ -140,10 +133,11 @@ export default CreateTimeSheet
 const useStyles = createStyles((theme) => ({
   thead: {
     paddingLeft: '20px !important',
+    borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
   },
   th: {
     border: 'none !important',
-    fontSize: '18px !important',
+    // fontSize: '14px !important',
   },
   td: {
     padding: '20px !important',
@@ -151,14 +145,12 @@ const useStyles = createStyles((theme) => ({
   tr: {
     border: 'none !important',
   },
-  buttonContainer: {
-    position: 'absolute',
-    top: '180px',
-    right: '180px',
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
   },
-  iconContainer: {
-    position: 'absolute',
-    top: '180px',
-    right: '150px',
+  timesheet: {
+    // marginTop: '20px',
   },
 }))
