@@ -27,6 +27,7 @@ import EditContact from '@/components/form/client/contact/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteContactById from '../../hooks/useDeleteContactById'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
+import { useParams } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -187,7 +188,6 @@ interface ContactProps {
 // Exporting Default ClientTable Component
 
 export default function ContactsTable({ data }: ContactProps) {
-  const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [contactEditData, setContactEditData] = useState({} as TContacts)
@@ -195,6 +195,10 @@ export default function ContactsTable({ data }: ContactProps) {
   const [sortBy, setSortBy] = useState<keyof TContacts | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes } = useStyles()
+
+  // client_id
+  const { clientId } = useParams()
+  console.log('client-Id', clientId)
   const setSorting = (field: keyof TContacts) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
@@ -274,7 +278,7 @@ export default function ContactsTable({ data }: ContactProps) {
         createDrawerTitle="Add New Contact"
         isError={false}
         isLoading={false}
-        createDrawerChildren={<CreateContact />}
+        createDrawerChildren={<CreateContact client_id={String(clientId)} />}
         onSearchChange={handleSearchChange}
       >
         <Table

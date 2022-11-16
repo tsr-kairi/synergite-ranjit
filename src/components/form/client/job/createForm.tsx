@@ -18,8 +18,6 @@ import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { useParams } from 'react-router-dom'
 import { WCountry } from '@/pages/data/wCountry'
-import { UsIndustry } from '@/pages/data/industry'
-// import { WLanguages } from '@/pages/data/languages'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',

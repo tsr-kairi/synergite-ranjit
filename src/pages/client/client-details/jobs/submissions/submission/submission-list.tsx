@@ -8,8 +8,6 @@ import {
   Center,
   Drawer,
   Badge,
-  Modal,
-  // Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -25,8 +23,7 @@ import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
-import Questionnaire from '@/pages/onboarding/questionnaire'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import axiosPrivate from '@/services/axiosPrivate'
 import { TPreonboard } from '@/types/prebonboard-type'
@@ -104,12 +101,10 @@ const useStyles = createStyles((theme) => ({
     },
   },
   childTable: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
     backgroundColor: 'white',
     borderRadius: '10px',
-    width: '100%',
-    maxWidth: '98.8%',
-    margin: '10px',
+    margin: '3px',
+    minWidth: '197vw',
   },
   userLink: {
     textDecoration: 'none',
@@ -195,7 +190,6 @@ interface ISubmissionProps {
 export function SubmissionList({ data }: ISubmissionProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
-  const [popUpIsOpen, setPopUpIsOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TSubmission | null>(null)
@@ -426,17 +420,17 @@ export function SubmissionList({ data }: ISubmissionProps) {
     <>
       <ListViewLayout
         title="Submission"
-        createDrawerSize={'xl'}
+        createDrawerSize={'800px'}
         createDrawerTitle="Add New Submission"
         isError={false}
         isLoading={false}
-        createDrawerChildren={<CreateForm onClose={() => setOpened(false)} />}
+        createDrawerChildren={<CreateForm onClose={() => setIsOpened(false)} />}
         onSearchChange={handleSearchChange}
       >
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
-          // className={classes.childTable}
+          className={classes.childTable}
         >
           <thead>
             <tr>
@@ -610,9 +604,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
       >
         <EditForm {...submissionEditData} />
       </Drawer>
-
-      {/* On Board PopUp */}
-      <Modal
+      {/* <Modal
         title={
           <Text
             weight="500"
@@ -630,7 +622,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         opened={popUpIsOpen}
       >
         <Questionnaire />
-      </Modal>
+      </Modal> */}
     </>
   )
 }

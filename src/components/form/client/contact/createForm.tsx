@@ -10,20 +10,27 @@ import {
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { useParams } from 'react-router-dom'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
   },
 }))
 
-export default function CreateForm() {
-  const { clientId } = useParams()
+interface clientContactsProps {
+  client_id: string
+}
+
+// { client_id }: clientContactsProps
+
+export default function CreateForm({ client_id }: clientContactsProps) {
+  // const { clientId } = useParams()
+  // console.log('client-Id', clientId)
   // const search = window.location.search
   // const params = new URLSearchParams(search)
-  // const id = params.get('id')
+  // const clientId = params.get('clientId')
+
   const { classes } = useStyles()
-  const { mutate: addContact, isSuccess, isError } = useCreateContact()
+  const { mutate: addContact } = useCreateContact()
 
   const form = useForm<TContactCreate>({
     validate: zodResolver(zContactCreate),
@@ -47,13 +54,10 @@ export default function CreateForm() {
   const handleSubmit = (values: TContactCreate) => {
     const contactCreateData = {
       ...values,
-      // status: 'published',
-      // clients: Number(clientId),
-      client_uuid: String(clientId),
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
+      client_id: String(client_id),
     }
 
-    const data = addContact(contactCreateData)
+    addContact(contactCreateData)
 
     showNotification({
       title: 'Success!!',

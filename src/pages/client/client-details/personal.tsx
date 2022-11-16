@@ -93,6 +93,7 @@ export default function Personal() {
   const [opened, setOpened] = useState(false)
   const [clientDetailsOpened, setClientDetailsIsOpened] = useState(false)
   const { clientId } = useParams()
+  // console.log('cliId', clientId)
   const { classes } = useStyles()
 
   const { data, isError, error, isLoading } = useGetClientById(String(clientId))

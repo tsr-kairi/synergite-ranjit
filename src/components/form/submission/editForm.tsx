@@ -68,7 +68,7 @@ export default function EditForm(submissionData: TSubmission) {
     const response = await axiosPrivate.get<TRecruitersFindAll>(`/recruiters`)
     return response.data
   }
-  const { data: recruiters } = useQuery<TRecruitersFindAll, Error>(
+  const { data: recruiter } = useQuery<TRecruitersFindAll, Error>(
     recruitersQueryKeys.recruiters,
     findAlRecruiter
   )
@@ -92,102 +92,176 @@ export default function EditForm(submissionData: TSubmission) {
     <>
       <Paper p={20} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            key={employeeDetails?.uuid}
-            mt="md"
-            required
-            label="Candidate"
-            type={'text'}
-            placeholder="Candidate"
-            onClick={() => {
-              employeeListIsOpened(true)
-            }}
-            value={employeeName || ''}
-            rightSection={
-              employeeDetails?.uuid ? (
-                <IconExternalLink
-                  size="20"
-                  color="grey"
-                  cursor="pointer"
-                  onClick={() => {
-                    setEmployeeOpened(true)
-                    // setEmployeeDetails(employeeDetails)
-                  }}
-                />
-              ) : null
-            }
-          />
-          {/* {employeeType.state === 'UP' && ( */}
-          <TextInput
-            mt="md"
-            required
-            label="Vendor"
-            type={'text'}
-            placeholder="Vendor"
-            onClick={() => {
-              vendorListIsOpened(true)
-            }}
-            value={vendorName || ''}
-            rightSection={
-              vendorDetails?.uuid ? (
-                <IconExternalLink
-                  size="20"
-                  color="grey"
-                  cursor="pointer"
-                  onClick={() => {
-                    setVendorOpened(true)
-                    // setVendorDetails()
-                  }}
-                />
-              ) : null
-            }
-          />
-          {/* )} */}
-          <Grid mt="md">
-            <Grid.Col span={12}>
+          <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="First Name"
+              type={'text'}
+              placeholder="First Name"
+              {...form.getInputProps('first_name')}
+            />
+            <TextInput
+              required
+              label="Last Name"
+              type={'text'}
+              placeholder="Last Name"
+              {...form.getInputProps('last_name')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              key={employeeDetails?.uuid}
+              required
+              label="Candidate"
+              type={'text'}
+              placeholder="Candidate"
+              onClick={() => {
+                employeeListIsOpened(true)
+              }}
+              value={employeeName || ''}
+              rightSection={
+                employeeDetails?.uuid ? (
+                  <IconExternalLink
+                    size="20"
+                    color="grey"
+                    cursor="pointer"
+                    onClick={() => {
+                      setEmployeeOpened(true)
+                      // setEmployeeDetails(employeeDetails)
+                    }}
+                  />
+                ) : null
+              }
+            />
+            {/* {vendorName ? ( */}
+            <TextInput
+              required
+              label="Vendor"
+              type={'text'}
+              placeholder="Vendor"
+              onClick={() => {
+                vendorListIsOpened(true)
+              }}
+              value={vendorName || ''}
+              rightSection={
+                vendorDetails?.uuid ? (
+                  <IconExternalLink
+                    size="20"
+                    color="grey"
+                    cursor="pointer"
+                    onClick={() => {
+                      setVendorOpened(true)
+                      // setVendorDetails()
+                    }}
+                  />
+                ) : null
+              }
+            />
+          </Group>
+          {/* ) : null} */}
+          <Group grow align="center" mt="md">
+            <Select
+              data={[
+                { value: 'Selected', label: 'Selected' },
+                { value: 'Rejected', label: 'Rejected' },
+                { value: 'On Hold', label: 'On Hold' },
+              ]}
+              placeholder="Submission Status"
+              label="Submission Status"
+              {...form.getInputProps('status')}
+            />
+            {form.values.status === 'Rejected' && (
               <Select
                 data={[
-                  { value: 'Selected', label: 'Selected' },
-                  { value: 'Rejected', label: 'Rejected' },
-                  { value: 'On Hold', label: 'On Hold' },
+                  { value: 'Client Rejected', label: 'Client Rejected' },
+                  { value: 'Position on Hold', label: 'Position on Hold' },
+                  {
+                    value: 'Internally rejected',
+                    label: 'Internally rejected',
+                  },
+                  { value: 'Others', label: 'Others' },
                 ]}
-                placeholder="Submission Status"
-                label="Submission Status"
-                {...form.getInputProps('status')}
+                label="Rejection Reason"
+                type={'text'}
+                placeholder="Rejection Reason"
+                {...form.getInputProps('rejection_reason')}
               />
-            </Grid.Col>
-          </Grid>
-          <Select
-            mt={'md'}
-            data={
-              recruiters?.data.map((r) => {
-                return { value: r.uuid, label: r.fname }
-              }) || []
-            }
-            label="Recruiters"
-            type={'text'}
-            placeholder="Recruiters"
-            {...form.getInputProps('recruiters')}
-          />
-          {form.values.status === 'Rejected' && (
+            )}
+          </Group>
+          <Group grow align="center" mt="md">
             <Select
-              mt={'md'}
+              label="Immigration Status"
+              placeholder="Immigration Status"
               data={[
-                { value: 'Client Rejected', label: 'Client Rejected' },
-                { value: 'Position on Hold', label: 'Position on Hold' },
-                {
-                  value: 'Internally rejected',
-                  label: 'Internally rejected',
-                },
-                { value: 'Others', label: 'Others' },
+                { value: 'IS_USC', label: 'USC' },
+                { value: 'IS_H1', label: 'H1' },
+                { value: 'IS_GREEN_CARD', label: 'Green Card' },
               ]}
-              label="Rejection Reason"
-              type={'text'}
-              placeholder="Rejection Reason"
-              {...form.getInputProps('rejection_reason')}
+              {...form.getInputProps('immigration_status')}
             />
-          )}
-
+          </Group>
+          <Group grow align="center" mt="md">
+            <Select
+              data={
+                recruiter?.data.map((r) => {
+                  return { value: r.uuid, label: r.fname }
+                }) || []
+              }
+              label="Recruiters"
+              placeholder="Recruiters"
+              {...form.getInputProps('recruiters')}
+            />
+            <Select
+              label="Candidate Location"
+              placeholder="Candidate Location"
+              data={[{ value: 'USA', label: 'USA' }]}
+              {...form.getInputProps('candidate_location')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <Select
+              label="Client"
+              placeholder="Client"
+              data={[{ value: 'Pradeep', label: 'Pradeep' }]}
+              {...form.getInputProps('client')}
+            />
+            <Select
+              label="Employment Type"
+              placeholder="Employment Type"
+              data={[
+                { value: 'ET_W2', label: 'W2' },
+                { value: 'ET_C2C', label: 'C2C' },
+                { value: 'ET_1099', label: '1099' },
+                {
+                  value: 'ET_INTERNAL',
+                  label: 'Internal Employees',
+                },
+              ]}
+              {...form.getInputProps('employment_type')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <Select
+              label="Pay Rate"
+              placeholder="Pay Rate"
+              data={[
+                { value: 'PT_HOURLY', label: 'Hourly' },
+                { value: 'PT_BI_WEEKLY', label: 'Bi-Weekly' },
+                { value: 'PT_FORTNIGHT', label: 'Weekly' },
+                { value: 'PT_MONTHLY', label: 'Monthly' },
+                { value: 'PT_ANNUALLY', label: 'Annual Salary' },
+                { value: 'PR_PER_DAY', label: 'Per Day' },
+              ]}
+              {...form.getInputProps('pay_rate')}
+            />
+            <TextInput
+              required
+              label="Bill Rate"
+              type={'text'}
+              placeholder="Bill Rate"
+              {...form.getInputProps('bill_rate')}
+            />
+          </Group>
           <Textarea
             required
             label="Remarks"

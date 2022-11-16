@@ -137,18 +137,18 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
 
       <ScrollArea
         // scroll area style
-        style={{ height: 610, width: 1805 }}
-        type="scroll"
+        style={{ height: 600, width: 1805 }}
+        type="always"
         offsetScrollbars
         scrollbarSize={5}
         styles={(theme) => ({
           scrollbar: {
-            // '&, &:hover': {
-            //   background:
-            //     theme.colorScheme === 'dark'
-            //       ? theme.colors.dark[6]
-            //       : theme.colors.gray[0],
-            // },
+            '&, &:hover': {
+              background:
+                theme.colorScheme === 'dark'
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+            },
 
             '&[data-orientation="vertical"] .mantine-ScrollArea-thumb': {
               backgroundColor: theme.colors.blue[5],
@@ -306,6 +306,8 @@ export const listViewLayoutStyle = createStyles((theme) => ({
     backgroundColor: 'white',
     borderRadius: '10px',
     margin: '3px',
+    // width: '100%',
+    // minWidth: '150%',
     // overflowX: 'auto',
     // scrollbarWidth: 'none',
   },

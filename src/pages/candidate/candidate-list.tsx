@@ -298,6 +298,7 @@ export function CandidateList({ data }: ICandidateProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.candidateRowData}>
+      <td>{row?.candidate_id}</td>
       <td>
         <Link
           to={`/candidate-details/${row?.uuid}`}
@@ -311,14 +312,10 @@ export function CandidateList({ data }: ICandidateProps) {
             transitionDuration={300}
           >
             <Group spacing="sm">
-              {/* <Avatar
-                size={26}
-                src={`https://gokv9osl.directus.app/assets/${row?.profile_image}/${row?.fname}.png?access_token=Hh-BLV5ovXyGUcQR1SUdpBncldVLekqE`}
-                radius={26}
-              /> */}
               <Avatar color="cyan" size={26} radius={26}>
                 E
               </Avatar>
+
               <Text size="sm" weight={500}>
                 {row?.first_name} {row?.last_name}
               </Text>
@@ -328,10 +325,9 @@ export function CandidateList({ data }: ICandidateProps) {
       </td>
       <td>{row?.email}</td>
       <td>{row?.phone}</td>
-      <td>{row?.gender}</td>
-      <td>{row?.city}</td>
-      <td>{row?.state}</td>
-      <td>{row?.country}</td>
+      <td>{row?.job_title}</td>
+      <td>{row?.work_experience}</td>
+      <td>{row?.created_date}</td>
       <td>
         <Group spacing="sm">
           <IconEdit
@@ -373,6 +369,13 @@ export function CandidateList({ data }: ICandidateProps) {
           <thead>
             <tr>
               <Th
+                sorted={sortBy === 'candidate_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('candidate_id')}
+              >
+                <b>Candidate ID</b>
+              </Th>
+              <Th
                 sorted={sortBy === 'first_name'}
                 reversed={reverseSortDirection}
                 onSort={() => setSorting('first_name')}
@@ -394,32 +397,25 @@ export function CandidateList({ data }: ICandidateProps) {
                 <b>Phone</b>
               </Th>
               <Th
-                sorted={sortBy === 'gender'}
+                sorted={sortBy === 'job_title'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('gender')}
+                onSort={() => setSorting('job_title')}
               >
-                <b>Gender</b>
+                <b>Job Title</b>
               </Th>
               <Th
-                sorted={sortBy === 'city'}
+                sorted={sortBy === 'work_experience'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('city')}
+                onSort={() => setSorting('work_experience')}
               >
-                <b>City</b>
+                <b>Work Experience</b>
               </Th>
               <Th
-                sorted={sortBy === 'state'}
+                sorted={sortBy === 'created_date'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('state')}
+                onSort={() => setSorting('created_date')}
               >
-                <b>State</b>
-              </Th>
-              <Th
-                sorted={sortBy === 'country'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('country')}
-              >
-                <b>Country</b>
+                <b>Created Date</b>
               </Th>
               <th className={classes.action}>
                 <b>Action</b>
