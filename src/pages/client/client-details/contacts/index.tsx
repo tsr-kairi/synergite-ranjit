@@ -6,11 +6,11 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import ContactsTable from './contactsTable'
 
-interface contactsProps {
+interface clientContactsProps {
   client_id: string
 }
 
-const Contacts = ({ client_id }: contactsProps) => {
+const Contacts = ({ client_id }: clientContactsProps) => {
   // const search = window.location.search
   // const params = new URLSearchParams(search)
   // const id = params.get('id')

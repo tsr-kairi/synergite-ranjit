@@ -252,7 +252,6 @@ export function ClientTable({ data }: IClientTableProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
-      {/* <td>{row?.id}</td> */}
       <td>
         <Link
           to={`/client-details/${row?.uuid}`}
@@ -395,8 +394,6 @@ export function ClientTable({ data }: IClientTableProps) {
           )}
         </tbody>
       </Table>
-
-      
 
       {/* Edit Client - Client Edit Form Drawer*/}
       <Drawer

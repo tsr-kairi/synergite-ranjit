@@ -9,6 +9,7 @@ import {
   createStyles,
   Anchor,
   Menu,
+  Tooltip,
 } from '@mantine/core'
 import { TablerIcon } from '@tabler/icons'
 import { Link } from 'react-router-dom'
@@ -172,16 +173,24 @@ export default function LinksGroup({
               onClick={onTopLinkClick}
               onMouseLeave={() => setIsOnHoverOpen(false)}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <ThemeIcon
-                  className={classes.icoTheme}
-                  size={30}
-                  style={isActive ? parentBackgroundColor : {}}
-                  onClick={() => setMenuOpened(true)}
-                >
-                  <Icons size={20} />
-                </ThemeIcon>
-              </Box>
+              <Tooltip
+                label={label}
+                color="blue"
+                withArrow
+                position="right-start"
+                offset={25}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ThemeIcon
+                    className={classes.icoTheme}
+                    size={30}
+                    style={isActive ? parentBackgroundColor : {}}
+                    onClick={() => setMenuOpened(true)}
+                  >
+                    <Icons size={20} />
+                  </ThemeIcon>
+                </Box>
+              </Tooltip>
             </Anchor>
           </UnstyledButton>
         </Menu.Target>

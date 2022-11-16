@@ -16,7 +16,6 @@ const zSubmission = z.object({
   pay_type: z.string(),
   bill_type: z.string(),
   bill_rate: z.string(),
-  submission_status: z.string(),
   submitted_by: z.string(),
   submitted_date: z.string(),
   ssn: z.string(),
@@ -56,9 +55,15 @@ const zSubmission = z.object({
 const zSubmissionCreate = z.object({
   first_name: z.string(),
   last_name: z.string(),
-  city: z.string(),
-  state: z.string(),
-  country: z.string(),
+
+  // new field Nov
+  candidate_location: z.string(),
+  client: z.string(),
+  employment_type: z.string(),
+  pay_rate: z.string(),
+  bill_rate: z.string(),
+  immigration_status: z.string(),
+
   status: z.string(),
   remarks: z.string(),
   rejection_reason: z.string(),

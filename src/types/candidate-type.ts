@@ -21,7 +21,11 @@ const zCandidate = z.object({
   ethnic_origin: z.string(),
   zip: z.string(),
 
-  // new added field
+  // new added field Nov
+  created_date: z.string(),
+  job_title: z.string(),
+
+  // new added field oct
   candidate_ownership_uuid: z.string(),
   candidate_status: z.string(),
   current_employer_name: z.string(),
@@ -62,10 +66,13 @@ const zCandidateCreate = z.object({
   address2: z.string(),
   city: z.string(),
   state: z.string(),
-  county: z.string(),
   country: z.string(),
   ethnic_origin: z.string(),
   zip: z.string(),
+
+  // new added field Nov
+  created_date: z.string(),
+  job_title: z.string(),
 
   // new added field
   candidate_ownership_uuid: z.string(),
