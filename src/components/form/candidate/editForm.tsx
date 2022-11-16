@@ -177,7 +177,7 @@ export default function EditForm(candidateData: TCandidate) {
                     ]}
                     placeholder="Job Title"
                     label="Job Title"
-                    {...form.getInputProps('job_title')} // old field
+                    {...form.getInputProps('job_title')}
                   />
                   <Select
                     data={[

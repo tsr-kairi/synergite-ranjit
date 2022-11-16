@@ -313,7 +313,7 @@ export function CandidateList({ data }: ICandidateProps) {
           >
             <Group spacing="sm">
               <Avatar color="cyan" size={26} radius={26}>
-                E
+                C
               </Avatar>
 
               <Text size="sm" weight={500}>

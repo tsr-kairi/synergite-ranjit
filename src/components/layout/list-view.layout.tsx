@@ -302,10 +302,10 @@ export const listViewLayoutStyle = createStyles((theme) => ({
     },
   },
   table: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.35)',
     backgroundColor: 'white',
     borderRadius: '10px',
-    margin: '3px',
+    margin: '5px',
     // width: '100%',
     // minWidth: '150%',
     // overflowX: 'auto',

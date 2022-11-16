@@ -50,10 +50,13 @@ export default function CreateForm() {
       address2: '',
       city: '',
       state: '',
-      county: '',
       country: '',
       ethnic_origin: '',
       zip: '',
+
+      // new added field Nov
+      created_date: '',
+      job_title: '',
 
       // new added field
       candidate_ownership_uuid: '',
@@ -232,7 +235,7 @@ export default function CreateForm() {
                     ]}
                     placeholder="Job Title"
                     label="Job Title"
-                    {...form.getInputProps('job_title')} // old field
+                    {...form.getInputProps('job_title')}
                   />
                   <Select
                     required
