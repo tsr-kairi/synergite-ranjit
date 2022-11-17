@@ -103,28 +103,40 @@ const Timesheet = () => {
                       <td>
                         {sheetValue.Status === 'New' ? (
                           <Badge
-                            style={{ border: `1px solid pink` }}
-                            color="pink"
+                            style={{
+                              border: `1px solid blue`,
+                              minWidth: '89px',
+                            }}
+                            color="skyBlue"
                           >
                             New
                           </Badge>
                         ) : sheetValue.Status === 'Submitted' ? (
                           <Badge
-                            style={{ border: `1px solid blue` }}
-                            color="blue"
+                            style={{
+                              border: `1px solid orange`,
+                              minWidth: '89px',
+                            }}
+                            color="yellow"
                           >
                             Submitted
                           </Badge>
                         ) : sheetValue.Status === 'Approved' ? (
                           <Badge
-                            style={{ border: `1px solid green` }}
+                            style={{
+                              border: `1px solid green`,
+                              minWidth: '89px',
+                            }}
                             color="green"
                           >
                             Approved
                           </Badge>
                         ) : sheetValue.Status === 'Rejected' ? (
                           <Badge
-                            style={{ border: `1px solid red` }}
+                            style={{
+                              border: `1px solid red`,
+                              minWidth: '89px',
+                            }}
                             color="red"
                           >
                             Rejected
