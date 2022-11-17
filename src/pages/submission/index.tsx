@@ -1,7 +1,7 @@
 import { Loader } from '@mantine/core'
 import { FC } from 'react'
 import useGetAllSubmissionsByClientIdJobId from '../client/client-details/jobs/submissions/hooks/useGetAllSubmissionsByClientIdJobId'
-import SubmissionList from './submission-list'
+import { SubmissionList } from './submission-list'
 
 interface SubmissionProps {
   client_id: string

@@ -1,14 +1,14 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { onboardingStatusList } from '@/data/onboarding-status.data'
-import useGetAllDepartment from '@/pages/department/hooks/useGetAllDepartment'
 import { Th } from '@/pages/employee/employee-list'
 import { getOnboardingList } from '@/services/onboarding.services'
 import theme from '@/theme/theme'
-import { TOnboarding, TOnboardingStatus } from '@/types/onboarding-flow-type'
+import { TOnboardingStatus } from '@/types/onboarding-flow-type'
 import { getQueryStringFromObject } from '@/utils/query-string.utils'
 import {
   Badge,
   Button,
+  createStyles,
   Drawer,
   Group,
   Paper,
@@ -25,12 +25,32 @@ import NoteList from './notes/note-list'
 import OnboardingActivitySidebar from './onboarding-activity'
 import OnboardingTasks from './onboarding-tasks'
 
+const useStyles = createStyles((theme) => ({
+  header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+    },
+  },
+}))
+
 const OnboardingList = () => {
   const [isNoteOpen, setIsNoteOpen] = useState(false)
   const [isActivityOpen, setIsActivityOpen] = useState(false)
   const [selectedOnboardingId, setSelectedOnboardingId] = useState('')
   const [selectedActivityUUID, setSelectedActivityUUID] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const { classes, cx } = useStyles()
 
   const { data: onboardingList } = useQuery(
     ['onboarding-list', searchTerm],
@@ -48,7 +68,7 @@ const OnboardingList = () => {
         isLoading={false}
       >
         <Table horizontalSpacing="md" verticalSpacing="xs">
-          <thead>
+          <thead className={cx(classes.header)}>
             <tr>
               <Th onSort={() => null}>
                 <b>Name</b>

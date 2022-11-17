@@ -6,7 +6,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.35)',
   },
   timesheetUserCard: {
     border: `1px solid ${theme.colors.blue[1]}`,

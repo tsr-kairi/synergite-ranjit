@@ -1,41 +1,32 @@
 import { useState } from 'react'
 import {
   createStyles,
-  Table,
-  ScrollArea,
   UnstyledButton,
+  Table,
   Group,
   Text,
   Center,
-  TextInput,
   Drawer,
-  Button,
   Tooltip,
-  // Pagination,
+  Avatar,
+  Checkbox,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
   IconEdit,
   IconTrash,
-  IconPlus,
 } from '@tabler/icons'
-import { TJobs } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import CreateJob from '@/components/form/client/job/createForm'
-import EditJob from '@/components/form/client/job/editForm'
 import { showNotification } from '@mantine/notifications'
-
-import useDeleteJobById from '../client/hooks/useDeleteClientById'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useOnboarding } from '@/store/onboarding.store'
+import { Link } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
-import useFetchJobs from './hooks/useFetchJobs'
-import CreateJobForm from './create-job-form'
-// import { useQuery } from 'react-query'
+import useDeleteJobById from '../client/hooks/useDeleteJobById'
+import { TJobs } from '@/types'
+import EditForm from '@/components/form/client/job/editForm'
+import CreateForm from '@/components/form/client/job/createForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -52,7 +43,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  companyDetails: {
+  jobsRowData: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -64,38 +55,43 @@ const useStyles = createStyles((theme) => ({
     height: 21,
     borderRadius: 21,
   },
-  tableHead: {
-    width: '100%',
-    padding: '10px',
-    paddingTop: '0px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '0 !important',
-    gap: '30px',
+  header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+    },
   },
 
-  tableBottom: {
-    width: '100%',
-    padding: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  trList: {
+    border: 'none',
+    '&:hover': {
+      backgroundColor: theme.colors.blue[1],
+    },
   },
 
   searchField: {
     flex: 1,
   },
   text: {
-    color: theme.colors.blue[9],
+    color: '#04334c',
   },
-  jobIcon: {
-    color: theme.colors.blue[8],
+  filterIcon: {
+    color: '#04334c',
   },
   editIcon: {
-    color: theme.colors.blue[5],
+    color: '#04334c',
     '&:hover': {
-      color: theme.colors.blue[9],
+      color: '#04334c',
     },
   },
   deleteIcon: {
@@ -111,14 +107,10 @@ const useStyles = createStyles((theme) => ({
     },
   },
   childTable: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
     backgroundColor: 'white',
     borderRadius: '10px',
-    width: '100%',
-    maxWidth: '98.3%',
-    margin: '10px',
-    borderCollapse: 'collapse',
-    border: 'none',
+    margin: '3px',
+    minWidth: '190vw',
   },
   userLink: {
     textDecoration: 'none',
@@ -136,7 +128,6 @@ interface ThProps {
   sorted: boolean
   onSort(): void
 }
-
 // Table Heading Component
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles()
@@ -161,7 +152,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
   )
 }
 
-// Utility Function - filter Data
+// Utility Function - filterData
 function filterData(data: TJobs[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
@@ -169,7 +160,7 @@ function filterData(data: TJobs[], search: string) {
   )
 }
 
-// Utility Function - short Data
+// Utility Function - sortData
 function sortData(
   data: TJobs[],
   payload: {
@@ -187,6 +178,7 @@ function sortData(
   return filterData(
     [...data].sort((a, b) => {
       if (payload.reversed) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
         return String(b[sortBy]).localeCompare(String(a[sortBy]))
       }
 
@@ -196,246 +188,300 @@ function sortData(
   )
 }
 
-const JobList = () => {
-  const [opened, setOpened] = useState(false)
+interface IJobsProps {
+  data: TJobs[]
+}
+
+// Exporting Default ClientTable Component
+export function AllJobList({ data }: IJobsProps) {
   const [isOpened, setIsOpened] = useState(false)
-  const [jobEditData, setJobEditData] = useState({} as TJobs)
   const [search, setSearch] = useState('')
-  const [sortedData, setSortedData] = useState({} as TJobs)
+  const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TJobs | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
-  // const { mutate: deleteJob } = useDeleteJobById()
-
-  const navigate = useNavigate()
-  const { data: jobs } = useFetchJobs()
+  const { classes, cx } = useStyles()
+  const { mutate: deleteJobs } = useDeleteJobById()
+  const [jobsEditData, setJobsEditData] = useState({} as TJobs)
 
   const setSorting = (field: keyof TJobs) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
-    // setSortedData(sortData(jobs, { sortBy: field, reversed, search }))
+    setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
 
-  // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { value } = event.currentTarget
-  //   setSearch(value)
-  //   sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
-  // }
+  const handleSearchChange = (searchTerm: string) => {
+    setSearch(searchTerm)
+    setSortedData(
+      sortData(data, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: searchTerm,
+      })
+    )
+  }
 
-  // const openModalForDelete = (job: TJobs) => {
-  //   openConfirmModal({
-  //     title: 'Do You want to delete this job?',
-  //     children: (
-  //       <Text size="sm">
-  //         After deleting a jobs, You cannot recover them back. So, Please take
-  //         your Action Carefully.
-  //       </Text>
-  //     ),
-  //     labels: { confirm: 'Confirm', cancel: 'Cancel' },
-  //     onCancel: () => console.log('Cancel'),
-  //     onConfirm: () => {
-  //       deleteJob(job.uuid)
-  //       showNotification({
-  //         title: 'Job Deleted !!',
-  //         message: `Job has been deleted successfully.`,
-  //       })
-  //     },
-  //   })
-  // }
+  // jobs data Delete handler
+  const openModalForDelete = (Jobs: TJobs) => {
+    openConfirmModal({
+      title: 'Do You want to delete this Employee?',
+      children: (
+        <Text size="sm">
+          After deleting an active jobs, You cannot recover them back. So,
+          please choose your action carefully.
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        deleteJobs(Jobs.uuid)
+        console.log('delete')
+        showNotification({
+          title: 'Jobs Deleted !!',
+          // message: `${Employee.fname} has been deleted successfully.`,
+          message: `Jobs has been deleted successfully.`,
+        })
+      },
+    })
+  }
+
+  // Create Rows
+  const rows = sortedData?.map((row) => (
+    <tr key={row.uuid} className={classes.trList}>
+      <td
+        style={{
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          maxWidth: '100px',
+        }}
+      >
+        {row?.uuid}
+      </td>
+      <td>
+        {/* <Link
+          to={`/submissions/${row?.uuid}?client_id=${String(
+            clientId
+          )}&job_id=${String(row.uuid)}`}
+          className={classes.userLink}
+          onClick={() => setJob(row)}
+        > */}
+        <Tooltip
+          label="Click to view"
+          color="blue"
+          withArrow
+          transition="pop-top-right"
+          transitionDuration={300}
+        >
+          <div>{row?.job_title}</div>
+        </Tooltip>
+        {/* </Link> */}
+      </td>
+      <td>{row?.city}</td>
+      <td>{row?.client_request_id}</td>
+      <td>{row?.primary_skills}</td>
+      <td>{row?.customer_type}</td>
+      <td>{row?.employment_type}</td>
+      <td>{row?.bill_rate}</td>
+      <td>{row?.priority}</td>
+      <td>{row?.priority_reason}</td>
+      <td>{row?.status}</td>
+      <td>{row?.remote_status}</td>
+      <td
+        style={{
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          maxWidth: '100px',
+        }}
+      >
+        {row?.created_by}
+      </td>
+      <td>{row?.client_contact_name}</td>
+      <td>{row?.recruitment_manager_uuid}</td>
+      <td>{row?.account_manager_uuid}</td>
+      <td>{row?.recruiter_uuid}</td>
+
+      <td>
+        <Group spacing="sm">
+          <IconEdit
+            className={classes.editIcon}
+            cursor="pointer"
+            onClick={() => {
+              setIsOpened(true)
+              setJobsEditData(row)
+            }}
+          />
+          <IconTrash
+            className={classes.deleteIcon}
+            cursor="pointer"
+            onClick={() => openModalForDelete(row)}
+          />
+        </Group>
+      </td>
+    </tr>
+  ))
 
   return (
-    <ListViewLayout
-      title="Jobs"
-      createDrawerTitle="Add Job"
-      createDrawerSize="80%"
-      createDrawerChildren={
-        <div
-          style={{ height: '100%', overflowY: 'auto', padding: '0 16px 0 0' }}
-        >
-          <CreateJobForm />
-        </div>
-      }
-      isError={false}
-      isLoading={false}
-    >
-      <>
-        <thead>
-          <tr>
-            <Th
-              sorted={sortBy === 'job_title'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_title')}
-            >
-              Job ID
-            </Th>
-            <Th
-              sorted={sortBy === 'city'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('city')}
-            >
-              Client request ID
-            </Th>
-            <Th
-              sorted={sortBy === 'country'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('country')}
-            >
-              Start Date
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Job title
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Priority
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Priority reason
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Status
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Tax Terms
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Recruitment Manager
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Account Manager
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Recruiters
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Account Manager
-            </Th>
-            <Th
-              sorted={sortBy === 'visa_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('visa_status')}
-            >
-              City
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              State
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Created By
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Primary Skills
-            </Th>
-            <Th
-              sorted={sortBy === 'job_status'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('job_status')}
-            >
-              Secondary Skills
-            </Th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {jobs && jobs?.length > 0 ? (
-            jobs.map((job) => (
-              <tr key={job.id} className={classes.companyDetails}>
-                <td>
-                  <Link
-                    to={`/submissions/${job.uuid}?client_id=${job.client_uuid}&job_id=${job.uuid}`}
-                  >
-                    {job.uuid}
-                  </Link>
-                </td>
-                <td>{job?.client_request_id}</td>
-                <td>{job?.start_date}</td>
-                <td>{job?.job_title}</td>
-                <td>{'priority'}</td>
-                <td>{'priority reason'}</td>
-                <td>{job?.job_status}</td>
-                <td>{'tax terms'}</td>
-                <td>{'Recruitment Manager'}</td>
-                <td>{'Account Manager'}</td>
-                <td>{'Recruiters'}</td>
-                <td>{'Account Manager'}</td>
-                <td>{job?.city}</td>
-                <td>{job?.state}</td>
-                <td>{job?.created_by}</td>
-                <td>{job?.primary_skills}</td>
-                <td>{job?.secondary_skills}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={4}>
-                <Text weight={500} align="center">
-                  No jobs available
-                </Text>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </>
-
-      {/* Add New - Client Form Drawer*/}
-      <Drawer
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Add New Job"
-        padding="xl"
-        size="xl"
-        position="right"
+    <>
+      <ListViewLayout
+        title="Jobs"
+        createDrawerSize={1200}
+        createDrawerTitle="Add New Job"
+        isError={false}
+        isLoading={false}
+        createDrawerChildren={<CreateForm />}
+        onSearchChange={handleSearchChange}
       >
-        <CreateJob />
-      </Drawer>
+        <Table
+          horizontalSpacing="md"
+          verticalSpacing="xs"
+          className={classes.childTable}
+        >
+          <thead className={cx(classes.header)}>
+            <tr>
+              <Th
+                sorted={sortBy === 'uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('uuid')}
+              >
+                <b>Job Id</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'job_title'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('job_title')}
+              >
+                <b>Job Title</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'city'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('city')}
+              >
+                <b>City</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'client_request_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('client_request_id')}
+              >
+                <b>Client Request Id</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'primary_skills'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('primary_skills')}
+              >
+                <b>Primary Skill</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'customer_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('customer_type')}
+              >
+                <b>Customer Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'employment_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('employment_type')}
+              >
+                <b>Employment Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'bill_rate'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('bill_rate')}
+              >
+                <b>Bill Rate</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'priority'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('priority')}
+              >
+                <b>Priority</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'priority_reason'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('priority_reason')}
+              >
+                <b>Priority Reason</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'status'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('status')}
+              >
+                <b>Status</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'remote_status'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('remote_status')}
+              >
+                <b>Remote Status</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'created_by'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('created_by')}
+              >
+                <b>Created By</b>
+              </Th>
+
+              <Th
+                sorted={sortBy === 'client_contact_name'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('client_contact_name')}
+              >
+                <b>Client Contact Name</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruitment_manager_uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruitment_manager_uuid')}
+              >
+                <b>Recruitment Manager</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'account_manager_uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('account_manager_uuid')}
+              >
+                <b>Account Manager</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruiter_uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruiter_uuid')}
+              >
+                <b>Recruiter</b>
+              </Th>
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
+            </tr>
+          </thead>
+
+          {/* t-body */}
+          <tbody>
+            {rows.length ? (
+              rows
+            ) : (
+              <tr>
+                <td colSpan={Object.keys(data || {}).length}>
+                  <Text weight={500} align="center">
+                    No records found
+                  </Text>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </ListViewLayout>
       {/* Edit - Contact Form Drawer*/}
 
       <Drawer
@@ -443,13 +489,11 @@ const JobList = () => {
         onClose={() => setIsOpened(false)}
         title="Edit Contact"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
       >
-        <EditJob {...jobEditData} />
+        <EditForm {...jobsEditData} />
       </Drawer>
-    </ListViewLayout>
+    </>
   )
-} // End of JobList
-
-export default JobList
+}
