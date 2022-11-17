@@ -143,6 +143,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         scrollbarSize={5}
         styles={(theme) => ({
           scrollbar: {
+            zIndex: 10,
             '&, &:hover': {
               background:
                 theme.colorScheme === 'dark'

@@ -8,8 +8,6 @@ import {
   Center,
   Drawer,
   Badge,
-  Modal,
-  // Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -20,16 +18,15 @@ import {
   IconTrash,
 } from '@tabler/icons'
 import { TSubmission } from '@/types/submission-type'
-// import { openConfirmModal } from '@mantine/modals'
-// import { showNotification } from '@mantine/notifications'
+import { openConfirmModal } from '@mantine/modals'
+import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
-// import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
-import Questionnaire from '@/pages/onboarding/questionnaire'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import axiosPrivate from '@/services/axiosPrivate'
 import { TPreonboard } from '@/types/prebonboard-type'
+import useDeleteSubmissionById from '../client/client-details/jobs/submissions/hooks/useDeleteSubmissionById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -58,14 +55,21 @@ const useStyles = createStyles((theme) => ({
     height: 21,
     borderRadius: 21,
   },
-  tableHead: {
-    width: '100%',
-    padding: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '0 !important',
-    gap: '30px',
+  header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+    },
   },
 
   tableBottom: {
@@ -104,12 +108,10 @@ const useStyles = createStyles((theme) => ({
     },
   },
   childTable: {
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.20)',
     backgroundColor: 'white',
     borderRadius: '10px',
-    width: '100%',
-    maxWidth: '98.8%',
-    margin: '10px',
+    margin: '3px',
+    minWidth: '197vw',
   },
   userLink: {
     textDecoration: 'none',
@@ -192,16 +194,14 @@ interface ISubmissionProps {
 }
 
 // Exporting Default ClientTable Component
-export default function SubmissionList({ data }: ISubmissionProps) {
-  const [opened, setOpened] = useState(false)
+export function SubmissionList({ data }: ISubmissionProps) {
   const [isOpened, setIsOpened] = useState(false)
-  const [popUpIsOpen, setPopUpIsOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TSubmission | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
-  //   const { mutate: deleteSubmission } = useDeleteSubmissionById()
+  const { classes, cx } = useStyles()
+  const { mutate: deleteSubmission } = useDeleteSubmissionById()
   const [submissionEditData, setSubmissionEditData] = useState(
     {} as TSubmission
   )
@@ -266,39 +266,40 @@ export default function SubmissionList({ data }: ISubmissionProps) {
     }
   }
 
-  // TODO submission data Delete handler
-  //   const openModalForDelete = (Submission: TSubmission) => {
-  //     openConfirmModal({
-  //       title: 'Do You want to delete this Submission?',
-  //       children: (
-  //         <Text size="sm">
-  //           After deleting a Active Submissions, You cannot recover them back. So,
-  //           Please take your Action Carefully.
-  //         </Text>
-  //       ),
-  //       labels: { confirm: 'Confirm', cancel: 'Cancel' },
-  //       onCancel: () => console.log('Cancel'),
-  //       onConfirm: () => {
-  //         deleteSubmission(Submission?.uuid || '')
-  //         console.log('delete')
-  //         showNotification({
-  //           title: 'Submission Deleted !!',
-  //           message: `Submission has been deleted successfully.`,
-  //         })
-  //       },
-  //     })
-  //   }
+  // submission data Delete handler
+  const openModalForDelete = (Submission: TSubmission) => {
+    openConfirmModal({
+      title: 'Do You want to delete this Submission?',
+      children: (
+        <Text size="sm">
+          After deleting a Active Submissions, You cannot recover them back. So,
+          Please take your Action Carefully.
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        deleteSubmission(Submission?.uuid || '')
+        console.log('delete')
+        showNotification({
+          title: 'Submission Deleted !!',
+          message: `Submission has been deleted successfully.`,
+        })
+      },
+    })
+  }
 
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
+      <td>{row.submission_id}</td>
+      <td>{`${row?.first_name || ''} ${row?.last_name || ''}`}</td>
+      <td>{row.job_title}</td>
+      <td>{row.candidate_location}</td>
       <td>{`${row?.vendor_first_name || ''} ${
         row?.vendor_last_name || ''
       }`}</td>
-      <td>{'Recruitment Manager'}</td>
-
       <td>{`${row?.emp_first_name || ''} ${row?.emp_last_name || ''}`}</td>
-      {/* <td>{row?.status}</td> */}
       <td>
         {row.status === 'PRE_INITIATED' ? (
           <Badge
@@ -374,7 +375,18 @@ export default function SubmissionList({ data }: ISubmissionProps) {
           </Badge>
         ) : null}
       </td>
-
+      <td>{row.client}</td>
+      <td>{row.job_id}</td>
+      <td>{row.employment_type}</td>
+      <td>{row.pay_rate}</td>
+      <td>{row.pay_type}</td>
+      <td>{row.rejection_reason}</td>
+      <td>{row.state}</td>
+      <td>{row.submitted_by}</td>
+      <td>{row.submitted_date}</td>
+      <td>{row.recruiters}</td>
+      <td>{row.recruitment_mgr_id}</td>
+      <td>{row.acct_mgr_id}</td>
       <td>
         {row.status === 'Rejected' ? (
           <Badge color="red">Rejected</Badge>
@@ -401,7 +413,7 @@ export default function SubmissionList({ data }: ISubmissionProps) {
             <IconTrash
               className={classes.deleteIcon}
               cursor="pointer"
-              //   onClick={() => openModalForDelete(row)}
+              onClick={() => openModalForDelete(row)}
             />
           </Group>
         )}
@@ -414,20 +426,50 @@ export default function SubmissionList({ data }: ISubmissionProps) {
     <>
       <ListViewLayout
         title="Submission"
-        createDrawerSize={'xl'}
+        createDrawerSize={'800px'}
         createDrawerTitle="Add New Submission"
         isError={false}
         isLoading={false}
-        createDrawerChildren={<CreateForm onClose={() => setOpened(false)} />}
+        createDrawerChildren={<CreateForm onClose={() => setIsOpened(false)} />}
         onSearchChange={handleSearchChange}
       >
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
-          // className={classes.childTable}
+          className={classes.childTable}
         >
-          <thead>
+          <thead className={cx(classes.header)}>
             <tr>
+              {/* new field */}
+              <Th
+                sorted={sortBy === 'submission_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('submission_id')}
+              >
+                <b>Submission Id</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'first_name'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('first_name')}
+              >
+                <b>Name</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'job_title'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('job_title')}
+              >
+                <b>Job Title</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'candidate_location'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('candidate_location')}
+              >
+                <b>Candidate Location</b>
+              </Th>
+              {/* old field */}
               <Th
                 sorted={sortBy === 'vendor_id'}
                 reversed={reverseSortDirection}
@@ -448,6 +490,91 @@ export default function SubmissionList({ data }: ISubmissionProps) {
                 onSort={() => setSorting('status')}
               >
                 <b>Submission Status</b>
+              </Th>
+              {/* new field */}
+              <Th
+                sorted={sortBy === 'client'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('client')}
+              >
+                <b>Client</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'job_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('job_id')}
+              >
+                <b>Job Id</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'employment_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('employment_type')}
+              >
+                <b>Employment Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'pay_rate'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('pay_rate')}
+              >
+                <b>Pay Rate</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'pay_type'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('pay_type')}
+              >
+                <b>Pay Type</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'rejection_reason'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('rejection_reason')}
+              >
+                <b>Rejection Reason</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'state'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('state')}
+              >
+                <b>State</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'submitted_by'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('submitted_by')}
+              >
+                <b>Submitted By</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'submitted_date'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('submitted_date')}
+              >
+                <b>Submitted Date</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruiters'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruiters')}
+              >
+                <b>Recruiters</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'recruitment_mgr_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('recruitment_mgr_id')}
+              >
+                <b>Recruitment Manager</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'acct_mgr_id'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('acct_mgr_id')}
+              >
+                <b>Account Manager</b>
               </Th>
               <th className={classes.action}>
                 <b>Action</b>
@@ -483,27 +610,6 @@ export default function SubmissionList({ data }: ISubmissionProps) {
       >
         <EditForm {...submissionEditData} />
       </Drawer>
-
-      {/* On Board PopUp */}
-      <Modal
-        title={
-          <Text
-            weight="500"
-            style={{
-              textAlign: 'center',
-              fontFamily: '-moz-initial',
-              fontSize: '24px',
-            }}
-          >
-            Questionnaire
-          </Text>
-        }
-        size="lg"
-        onClose={() => setPopUpIsOpen(false)}
-        opened={popUpIsOpen}
-      >
-        <Questionnaire />
-      </Modal>
     </>
   )
 }

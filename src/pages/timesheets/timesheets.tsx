@@ -1,13 +1,33 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
-import { Group, Table, Text, Tooltip } from '@mantine/core'
+import { createStyles, Group, Table, Text, Tooltip } from '@mantine/core'
 import { Th } from '../employee/employee-list'
 import { useState } from 'react'
 import { SheetData } from './data'
 import CreateTimeSheet from './createTimeSheet'
 import { Badge } from '@mantine/core'
+
+const useStyles = createStyles((theme) => ({
+  header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+    },
+  },
+}))
 const Timesheet = () => {
   const [createSheet, setCreateSheet] = useState<boolean>(false)
   const [selectedTimesheet, setSelectedTimesheet] = useState('')
+  const { classes, cx } = useStyles()
 
   return (
     <>
@@ -27,7 +47,7 @@ const Timesheet = () => {
             isLoading={false}
           >
             <Table horizontalSpacing="md" verticalSpacing="xs">
-              <thead>
+              <thead className={cx(classes.header)}>
                 <tr>
                   <Th onSort={() => null}>
                     <b>Name</b>
@@ -81,14 +101,35 @@ const Timesheet = () => {
                       <td>{'40' || sheetValue.Billable}</td>
                       <td>{sheetValue.TotalHrs}</td>
                       <td>
-                        <Badge
-                          // color={sheetValue.color.background}
-                          style={{
-                            border: `0.5px solid grey`,
-                          }}
-                        >
-                          <td>{sheetValue.Status}</td>
-                        </Badge>
+                        {sheetValue.Status === 'New' ? (
+                          <Badge
+                            style={{ border: `1px solid pink` }}
+                            color="pink"
+                          >
+                            New
+                          </Badge>
+                        ) : sheetValue.Status === 'Submitted' ? (
+                          <Badge
+                            style={{ border: `1px solid blue` }}
+                            color="blue"
+                          >
+                            Submitted
+                          </Badge>
+                        ) : sheetValue.Status === 'Approved' ? (
+                          <Badge
+                            style={{ border: `1px solid green` }}
+                            color="green"
+                          >
+                            Approved
+                          </Badge>
+                        ) : sheetValue.Status === 'Rejected' ? (
+                          <Badge
+                            style={{ border: `1px solid red` }}
+                            color="red"
+                          >
+                            Rejected
+                          </Badge>
+                        ) : null}
                       </td>
                     </tr>
                   )

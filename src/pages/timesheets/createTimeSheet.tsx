@@ -1,6 +1,4 @@
-import { ListViewLayout } from '@/components/layout/list-view.layout'
-import { Button, createStyles, Table } from '@mantine/core'
-import { Th } from '../employee/employee-list'
+import { Button, createStyles, ScrollArea, Table } from '@mantine/core'
 import React, { useState } from 'react'
 import TimesheetInputTile from './timesheet-input-tile'
 import TimesheetOverviewTile from './timesheet-overview-tile'
@@ -19,7 +17,7 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
 }) => {
   const [fields, setFields] = useState<{ [key: string]: WeeklyData[] }>({})
 
-  const { classes } = useStyles()
+  const { classes, cx } = useStyles()
 
   const splitWeek = week?.trim()?.split(' - ')
   const weekDay = splitWeek[0].split('/')[0]
@@ -82,15 +80,46 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
     <div className={classes.main}>
       <TimesheetOverviewTile onBackClick={onBackClick} />
       <div className={classes.timesheet}>
-        <ListViewLayout
-          title="Create Timesheets"
-          hideActionButton
-          hideColumnButton
-          isError={false}
-          isLoading={false}
+        <ScrollArea
+          // scroll area style
+          style={{ height: 660 }}
+          type="always"
+          offsetScrollbars
+          scrollbarSize={5}
+          styles={(theme) => ({
+            scrollbar: {
+              zIndex: 1000,
+              '&, &:hover': {
+                background:
+                  theme.colorScheme === 'dark'
+                    ? theme.colors.dark[6]
+                    : theme.colors.gray[0],
+              },
+
+              '&[data-orientation="vertical"] .mantine-ScrollArea-thumb': {
+                backgroundColor: theme.colors.blue[5],
+              },
+
+              '&[data-orientation="horizontal"] .mantine-ScrollArea-thumb': {
+                backgroundColor: theme.colors.blue[6],
+              },
+            },
+
+            corner: {
+              opacity: 1,
+              background:
+                theme.colorScheme === 'dark'
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+            },
+          })}
         >
-          <Table horizontalSpacing="md" verticalSpacing="xs">
-            <thead className={classes.thead}>
+          <Table
+            horizontalSpacing="md"
+            verticalSpacing="xs"
+            className={classes.childTable}
+          >
+            <thead className={cx(classes.header)}>
               <tr className={classes.tr}>
                 <th className={classes.th}>Date</th>
                 <th className={classes.th}>Project</th>
@@ -103,26 +132,24 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
 
             <tbody>{timesheetInputTileList}</tbody>
           </Table>
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <p style={{ marginRight: '24px' }}>
-              Total Billable Hours: {totalBillableHours.toString() + '.00'}
-            </p>
-            <p>
-              Total Non Billable Hours:{' '}
-              {totalNonBillableHours.toString() + '.00'}
-            </p>
-            <Button ml={80} onClick={onSubmitHandler}>
-              Submit
-            </Button>
-          </div>
-        </ListViewLayout>
+        </ScrollArea>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <p style={{ marginRight: '24px' }}>
+            Total Billable Hours: {totalBillableHours.toString() + '.00'}
+          </p>
+          <p>
+            Total Non Billable Hours: {totalNonBillableHours.toString() + '.00'}
+          </p>
+          <Button ml={80} onClick={onSubmitHandler}>
+            Submit
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -131,9 +158,21 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
 export default CreateTimeSheet
 
 const useStyles = createStyles((theme) => ({
-  thead: {
-    paddingLeft: '20px !important',
-    borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+  header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+    },
   },
   th: {
     border: 'none !important',
@@ -152,5 +191,12 @@ const useStyles = createStyles((theme) => ({
   },
   timesheet: {
     // marginTop: '20px',
+  },
+  childTable: {
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.35)',
+    backgroundColor: 'white',
+    borderRadius: '10px',
+    margin: '3px',
+    // minWidth: '197vw',
   },
 }))

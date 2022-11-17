@@ -32,13 +32,13 @@ import CandidateDetails from './pages/candidate/candidate-details'
 import Roles from './pages/roles'
 import DepartmentDetails from './pages/department/department-details'
 import RolesDetails from './pages/roles/roles-details'
-import JobList from './pages/job/job-list'
 import CreateJobForm from './pages/job/create-job-form'
 import Timesheets from './pages/timesheets/timesheets'
 import Submission from './pages/submission'
 import AllActivities from './pages/activities/all-activities'
 import DelegatesActivities from './pages/activities/delegates-activities'
 import TeamActivities from './pages/activities/team-activities'
+import AllJobs from './pages/job'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -98,7 +98,7 @@ function App() {
               path="/job"
               element={
                 <ProtectedRoute isAuth={isAuth}>
-                  <JobList />
+                  <AllJobs />
                 </ProtectedRoute>
               }
             />

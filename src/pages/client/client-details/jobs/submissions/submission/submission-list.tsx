@@ -55,14 +55,21 @@ const useStyles = createStyles((theme) => ({
     height: 21,
     borderRadius: 21,
   },
-  tableHead: {
-    width: '100%',
-    padding: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '0 !important',
-    gap: '30px',
+  header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+    },
   },
 
   tableBottom: {
@@ -194,7 +201,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TSubmission | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
+  const { classes, cx } = useStyles()
   const { mutate: deleteSubmission } = useDeleteSubmissionById()
   const [submissionEditData, setSubmissionEditData] = useState(
     {} as TSubmission
@@ -432,7 +439,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
           verticalSpacing="xs"
           className={classes.childTable}
         >
-          <thead>
+          <thead className={cx(classes.header)}>
             <tr>
               {/* new field */}
               <Th
