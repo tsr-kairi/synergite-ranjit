@@ -104,7 +104,16 @@ interface LinksGroupProps {
   icons: TablerIcon
   label: string
   initiallyOpened?: boolean
-  links?: { label: string; link: string; icon: TablerIcon }[]
+  links: {
+    label: string
+    link?: string
+    icon: TablerIcon
+    subLinks?: {
+      label: string
+      subLink: string
+      icon: TablerIcon
+    }[]
+  }[]
   // url?: string
   isSidebarOpen?: boolean
   isActive: boolean
@@ -122,31 +131,110 @@ export default function LinksGroup({
   const hasLinks = Array.isArray(links)
 
   const [isOnHoverOpen, setIsOnHoverOpen] = useState(false)
-  const [active, setActive] = useState('Dashboard')
-  const [menuOpened, setMenuOpened] = useState(false)
+  const [active, setActive] = useState('')
+  const [activeSubMenu, setActiveSubMenu] = useState('')
 
-  const items = (hasLinks ? links : []).map((link) => (
-    <Group
-      key={link.label}
-      className={cx(classes.linkGroup, {
-        [classes.linkActive]: link.label === active,
-      })}
-    >
-      {/* <span>{link.icon}</span> */}
-      <Icons size={20} />
-      {/* <span dangerouslySetInnerHTML={{ __html: link.icon }}></span> */}
-      <Text
-        component={Link}
-        to={link.link}
-        className={classes.link}
-        onClick={() => {
-          setActive(link.label)
-        }}
+  const [menuOpened, setMenuOpened] = useState(false)
+  // const [subMenuOpened, setSubMenuOpened] = useState(false)
+
+  const items = (hasLinks ? links : []).map((link) =>
+    link.subLinks ? (
+      <Menu
+        width={280}
+        position="right-start"
+        offset={12}
+        transition="pop-top-right"
+        onClose={() => setMenuOpened(false)}
+        onOpen={() => setMenuOpened(true)}
+        openDelay={100}
+        closeDelay={400}
+        withArrow
       >
-        {link.label}
-      </Text>
-    </Group>
-  ))
+        <Menu.Target>
+          <Group
+            key={link.label}
+            className={cx(classes.linkGroup, {
+              [classes.linkActive]: link.label === activeSubMenu,
+            })}
+            onClick={onTopLinkClick}
+            onMouseLeave={() => setIsOnHoverOpen(false)}
+          >
+            <Icons size={20} />
+            <Text
+              onClick={() => {
+                setMenuOpened(true)
+              }}
+              className={classes.link}
+            >
+              {link.label}
+            </Text>
+          </Group>
+        </Menu.Target>
+        <Menu.Dropdown className={classes.menuDD}>
+          <Menu.Label
+            style={{
+              fontSize: '16px',
+              fontWeight: 'lighter',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              color: '#fff',
+            }}
+          >
+            {link.label}
+            <Icons size={20} />
+          </Menu.Label>
+          <Menu.Item style={{ padding: '5px', backgroundColor: 'transparent' }}>
+            {hasLinks ? (
+              <Collapse in={isActive || isOnHoverOpen}>
+                {link.subLinks.map((subLinkM) => (
+                  <Group
+                    key={subLinkM.label}
+                    className={cx(classes.linkGroup, {
+                      [classes.linkActive]: subLinkM.label === active,
+                    })}
+                  >
+                    <Icons size={20} />
+                    <Text
+                      component={Link}
+                      to={subLinkM.subLink}
+                      className={classes.link}
+                      onClick={() => {
+                        setActiveSubMenu(subLinkM.label)
+                      }}
+                    >
+                      {subLinkM.label}
+                    </Text>
+                  </Group>
+                ))}
+              </Collapse>
+            ) : null}
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    ) : (
+      <Group
+        key={link.label}
+        className={cx(classes.linkGroup, {
+          [classes.linkActive]: link.label === active,
+        })}
+      >
+        {/* <span>{link.icon}</span> */}
+        <Icons size={20} />
+        {/* <span dangerouslySetInnerHTML={{ __html: link.icon }}></span> */}
+        <Text
+          component={Link}
+          to={link.link || ''}
+          className={classes.link}
+          onClick={() => {
+            setActive(link.label)
+          }}
+        >
+          {link.label}
+        </Text>
+      </Group>
+    )
+  )
 
   return (
     <>
