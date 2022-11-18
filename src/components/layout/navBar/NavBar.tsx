@@ -149,22 +149,22 @@ export const navLinks = [
       },
     ],
   },
-  // {
-  //   id: '9',
-  //   label: 'Admin',
-  //   icons: IconUserCircle,
-  //   initiallyOpened: false,
-  //   isActive: false,
-  //   links: [
-  //     { label: 'Activities', link: '/activity', icon: IconActivity },
-  //     {
-  //       label: 'Departments',
-  //       link: '/department',
-  //       icon: IconBuildingCommunity,
-  //     },
-  //     { label: 'Roles', link: '/roles', icon: IconDivide },
-  //   ],
-  // },
+  {
+    id: '9',
+    label: 'Admin',
+    icons: IconUserCircle,
+    initiallyOpened: false,
+    isActive: false,
+    links: [
+      { label: 'Activities', link: '/activity', icon: IconActivity },
+      {
+        label: 'Departments',
+        link: '/department',
+        icon: IconBuildingCommunity,
+      },
+      { label: 'Roles', link: '/roles', icon: IconDivide },
+    ],
+  },
 ]
 
 const useStyles = createStyles((theme) => ({
