@@ -14,85 +14,122 @@ import {
   IconDivide,
   IconUser,
   IconUsers,
+  IconBulb,
+  IconDevicesPc,
+  IconGps,
 } from '@tabler/icons'
 import { useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
 import LinksGroup from './NavBarLinksGroup'
 
-const navLinks = [
+export const navLinks = [
   {
     id: '1',
     label: 'Dashboard',
     icons: IconLayoutDashboard,
     isActive: false,
-    // url: '/',
     links: [{ label: 'Home', link: '/', icon: IconHome2 }],
   },
   {
     id: '2',
-    label: 'Account',
-    icons: IconWallet,
+    label: 'General',
+    // icons: IconWallet,
+    icons: IconBulb,
     initiallyOpened: false,
     isActive: false,
     links: [
       { label: 'Clients', link: '/client', icon: IconHome2 },
       { label: 'Vendors', link: '/vendor', icon: IconHome2 },
+      {
+        label: 'Admin',
+        icon: IconHome2,
+        subLinks: [
+          { label: 'Activity', subLink: '/activity', icon: IconActivity },
+          {
+            label: 'Departments',
+            subLink: '/department',
+            icon: IconBuildingCommunity,
+          },
+          { label: 'Roles', subLink: '/roles', icon: IconDivide },
+        ],
+      },
     ],
   },
   {
     id: '3',
-    label: 'Resources',
-    icons: IconTableOptions,
+    label: 'Back Office',
+    // icons: IconTableOptions,
+    icons: IconDevicesPc,
     initiallyOpened: false,
     isActive: false,
     links: [
-      { label: 'Candidates', link: '/candidate', icon: IconUser },
+      // { label: 'Candidates', link: '/candidate', icon: IconUser },
       { label: 'Employees', link: '/employee', icon: IconUsers },
-    ],
-  },
-
-  {
-    id: '4',
-    label: 'TimeSheets',
-    icons: IconFileAnalytics,
-    isActive: false,
-    links: [
       {
-        label: 'Submit Timesheet',
+        label: 'Timesheet',
         link: '/timesheets',
         icon: IconFileAnalytics,
       },
-    ],
-  },
-
-  {
-    id: '5',
-    label: 'On Boarding List',
-    icons: IconFileReport,
-    isActive: false,
-    links: [
       {
-        label: 'On Boarding List',
+        label: 'Expenses',
+        link: '/timesheets',
+        icon: IconFileAnalytics,
+      },
+      {
+        label: 'Onboarding',
         link: '/onboarding-list',
         icon: IconFileReport,
       },
     ],
   },
+
+  // {
+  //   id: '4',
+  //   label: 'TimeSheets',
+  //   icons: IconFileAnalytics,
+  //   isActive: false,
+  //   links: [
+  //     {
+  //       label: 'Submit Timesheet',
+  //       link: '/timesheets',
+  //       icon: IconFileAnalytics,
+  //     },
+  //   ],
+  // },
+
+  // {
+  //   id: '5',
+  //   label: 'On Boarding List',
+  //   icons: IconFileReport,
+  //   isActive: false,
+  //   links: [
+  //     {
+  //       label: 'On Boarding List',
+  //       link: '/onboarding-list',
+  //       icon: IconFileReport,
+  //     },
+  //   ],
+  // },
   {
     id: '6',
-    label: 'Job',
-    icons: IconBriefcase,
+    label: 'ATS',
+    // icons: IconBriefcase,
+    icons: IconGps,
     isActive: false,
-    links: [{ label: 'Job', link: '/job', icon: IconBriefcase }],
+    links: [
+      { label: 'Job', link: '/job', icon: IconBriefcase },
+      { label: 'Candidates', link: '/candidate', icon: IconUser },
+      { label: 'Submission', link: '/submission', icon: IconBookUpload },
+    ],
   },
-  {
-    id: '7',
-    label: 'Submission',
-    icons: IconBookUpload,
-    isActive: false,
-    links: [{ label: 'Submission', link: '/submission', icon: IconBookUpload }],
-  },
+  // {
+  //   id: '7',
+  //   label: 'Submission',
+  //   icons: IconBookUpload,
+  //   isActive: false,
+  //   links: [{ label: 'Submission', link: '/submission', icon: IconBookUpload }],
+  // },
   {
     id: '8',
     label: 'Activities',
