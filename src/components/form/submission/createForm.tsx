@@ -17,7 +17,7 @@ import EmployeeDetailsForm from './details/employeeDetailsForm'
 import VendorDetailsForm from './details/vendorDetailsForm'
 import { TCandidate } from '@/types/candidate-type'
 import { TRecruitersFindAll } from '@/types/recruiters-type'
-import { TVendor } from '@/types'
+import { TClient, TVendor } from '@/types'
 import EmployeeIdList from './employeeIdList'
 import useCreateSubmission from '@/pages/client/client-details/jobs/submissions/hooks/useCreateSubmission'
 import { useParams } from 'react-router-dom'
@@ -25,6 +25,9 @@ import VendorIdList from './vendorIdList'
 import axiosPrivate from '@/services/axiosPrivate'
 import { recruitersQueryKeys } from '@/react-query/queryKeys'
 import { useQuery } from 'react-query'
+import useGetClientById from '@/pages/client/hooks/useGetClientById'
+import ClientDetails from '../details/client-details/clientDetails'
+import ClientDetailsForm from './details/clientDetailsForm'
 
 const useStyles = createStyles(() => ({
   paper: {
@@ -48,6 +51,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { mutate: addSubmission } = useCreateSubmission()
   const [employeeOpened, setEmployeeOpened] = useState(false)
   const [vendorOpened, setVendorOpened] = useState(false)
+  const [clientDetailsOpened, setClientDetailsOpened] = useState(false)
 
   const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   const [vendorDetails, setVendorDetails] = useState({} as TVendor)
@@ -55,6 +59,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const [vendorListOpened, vendorListIsOpened] = useState(false)
   const [employeeListOpened, employeeListIsOpened] = useState(false)
+  const { data: clientData } = useGetClientById(String(clientUuid))
 
   // const [rejected, setRejected] = useState(false)
 
@@ -86,6 +91,9 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   }`
   const vendorName = `${vendorDetails?.first_name || ''} ${
     vendorDetails?.last_name || ''
+  }`
+  const clientName = `${clientData?.data?.first_name || ''} ${
+    clientData?.data?.last_name || ''
   }`
   // const recruiterName = `${recruiterData?.fname || ''} ${
   //   recruiterData?.lname || ''
@@ -169,30 +177,31 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 ) : null
               }
             />
-            {/* {vendorName ? ( */}
-            <TextInput
-              required
-              label="Vendor"
-              type={'text'}
-              placeholder="Vendor"
-              onClick={() => {
-                vendorListIsOpened(true)
-              }}
-              value={vendorName || ''}
-              rightSection={
-                vendorDetails?.uuid ? (
-                  <IconExternalLink
-                    size="20"
-                    color="grey"
-                    cursor="pointer"
-                    onClick={() => {
-                      setVendorOpened(true)
-                      // setVendorDetails()
-                    }}
-                  />
-                ) : null
-              }
-            />
+            {form.values.employment_type === 'ET_C2C' && (
+              <TextInput
+                required
+                label="Vendor"
+                type={'text'}
+                placeholder="Vendor"
+                onClick={() => {
+                  vendorListIsOpened(true)
+                }}
+                value={vendorName || ''}
+                rightSection={
+                  vendorDetails?.uuid ? (
+                    <IconExternalLink
+                      size="20"
+                      color="grey"
+                      cursor="pointer"
+                      onClick={() => {
+                        setVendorOpened(true)
+                        // setVendorDetails()
+                      }}
+                    />
+                  ) : null
+                }
+              />
+            )}
           </Group>
           {/* ) : null} */}
           <Group grow align="center" mt="md">
@@ -235,6 +244,13 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               ]}
               {...form.getInputProps('immigration_status')}
             />
+            <TextInput
+              required
+              label="SSN"
+              type={'text'}
+              placeholder="SSN"
+              {...form.getInputProps('ssn')}
+            />
           </Group>
           <Group grow align="center" mt="md">
             <Select
@@ -255,11 +271,25 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             />
           </Group>
           <Group grow align="center" mt="md">
-            <Select
+            <TextInput
+              readOnly={true}
+              key={clientData?.data?.uuid}
               label="Client"
+              type={'text'}
               placeholder="Client"
-              data={[{ value: 'Pradeep', label: 'Pradeep' }]}
-              {...form.getInputProps('client')}
+              value={clientName || ''}
+              rightSection={
+                clientData?.data?.uuid ? (
+                  <IconExternalLink
+                    size="20"
+                    color="grey"
+                    cursor="pointer"
+                    onClick={() => {
+                      setClientDetailsOpened(true)
+                    }}
+                  />
+                ) : null
+              }
             />
             <Select
               label="Employment Type"
@@ -291,11 +321,24 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('pay_rate')}
             />
             <TextInput
-              required
               label="Bill Rate"
               type={'text'}
               placeholder="Bill Rate"
               {...form.getInputProps('bill_rate')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              label="DOB"
+              type={'date'}
+              placeholder="DOB"
+              {...form.getInputProps('dob')}
+            />
+            <TextInput
+              label="Phone"
+              type={'number'}
+              placeholder="Phone"
+              {...form.getInputProps('phone')}
             />
           </Group>
           <Textarea
@@ -365,6 +408,21 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               setVendorDetails(vendor)
               vendorListIsOpened(false)
             }}
+          />
+        </Drawer>
+
+        {/* client details */}
+        <Drawer
+          opened={clientDetailsOpened}
+          onClose={() => setClientDetailsOpened(false)}
+          title="Client Details"
+          padding="xl"
+          size="1200px"
+          position="right"
+        >
+          <ClientDetailsForm
+            key={clientUuid}
+            {...((clientData?.data || {}) as TClient)}
           />
         </Drawer>
       </Paper>

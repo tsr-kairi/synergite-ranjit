@@ -305,7 +305,7 @@ export function CandidateList({ data }: ICandidateProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.candidateRowData}>
-      <td>{row?.candidate_id}</td>
+      <td>{row?.candidate_id ? row?.candidate_id : 'N/A'}</td>
       <td>
         <Link
           to={`/candidate-details/${row?.uuid}`}
@@ -324,17 +324,18 @@ export function CandidateList({ data }: ICandidateProps) {
               </Avatar>
 
               <Text size="sm" weight={500}>
-                {row?.first_name} {row?.last_name}
+                {row?.first_name ? row?.first_name : 'N/A'}{' '}
+                {row?.last_name ? row?.last_name : 'N/A'}
               </Text>
             </Group>
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.email}</td>
-      <td>{row?.phone}</td>
-      <td>{row?.job_title}</td>
-      <td>{row?.work_experience}</td>
-      <td>{row?.created_date}</td>
+      <td>{row?.email ? row?.email : 'N/A'}</td>
+      <td>{row?.phone ? row?.phone : 'N/A'}</td>
+      <td>{row?.job_title ? row?.job_title : 'N/A'}</td>
+      <td>{row?.work_experience ? row?.work_experience : 'N/A'}</td>
+      <td>{row?.created_date ? row?.created_date : 'N/A'}</td>
       <td>
         <Group spacing="sm">
           <IconEdit

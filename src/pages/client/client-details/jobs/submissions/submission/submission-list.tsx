@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import axiosPrivate from '@/services/axiosPrivate'
 import { TPreonboard } from '@/types/prebonboard-type'
+import useGetClientById from '@/pages/client/hooks/useGetClientById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -208,6 +209,16 @@ export function SubmissionList({ data }: ISubmissionProps) {
   )
   const navigate = useNavigate()
 
+  const search_param = window.location.search
+  const params = new URLSearchParams(search_param)
+  const clientUuid = params.get('client_id')
+
+  const { data: clientData } = useGetClientById(String(clientUuid))
+
+  const clientName = `${clientData?.data?.first_name || ''} ${
+    clientData?.data?.last_name || ''
+  }`
+
   const setSorting = (field: keyof TSubmission) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
@@ -293,14 +304,18 @@ export function SubmissionList({ data }: ISubmissionProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
-      <td>{row.submission_id}</td>
-      <td>{`${row?.first_name || ''} ${row?.last_name || ''}`}</td>
-      <td>{row.job_title}</td>
-      <td>{row.candidate_location}</td>
-      <td>{`${row?.vendor_first_name || ''} ${
-        row?.vendor_last_name || ''
+      <td>{row.submission_id ? row?.submission_id : 'N/A'}</td>
+      <td>{`${row?.first_name ? row?.first_name : 'N/A'} ${
+        row?.last_name ? row?.last_name : 'N/A'
       }`}</td>
-      <td>{`${row?.emp_first_name || ''} ${row?.emp_last_name || ''}`}</td>
+      <td>{row.job_title ? row?.job_title : 'N/A'}</td>
+      <td>{row.candidate_location ? row?.candidate_location : 'N/A'}</td>
+      <td>{`${row?.vendor_first_name ? row?.vendor_first_name : 'N/A'} ${
+        row?.vendor_last_name ? row?.vendor_last_name : 'N/A'
+      }`}</td>
+      <td>{`${row?.emp_first_name ? row?.emp_first_name : 'N/A'} ${
+        row?.emp_last_name ? row?.emp_last_name : 'N/A'
+      }`}</td>
       <td>
         {row.status === 'PRE_INITIATED' ? (
           <Badge
@@ -376,18 +391,18 @@ export function SubmissionList({ data }: ISubmissionProps) {
           </Badge>
         ) : null}
       </td>
-      <td>{row.client}</td>
-      <td>{row.job_id}</td>
-      <td>{row.employment_type}</td>
-      <td>{row.pay_rate}</td>
-      <td>{row.pay_type}</td>
-      <td>{row.rejection_reason}</td>
-      <td>{row.state}</td>
-      <td>{row.submitted_by}</td>
-      <td>{row.submitted_date}</td>
-      <td>{row.recruiters}</td>
-      <td>{row.recruitment_mgr_id}</td>
-      <td>{row.acct_mgr_id}</td>
+      <td>{clientName ? clientName : 'N/A'}</td>
+      <td>{row.job_id ? row?.job_id : 'N/A'}</td>
+      <td>{row.employment_type ? row?.employment_type : 'N/A'}</td>
+      <td>{row.pay_rate ? row?.pay_rate : 'N/A'}</td>
+      <td>{row.pay_type ? row?.pay_type : 'N/A'}</td>
+      <td>{row.rejection_reason ? row?.rejection_reason : 'N/A'}</td>
+      <td>{row.state ? row?.state : 'N/A'}</td>
+      <td>{row.submitted_by ? row?.submitted_by : 'N/A'}</td>
+      <td>{row.submitted_date ? row?.submitted_date : 'N/A'}</td>
+      <td>{row.recruiters ? row?.recruiters : 'N/A'}</td>
+      <td>{row.recruitment_mgr_id ? row?.recruitment_mgr_id : 'N/A'}</td>
+      <td>{row.acct_mgr_id ? row?.acct_mgr_id : 'N/A'}</td>
       <td>
         {row.status === 'Rejected' ? (
           <Badge color="red">Rejected</Badge>
