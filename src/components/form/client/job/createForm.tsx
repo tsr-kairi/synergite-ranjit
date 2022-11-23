@@ -101,7 +101,18 @@ export default function CreateForm() {
 
   return (
     <>
-      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
+      <Paper
+        p={20}
+        mt={30}
+        radius="sm"
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Accordion defaultValue="job_details">
             <Accordion.Item
@@ -161,7 +172,7 @@ export default function CreateForm() {
                     searchValue={searchValue}
                     nothingFound="No Matching City"
                     data={UsState.map((s) => {
-                      return { value: s.code, label: s.state }
+                      return { value: s.state, label: s.state }
                     })}
                     {...form.getInputProps('city')}
                   />
@@ -173,7 +184,7 @@ export default function CreateForm() {
                     searchValue={searchValue}
                     nothingFound="No Matching Country"
                     data={WCountry.map((c) => {
-                      return { value: c.code, label: c.country }
+                      return { value: c.country, label: c.country }
                     })}
                     {...form.getInputProps('country')}
                   />

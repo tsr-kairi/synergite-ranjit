@@ -237,7 +237,7 @@ export default function LinksGroup({
   )
 
   return (
-    <>
+    <div onClick={() => setMenuOpened(true)}>
       <Menu
         width={280}
         position="right-start"
@@ -273,7 +273,6 @@ export default function LinksGroup({
                     className={classes.icoTheme}
                     size={30}
                     style={isActive ? parentBackgroundColor : {}}
-                    onClick={() => setMenuOpened(true)}
                   >
                     <Icons size={20} />
                   </ThemeIcon>
@@ -304,6 +303,6 @@ export default function LinksGroup({
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-    </>
+    </div>
   )
 }

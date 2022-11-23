@@ -272,17 +272,18 @@ export default function VendorTable({ data }: IVendorTableProps) {
                 V
               </Avatar>
               <Text size="sm" weight={500}>
-                {row?.first_name} {row.last_name}
+                {row?.first_name ? row?.first_name : 'N/A'}
+                {row.last_name ? row?.last_name : 'N/A'}
               </Text>
             </Group>
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.primary_email}</td>
-      <td>{row?.primary_phone}</td>
-      <td>{row?.city}</td>
-      <td>{row?.state}</td>
-      <td>{row?.country}</td>
+      <td>{row?.primary_email ? row?.primary_email : 'N/A'}</td>
+      <td>{row?.primary_phone ? row?.primary_phone : 'N/A'}</td>
+      <td>{row?.city ? row?.city : 'N/A'}</td>
+      <td>{row?.state ? row?.state : 'N/A'}</td>
+      <td>{row?.country ? row?.country : 'N/A'}</td>
       <td>
         <IconAddressBook
           onClick={() => setOpened(true)}

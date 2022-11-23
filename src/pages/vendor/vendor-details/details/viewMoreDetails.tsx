@@ -65,28 +65,36 @@ export default function VendorDetails(vendorDetailsData: TVendor) {
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
-                    value={vendorDetailsData.first_name}
+                    value={
+                      vendorDetailsData.first_name
+                        ? vendorDetailsData.first_name
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
-                    value={vendorDetailsData.last_name}
+                    value={
+                      vendorDetailsData.last_name
+                        ? vendorDetailsData.last_name
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Address 1"
                     type={'text'}
                     placeholder="Address 1"
-                    // value={vendorDetailsData.address_line1}
+                    // value={vendorDetailsData.address_line1 ? vendorDetailsData.address_line1 : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Address 2"
                     type={'text'}
                     placeholder="Address 2"
-                    // value={vendorDetailsData.address_line2}
+                    // value={vendorDetailsData.address_line2 ? vendorDetailsData.address_line2 : 'N/A'}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -95,28 +103,36 @@ export default function VendorDetails(vendorDetailsData: TVendor) {
                     label="City"
                     type={'text'}
                     placeholder="City"
-                    value={vendorDetailsData.city}
+                    value={
+                      vendorDetailsData.city ? vendorDetailsData.city : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="County"
                     type={'text'}
                     placeholder="County"
-                    // value={vendorDetailsData.county}
+                    // value={vendorDetailsData.county ? vendorDetailsData.county : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Country"
                     type={'text'}
                     placeholder="Country"
-                    value={vendorDetailsData.country}
+                    value={
+                      vendorDetailsData.country
+                        ? vendorDetailsData.country
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="State"
                     type={'text'}
                     placeholder="State"
-                    value={vendorDetailsData.state}
+                    value={
+                      vendorDetailsData.state ? vendorDetailsData.state : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -125,21 +141,29 @@ export default function VendorDetails(vendorDetailsData: TVendor) {
                     label="Zip"
                     type={'number'}
                     placeholder="Zip"
-                    // value={vendorDetailsData.zip}
+                    // value={vendorDetailsData.zip ? vendorDetailsData.primary_phone : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Phone"
                     type={'number'}
                     placeholder="Phone"
-                    value={vendorDetailsData.primary_phone}
+                    value={
+                      vendorDetailsData.primary_phone
+                        ? vendorDetailsData.primary_phone
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Email"
                     type={'email'}
                     placeholder="Email"
-                    value={vendorDetailsData.primary_email}
+                    value={
+                      vendorDetailsData.primary_email
+                        ? vendorDetailsData.primary_email
+                        : 'N/A'
+                    }
                   />
                 </Group>
               </Accordion.Panel>
@@ -159,21 +183,21 @@ export default function VendorDetails(vendorDetailsData: TVendor) {
                     label="Invoicing Frequency"
                     type={'email'}
                     placeholder="Invoicing Frequency"
-                    // value={vendorDetailsData.invoicing_frequency}
+                    // value={vendorDetailsData.invoicing_frequency ? vendorDetailsData.primary_phone : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Format of Timesheet"
                     type={'email'}
                     placeholder="Format of Timesheet"
-                    // value={vendorDetailsData.format_of_timesheet}
+                    // value={vendorDetailsData.format_of_timesheet ? vendorDetailsData.primary_phone : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Additional Details"
                     type={'email'}
                     placeholder="Additional Details"
-                    // value={vendorDetailsData.additional_details}
+                    // value={vendorDetailsData.additional_details ? vendorDetailsData.primary_phone : 'N/A'}
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -181,7 +205,7 @@ export default function VendorDetails(vendorDetailsData: TVendor) {
                     readOnly={true}
                     label="Remarks"
                     placeholder="Remarks"
-                    // value={vendorDetailsData.remarks}
+                    // value={vendorDetailsData.remarks ? vendorDetailsData.primary_phone : 'N/A'}
                   />
                 </Group>
               </Accordion.Panel>

@@ -273,20 +273,20 @@ export function AllJobList({ data }: IJobsProps) {
           transition="pop-top-right"
           transitionDuration={300}
         >
-          <div>{row?.job_title}</div>
+          <div>{row?.job_title ? row?.job_title : 'N/A'}</div>
         </Tooltip>
         {/* </Link> */}
       </td>
-      <td>{row?.city}</td>
-      <td>{row?.client_request_id}</td>
-      <td>{row?.primary_skills}</td>
-      <td>{row?.customer_type}</td>
-      <td>{row?.employment_type}</td>
-      <td>{row?.bill_rate}</td>
-      <td>{row?.priority}</td>
-      <td>{row?.priority_reason}</td>
-      <td>{row?.status}</td>
-      <td>{row?.remote_status}</td>
+      <td>{row?.city ? row?.city : 'N/A'}</td>
+      <td>{row?.client_request_id ? row?.client_request_id : 'N/A'}</td>
+      <td>{row?.primary_skills ? row?.primary_skills : 'N/A'}</td>
+      <td>{row?.customer_type ? row?.customer_type : 'N/A'}</td>
+      <td>{row?.employment_type ? row?.employment_type : 'N/A'}</td>
+      <td>{row?.bill_rate ? row?.bill_rate : 'N/A'}</td>
+      <td>{row?.priority ? row?.priority : 'N/A'}</td>
+      <td>{row?.priority_reason ? row?.priority_reason : 'N/A'}</td>
+      <td>{row?.status ? row?.status : 'N/A'}</td>
+      <td>{row?.remote_status ? row?.remote_status : 'N/A'}</td>
       <td
         style={{
           textOverflow: 'ellipsis',
@@ -295,12 +295,14 @@ export function AllJobList({ data }: IJobsProps) {
           maxWidth: '100px',
         }}
       >
-        {row?.created_by}
+        {row?.created_by ? row?.created_by : 'N/A'}
       </td>
-      <td>{row?.client_contact_name}</td>
-      <td>{row?.recruitment_manager_uuid}</td>
-      <td>{row?.account_manager_uuid}</td>
-      <td>{row?.recruiter_uuid}</td>
+      <td>{row?.client_contact_name ? row?.client_contact_name : 'N/A'}</td>
+      <td>
+        {row?.recruitment_manager_uuid ? row?.recruitment_manager_uuid : 'N/A'}
+      </td>
+      <td>{row?.account_manager_uuid ? row?.account_manager_uuid : 'N/A'}</td>
+      <td>{row?.recruiter_uuid ? row?.recruiter_uuid : 'N/A'}</td>
 
       <td>
         <Group spacing="sm">
