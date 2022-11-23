@@ -88,7 +88,7 @@ const OnboardingTaskTile: React.FC<OnboardingTaskTileProps> = (props) => {
   const onConfirmToggle = () => {
     if (checked === isActive) {
       openConfirmModal({
-        centered: false,
+        // centered: false,
         title: 'Are you sure you want to update this?',
         labels: { confirm: 'Yes', cancel: 'No' },
         onCancel: () => console.log('Cancel'),

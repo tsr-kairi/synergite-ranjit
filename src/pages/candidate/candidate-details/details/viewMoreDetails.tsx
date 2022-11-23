@@ -50,7 +50,15 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
   // value={clientDetailsData.first_name}
   return (
     <>
-      <div className={classes.paper}>
+      <div
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Accordion defaultValue="candidate_details">
             {/* Personal Details Information */}
@@ -68,28 +76,44 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Candidate ID"
                     type={'text'}
                     placeholder="Auto Generated number"
-                    {...form.getInputProps('candidate_id')}
+                    value={
+                      candidateDetailsData.candidate_id
+                        ? candidateDetailsData.candidate_id
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="First Name"
                     type={'text'}
                     placeholder="First Name"
-                    value={candidateDetailsData.first_name}
+                    value={
+                      candidateDetailsData.first_name
+                        ? candidateDetailsData.first_name
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Middle Name"
                     type={'text'}
                     placeholder="Middle Name"
-                    value={candidateDetailsData.middle_name}
+                    value={
+                      candidateDetailsData.middle_name
+                        ? candidateDetailsData.middle_name
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Last Name"
                     type={'text'}
                     placeholder="Last Name"
-                    value={candidateDetailsData.last_name}
+                    value={
+                      candidateDetailsData.last_name
+                        ? candidateDetailsData.last_name
+                        : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -98,28 +122,44 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Email"
                     type={'text'}
                     placeholder="Email"
-                    value={candidateDetailsData.email}
+                    value={
+                      candidateDetailsData.email
+                        ? candidateDetailsData.email
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Phone"
                     type={'text'}
                     placeholder="Phone"
-                    value={candidateDetailsData.phone}
+                    value={
+                      candidateDetailsData.phone
+                        ? candidateDetailsData.phone
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Date of birth"
                     type={'date'}
                     placeholder="Date of birth"
-                    value={candidateDetailsData.dob}
+                    value={
+                      candidateDetailsData.dob
+                        ? candidateDetailsData.dob
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Candidate Ownership"
                     type={'text'}
                     placeholder="Candidate Ownership"
-                    value={candidateDetailsData.candidate_ownership_uuid}
+                    value={
+                      candidateDetailsData.candidate_ownership_uuid
+                        ? candidateDetailsData.candidate_ownership_uuid
+                        : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -128,28 +168,40 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Job Title"
                     type={'text'}
                     placeholder="Job Title"
-                    // value={candidateDetailsData.job_title} // not added in backend
+                    // value={candidateDetailsData.job_title ? data?.data?.state : 'N/A'} // not added in backend
                   />
                   <TextInput
                     readOnly={true}
                     label="Immigration Status"
                     type={'text'}
                     placeholder="Immigration Status"
-                    value={candidateDetailsData.immigration_status}
+                    value={
+                      candidateDetailsData.immigration_status
+                        ? candidateDetailsData.immigration_status
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Work Experience"
                     type={'text'}
                     placeholder="Work Experience"
-                    value={candidateDetailsData.work_experience}
+                    value={
+                      candidateDetailsData.work_experience
+                        ? candidateDetailsData.work_experience
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Source"
                     type={'text'}
                     placeholder="Source"
-                    value={candidateDetailsData.source}
+                    value={
+                      candidateDetailsData.source
+                        ? candidateDetailsData.source
+                        : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -158,28 +210,40 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     type={'date'}
                     placeholder="Created Date"
                     label="Created Date"
-                    // value={candidateDetailsData.created_date}
+                    // value={candidateDetailsData.created_date ? data?.data?.state : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Employment Type"
                     type={'text'}
                     placeholder="Employment Type"
-                    value={candidateDetailsData.employment_type}
+                    value={
+                      candidateDetailsData.employment_type
+                        ? candidateDetailsData.employment_type
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Skills"
                     type={'text'}
                     placeholder="Skills"
-                    value={candidateDetailsData.skills}
+                    value={
+                      candidateDetailsData.skills
+                        ? candidateDetailsData.skills
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Security Clearance"
                     type={'text'}
                     placeholder="Security Clearance"
-                    value={candidateDetailsData.security_clearance}
+                    value={
+                      candidateDetailsData.security_clearance
+                        ? candidateDetailsData.security_clearance
+                        : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -188,27 +252,43 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Willing to Relocate"
                     type={'text'}
                     placeholder="Willing to Relocate"
-                    value={candidateDetailsData.willing_to_reallocate}
+                    value={
+                      candidateDetailsData.willing_to_reallocate
+                        ? candidateDetailsData.willing_to_reallocate
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     placeholder="Payment Type"
                     label="Payment Type"
-                    value={candidateDetailsData.payment_type}
+                    value={
+                      candidateDetailsData.payment_type
+                        ? candidateDetailsData.payment_type
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Expected Rate Type"
                     type={'text'}
                     placeholder="Expected Rate Type"
-                    value={candidateDetailsData.expected_rate_type}
+                    value={
+                      candidateDetailsData.expected_rate_type
+                        ? candidateDetailsData.expected_rate_type
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Current Rate Type"
                     type={'text'}
                     placeholder="Current Rate Type"
-                    value={candidateDetailsData.current_rate_type}
+                    value={
+                      candidateDetailsData.current_rate_type
+                        ? candidateDetailsData.current_rate_type
+                        : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -217,28 +297,44 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Current Pay Rate"
                     type={'text'}
                     placeholder="Current Pay Rate"
-                    value={candidateDetailsData.current_rate}
+                    value={
+                      candidateDetailsData.current_rate
+                        ? candidateDetailsData.current_rate
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Languages Known"
                     type={'text'}
                     placeholder="Languages Known"
-                    value={candidateDetailsData.language_known}
+                    value={
+                      candidateDetailsData.language_known
+                        ? candidateDetailsData.language_known
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Gender"
                     type={'text'}
                     placeholder="Gender"
-                    value={candidateDetailsData.gender}
+                    value={
+                      candidateDetailsData.gender
+                        ? candidateDetailsData.gender
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Marital Status"
                     type={'text'}
                     placeholder="Marital Status"
-                    value={candidateDetailsData.marital_status}
+                    value={
+                      candidateDetailsData.marital_status
+                        ? candidateDetailsData.marital_status
+                        : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -247,14 +343,22 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     type={'text'}
                     placeholder="Salary Expectation"
                     label="Salary Expectation"
-                    value={candidateDetailsData.salary_expectation}
+                    value={
+                      candidateDetailsData.salary_expectation
+                        ? candidateDetailsData.salary_expectation
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Status"
                     type={'text'}
                     placeholder="Status"
-                    value={candidateDetailsData.candidate_status}
+                    value={
+                      candidateDetailsData.candidate_status
+                        ? candidateDetailsData.candidate_status
+                        : 'N/A'
+                    }
                   />
                 </Group>
                 <Group grow align="center" mt="md">
@@ -265,7 +369,11 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     // autosize
                     // minRows={3}
                     // maxRows={4}
-                    value={candidateDetailsData.profile_summary}
+                    value={
+                      candidateDetailsData.profile_summary
+                        ? candidateDetailsData.profile_summary
+                        : 'N/A'
+                    }
                   />
                 </Group>
               </Accordion.Panel>
@@ -285,28 +393,44 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Linkedin Url"
                     type={'text'}
                     placeholder="Linkedin Url"
-                    value={candidateDetailsData.linkedin_url}
+                    value={
+                      candidateDetailsData.linkedin_url
+                        ? candidateDetailsData.linkedin_url
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Github Url"
                     type={'text'}
                     placeholder="Github Url"
-                    value={candidateDetailsData.github_url}
+                    value={
+                      candidateDetailsData.github_url
+                        ? candidateDetailsData.github_url
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Address"
                     type={'text'}
                     placeholder="Address"
-                    value={candidateDetailsData.address1}
+                    value={
+                      candidateDetailsData.address1
+                        ? candidateDetailsData.address1
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="City"
                     type={'text'}
                     placeholder="City"
-                    value={candidateDetailsData.city}
+                    value={
+                      candidateDetailsData.city
+                        ? candidateDetailsData.city
+                        : 'N/A'
+                    }
                   />
                 </Group>
 
@@ -316,21 +440,33 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="State"
                     type={'text'}
                     placeholder="State"
-                    value={candidateDetailsData.state}
+                    value={
+                      candidateDetailsData.state
+                        ? candidateDetailsData.state
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Country"
                     type={'text'}
                     placeholder="Country"
-                    value={candidateDetailsData.country}
+                    value={
+                      candidateDetailsData.country
+                        ? candidateDetailsData.country
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Zip Code"
                     type={'text'}
                     placeholder="Zip Code"
-                    value={candidateDetailsData.zip}
+                    value={
+                      candidateDetailsData.zip
+                        ? candidateDetailsData.zip
+                        : 'N/A'
+                    }
                   />
                 </Group>
               </Accordion.Panel>
@@ -350,20 +486,28 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Institution"
                     type={'text'}
                     placeholder="Institution"
-                    value={candidateDetailsData.institution}
+                    value={
+                      candidateDetailsData.institution
+                        ? candidateDetailsData.institution
+                        : 'N/A'
+                    }
                   />
                   <TextInput
                     readOnly={true}
                     label="Degree"
                     type={'text'}
                     placeholder="Degree"
-                    value={candidateDetailsData.degree}
+                    value={
+                      candidateDetailsData.degree
+                        ? candidateDetailsData.degree
+                        : 'N/A'
+                    }
                   />
                   <FileInput
                     label="Attachment"
                     placeholder="Attachment"
                     icon={<IconUpload size={14} />}
-                    // value={candidateDetailsData.attachments} // old field
+                    // value={candidateDetailsData.attachments ? data?.data?.state : 'N/A'} // old field
                   />
                 </Group>
               </Accordion.Panel>
@@ -383,7 +527,11 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Current Employer name"
                     type={'text'}
                     placeholder="Current Employer name"
-                    value={candidateDetailsData.current_employer_name}
+                    value={
+                      candidateDetailsData.current_employer_name
+                        ? candidateDetailsData.current_employer_name
+                        : 'N/A'
+                    }
                   />
                 </Group>
               </Accordion.Panel>
@@ -400,7 +548,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                       label="Attachment"
                       placeholder="Attachment"
                       icon={<IconUpload size={14} />}
-                      // value={candidateDetailsData.zip}
+                      // value={candidateDetailsData.zip ? data?.data?.state : 'N/A'}
                     />
                   </Grid.Col>
                   <Grid.Col span={4}></Grid.Col>
@@ -420,21 +568,21 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                     label="Document Name"
                     type={'text'}
                     placeholder="Document Name"
-                    // value={candidateDetailsData.zip}
+                    // value={candidateDetailsData.zip ? data?.data?.state : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Expiry date"
                     type={'text'}
                     placeholder="Expiry date"
-                    // value={candidateDetailsData.zip}
+                    // value={candidateDetailsData.zip ? data?.data?.state : 'N/A'}
                   />
                   <TextInput
                     readOnly={true}
                     label="Document"
                     type={'text'}
                     placeholder="Document"
-                    // value={candidateDetailsData.zip}
+                    // value={candidateDetailsData.zip ? data?.data?.state : 'N/A'}
                   />
                 </Group>
                 {/* <Grid mt="md">
@@ -444,7 +592,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                       label="Document"
                       type={'text'}
                       placeholder="Document"
-                      // value={candidateDetailsData.zip}
+                      // value={candidateDetailsData.zip ? data?.data?.state : 'N/A'}
                     />
                   </Grid.Col>
                   <Grid.Col span={4}>
@@ -452,7 +600,7 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
                       label="Upload Resume"
                       placeholder="Upload Resume"
                       icon={<IconUpload size={14} />}
-                      // value={candidateDetailsData.zip}
+                      // value={candidateDetailsData.zip ? data?.data?.state : 'N/A'}
                     />
                   </Grid.Col>
                   <Grid.Col span={4}></Grid.Col>

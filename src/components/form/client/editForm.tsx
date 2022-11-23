@@ -33,13 +33,11 @@ export default function EditForm(clientData: TClient) {
   })
 
   const handleSubmit = (values: TClient) => {
-    const clientCreateData = {
+    const clientEditData = {
       ...values,
-      // status: 'published',
-      profile_image: '4a61f578-53fd-4ef0-9036-8cf343948813',
     }
 
-    editClient(clientCreateData)
+    editClient(clientEditData)
 
     showNotification({
       title: 'Success!!',
@@ -49,7 +47,18 @@ export default function EditForm(clientData: TClient) {
 
   return (
     <>
-      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
+      <Paper
+        p={20}
+        mt={30}
+        radius="sm"
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Accordion defaultValue="client_details">
             <Accordion.Item

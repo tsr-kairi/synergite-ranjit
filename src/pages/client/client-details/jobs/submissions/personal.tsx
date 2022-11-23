@@ -144,7 +144,12 @@ export default function Personal() {
                   maxWidth: '150px',
                 }}
               >
-                {clientData?.data?.first_name} {clientData?.data?.last_name}
+                {clientData?.data?.first_name
+                  ? clientData?.data?.first_name
+                  : 'N/A'}{' '}
+                {clientData?.data?.last_name
+                  ? clientData?.data?.last_name
+                  : 'N/A'}
               </Text>
             </div>
             {/* <Text size="lg" color="blue" weight={600} mb="xs">
@@ -157,7 +162,7 @@ export default function Personal() {
                   <b>Job Title :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.job_title}
+                  {data?.data?.job_title ? data?.data?.job_title : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -165,7 +170,7 @@ export default function Personal() {
                   <b>City :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.city}
+                  {data?.data?.city ? data?.data?.city : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -173,7 +178,7 @@ export default function Personal() {
                   <b>Country :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.country}
+                  {data?.data?.country ? data?.data?.country : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -181,7 +186,7 @@ export default function Personal() {
                   <b>Status :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.status}
+                  {data?.data?.status ? data?.data?.status : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -189,7 +194,9 @@ export default function Personal() {
                   <b>Immigration Status :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.immigration_status}
+                  {data?.data?.immigration_status
+                    ? data?.data?.immigration_status
+                    : 'N/A'}
                 </Text>
               </Group>
             </div>

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import {
   createStyles,
   Table,
-  ScrollArea,
   UnstyledButton,
   Group,
   Text,
@@ -20,11 +19,9 @@ import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
   IconEdit,
   IconTrash,
   IconPlus,
-  IconFilter,
   IconAddressBook,
 } from '@tabler/icons'
 import { TClient } from '@/types'
@@ -35,8 +32,8 @@ import useDeleteClientById from './hooks/useDeleteClientById'
 import { showNotification } from '@mantine/notifications'
 import EditClient from '@/components/form/client/editForm'
 import CreateClient from '@/components/form/client/createForm'
-import { useOnboarding } from '@/store/onboarding.store'
 import Contacts from './client-details/contacts'
+import { useOnboarding } from '@/store/onboarding.store'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({

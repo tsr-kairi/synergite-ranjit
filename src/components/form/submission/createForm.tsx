@@ -28,14 +28,15 @@ import { useQuery } from 'react-query'
 import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import ClientDetails from '../details/client-details/clientDetails'
 import ClientDetailsForm from './details/clientDetailsForm'
+import { UsState } from '@/pages/data/usState'
 
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
-    height: '100%',
-    overflow: 'auto',
-    display: 'block',
-    marginBottom: '32px',
+    // height: '100%',
+    // overflow: 'auto',
+    // display: 'block',
+    // marginBottom: '32px',
   },
 }))
 
@@ -62,6 +63,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { data: clientData } = useGetClientById(String(clientUuid))
 
   // const [rejected, setRejected] = useState(false)
+
+  const [searchValue, onSearchChange] = useState('')
 
   const form = useForm<TSubmissionCreate>({
     // validate: zodResolver(zSubmissionCreate),
@@ -134,25 +137,199 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   return (
     <>
-      <Paper p={20} radius="sm" className={classes.paper}>
+      <Paper
+        p={20}
+        radius="sm"
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group grow align="center" mt="md">
             <TextInput
-              required
               label="First Name"
               type={'text'}
               placeholder="First Name"
               {...form.getInputProps('first_name')}
             />
             <TextInput
-              required
               label="Last Name"
               type={'text'}
               placeholder="Last Name"
               {...form.getInputProps('last_name')}
             />
+            <Select
+              data={[
+                { value: 'None Selected', label: 'None Selected' },
+                {
+                  value: 'Application Packaging Engineer',
+                  label: 'Application Packaging Engineer',
+                },
+                {
+                  value: 'Architect',
+                  label: 'Architect',
+                },
+                {
+                  value: 'Assoc Business Analyst',
+                  label: 'Assoc Business Analyst',
+                },
+                {
+                  value: 'Assoc Developer',
+                  label: 'Assoc Developer',
+                },
+                {
+                  value: 'Assoc QA Analyst',
+                  label: 'Assoc QA Analyst',
+                },
+                {
+                  value: 'Associate Java Developer',
+                  label: 'Associate Java Developer',
+                },
+                {
+                  value: 'BI Developer',
+                  label: 'BI Developer',
+                },
+                {
+                  value: 'Business Intelligence Analyst',
+                  label: 'Business Intelligence Analyst',
+                },
+                {
+                  value: 'Business Systems Analyst',
+                  label: 'Business Systems Analyst',
+                },
+                {
+                  value: 'Chief Strategy Officer',
+                  label: 'Chief Strategy Officer',
+                },
+                {
+                  value: 'Client Relations Director',
+                  label: 'Client Relations Director',
+                },
+                {
+                  value: 'Cloud Data Solutions Developer',
+                  label: 'Cloud Data Solutions Developer',
+                },
+                {
+                  value: 'Cloud Data Solutions Developer',
+                  label: 'Cloud Data Solutions Developer',
+                },
+              ]}
+              placeholder="Job Title"
+              label="Job Title"
+              {...form.getInputProps('job_title')}
+            />
+            <Select
+              label="Candidate Location"
+              placeholder="Candidate Location"
+              data={[{ value: 'USA', label: 'USA' }]}
+              {...form.getInputProps('candidate_location')}
+            />
           </Group>
           <Group grow align="center" mt="md">
+            <TextInput
+              required
+              label="SSN"
+              type={'text'}
+              placeholder="SSN"
+              {...form.getInputProps('ssn')}
+            />
+            <TextInput
+              label="Phone"
+              type={'number'}
+              placeholder="Phone"
+              {...form.getInputProps('phone')}
+            />
+            <TextInput
+              label="Email"
+              type={'email'}
+              placeholder="Email"
+              {...form.getInputProps('email')}
+            />
+            <TextInput
+              label="DOB"
+              type={'date'}
+              placeholder="DOB"
+              {...form.getInputProps('dob')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              label="Bill Rate"
+              type={'number'}
+              placeholder="Bill Rate"
+              {...form.getInputProps('bill_rate')}
+            />
+            <Select
+              label="Bill Type"
+              placeholder="Bill Type"
+              data={[
+                { value: 'BT_WEEKLY', label: 'Weekly' },
+                { value: 'BT_BI_WEEKLY', label: 'Bi-Weekly' },
+                { value: 'BT_MONTHLY', label: 'Monthly' },
+                { value: 'BT_SEMI_MONTHLY', label: 'Semi Monthly' },
+              ]}
+              {...form.getInputProps('bill_type')}
+            />
+            <Select
+              label="Pay Rate"
+              placeholder="Pay Rate"
+              data={[
+                { value: 'PT_HOURLY', label: 'Hourly' },
+                { value: 'PT_BI_WEEKLY', label: 'Bi-Weekly' },
+                { value: 'PT_FORTNIGHT', label: 'Weekly' },
+                { value: 'PT_MONTHLY', label: 'Monthly' },
+                { value: 'PT_ANNUALLY', label: 'Annual Salary' },
+                { value: 'PR_PER_DAY', label: 'Per Day' },
+              ]}
+              {...form.getInputProps('pay_rate')}
+            />
+            <TextInput
+              label="Pay Type"
+              type={'number'}
+              placeholder="Pay Type"
+              {...form.getInputProps('pay_type')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <Select
+              label="Employment Type"
+              placeholder="Employment Type"
+              data={[
+                { value: 'ET_W2', label: 'W2' },
+                { value: 'ET_C2C', label: 'C2C' },
+                { value: 'ET_1099', label: '1099' },
+                {
+                  value: 'ET_INTERNAL',
+                  label: 'Internal Employees',
+                },
+              ]}
+              {...form.getInputProps('employment_type')}
+            />
+            <TextInput
+              readOnly={true}
+              key={clientData?.data?.uuid}
+              label="Client"
+              type={'text'}
+              placeholder="Client"
+              value={clientName || ''}
+              rightSection={
+                clientData?.data?.uuid ? (
+                  <IconExternalLink
+                    size="20"
+                    color="grey"
+                    cursor="pointer"
+                    onClick={() => {
+                      setClientDetailsOpened(true)
+                    }}
+                  />
+                ) : null
+              }
+            />
+
             <TextInput
               key={employeeDetails?.uuid}
               required
@@ -206,6 +383,26 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {/* ) : null} */}
           <Group grow align="center" mt="md">
             <Select
+              data={
+                recruiter?.data.map((r) => {
+                  return { value: r.uuid, label: r.fname }
+                }) || []
+              }
+              label="Recruiters"
+              placeholder="Recruiters"
+              {...form.getInputProps('recruiters')}
+            />
+            <Select
+              label="Immigration Status"
+              placeholder="Immigration Status"
+              data={[
+                { value: 'IS_USC', label: 'USC' },
+                { value: 'IS_H1', label: 'H1' },
+                { value: 'IS_GREEN_CARD', label: 'Green Card' },
+              ]}
+              {...form.getInputProps('immigration_status')}
+            />
+            <Select
               data={[
                 { value: 'Selected', label: 'Selected' },
                 { value: 'Rejected', label: 'Rejected' },
@@ -227,118 +424,95 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   { value: 'Others', label: 'Others' },
                 ]}
                 label="Rejection Reason"
-                type={'text'}
                 placeholder="Rejection Reason"
                 {...form.getInputProps('rejection_reason')}
               />
             )}
           </Group>
           <Group grow align="center" mt="md">
-            <Select
-              label="Immigration Status"
-              placeholder="Immigration Status"
-              data={[
-                { value: 'IS_USC', label: 'USC' },
-                { value: 'IS_H1', label: 'H1' },
-                { value: 'IS_GREEN_CARD', label: 'Green Card' },
-              ]}
-              {...form.getInputProps('immigration_status')}
+            <TextInput
+              label="Passport No"
+              type={'text'}
+              placeholder="Passport No"
+              {...form.getInputProps('passport_no')}
             />
             <TextInput
-              required
-              label="SSN"
+              label="Linkedin Url"
               type={'text'}
-              placeholder="SSN"
-              {...form.getInputProps('ssn')}
+              placeholder="Linkedin Url"
+              {...form.getInputProps('linkedin_url')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              label="Job Id"
+              type={'text'}
+              placeholder="Job Id"
+              {...form.getInputProps('job_id')}
+            />
+            <Select
+              label="State"
+              placeholder="State"
+              searchable
+              onSearchChange={onSearchChange}
+              searchValue={searchValue}
+              nothingFound="No Matching State"
+              data={UsState.map((s) => {
+                return { value: s.state, label: s.state }
+              })}
+              {...form.getInputProps('city')}
+            />
+            <Select
+              data={[{ value: 'Come From Api', label: 'Come From Api' }]}
+              label="Submitted By"
+              placeholder="Submitted By"
+              {...form.getInputProps('submitted_by')}
+            />
+            <TextInput
+              label="Submitted Date"
+              type={'date'}
+              placeholder="Submitted Date"
+              {...form.getInputProps('submitted_date')}
             />
           </Group>
           <Group grow align="center" mt="md">
             <Select
-              data={
-                recruiter?.data.map((r) => {
-                  return { value: r.uuid, label: r.fname }
-                }) || []
-              }
+              label="Currently working with Employer"
+              placeholder="Currently working with Employer"
+              data={[
+                { value: true, label: 'Yes' },
+                { value: false, label: 'No' },
+              ]}
+              {...form.getInputProps('recruitment_manager_uuid')}
+            />
+            <Select
+              label="Recruitment Manager"
+              placeholder="Recruitment Manager"
+              data={[
+                { value: 'Jhon', label: 'Jhon' },
+                { value: 'Rona', label: 'Rona' },
+                { value: 'Dev', label: 'Dev' },
+              ]}
+              {...form.getInputProps('recruitment_manager_uuid')}
+            />
+            <Select
+              label="Account Manager"
+              placeholder="Account Manager"
+              data={[
+                { value: 'Pradeep', label: 'Pradeep' },
+                { value: 'Rama', label: 'Rama' },
+              ]}
+              {...form.getInputProps('account_manager_uuid')}
+            />
+            <Select
               label="Recruiters"
               placeholder="Recruiters"
-              {...form.getInputProps('recruiters')}
-            />
-            <Select
-              label="Candidate Location"
-              placeholder="Candidate Location"
-              data={[{ value: 'USA', label: 'USA' }]}
-              {...form.getInputProps('candidate_location')}
-            />
-          </Group>
-          <Group grow align="center" mt="md">
-            <TextInput
-              readOnly={true}
-              key={clientData?.data?.uuid}
-              label="Client"
-              type={'text'}
-              placeholder="Client"
-              value={clientName || ''}
-              rightSection={
-                clientData?.data?.uuid ? (
-                  <IconExternalLink
-                    size="20"
-                    color="grey"
-                    cursor="pointer"
-                    onClick={() => {
-                      setClientDetailsOpened(true)
-                    }}
-                  />
-                ) : null
-              }
-            />
-            <Select
-              label="Employment Type"
-              placeholder="Employment Type"
               data={[
-                { value: 'ET_W2', label: 'W2' },
-                { value: 'ET_C2C', label: 'C2C' },
-                { value: 'ET_1099', label: '1099' },
-                {
-                  value: 'ET_INTERNAL',
-                  label: 'Internal Employees',
-                },
+                { value: 'Ranjit', label: 'Ranjit' },
+                { value: 'Vishal', label: 'Vishal' },
+                { value: 'Roshan', label: 'Roshan' },
               ]}
-              {...form.getInputProps('employment_type')}
-            />
-          </Group>
-          <Group grow align="center" mt="md">
-            <Select
-              label="Pay Rate"
-              placeholder="Pay Rate"
-              data={[
-                { value: 'PT_HOURLY', label: 'Hourly' },
-                { value: 'PT_BI_WEEKLY', label: 'Bi-Weekly' },
-                { value: 'PT_FORTNIGHT', label: 'Weekly' },
-                { value: 'PT_MONTHLY', label: 'Monthly' },
-                { value: 'PT_ANNUALLY', label: 'Annual Salary' },
-                { value: 'PR_PER_DAY', label: 'Per Day' },
-              ]}
-              {...form.getInputProps('pay_rate')}
-            />
-            <TextInput
-              label="Bill Rate"
-              type={'text'}
-              placeholder="Bill Rate"
-              {...form.getInputProps('bill_rate')}
-            />
-          </Group>
-          <Group grow align="center" mt="md">
-            <TextInput
-              label="DOB"
-              type={'date'}
-              placeholder="DOB"
-              {...form.getInputProps('dob')}
-            />
-            <TextInput
-              label="Phone"
-              type={'number'}
-              placeholder="Phone"
-              {...form.getInputProps('phone')}
+              {...form.getInputProps('recruiter_uuid')}
             />
           </Group>
           <Textarea

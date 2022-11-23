@@ -442,7 +442,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
     <>
       <ListViewLayout
         title="Submission"
-        createDrawerSize={'800px'}
+        createDrawerSize={'1200px'}
         createDrawerTitle="Add New Submission"
         isError={false}
         isLoading={false}
@@ -621,7 +621,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         onClose={() => setIsOpened(false)}
         title="Edit Submission"
         padding="xl"
-        size="xl"
+        size="1200px"
         position="right"
       >
         <EditForm {...submissionEditData} />

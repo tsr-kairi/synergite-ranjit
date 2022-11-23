@@ -49,7 +49,12 @@ export default function EditForm(vendorData: TVendor) {
 
   return (
     <>
-      <Paper p={20} mt={30} radius="sm" className={classes.paper}>
+      <Paper p={20} mt={30} radius="sm" className={classes.paper} style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Accordion defaultValue="vendor_details">
             <Accordion.Item

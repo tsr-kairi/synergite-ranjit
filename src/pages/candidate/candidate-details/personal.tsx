@@ -137,7 +137,8 @@ export default function Personal() {
                   maxWidth: '150px',
                 }}
               >
-                {data?.data?.first_name} {data?.data?.last_name}
+                {data?.data?.first_name ? data?.data?.first_name : 'N/A'}{' '}
+                {data?.data?.last_name ? data?.data?.last_name : 'N/A'}
               </Text>
             </div>
             {/* <Text size="lg" color="blue" weight={600} mb="xs">
@@ -150,7 +151,8 @@ export default function Personal() {
                   <b>Name :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.first_name} {data?.data?.last_name}
+                  {data?.data?.first_name ? data?.data?.first_name : 'N/A'}{' '}
+                  {data?.data?.last_name ? data?.data?.last_name : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -158,7 +160,7 @@ export default function Personal() {
                   <b>Email :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.email}
+                  {data?.data?.email ? data?.data?.email : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -166,7 +168,7 @@ export default function Personal() {
                   <b>Phone :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.phone}
+                  {data?.data?.phone ? data?.data?.phone : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -174,7 +176,7 @@ export default function Personal() {
                   <b>City :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.city}
+                  {data?.data?.city ? data?.data?.city : 'N/A'}
                 </Text>
               </Group>
               <Group spacing="sm">
@@ -182,7 +184,7 @@ export default function Personal() {
                   <b>State :</b>
                 </Text>
                 <Text size="lg" color="#686969" weight={400}>
-                  {data?.data?.state}
+                  {data?.data?.state ? data?.data?.state : 'N/A'}
                 </Text>
               </Group>
             </div>

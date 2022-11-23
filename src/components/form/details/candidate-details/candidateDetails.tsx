@@ -40,7 +40,15 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
 
   return (
     <>
-      <div className={classes.paper}>
+      <div
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group grow align="center" mb="lg">
             <TextInput
