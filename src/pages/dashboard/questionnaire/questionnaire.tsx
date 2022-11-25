@@ -359,6 +359,7 @@ const Questionnaire = () => {
         position="right"
       >
         <EmployeeIdList
+          selectedEmployee={candidateDetails}
           setEmployee={(candidate) => {
             setCandidateDetails(candidate)
             setCandidateListIsOpened(false)
@@ -376,6 +377,7 @@ const Questionnaire = () => {
         position="right"
       >
         <ClientIdList
+          selectedClient={clientDetails}
           setClient={(client) => {
             setClientDetails(client)
             setClientListIsOpened(false)
@@ -393,6 +395,7 @@ const Questionnaire = () => {
         position="right"
       >
         <VendorIdList
+          selectedVendor={vendorDetails}
           setVendor={(vendor) => {
             setVendorDetails(vendor)
             setVendorListIsOpened(false)

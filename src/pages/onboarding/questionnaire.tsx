@@ -35,7 +35,6 @@ const Questionnaire = () => {
   const { classes } = useStyles()
   const navigate = useNavigate()
   const { state } = useLocation()
-  console.log('[Questionnaire] state =', state)
 
   const form = useForm<IOnboardingQuestionnaireProps>({
     initialValues: {
