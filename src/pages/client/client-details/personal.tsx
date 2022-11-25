@@ -1,3 +1,4 @@
+import EditForm from '@/components/form/client/editForm'
 import { TClient } from '@/types'
 import {
   Avatar,
@@ -5,7 +6,6 @@ import {
   createStyles,
   Group,
   Loader,
-  Button,
   Drawer,
   ActionIcon,
   Tooltip,
@@ -92,7 +92,7 @@ const useStyles = createStyles((theme) => ({
 export default function Personal() {
   const [opened, setOpened] = useState(false)
   const [clientDetailsOpened, setClientDetailsIsOpened] = useState(false)
-  const [clientEditData, setClientEditData] = useState({} as TClient)
+  // const [clientEditData, setClientEditData] = useState({} as TClient)
   const { clientId } = useParams()
   // console.log('cliId', clientId)
   const { classes } = useStyles()
@@ -225,7 +225,7 @@ export default function Personal() {
               transitionDuration={500}
               onClick={() => {
                 setClientDetailsIsOpened(true)
-                setClientEditData({ ...((data?.data?.uuid || {}) as TClient) })
+                // setClientEditData({ ...((data?.data || {}) as TClient) })
               }}
             >
               <ActionIcon variant="light" radius="xl" color={'blue'}>
@@ -267,7 +267,7 @@ export default function Personal() {
               </>
             }
           /> */}
-          <ClientDetails {...clientEditData} />
+          <ClientDetails key={clientId} {...((data?.data || {}) as TClient)} />
         </Drawer>
       </div>
     </>

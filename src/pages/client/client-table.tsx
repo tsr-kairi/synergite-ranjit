@@ -21,7 +21,6 @@ import {
   IconChevronUp,
   IconEdit,
   IconTrash,
-  IconPlus,
   IconAddressBook,
 } from '@tabler/icons'
 import { TClient } from '@/types'
@@ -31,7 +30,6 @@ import useDeleteClientById from './hooks/useDeleteClientById'
 
 import { showNotification } from '@mantine/notifications'
 import EditClient from '@/components/form/client/editForm'
-import CreateClient from '@/components/form/client/createForm'
 import Contacts from './client-details/contacts'
 import { useOnboarding } from '@/store/onboarding.store'
 

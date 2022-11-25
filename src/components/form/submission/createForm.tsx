@@ -1,8 +1,11 @@
 import { TSubmissionCreate } from '@/types/submission-type'
 import { useState } from 'react'
 import {
+  Accordion,
+  Box,
   Button,
   createStyles,
+  Divider,
   Drawer,
   Group,
   Paper,
@@ -12,7 +15,7 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { IconExternalLink } from '@tabler/icons'
+import { IconExternalLink, IconInfoCircle } from '@tabler/icons'
 import EmployeeDetailsForm from './details/employeeDetailsForm'
 import VendorDetailsForm from './details/vendorDetailsForm'
 import { TCandidate } from '@/types/candidate-type'
@@ -26,9 +29,9 @@ import axiosPrivate from '@/services/axiosPrivate'
 import { recruitersQueryKeys } from '@/react-query/queryKeys'
 import { useQuery } from 'react-query'
 import useGetClientById from '@/pages/client/hooks/useGetClientById'
-import ClientDetails from '../details/client-details/clientDetails'
 import ClientDetailsForm from './details/clientDetailsForm'
 import { UsState } from '@/pages/data/usState'
+import TextDivider from '@/components/elements/text-divider'
 
 const useStyles = createStyles(() => ({
   paper: {
@@ -73,12 +76,30 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       last_name: '',
 
       // new field Nov
+      job_title: '',
       candidate_location: '',
-      client: '',
+      // client: '',
       employment_type: '',
       pay_rate: '',
+      pay_type: '',
+      bill_type: '',
       bill_rate: '',
+      submitted_by: '',
+      submitted_date: '',
+      ssn: '',
+      dob: '',
+      passport_no: '',
+      linkedin_url: '',
+      currently_working_with_employer: '',
+      company_name: '',
+      employer_name: '',
+      employer_phone_no: '',
+      employer_email_id: '',
+      employer_fax_no: '',
       immigration_status: '',
+
+      recruitment_mgr_id: '',
+      acct_mgr_id: '',
 
       status: '',
       remarks: '',
@@ -121,8 +142,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       vendor_id: vendorDetails?.uuid,
       vendor_name: vendorName,
       job_id: String(jobId),
-      recruitment_mgr_id: '',
-      acct_mgr_id: '',
+      // recruitment_mgr_id: '',
+      // acct_mgr_id: '',
     }
 
     addSubmission(submissionCreateData)
@@ -146,9 +167,16 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           height: '90vh',
           overflowY: 'auto',
           scrollbarWidth: 'none',
+          scrollBehavior: 'smooth',
         }}
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          {/* <Accordion defaultValue="submission">
+            <Accordion.Item value="submission" style={{ borderBottom: 'none' }}>
+              <Accordion.Control style={{ padding: '0' }}>
+                <TextDivider label="Submission Core" />
+              </Accordion.Control>
+              <Accordion.Panel> */}
           <Group grow align="center" mt="md">
             <TextInput
               label="First Name"
@@ -416,7 +444,10 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               <Select
                 data={[
                   { value: 'Client Rejected', label: 'Client Rejected' },
-                  { value: 'Position on Hold', label: 'Position on Hold' },
+                  {
+                    value: 'Position on Hold',
+                    label: 'Position on Hold',
+                  },
                   {
                     value: 'Internally rejected',
                     label: 'Internally rejected',
@@ -483,7 +514,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 { value: true, label: 'Yes' },
                 { value: false, label: 'No' },
               ]}
-              {...form.getInputProps('recruitment_manager_uuid')}
+              {...form.getInputProps('currently_working_with_employer')}
             />
             <Select
               label="Recruitment Manager"
@@ -493,7 +524,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 { value: 'Rona', label: 'Rona' },
                 { value: 'Dev', label: 'Dev' },
               ]}
-              {...form.getInputProps('recruitment_manager_uuid')}
+              {...form.getInputProps('recruitment_mgr_id')}
             />
             <Select
               label="Account Manager"
@@ -502,9 +533,9 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 { value: 'Pradeep', label: 'Pradeep' },
                 { value: 'Rama', label: 'Rama' },
               ]}
-              {...form.getInputProps('account_manager_uuid')}
+              {...form.getInputProps('acct_mgr_id')}
             />
-            <Select
+            {/* <Select
               label="Recruiters"
               placeholder="Recruiters"
               data={[
@@ -513,7 +544,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 { value: 'Roshan', label: 'Roshan' },
               ]}
               {...form.getInputProps('recruiter_uuid')}
-            />
+            /> */}
           </Group>
           <Textarea
             required
@@ -523,9 +554,68 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             mt="md"
             {...form.getInputProps('remarks')}
           />
+
+          {/* If the candidate is working with any employer or vendor company then fields from 30 to 34 should be displayed for further inputs */}
+
+          {employeeDetails?.uuid + vendorDetails?.uuid ? (
+            <>
+              <Divider
+                mb="20px"
+                mt="30px"
+                variant="dashed"
+                label={
+                  <>
+                    <IconInfoCircle size={16} />
+                    <Box ml={5} mt={1.5}>
+                      Candidate is working with employer and vendor, so you fill
+                      these fields
+                    </Box>
+                  </>
+                }
+              />
+              <Group grow align="center" mt="md">
+                <TextInput
+                  label="Company Name"
+                  type={'text'}
+                  placeholder="Company Name"
+                  {...form.getInputProps('company_name')}
+                />
+                <TextInput
+                  label="Employer Name"
+                  type={'text'}
+                  placeholder="Employer Name"
+                  {...form.getInputProps('employer_name')}
+                />
+                <TextInput
+                  label="Employer Phone No"
+                  type={'number'}
+                  placeholder="Employer Phone No"
+                  {...form.getInputProps('employer_phone_no')}
+                />
+              </Group>
+              <Group grow align="center" mt="md">
+                <TextInput
+                  label="Employer Email Id"
+                  type={'email'}
+                  placeholder="Employer Email Id"
+                  {...form.getInputProps('employer_email_id')}
+                />
+                <TextInput
+                  label="Employer Fax No"
+                  type={'text'}
+                  placeholder="Employer Fax No"
+                  {...form.getInputProps('employer_fax_no')}
+                />
+              </Group>
+            </>
+          ) : null}
+
           <Button fullWidth type="submit" mt="xl" mb="xl">
             Submit Now
           </Button>
+          {/* </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion> */}
         </form>
 
         {/* Showing Vendor Details */}
