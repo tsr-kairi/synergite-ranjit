@@ -4,9 +4,13 @@ import EmployeeDetailsForm from '@/components/form/submission/details/employeeDe
 import VendorDetailsForm from '@/components/form/submission/details/vendorDetailsForm'
 import EmployeeIdList from '@/components/form/submission/employeeIdList'
 import VendorIdList from '@/components/form/submission/vendorIdList'
+import axiosPrivate from '@/services/axiosPrivate'
 import { TClient, TVendor } from '@/types'
 import { TCandidate } from '@/types/candidate-type'
+import { TPreonboard } from '@/types/prebonboard-type'
+import { TSubmission } from '@/types/submission-type'
 import {
+  Badge,
   Button,
   createStyles,
   Drawer,
@@ -22,6 +26,7 @@ import { showNotification } from '@mantine/notifications'
 import { IconExternalLink } from '@tabler/icons'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import useCreatePreonboard from './createPreonboarding'
 
 const useStyles = createStyles((theme) => ({
   formMain: {
@@ -37,16 +42,19 @@ const useStyles = createStyles((theme) => ({
 }))
 
 type IOnboardingQuestionnaireProps = {
-  // employee_id: string
-  // vendor_id: string
   employment_type: string
   payment_type: string
 }
+
+// interface ISubmissionProps {
+//   data: TSubmission
+// }
 
 const Questionnaire = () => {
   const { classes } = useStyles()
   // Initiate Onboarding state
   const [isInitiating, setIsInitiating] = useState(false)
+  const { mutate: createPreonboard } = useCreatePreonboard()
 
   // Candidate, Client and Vendor : Details state
   const [candidateDetails, setCandidateDetails] = useState({} as TCandidate)
@@ -65,8 +73,8 @@ const Questionnaire = () => {
 
   //  redirect to onboarding
   const navigate = useNavigate()
-  const { state } = useLocation()
-  console.log('[Questionnaire] state =', state)
+  // const { state } = useLocation()
+  // console.log('[Questionnaire] state =', state)
 
   // requiredMsg errorNMsg
   const requiredMsg = 'This field is required'
@@ -117,20 +125,37 @@ const Questionnaire = () => {
     vendorDetails?.last_name || ''
   }`
 
-  //  Initiate onboarding handler function
-  const handleInitiate = (values: IOnboardingQuestionnaireProps) => {
-    // employee_id: candidateDetails?.uuid,
-    //   vendor_id: vendorDetails?.uuid,
-    //   client_id: clientDetails?.uuid,
+  // hook preonboard
 
-    void values
+  //  Initiate onboarding handler function
+  const handleInitiate = () => {
+    const preOnboardingPayload: TPreonboard = {
+      client_uuid: clientDetails?.uuid,
+      employee_uuid: candidateDetails?.uuid,
+      vendor_uuid: vendorDetails?.uuid,
+    }
     try {
       form.reset()
-      setTimeout(() => {
-        navigate('/onboarding')
-      }, 2000)
+      // delete submissionData.uuid
+      createPreonboard(preOnboardingPayload, {
+        onSuccess(data) {
+          setTimeout(() => {
+            navigate(
+              `/onboarding?client_uuid=${clientDetails.uuid}&vendor_uuid=${
+                vendorDetails.uuid
+              }&employee_uuid=${candidateDetails.uuid}&onboarding_uuid=${
+                data?.data?.uuid || ''
+              }`
+            )
+          }, 2000)
+        },
+      })
     } catch (error) {
       // TODO - Need to show an Error Alert
+      showNotification({
+        message: 'Failed to Initiating!!',
+        color: 'red',
+      })
     }
     setIsInitiating(true)
   }
@@ -326,25 +351,20 @@ const Questionnaire = () => {
               },
             }}
           >
+            {/* {subData?.map((item) => { */}
             <Button
+              // key={item.uuid}
               type="submit"
               variant="gradient"
               size="md"
               fullWidth
               mt="xl"
               color="indigo"
-              // onClick={() =>
-              //   navigate(
-              //     `/onboarding?client_uuid=${String(
-              //       clientUUID
-              //     )}&vendor_uuid=${String(vendorUUID)}&employee_uuid=${String(
-              //       employeeUUID
-              //     )}&submission_uuid=${String(submissionUUID)}`
-              //   )
-              // }
+              // onClick={() => void handlePreOnboarding()}
             >
               Initiate Onboarding
             </Button>
+            {/* })} */}
           </MantineProvider>
         </form>
       )}

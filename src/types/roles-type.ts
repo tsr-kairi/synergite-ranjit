@@ -8,8 +8,9 @@ const zRoles = z.object({
   // employee_type: z.string(),
   // new_client: z.string(),
   // default_activity: z.string(),
-  // department_uuid: z.string(),
   // new_subvendor: z.string(),
+  // department: z.string(),
+  department_uuid: z.string(),
   name: z.string(),
   uuid: z.string(),
 })
@@ -21,7 +22,7 @@ const zRolesCreate = z.object({
   // new_client: z.string(),
   // default_activity: z.string(),
   // new_subvendor: z.string(),
-  // department_uuid: z.string(),
+  department_uuid: z.string(),
   name: z.string(),
 })
 
