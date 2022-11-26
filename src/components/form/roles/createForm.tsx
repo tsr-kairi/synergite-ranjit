@@ -1,8 +1,13 @@
 import useCreateRoles from '@/pages/roles/hooks/useCreateRoles'
+import { departmentQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
+import { TDepartment, TDepartmentFindAll } from '@/types/department-type'
 import { TRolesCreate, zRolesCreate } from '@/types/roles-type'
 import { TextInput, Button, createStyles, Paper, Select } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -17,18 +22,28 @@ export default function CreateForm() {
     validate: zodResolver(zRolesCreate),
     initialValues: {
       name: '',
+      department_uuid: '',
       // immigration_status: '',
       // employee_type: '',
       // new_client: '',
       // new_subvendor: '',
       // default_activity: '',
-      // department_uuid: '',
     },
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
+  // get recruiters api function
+  const finAlDepartment = async () => {
+    const response = await axiosPrivate.get<TDepartmentFindAll>(`/department`)
+    return response.data
+  }
+  const { data: department } = useQuery<TDepartmentFindAll, Error>(
+    departmentQueryKeys.allDepartment,
+    finAlDepartment
+  )
   const handleSubmit = (values: TRolesCreate) => {
+    console.log('values', values)
     const rolesCreateData = {
       ...values,
     }
@@ -98,6 +113,17 @@ export default function CreateForm() {
             placeholder="Default Activity"
             {...form.getInputProps('default_activity')}
           /> */}
+          <Select
+            mb={16}
+            label="Department"
+            placeholder="Department"
+            data={
+              department?.data.map((dept) => {
+                return { value: dept.uuid, label: dept.name }
+              }) || []
+            }
+            {...form.getInputProps('department_uuid')}
+          />
           <TextInput
             mb={16}
             label="Role Name"

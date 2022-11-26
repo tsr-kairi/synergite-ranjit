@@ -31,7 +31,6 @@ import { useQuery } from 'react-query'
 import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import ClientDetailsForm from './details/clientDetailsForm'
 import { UsState } from '@/pages/data/usState'
-import TextDivider from '@/components/elements/text-divider'
 
 const useStyles = createStyles(() => ({
   paper: {

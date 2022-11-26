@@ -348,11 +348,11 @@ export default function JobsTable({ data }: JobsProps) {
         createDrawerChildren={<CreateJob />}
         onSearchChange={handleSearchChange}
       >
-        <Table
+        {/* <Table
           horizontalSpacing="md"
           verticalSpacing="xs"
           className={classes.childTable}
-        >
+        > */}
           <thead className={cx(classes.header)}>
             <tr>
               <Th
@@ -495,7 +495,7 @@ export default function JobsTable({ data }: JobsProps) {
               </tr>
             )}
           </tbody>
-        </Table>
+        {/* </Table> */}
       </ListViewLayout>
       {/* Edit - Contact Form Drawer*/}
 

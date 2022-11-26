@@ -27,7 +27,6 @@ import {
 } from '@tabler/icons'
 import { TRoles } from '@/types/roles-type'
 import { openConfirmModal } from '@mantine/modals'
-import CreateForm from '@/components/form/roles/createForm'
 import EditForm from '@/components/form/roles/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteRolesById from './hooks/useDeleteRolesById'
@@ -267,6 +266,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
           </Tooltip>
         </Link>
       </td>
+      <td>{row?.department_uuid}</td>
       <td>
         <Group spacing="sm">
           <IconTrash
@@ -295,6 +295,14 @@ export default function RolesTable({ data }: IRolesTableProps) {
               onSort={() => setSorting('name')}
             >
               <b>Role Name</b>
+            </Th>
+
+            <Th
+              sorted={sortBy === 'department_uuid'}
+              reversed={reverseSortDirection}
+              onSort={() => setSorting('department_uuid')}
+            >
+              <b>Department</b>
             </Th>
 
             <th className={classes.action}>

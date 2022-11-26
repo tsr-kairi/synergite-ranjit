@@ -4,7 +4,7 @@ import useGetAllRoles from './hooks/useGetAllRoles'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 
 export const Roles = () => {
-  const { data, isError, error, isLoading } = useGetAllRoles()
+  const { data, isError, isLoading } = useGetAllRoles()
 
   return (
     <ListViewLayout
