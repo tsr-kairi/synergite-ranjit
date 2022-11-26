@@ -180,12 +180,17 @@ function sortData(
 }
 
 interface IEmployeeProps {
+  selectedEmployee?: TCandidate
   data: TCandidate[]
   setEmployee: (value: TCandidate) => void
 }
 
 // Exporting Default ClientTable Component
-export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
+export function EmployeeId({
+  selectedEmployee,
+  data,
+  setEmployee,
+}: IEmployeeProps) {
   const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
@@ -211,32 +216,43 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
   }
 
   // Create Rows
-  const rows = empData?.map((item) => (
-    <tr key={item.uuid}>
-      <td>
-        <Radio
-          onClick={() => setEmployee(item)}
-          value={item.uuid}
-          label={`${item?.first_name || ''} ${item?.last_name || ''}`}
-        />
-      </td>
-      {/* <td>
+  const rows = empData?.map((item) => {
+    console.log(' ')
+    // console.log(
+    //   'selectedEmployee?.uuid === item.uuid =',
+    //   selectedEmployee?.uuid === item.uuid
+    // )
+    // console.log('selectedEmployee =', selectedEmployee)
+    // console.log('item =', item)
+    // console.log(' ')
+    return (
+      <tr key={item.uuid}>
+        <td>
+          <Radio
+            onClick={() => setEmployee(item)}
+            checked={selectedEmployee?.uuid === item.uuid}
+            value={item.uuid}
+            label={`${item?.first_name || ''} ${item?.last_name || ''}`}
+          />
+        </td>
+        {/* <td>
         <Text size="sm" weight={500} onClick={() => setEmployee(item)}>
           {item.first_name} {item.last_name}
         </Text>
       </td> */}
-      <td>
-        <IconEdit
-          className={classes.editIcon}
-          cursor="pointer"
-          onClick={() => {
-            setIsOpened(true)
-            setCandidateEditData(item)
-          }}
-        />
-      </td>
-    </tr>
-  ))
+        <td>
+          <IconEdit
+            className={classes.editIcon}
+            cursor="pointer"
+            onClick={() => {
+              setIsOpened(true)
+              setCandidateEditData(item)
+            }}
+          />
+        </td>
+      </tr>
+    )
+  })
 
   // Returning the Scroll Area of Table
   return (
@@ -262,7 +278,8 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
             <IconPlus size={30} />
           </ActionIcon>
         </div>
-        <Radio.Group spacing="xl">
+
+        <div>
           <Table
             horizontalSpacing="md"
             verticalSpacing="xs"
@@ -303,7 +320,7 @@ export function EmployeeId({ data, setEmployee }: IEmployeeProps) {
               )}
             </tbody>
           </Table>
-        </Radio.Group>
+        </div>
 
         {/* Add New - Drawer */}
         <Drawer

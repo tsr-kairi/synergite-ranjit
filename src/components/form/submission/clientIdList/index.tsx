@@ -5,10 +5,14 @@ import { Loader, Paper } from '@mantine/core'
 import { ClientId } from './clientIdList'
 
 interface ClientIdListProps {
+  selectedClient?: TClient
   setClient: (value: TClient) => void
 }
 
-export const ClientIdList = ({ setClient }: ClientIdListProps) => {
+export const ClientIdList = ({
+  selectedClient,
+  setClient,
+}: ClientIdListProps) => {
   const { data, isError, error, isLoading } = useGetAllClients()
 
   if (isError) {
@@ -24,7 +28,11 @@ export const ClientIdList = ({ setClient }: ClientIdListProps) => {
           padding: '20px',
         }}
       >
-        <ClientId data={data?.data ? data?.data : []} setClient={setClient} />
+        <ClientId
+          selectedClient={selectedClient}
+          data={data?.data ? data?.data : []}
+          setClient={setClient}
+        />
       </Paper>
     )
   } else if (isLoading) {

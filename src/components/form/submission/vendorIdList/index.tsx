@@ -4,10 +4,11 @@ import { Loader, Paper } from '@mantine/core'
 import { VendorId } from './vendorIdList'
 
 interface VendorIdListProps {
+  selectedVendor?: TVendor
   setVendor: (value: TVendor) => void
 }
 
-const VendorIdList = ({ setVendor }: VendorIdListProps) => {
+const VendorIdList = ({ selectedVendor, setVendor }: VendorIdListProps) => {
   const { data, isError, isLoading } = useGetAllVendors()
 
   if (isError) {
@@ -24,6 +25,7 @@ const VendorIdList = ({ setVendor }: VendorIdListProps) => {
       >
         <VendorId
           key={data?.data?.length}
+          selectedVendor={selectedVendor}
           data={data?.data || []}
           setVendor={setVendor}
         />

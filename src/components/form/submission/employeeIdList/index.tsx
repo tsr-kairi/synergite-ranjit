@@ -4,10 +4,14 @@ import { Loader, Paper } from '@mantine/core'
 import { EmployeeId } from './employeeIdList'
 
 interface EmployeeIdListProps {
+  selectedEmployee?: TCandidate
   setEmployee: (value: TCandidate) => void
 }
 
-export const EmployeeIdList = ({ setEmployee }: EmployeeIdListProps) => {
+export const EmployeeIdList = ({
+  selectedEmployee,
+  setEmployee,
+}: EmployeeIdListProps) => {
   const { data, isError, error, isLoading } = useGetAllCandidate()
 
   if (isError) {
@@ -24,6 +28,7 @@ export const EmployeeIdList = ({ setEmployee }: EmployeeIdListProps) => {
         }}
       >
         <EmployeeId
+          selectedEmployee={selectedEmployee}
           data={data?.data ? data?.data : []}
           setEmployee={setEmployee}
         />

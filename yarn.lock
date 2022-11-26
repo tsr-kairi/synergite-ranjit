@@ -1205,6 +1205,13 @@
     "@mantine/utils" "5.2.0"
     "react-transition-group" "4.4.2"
 
+"@mantine/spotlight@^5.8.3":
+  "integrity" "sha512-BUCduptsjMZRJWhYV9tTDacWDK0qBF5yi9zLOSkH98XKCl4HwR0XUIdqok/MTw197g9AJCvEfxYijqp4Mgh5FA=="
+  "resolved" "https://registry.npmjs.org/@mantine/spotlight/-/spotlight-5.8.3.tgz"
+  "version" "5.8.3"
+  dependencies:
+    "@mantine/utils" "5.8.3"
+
 "@mantine/styles@5.2.0":
   "integrity" "sha512-0wUUqB+JmGGyUoMIrKig+7cd3s2A48tzAIexTu94LVixBQ4l7RnFjxh8/1ZPcWz76SVpmliljiCIHyQUV590Kg=="
   "resolved" "https://registry.npmjs.org/@mantine/styles/-/styles-5.2.0.tgz"
@@ -1217,6 +1224,11 @@
   "integrity" "sha512-wDJKbW5EYboTSNkWhIXKdyDgBVxGLmdkGL4O94iNtZbRy5zoouGaEP3sW88GgIhyFmeVlnu+Mdzzsd76IsX/NA=="
   "resolved" "https://registry.npmjs.org/@mantine/utils/-/utils-5.2.0.tgz"
   "version" "5.2.0"
+
+"@mantine/utils@5.8.3":
+  "integrity" "sha512-MprJbMh/z3TbC8yPF2PQftitRwl58w7hvhp7O9fT+9jrvJHKM8V7r15iHMwBw2jgX6zmlksstO7QfhENc0vMHQ=="
+  "resolved" "https://registry.npmjs.org/@mantine/utils/-/utils-5.8.3.tgz"
+  "version" "5.8.3"
 
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="

@@ -174,12 +174,13 @@ function sortData(
 }
 
 interface IClientProps {
+  selectedClient?: TClient
   data: TClient[]
   setClient: (value: TClient) => void
 }
 
 // Exporting Default ClientTable Component
-export function ClientId({ data, setClient }: IClientProps) {
+export function ClientId({ selectedClient, data, setClient }: IClientProps) {
   const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
@@ -210,6 +211,7 @@ export function ClientId({ data, setClient }: IClientProps) {
       <td>
         <Radio
           value={item.uuid}
+          checked={selectedClient?.uuid === item.uuid}
           onClick={() => setClient(item)}
           label={`${item?.first_name || ''} ${item?.last_name || ''}`}
         />
@@ -254,7 +256,7 @@ export function ClientId({ data, setClient }: IClientProps) {
             <IconPlus size={30} />
           </ActionIcon>
         </div>
-        <Radio.Group>
+        <div>
           <Table
             horizontalSpacing="md"
             verticalSpacing="xs"
@@ -293,7 +295,7 @@ export function ClientId({ data, setClient }: IClientProps) {
               )}
             </tbody>
           </Table>
-        </Radio.Group>
+        </div>
         {/* Add New - Drawer */}
         <Drawer
           opened={isAddNewDrawerOpen}

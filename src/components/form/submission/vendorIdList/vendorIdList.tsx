@@ -182,12 +182,13 @@ function sortData(
 }
 
 interface IVendorProps {
+  selectedVendor?: TVendor
   data: TVendor[]
   setVendor: (value: TVendor) => void
 }
 
 // Exporting Default VendorTable Component
-export function VendorId({ data, setVendor }: IVendorProps) {
+export function VendorId({ selectedVendor, data, setVendor }: IVendorProps) {
   const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
@@ -219,6 +220,7 @@ export function VendorId({ data, setVendor }: IVendorProps) {
         <Radio
           value={item.uuid}
           onClick={() => setVendor(item)}
+          checked={selectedVendor?.uuid === item.uuid}
           label={`${item?.first_name || ''} ${item?.last_name || ''}`}
         />
       </td>
@@ -270,7 +272,7 @@ export function VendorId({ data, setVendor }: IVendorProps) {
             <IconPlus size={30} />
           </ActionIcon>
         </div>
-        <Radio.Group>
+        <div>
           <Table
             horizontalSpacing="md"
             verticalSpacing="xs"
@@ -309,7 +311,7 @@ export function VendorId({ data, setVendor }: IVendorProps) {
               )}
             </tbody>
           </Table>
-        </Radio.Group>
+        </div>
         {/* Add New - Drawer */}
         <Drawer
           opened={isAddNewDrawerOpen}
