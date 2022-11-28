@@ -36,6 +36,7 @@ import {
 import {
   IconBriefcase,
   IconChevronsRight,
+  IconExternalLink,
   IconFileDots,
   IconShieldCheck,
   IconWallet,
@@ -51,6 +52,10 @@ import { openConfirmModal } from '@mantine/modals'
 import CandidateDetails from '@/components/form/details/candidate-details/candidateDetails'
 import ClientDetails from '@/components/form/details/client-details/clientDetails'
 import VendorDetails from '@/components/form/details/vendor-details/vendorDetails'
+import { TSubmission } from '@/types/submission-type'
+import ClientIdList from '@/components/form/submission/clientIdList'
+import EmployeeIdList from '@/components/form/submission/employeeIdList'
+import VendorIdList from '@/components/form/submission/vendorIdList'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -99,9 +104,18 @@ const useStyles = createStyles((theme) => ({
 
 export default function Onboarding() {
   const { classes } = useStyles()
+  // details open
   const [candidateDetailsOpened, setCandidateDetailsIsOpened] = useState(false)
   const [clientDetailsOpened, setClientDetailsIsOpened] = useState(false)
   const [vendorDetailsOpened, setVendorDetailsIsOpened] = useState(false)
+
+  // list open
+  const [clientListIsOpened, setClientListIsOpened] = useState(false)
+  const [candidateListIsOpened, setCandidateListIsOpened] = useState(false)
+  const [vendorListIsOpened, setVendorListIsOpened] = useState(false)
+
+  // details data
+  const [candidateDetails, setCandidateDetails] = useState({} as TCandidate)
 
   // activeStep states
   const [activeStepNumber, setActiveStepNumber] = useState(0)
@@ -130,6 +144,7 @@ export default function Onboarding() {
   //
   const completionPercentage = searchParams.get('completion_percentage')
   // console.log('submissionUUID', submissionUUID)
+  const [subData, setSubData] = useState({} as TSubmission)
 
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
@@ -369,6 +384,9 @@ export default function Onboarding() {
     }
   } // End of handleSave function
 
+  // const canName2 = `${candidateDetails?.first_name || ''} ${
+  //   candidateDetails?.last_name || ''
+  // }`
   const canName = `${employeeData?.data?.first_name || ''} ${
     employeeData?.data?.last_name || ''
   }`
@@ -427,12 +445,11 @@ export default function Onboarding() {
                 <Accordion.Panel>
                   <Group grow align="center" mb="lg">
                     <Tooltip
-                      label="Click to view"
+                      label="Change here to candidate"
                       color="blue"
                       withArrow
                       transition="pop-top-right"
                       transitionDuration={300}
-                      onClick={() => setCandidateDetailsIsOpened(true)}
                     >
                       <TextInput
                         readOnly={true}
@@ -440,8 +457,20 @@ export default function Onboarding() {
                         type={'text'}
                         placeholder="Candidate Name"
                         value={canName}
-                        onClick={() => setCandidateDetailsIsOpened(true)}
+                        onClick={() => setCandidateListIsOpened(true)}
                         style={{ minWidth: '200px' }}
+                        rightSection={
+                          // employeeData?.data?.uuid ? (
+                          <IconExternalLink
+                            size="20"
+                            color="grey"
+                            cursor="pointer"
+                            onClick={() => {
+                              setCandidateDetailsIsOpened(true)
+                            }}
+                          />
+                          // ) : null
+                        }
                       />
                     </Tooltip>
                     <TextInput
@@ -496,160 +525,202 @@ export default function Onboarding() {
                 {/* client and vendor */}
                 <Accordion defaultValue="">
                   {/* Client */}
-                  <Accordion.Item
-                    value="client"
-                    style={{ borderBottom: 'none' }}
-                  >
-                    <Accordion.Control style={{ padding: '0' }}>
-                      <Divider
-                        className={classes.dividerText}
-                        my="20px"
-                        label={
-                          <>
-                            <IconChevronsRight />
-                            <Box
-                              ml={5}
-                              style={{
-                                fontFamily: '-moz-initial',
-                                fontSize: '16px',
+                  {subData.employment_type === 'Internal' ? null : (
+                    <Accordion.Item
+                      value="client"
+                      style={{ borderBottom: 'none' }}
+                      onChange={() => {
+                        setSubData
+                      }}
+                    >
+                      <Accordion.Control style={{ padding: '0' }}>
+                        <Divider
+                          className={classes.dividerText}
+                          my="20px"
+                          label={
+                            <>
+                              <IconChevronsRight />
+                              <Box
+                                ml={5}
+                                style={{
+                                  fontFamily: '-moz-initial',
+                                  fontSize: '16px',
+                                }}
+                              >
+                                Client : {clName}
+                              </Box>
+                            </>
+                          }
+                        />
+                      </Accordion.Control>
+                      <Accordion.Panel>
+                        <Group grow align="center" mt="md">
+                          <Tooltip
+                            label="Click to view"
+                            color="blue"
+                            withArrow
+                            transition="pop-top-right"
+                            transitionDuration={300}
+                            onClick={() => {
+                              setClientDetailsIsOpened(true)
+                            }}
+                          >
+                            <TextInput
+                              readOnly={true}
+                              label="Account Name"
+                              type={'text'}
+                              placeholder="Account Name"
+                              value={clName}
+                              onClick={() => {
+                                setClientDetailsIsOpened(true)
+                                // setClientListIsOpened(true)
                               }}
-                            >
-                              Client : {clName}
-                            </Box>
-                          </>
-                        }
-                      />
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                      <Group grow align="center" mt="md">
-                        <Tooltip
-                          label="Click to view"
-                          color="blue"
-                          withArrow
-                          transition="pop-top-right"
-                          transitionDuration={300}
-                          onClick={() => setClientDetailsIsOpened(true)}
-                        >
+                              // rightSection={
+                              //   // clientData?.data?.uuid ? (
+                              //   <IconExternalLink
+                              //     size="20"
+                              //     color="grey"
+                              //     cursor="pointer"
+                              //     onClick={() => {
+                              //       setClientListIsOpened(true)
+                              //     }}
+                              //   />
+                              //   // ) : null
+                              // }
+                            />
+                          </Tooltip>
                           <TextInput
                             readOnly={true}
-                            label="Account Name"
+                            label="Address line 1"
                             type={'text'}
-                            placeholder="Account Name"
-                            value={clName}
-                            onClick={() => setClientDetailsIsOpened(true)}
+                            placeholder="Address line 1"
+                            value={clientData?.data?.address_line1}
                           />
-                        </Tooltip>
-                        <TextInput
-                          readOnly={true}
-                          label="Address line 1"
-                          type={'text'}
-                          placeholder="Address line 1"
-                          value={clientData?.data?.address_line1}
-                        />
-                        <TextInput
-                          readOnly={true}
-                          label="Address line 2"
-                          type={'text'}
-                          placeholder="Address line 2"
-                          value={clientData?.data?.address_line2}
-                        />
-                        <TextInput
-                          readOnly={true}
-                          label="City"
-                          type={'text'}
-                          placeholder="City"
-                          value={clientData?.data?.city}
-                        />
-                        <TextInput
-                          readOnly={true}
-                          label="State"
-                          type={'text'}
-                          placeholder="State"
-                          value={clientData?.data?.state}
-                        />
-                      </Group>
-                    </Accordion.Panel>
-                  </Accordion.Item>
+                          <TextInput
+                            readOnly={true}
+                            label="Address line 2"
+                            type={'text'}
+                            placeholder="Address line 2"
+                            value={clientData?.data?.address_line2}
+                          />
+                          <TextInput
+                            readOnly={true}
+                            label="City"
+                            type={'text'}
+                            placeholder="City"
+                            value={clientData?.data?.city}
+                          />
+                          <TextInput
+                            readOnly={true}
+                            label="State"
+                            type={'text'}
+                            placeholder="State"
+                            value={clientData?.data?.state}
+                          />
+                        </Group>
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  )}
 
                   {/* Vendor */}
-                  <Accordion.Item
-                    value="vendor"
-                    style={{ borderBottom: 'none' }}
-                  >
-                    <Accordion.Control style={{ padding: '0' }}>
-                      <Divider
-                        className={classes.dividerText}
-                        my="20px"
-                        label={
-                          <>
-                            <IconChevronsRight />
-                            <Box
-                              style={{
-                                fontFamily: '-moz-initial',
-                                fontSize: '16px',
-                              }}
-                              ml={5}
-                            >
-                              Vendor : {venName}
-                            </Box>
-                          </>
-                        }
-                      />
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                      {/* <OnboardVendorDetails
+                  {subData.employment_type === 'Internal' ? null : (
+                    <Accordion.Item
+                      value="vendor"
+                      style={{ borderBottom: 'none' }}
+                      onChange={() => {
+                        setSubData
+                      }}
+                    >
+                      <Accordion.Control style={{ padding: '0' }}>
+                        <Divider
+                          className={classes.dividerText}
+                          my="20px"
+                          label={
+                            <>
+                              <IconChevronsRight />
+                              <Box
+                                style={{
+                                  fontFamily: '-moz-initial',
+                                  fontSize: '16px',
+                                }}
+                                ml={5}
+                              >
+                                Vendor : {venName}
+                              </Box>
+                            </>
+                          }
+                        />
+                      </Accordion.Control>
+                      <Accordion.Panel>
+                        {/* <OnboardVendorDetails
                         key={((vendorData?.data || {}) as TVendor)?.uuid}
                         {...((vendorData?.data || {}) as TVendor)}
                       /> */}
-                      <Group grow align="center" mt="md">
-                        <Tooltip
-                          label="Click to view"
-                          color="blue"
-                          withArrow
-                          transition="pop-top-right"
-                          transitionDuration={300}
-                          onClick={() => setVendorDetailsIsOpened(true)}
-                        >
+                        <Group grow align="center" mt="md">
+                          <Tooltip
+                            label="Click to view"
+                            color="blue"
+                            withArrow
+                            transition="pop-top-right"
+                            transitionDuration={300}
+                            onClick={() => setVendorDetailsIsOpened(true)}
+                          >
+                            <TextInput
+                              readOnly={true}
+                              label="Vendor Name"
+                              type={'text'}
+                              placeholder="Vendor Name"
+                              value={venName}
+                              onClick={() => {
+                                setVendorDetailsIsOpened(true)
+                                // setVendorListIsOpened(true)
+                              }}
+                              // rightSection={
+                              //   // clientData?.data?.uuid ? (
+                              //   <IconExternalLink
+                              //     size="20"
+                              //     color="grey"
+                              //     cursor="pointer"
+                              //     onClick={() => {
+                              //       setVendorListIsOpened(true)
+                              //     }}
+                              //   />
+                              //   // ) : null
+                              // }
+                            />
+                          </Tooltip>
                           <TextInput
                             readOnly={true}
-                            label="Vendor Name"
-                            type={'text'}
-                            placeholder="Vendor Name"
-                            value={venName}
-                            onClick={() => setVendorDetailsIsOpened(true)}
+                            label="Email"
+                            type={'email'}
+                            placeholder="email@email.com"
+                            value={vendorData?.data?.primary_email}
                           />
-                        </Tooltip>
-                        <TextInput
-                          readOnly={true}
-                          label="Email"
-                          type={'email'}
-                          placeholder="email@email.com"
-                          value={vendorData?.data?.primary_email}
-                        />
-                        <TextInput
-                          readOnly={true}
-                          label="Phone"
-                          type={'tel'}
-                          placeholder="Phone"
-                          value={vendorData?.data?.primary_phone}
-                        />
-                        <TextInput
-                          readOnly={true}
-                          label="City"
-                          type={'text'}
-                          placeholder="City"
-                          value={vendorData?.data?.city}
-                        />
-                        <TextInput
-                          readOnly={true}
-                          label="State"
-                          type={'text'}
-                          placeholder="State"
-                          value={vendorData?.data?.state}
-                        />
-                      </Group>
-                    </Accordion.Panel>
-                  </Accordion.Item>
+                          <TextInput
+                            readOnly={true}
+                            label="Phone"
+                            type={'tel'}
+                            placeholder="Phone"
+                            value={vendorData?.data?.primary_phone}
+                          />
+                          <TextInput
+                            readOnly={true}
+                            label="City"
+                            type={'text'}
+                            placeholder="City"
+                            value={vendorData?.data?.city}
+                          />
+                          <TextInput
+                            readOnly={true}
+                            label="State"
+                            type={'text'}
+                            placeholder="State"
+                            value={vendorData?.data?.state}
+                          />
+                        </Group>
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  )}
                 </Accordion>
                 <Job form={form} />
               </Stepper.Step>
@@ -713,6 +784,57 @@ export default function Onboarding() {
             </Group>
           </form>
         </div>
+        {/* Showing Candidate List */}
+        <Drawer
+          opened={candidateListIsOpened}
+          onClose={() => setCandidateListIsOpened(false)}
+          title="Candidates"
+          padding="xl"
+          size="xl"
+          position="right"
+        >
+          <EmployeeIdList
+            selectedEmployee={candidateDetails}
+            setEmployee={(candidate) => {
+              setCandidateDetails(candidate)
+              setCandidateListIsOpened(false)
+            }}
+          />
+        </Drawer>
+        {/* Showing Client List */}
+        <Drawer
+          opened={clientListIsOpened}
+          onClose={() => setClientListIsOpened(false)}
+          title="Clients"
+          padding="xl"
+          size="xl"
+          position="right"
+        >
+          <ClientIdList
+            // selectedClient={clientDetails}
+            setClient={() => {
+              // setClientDetails(client)
+              setClientListIsOpened(false)
+            }}
+          />
+        </Drawer>
+        {/* Showing Vendor List */}
+        <Drawer
+          opened={vendorListIsOpened}
+          onClose={() => setVendorListIsOpened(false)}
+          title="Vendors"
+          padding="xl"
+          size="xl"
+          position="right"
+        >
+          <VendorIdList
+            // selectedVendor={vendorDetails}
+            setVendor={() => {
+              // setVendorDetails(vendor)
+              setVendorListIsOpened(false)
+            }}
+          />
+        </Drawer>
         {/* candidate details */}
         <Drawer
           opened={candidateDetailsOpened}
@@ -739,6 +861,7 @@ export default function Onboarding() {
           <CandidateDetails
             key={employeeUUID}
             {...((employeeData?.data || {}) as TCandidate)}
+            {...candidateDetails}
           />
         </Drawer>
         {/* client details */}

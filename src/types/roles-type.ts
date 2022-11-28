@@ -1,5 +1,10 @@
 import { z } from 'zod'
 
+const zDepartmentObject = z.object({
+  uuid: z.string(),
+  name: z.string(),
+})
+
 // Roles List Data
 const zRoles = z.object({
   // onboardingActivityId: z.number(),
@@ -9,7 +14,7 @@ const zRoles = z.object({
   // new_client: z.string(),
   // default_activity: z.string(),
   // new_subvendor: z.string(),
-  // department: z.string(),
+  department: zDepartmentObject.optional(),
   department_uuid: z.string(),
   name: z.string(),
   uuid: z.string(),

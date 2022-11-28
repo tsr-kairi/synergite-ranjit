@@ -4,7 +4,7 @@ import {
   Group,
   Loader,
   Avatar,
-  Button,
+  ActionIcon,
 } from '@mantine/core'
 import { IconArrowBackUp } from '@tabler/icons'
 import { Link, useParams } from 'react-router-dom'
@@ -13,37 +13,43 @@ import useGetRolesById from '../hooks/useGetRolesById'
 const useStyles = createStyles((theme) => ({
   main: {
     display: 'flex',
-    gap: '20px',
+    flexDirection: 'column',
+    gap: '10px',
+    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
   },
-  leftSide: {
-    // width: '20%',
-  },
-  employeeUserCard: {
-    display: 'flex',
-    justifyContent: 'center',
+  clientUserCard: {
     border: `1px solid ${theme.colors.blue[1]}`,
     borderRadius: '5px',
     paddingLeft: '20px',
     paddingRight: '20px',
-    marginTop: '10px',
-  },
-  UserCardInner: {
-    paddingTop: '10px',
-    paddingBottom: '10px',
+    paddingTop: '13px',
+    paddingBottom: '13px',
   },
   personalDetails: {
     display: 'flex',
     padding: '10px',
-    gap: '50px',
+    gap: '40px',
+    borderRadius: '5px',
+    border: `1px solid ${theme.colors.blue[1]}`,
+  },
+  personalDetailsInner: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    borderRadius: '5px',
+    gap: '10px',
+    // border: `1px solid ${theme.colors.blue[1]}`,
+    // padding: '10px',
+  },
+  personalDetailsMain: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px',
+    gap: '10px',
     borderRadius: '5px',
     border: `1px solid ${theme.colors.blue[1]}`,
   },
 
-  leftDT: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    gap: '5px',
-  },
   detailHead: {
     border: `1px solid ${theme.colors.blue[1]}`,
     padding: '10px',
@@ -98,42 +104,34 @@ export default function Personal() {
 
   return (
     <div className={classes.main}>
-      {/* back to Roles table list */}
-      {/*  */}
-      <div className={classes.leftSide}>
-        <Link to={`/roles`} className={classes.userLink}>
-          <Button
-            className={classes.detailHead}
-            rightIcon={<IconArrowBackUp />}
-            variant="subtle"
-          >
-            Back to Roles List
-          </Button>
-        </Link>
-        <div className={classes.employeeUserCard}>
-          <div className={classes.UserCardInner}>
+      <div className={classes.personalDetailsMain}>
+        <div className={classes.personalDetailsInner}>
+          <Link to={`/roles`} className={classes.userLink}>
+            <ActionIcon variant="light" radius="xl" color={'blue'}>
+              <IconArrowBackUp />
+            </ActionIcon>
+          </Link>
+
+          <div className={classes.clientUserCard}>
             <Avatar size={40} radius={120} mx="auto" color="cyan">
               R
             </Avatar>
-            <Text align="center" color="blue" size="xl" weight={700} mt="sm">
-              {data?.data?.name}
+            <Text
+              align="center"
+              color="blue"
+              size="xl"
+              weight={700}
+              mt="sm"
+              style={{
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                maxWidth: '150px',
+              }}
+            >
+              {data?.data?.name ? data?.data?.name : 'N/A'}
             </Text>
           </div>
-        </div>
-      </div>
-      {/*  */}
-      <div className={classes.personalDetails}>
-        <div>
-          <Text size="md" color="blue" weight={600} mb="xs">
-            Roles Details
-          </Text>
-          {/* <Text align="right">
-            <IconListDetails
-              size={24}
-              color="blue"
-              className={classes.detailsIcon}
-            />
-          </Text> */}
           <div className={classes.personalDetails}>
             <Group spacing="md">
               <Text
@@ -159,8 +157,12 @@ export default function Personal() {
                 color="#686969"
                 weight={400}
                 transform="capitalize"
-              ></Text>
-              <Text size="sm" color="#686969" weight={400}></Text>
+              >
+                <b>Department :</b>
+              </Text>
+              <Text size="sm" color="#686969" weight={400}>
+                {data?.data?.department?.name}
+              </Text>
             </Group>
             <Group spacing="md">
               <Text

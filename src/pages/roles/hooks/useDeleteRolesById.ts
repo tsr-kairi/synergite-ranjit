@@ -1,4 +1,4 @@
-import { defaultActivityQueryKeys } from '@/react-query/queryKeys'
+import { rolesQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -11,7 +11,8 @@ const useDeleteRolesById = () => {
 
   return useMutation(async (rolesId: string) => deleteRolesById(rolesId), {
     onSuccess: () => {
-      void queryClient.resetQueries(defaultActivityQueryKeys.allDefaultActivity)
+      void queryClient.resetQueries(rolesQueryKeys.allRoles)
+      console.log('Delete Roles Called')
     },
   })
 }

@@ -2,16 +2,12 @@ import { useState } from 'react'
 import {
   createStyles,
   Table,
-  ScrollArea,
   UnstyledButton,
   Group,
   Text,
   Center,
-  TextInput,
   Avatar,
-  Button,
   Drawer,
-  Pagination,
   Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
@@ -19,11 +15,7 @@ import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
-  IconEdit,
   IconTrash,
-  IconPlus,
-  IconFilter,
 } from '@tabler/icons'
 import { TRoles } from '@/types/roles-type'
 import { openConfirmModal } from '@mantine/modals'
@@ -112,6 +104,22 @@ const useStyles = createStyles((theme) => ({
     maxWidth: '98.8%',
     margin: '10px',
   },
+  header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme?.colors?.gray?.[3]} !important`,
+    },
+  },
   userLink: {
     textDecoration: 'none',
     color: theme.colors.grey[9],
@@ -195,14 +203,13 @@ interface IRolesTableProps {
 
 // Exporting Default RolesTable Component
 export default function RolesTable({ data }: IRolesTableProps) {
-  const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [rolesEditData, setRolesEditData] = useState({} as TRoles)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TRoles | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
+  const { classes, cx } = useStyles()
   const { mutate: deleteRoles } = useDeleteRolesById()
 
   const setSorting = (field: keyof TRoles) => {
@@ -266,7 +273,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
           </Tooltip>
         </Link>
       </td>
-      <td>{row?.department_uuid}</td>
+      <td>{row?.department?.name}</td>
       <td>
         <Group spacing="sm">
           <IconTrash
@@ -287,7 +294,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
         verticalSpacing="xs"
         // className={classes.childTable}
       >
-        <thead>
+        <thead className={cx(classes.header)}>
           <tr>
             <Th
               sorted={sortBy === 'name'}
