@@ -1,20 +1,18 @@
 import { createStyles } from '@mantine/core'
 import Personal from './personal'
+import RolesPermission from './roles-permission/roles-permission'
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   rolesDetails: {
-    paddingLeft: '20px',
-    paddingRight: '20px',
     width: '100%',
   },
-  rolesProProfile: {
-    width: '100%',
-    boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.25)',
-    borderRadius: '10px',
-    padding: '20px',
-    [theme.fn.smallerThan('xs')]: {
-      width: '100%',
-    },
+  roles: {
+    marginTop: '20px',
+  },
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
   },
 }))
 
@@ -23,9 +21,12 @@ export const RolesDetails = () => {
 
   return (
     <>
-      <div className={classes.rolesDetails}>
-        <div className={classes.rolesProProfile}>
+      <div className={classes.main}>
+        <div className={classes.rolesDetails}>
           <Personal />
+          <div className={classes.roles}>
+            <RolesPermission />
+          </div>
         </div>
       </div>
     </>
