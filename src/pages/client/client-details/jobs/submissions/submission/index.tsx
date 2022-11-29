@@ -1,4 +1,4 @@
-import { Loader, Text } from '@mantine/core'
+import { Loader } from '@mantine/core'
 import { FC } from 'react'
 import useGetAllSubmissionsByClientIdJobId from '../hooks/useGetAllSubmissionsByClientIdJobId'
 import { SubmissionList } from './submission-list'

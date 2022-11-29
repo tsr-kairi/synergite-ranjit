@@ -1,4 +1,13 @@
+import {
+  departmentQueryKeys,
+  recruitersQueryKeys,
+  rolesQueryKeys,
+} from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
+import { TDepartmentFindAll } from '@/types/department-type'
 import { TOnboarding } from '@/types/onboarding-flow-type'
+import { TRecruitersFindAll } from '@/types/recruiters-type'
+import { TRolesFindAll } from '@/types/roles-type'
 import {
   TextInput,
   Group,
@@ -10,6 +19,7 @@ import {
 } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
 import { IconChevronsRight } from '@tabler/icons'
+import { useQuery } from 'react-query'
 const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
@@ -25,6 +35,36 @@ type onboardingStepperProps = {
 
 export default function Job({ form }: onboardingStepperProps) {
   const { classes } = useStyles()
+
+  // get department api function
+  const finAlDepartment = async () => {
+    const response = await axiosPrivate.get<TDepartmentFindAll>(`/department`)
+    return response.data
+  }
+  const { data: department } = useQuery<TDepartmentFindAll, Error>(
+    departmentQueryKeys.allDepartment,
+    finAlDepartment
+  )
+
+  // get role api function
+  const finAlRole = async () => {
+    const response = await axiosPrivate.get<TRolesFindAll>(`/role`)
+    return response.data
+  }
+  const { data: role } = useQuery<TRolesFindAll, Error>(
+    rolesQueryKeys.allRoles,
+    finAlRole
+  )
+
+  // get recruiters api function
+  const findAlRecruiter = async () => {
+    const response = await axiosPrivate.get<TRecruitersFindAll>(`/recruiters`)
+    return response.data
+  }
+  const { data: recruiter } = useQuery<TRecruitersFindAll, Error>(
+    recruitersQueryKeys.recruiters,
+    findAlRecruiter
+  )
 
   return (
     <>
@@ -116,21 +156,41 @@ export default function Job({ form }: onboardingStepperProps) {
             type={'text'}
           />
           <Select
-            required
-            withAsterisk
-            label="Recruiter Name"
-            placeholder="Recruiter Name"
+            data={
+              recruiter?.data.map((r) => {
+                return { value: r.uuid, label: r.fname }
+              }) || []
+            }
+            label="Recruiters"
+            placeholder="Recruiters"
             {...form.getInputProps('recruiter_name')}
-            data={[
-              { value: 'Srinivas Gaikwad', label: 'Srinivas Gaikwad' },
-              { value: 'Saiababu Relangi', label: 'Saiababu Relangi' },
-            ]}
           />
           <TextInput
             label="Others"
             placeholder="Others"
             {...form.getInputProps('others')}
             type={'text'}
+          />
+          
+          <Select
+            label="Department"
+            placeholder="Department"
+            data={
+              department?.data.map((dept) => {
+                return { value: dept.name, label: dept.name }
+              }) || []
+            }
+            {...form.getInputProps('department')}
+          />
+          <Select
+            label="Roles"
+            placeholder="Roles"
+            data={
+              role?.data.map((rol) => {
+                return { value: rol.name, label: rol.name }
+              }) || []
+            }
+            {...form.getInputProps('role')}
           />
         </Group>
         <Group grow mt="md">

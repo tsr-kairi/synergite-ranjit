@@ -33,7 +33,7 @@ export default function CreateForm() {
     clearInputErrorOnChange: true,
   })
 
-  // get recruiters api function
+  // get department api function
   const finAlDepartment = async () => {
     const response = await axiosPrivate.get<TDepartmentFindAll>(`/department`)
     return response.data
@@ -42,6 +42,7 @@ export default function CreateForm() {
     departmentQueryKeys.allDepartment,
     finAlDepartment
   )
+
   const handleSubmit = (values: TRolesCreate) => {
     console.log('values', values)
     const rolesCreateData = {

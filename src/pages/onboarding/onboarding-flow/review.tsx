@@ -144,6 +144,24 @@ const Review: React.FC<ReviewProps> = ({
                 />
                 <TextInput
                   readOnly={true}
+                  label="Role"
+                  type={'text'}
+                  placeholder="Role"
+                  // value={onboardingData.role}
+                  style={{ minWidth: '100px' }}
+                />
+                <TextInput
+                  readOnly={true}
+                  label="Department"
+                  type={'text'}
+                  placeholder="Department"
+                  value={onboardingData.department}
+                  style={{ minWidth: '100px' }}
+                />
+              </Group>
+              <Group grow align="center" mb="lg">
+                <TextInput
+                  readOnly={true}
                   label="Remarks"
                   type={'text'}
                   placeholder="Remarks"

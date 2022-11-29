@@ -56,6 +56,9 @@ import { TSubmission } from '@/types/submission-type'
 import ClientIdList from '@/components/form/submission/clientIdList'
 import EmployeeIdList from '@/components/form/submission/employeeIdList'
 import VendorIdList from '@/components/form/submission/vendorIdList'
+import EmployeeDetailsForm from '@/components/form/submission/details/employeeDetailsForm'
+import ClientDetailsForm from '@/components/form/submission/details/clientDetailsForm'
+import VendorDetailsForm from '@/components/form/submission/details/vendorDetailsForm'
 
 const useStyles = createStyles((theme) => ({
   onboarding: {
@@ -140,15 +143,17 @@ export default function Onboarding() {
   const vendorUUID = searchParams.get('vendor_uuid')
   const employeeUUID = searchParams.get('employee_uuid')
   const submissionUUID = searchParams.get('submission_uuid')
+  // console.log('canId', employeeUUID)
 
   //
   const completionPercentage = searchParams.get('completion_percentage')
   // console.log('submissionUUID', submissionUUID)
-  const [subData, setSubData] = useState({} as TSubmission)
+  // const [subData, setSubData] = useState({} as TSubmission)
 
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
   const { data: employeeData } = useGetCandidateById(employeeUUID || '')
+  console.log('canId', employeeData)
 
   // const { onboarding_uuid } = useParams()
   const search = window.location.search
@@ -384,9 +389,9 @@ export default function Onboarding() {
     }
   } // End of handleSave function
 
-  // const canName2 = `${candidateDetails?.first_name || ''} ${
-  //   candidateDetails?.last_name || ''
-  // }`
+  const canName2 = `${candidateDetails?.first_name || ''} ${
+    candidateDetails?.last_name || ''
+  }`
   const canName = `${employeeData?.data?.first_name || ''} ${
     employeeData?.data?.last_name || ''
   }`
@@ -444,35 +449,33 @@ export default function Onboarding() {
                 {/* candidate */}
                 <Accordion.Panel>
                   <Group grow align="center" mb="lg">
-                    <Tooltip
+                    {/* <Tooltip
                       label="Change here to candidate"
                       color="blue"
                       withArrow
                       transition="pop-top-right"
                       transitionDuration={300}
-                    >
-                      <TextInput
-                        readOnly={true}
-                        label="Candidate Name"
-                        type={'text'}
-                        placeholder="Candidate Name"
-                        value={canName}
-                        onClick={() => setCandidateListIsOpened(true)}
-                        style={{ minWidth: '200px' }}
-                        rightSection={
-                          // employeeData?.data?.uuid ? (
-                          <IconExternalLink
-                            size="20"
-                            color="grey"
-                            cursor="pointer"
-                            onClick={() => {
-                              setCandidateDetailsIsOpened(true)
-                            }}
-                          />
-                          // ) : null
-                        }
-                      />
-                    </Tooltip>
+                    > */}
+                    <TextInput
+                      readOnly={true}
+                      label="Candidate Name"
+                      type={'text'}
+                      placeholder="Candidate Name"
+                      value={canName}
+                      // onClick={() => setCandidateListIsOpened(true)}
+                      style={{ minWidth: '200px' }}
+                      rightSection={
+                        <IconExternalLink
+                          size="20"
+                          color="grey"
+                          cursor="pointer"
+                          onClick={() => {
+                            setCandidateDetailsIsOpened(true)
+                          }}
+                        />
+                      }
+                    />
+                    {/* </Tooltip> */}
                     <TextInput
                       readOnly={true}
                       label="Email"
@@ -489,14 +492,14 @@ export default function Onboarding() {
                       value={employeeData?.data?.phone}
                       style={{ minWidth: '200px' }}
                     />
-                    <TextInput
+                    {/* <TextInput
                       readOnly={true}
                       label="SSN"
                       type={'text'}
                       placeholder="SSN"
                       value={employeeData?.data?.ssn_no}
                       style={{ minWidth: '200px' }}
-                    />
+                    /> */}
                     <TextInput
                       readOnly={true}
                       label="Date of birth"
@@ -525,13 +528,13 @@ export default function Onboarding() {
                 {/* client and vendor */}
                 <Accordion defaultValue="">
                   {/* Client */}
-                  {subData.employment_type === 'Internal' ? null : (
+                  {employeeData?.data.employment_type === 'Internal' ? null : (
                     <Accordion.Item
                       value="client"
                       style={{ borderBottom: 'none' }}
-                      onChange={() => {
-                        setSubData
-                      }}
+                      // onChange={() => {
+                      //   setSubData
+                      // }}
                     >
                       <Accordion.Control style={{ padding: '0' }}>
                         <Divider
@@ -555,7 +558,7 @@ export default function Onboarding() {
                       </Accordion.Control>
                       <Accordion.Panel>
                         <Group grow align="center" mt="md">
-                          <Tooltip
+                          {/* <Tooltip
                             label="Click to view"
                             color="blue"
                             withArrow
@@ -564,31 +567,28 @@ export default function Onboarding() {
                             onClick={() => {
                               setClientDetailsIsOpened(true)
                             }}
-                          >
-                            <TextInput
-                              readOnly={true}
-                              label="Account Name"
-                              type={'text'}
-                              placeholder="Account Name"
-                              value={clName}
-                              onClick={() => {
-                                setClientDetailsIsOpened(true)
-                                // setClientListIsOpened(true)
-                              }}
-                              // rightSection={
-                              //   // clientData?.data?.uuid ? (
-                              //   <IconExternalLink
-                              //     size="20"
-                              //     color="grey"
-                              //     cursor="pointer"
-                              //     onClick={() => {
-                              //       setClientListIsOpened(true)
-                              //     }}
-                              //   />
-                              //   // ) : null
-                              // }
-                            />
-                          </Tooltip>
+                          > */}
+                          <TextInput
+                            readOnly={true}
+                            label="Account Name"
+                            type={'text'}
+                            placeholder="Account Name"
+                            value={clName}
+                            // onClick={() => {
+                            //   setClientDetailsIsOpened(true)
+                            // }}
+                            rightSection={
+                              <IconExternalLink
+                                size="20"
+                                color="grey"
+                                cursor="pointer"
+                                onClick={() => {
+                                  setClientDetailsIsOpened(true)
+                                }}
+                              />
+                            }
+                          />
+                          {/* </Tooltip> */}
                           <TextInput
                             readOnly={true}
                             label="Address line 1"
@@ -623,13 +623,13 @@ export default function Onboarding() {
                   )}
 
                   {/* Vendor */}
-                  {subData.employment_type === 'Internal' ? null : (
+                  {employeeData?.data.employment_type === 'Internal' ? null : (
                     <Accordion.Item
                       value="vendor"
                       style={{ borderBottom: 'none' }}
-                      onChange={() => {
-                        setSubData
-                      }}
+                      // onChange={() => {
+                      //   setSubData
+                      // }}
                     >
                       <Accordion.Control style={{ padding: '0' }}>
                         <Divider
@@ -657,38 +657,35 @@ export default function Onboarding() {
                         {...((vendorData?.data || {}) as TVendor)}
                       /> */}
                         <Group grow align="center" mt="md">
-                          <Tooltip
+                          {/* <Tooltip
                             label="Click to view"
                             color="blue"
                             withArrow
                             transition="pop-top-right"
                             transitionDuration={300}
                             onClick={() => setVendorDetailsIsOpened(true)}
-                          >
-                            <TextInput
-                              readOnly={true}
-                              label="Vendor Name"
-                              type={'text'}
-                              placeholder="Vendor Name"
-                              value={venName}
-                              onClick={() => {
-                                setVendorDetailsIsOpened(true)
-                                // setVendorListIsOpened(true)
-                              }}
-                              // rightSection={
-                              //   // clientData?.data?.uuid ? (
-                              //   <IconExternalLink
-                              //     size="20"
-                              //     color="grey"
-                              //     cursor="pointer"
-                              //     onClick={() => {
-                              //       setVendorListIsOpened(true)
-                              //     }}
-                              //   />
-                              //   // ) : null
-                              // }
-                            />
-                          </Tooltip>
+                          > */}
+                          <TextInput
+                            readOnly={true}
+                            label="Vendor Name"
+                            type={'text'}
+                            placeholder="Vendor Name"
+                            value={venName}
+                            // onClick={() => {
+                            //   setVendorDetailsIsOpened(true)
+                            // }}
+                            rightSection={
+                              <IconExternalLink
+                                size="20"
+                                color="grey"
+                                cursor="pointer"
+                                onClick={() => {
+                                  setVendorDetailsIsOpened(true)
+                                }}
+                              />
+                            }
+                          />
+                          {/* </Tooltip> */}
                           <TextInput
                             readOnly={true}
                             label="Email"
@@ -846,7 +843,7 @@ export default function Onboarding() {
           size="1200px"
           position="right"
         >
-          <Divider
+          {/* <Divider
             className={classes.dividerText}
             my="10px"
             label={
@@ -857,8 +854,8 @@ export default function Onboarding() {
                 </Box>
               </>
             }
-          />
-          <CandidateDetails
+          /> */}
+          <EmployeeDetailsForm
             key={employeeUUID}
             {...((employeeData?.data || {}) as TCandidate)}
             {...candidateDetails}
@@ -875,7 +872,7 @@ export default function Onboarding() {
           size="1200px"
           position="right"
         >
-          <Divider
+          {/* <Divider
             className={classes.dividerText}
             my="10px"
             label={
@@ -886,8 +883,8 @@ export default function Onboarding() {
                 </Box>
               </>
             }
-          />
-          <ClientDetails
+          /> */}
+          <ClientDetailsForm
             key={clientUUID}
             {...((clientData?.data || {}) as TClient)}
           />
@@ -903,7 +900,7 @@ export default function Onboarding() {
           size="1200px"
           position="right"
         >
-          <Divider
+          {/* <Divider
             className={classes.dividerText}
             my="10px"
             label={
@@ -914,8 +911,8 @@ export default function Onboarding() {
                 </Box>
               </>
             }
-          />
-          <VendorDetails
+          /> */}
+          <VendorDetailsForm
             key={vendorUUID}
             {...((vendorData?.data || {}) as TVendor)}
           />

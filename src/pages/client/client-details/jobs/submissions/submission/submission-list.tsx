@@ -23,11 +23,13 @@ import { showNotification } from '@mantine/notifications'
 import CreateForm from '@/components/form/submission/createForm'
 import EditForm from '@/components/form/submission/editForm'
 import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import axiosPrivate from '@/services/axiosPrivate'
 import { TPreonboard } from '@/types/prebonboard-type'
 import useGetClientById from '@/pages/client/hooks/useGetClientById'
+import useGetCandidateById from '@/pages/candidate/hooks/useGetCandidateById'
+import { TCandidate } from '@/types/candidate-type'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -195,8 +197,8 @@ interface ISubmissionProps {
 }
 
 // Exporting Default ClientTable Component
-export function SubmissionList({ data }: ISubmissionProps) {
-  const [opened, setOpened] = useState(false)
+export function SubmissionList({ data }: ISubmissionProps, uuid: string) {
+  // const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
@@ -209,12 +211,16 @@ export function SubmissionList({ data }: ISubmissionProps) {
   )
   const navigate = useNavigate()
 
+  // candidate uuid
   const search_param = window.location.search
   const params = new URLSearchParams(search_param)
   const clientUuid = params.get('client_id')
-
   const { data: clientData } = useGetClientById(String(clientUuid))
 
+  const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
+  // console.log('canId', employeeData)
+
+  // name addition
   const clientName = `${clientData?.data?.first_name || ''} ${
     clientData?.data?.last_name || ''
   }`
@@ -305,10 +311,10 @@ export function SubmissionList({ data }: ISubmissionProps) {
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
       <td>{row.submission_id ? row?.submission_id : 'N/A'}</td>
-      <td>{`${row?.first_name ? row?.first_name : 'N/A'} ${
-        row?.last_name ? row?.last_name : 'N/A'
+      <td>{`${row?.emp_first_name ? row?.emp_first_name : 'N/A'} ${
+        row?.emp_last_name ? row?.emp_last_name : 'N/A'
       }`}</td>
-      <td>{row.job_title ? row?.job_title : 'N/A'}</td>
+      <td>{employeeDetails?.job_title ? employeeDetails?.job_title : 'N/A'}</td>
       <td>{row.candidate_location ? row?.candidate_location : 'N/A'}</td>
       <td>{`${row?.vendor_first_name ? row?.vendor_first_name : 'N/A'} ${
         row?.vendor_last_name ? row?.vendor_last_name : 'N/A'
@@ -393,7 +399,11 @@ export function SubmissionList({ data }: ISubmissionProps) {
       </td>
       <td>{clientName ? clientName : 'N/A'}</td>
       <td>{row.job_id ? row?.job_id : 'N/A'}</td>
-      <td>{row.employment_type ? row?.employment_type : 'N/A'}</td>
+      <td>
+        {employeeDetails?.employment_type
+          ? employeeDetails?.employment_type
+          : 'N/A'}
+      </td>
       <td>{row.pay_rate ? row?.pay_rate : 'N/A'}</td>
       <td>{row.pay_type ? row?.pay_type : 'N/A'}</td>
       <td>{row.rejection_reason ? row?.rejection_reason : 'N/A'}</td>
@@ -509,9 +519,9 @@ export function SubmissionList({ data }: ISubmissionProps) {
               </Th>
               {/* new field */}
               <Th
-                sorted={sortBy === 'client'}
+                sorted={sortBy === 'status'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('client')}
+                onSort={() => setSorting('status')}
               >
                 <b>Client</b>
               </Th>

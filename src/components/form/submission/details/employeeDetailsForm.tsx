@@ -10,11 +10,14 @@ import {
   Textarea,
   Grid,
   FileInput,
+  ActionIcon,
+  Tooltip,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
-import { IconUpload } from '@tabler/icons'
-const useStyles = createStyles(() => ({
+import { IconArrowBackUp, IconUpload } from '@tabler/icons'
+import { Link } from 'react-router-dom'
+const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
     paddingLeft: '10px',
@@ -22,6 +25,13 @@ const useStyles = createStyles(() => ({
   },
   dividerText: {
     color: theme.colors?.blue?.[9],
+  },
+  userLink: {
+    textDecoration: 'none',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
   },
 }))
 
@@ -50,8 +60,31 @@ export default function EmployeeDetailsForm(candidateDetailsData: TCandidate) {
   // value={clientDetailsData.first_name}
   return (
     <>
-      <div className={classes.paper}>
+      <div
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Group position="apart">
+            <Link to={`/candidate`} className={classes.userLink}>
+              <Tooltip
+                label="Back to Candidate List"
+                color="blue"
+                withArrow
+                transition="slide-left"
+                transitionDuration={500}
+              >
+                <ActionIcon variant="light" radius="xl" color={'blue'}>
+                  <IconArrowBackUp size={18} />
+                </ActionIcon>
+              </Tooltip>
+            </Link>
+          </Group>
           <Accordion defaultValue="candidate_details">
             {/* Personal Details Information */}
             <Accordion.Item

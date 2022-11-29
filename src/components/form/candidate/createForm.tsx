@@ -43,7 +43,7 @@ export default function CreateForm() {
       last_name: '',
       email: '',
       phone: '',
-      ssn_no: '',
+      // ssn_no: '',
       dob: '',
       gender: '',
       address1: '',
@@ -51,7 +51,7 @@ export default function CreateForm() {
       city: '',
       state: '',
       country: '',
-      ethnic_origin: '',
+      // ethnic_origin: '',
       zip: '',
 
       // new added field Nov

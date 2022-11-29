@@ -15,10 +15,10 @@ const zCandidate = z.object({
   country: z.string(),
   address1: z.string(),
   address2: z.string(),
-  ssn_no: z.string(),
+  // ssn_no: z.string(),
   dob: z.string(),
   gender: z.string(),
-  ethnic_origin: z.string(),
+  // ethnic_origin: z.string(),
   zip: z.string(),
 
   // new added field Nov
@@ -59,7 +59,7 @@ const zCandidateCreate = z.object({
   last_name: z.string().min(2, { message: 'L_N should have 2 letters' }),
   email: z.string().email({ message: 'Invalid email address' }),
   phone: z.string().min(10, { message: 'Phone Number should have 10' }),
-  ssn_no: z.string(),
+  // ssn_no: z.string(),
   dob: z.string(),
   gender: z.string(),
   address1: z.string(),
@@ -67,7 +67,7 @@ const zCandidateCreate = z.object({
   city: z.string(),
   state: z.string(),
   country: z.string(),
-  ethnic_origin: z.string(),
+  // ethnic_origin: z.string(),
   zip: z.string(),
 
   // new added field Nov

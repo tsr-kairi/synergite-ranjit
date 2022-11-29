@@ -55,12 +55,20 @@ export default function ClientDetailsForm(clientDetailsData: TClient) {
 
   return (
     <>
-      <div className={classes.paper}>
+      <div
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Group position="apart">
             <Link to={`/client`} className={classes.userLink}>
               <Tooltip
-                label="Back to Client details"
+                label="Back to Client List"
                 color="blue"
                 withArrow
                 transition="slide-left"
