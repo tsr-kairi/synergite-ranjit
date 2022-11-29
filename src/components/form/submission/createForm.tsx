@@ -32,6 +32,7 @@ import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import ClientDetailsForm from './details/clientDetailsForm'
 import { UsState } from '@/pages/data/usState'
 
+// useStyles is used for entire components styles
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -47,8 +48,6 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const params = new URLSearchParams(search)
   const clientUuid = params.get('client_id')
   const { jobId } = useParams()
-
-  // console.log('JobID-New', jobId)
 
   const { classes } = useStyles()
   const { mutate: addSubmission } = useCreateSubmission()
@@ -178,18 +177,125 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               <Accordion.Panel> */}
           <Group grow align="center" mt="md">
             <TextInput
+              key={employeeDetails?.uuid}
+              required
+              label="Candidate"
+              type={'text'}
+              placeholder="Candidate"
+              onClick={() => {
+                employeeListIsOpened(true)
+              }}
+              value={employeeName || ''}
+              rightSection={
+                employeeDetails?.uuid ? (
+                  <IconExternalLink
+                    size="20"
+                    color="grey"
+                    cursor="pointer"
+                    onClick={() => {
+                      setEmployeeOpened(true)
+                      // setEmployeeDetails(employeeDetails)
+                    }}
+                  />
+                ) : null
+              }
+            />
+            <TextInput
+              readOnly={true}
+              key={clientData?.data?.uuid}
+              label="Client"
+              type={'text'}
+              placeholder="Client"
+              value={clientName || ''}
+              rightSection={
+                clientData?.data?.uuid ? (
+                  <IconExternalLink
+                    size="20"
+                    color="grey"
+                    cursor="pointer"
+                    onClick={() => {
+                      setClientDetailsOpened(true)
+                    }}
+                  />
+                ) : null
+              }
+            />
+
+            <Select
+              label="Employment Type"
+              placeholder="Employment Type"
+              data={[
+                { value: 'ET_W2', label: 'W2' },
+                { value: 'ET_C2C', label: 'C2C' },
+                { value: 'ET_1099', label: '1099' },
+                {
+                  value: 'ET_INTERNAL',
+                  label: 'Internal Employees',
+                },
+              ]}
+              {...form.getInputProps('employment_type')}
+            />
+
+            {/* <TextInput
+              label="Employment Type"
+              type={'text'}
+              placeholder="Employment Type"
+              value={
+                employeeDetails?.employment_type
+                  ? employeeDetails?.employment_type
+                  : 'N/A'
+              }
+              // {...form.getInputProps('first_name')}
+            /> */}
+
+            {employeeDetails?.employment_type === 'ET_C2C' && (
+              <TextInput
+                required
+                label="Vendor"
+                type={'text'}
+                placeholder="Vendor"
+                onClick={() => {
+                  vendorListIsOpened(true)
+                }}
+                value={vendorName || ''}
+                rightSection={
+                  vendorDetails?.uuid ? (
+                    <IconExternalLink
+                      size="20"
+                      color="grey"
+                      cursor="pointer"
+                      onClick={() => {
+                        setVendorOpened(true)
+                        // setVendorDetails()
+                      }}
+                    />
+                  ) : null
+                }
+              />
+            )}
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
               label="First Name"
               type={'text'}
               placeholder="First Name"
-              {...form.getInputProps('first_name')}
+              value={
+                employeeDetails?.first_name
+                  ? employeeDetails?.first_name
+                  : 'N/A'
+              }
+              // {...form.getInputProps('first_name')}
             />
             <TextInput
               label="Last Name"
               type={'text'}
               placeholder="Last Name"
-              {...form.getInputProps('last_name')}
+              value={
+                employeeDetails?.last_name ? employeeDetails?.last_name : 'N/A'
+              }
+              // {...form.getInputProps('last_name')}
             />
-            <Select
+            {/* <Select
               data={[
                 { value: 'None Selected', label: 'None Selected' },
                 {
@@ -248,6 +354,15 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               placeholder="Job Title"
               label="Job Title"
               {...form.getInputProps('job_title')}
+            /> */}
+            <TextInput
+              label="Job Title"
+              type={'text'}
+              placeholder="Job Title"
+              value={
+                employeeDetails?.job_title ? employeeDetails?.job_title : 'N/A'
+              }
+              // {...form.getInputProps('last_name')}
             />
             <Select
               label="Candidate Location"
@@ -268,19 +383,22 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               label="Phone"
               type={'number'}
               placeholder="Phone"
-              {...form.getInputProps('phone')}
+              value={employeeDetails?.phone ? employeeDetails?.phone : 'N/A'}
+              // {...form.getInputProps('phone')}
             />
             <TextInput
               label="Email"
               type={'email'}
               placeholder="Email"
-              {...form.getInputProps('email')}
+              value={employeeDetails?.email ? employeeDetails?.email : 'N/A'}
+              // {...form.getInputProps('email')}
             />
             <TextInput
               label="DOB"
               type={'date'}
               placeholder="DOB"
-              {...form.getInputProps('dob')}
+              value={employeeDetails?.dob ? employeeDetails?.dob : 'N/A'}
+              // {...form.getInputProps('dob')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -321,92 +439,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('pay_type')}
             />
           </Group>
-          <Group grow align="center" mt="md">
-            <Select
-              label="Employment Type"
-              placeholder="Employment Type"
-              data={[
-                { value: 'ET_W2', label: 'W2' },
-                { value: 'ET_C2C', label: 'C2C' },
-                { value: 'ET_1099', label: '1099' },
-                {
-                  value: 'ET_INTERNAL',
-                  label: 'Internal Employees',
-                },
-              ]}
-              {...form.getInputProps('employment_type')}
-            />
-            <TextInput
-              readOnly={true}
-              key={clientData?.data?.uuid}
-              label="Client"
-              type={'text'}
-              placeholder="Client"
-              value={clientName || ''}
-              rightSection={
-                clientData?.data?.uuid ? (
-                  <IconExternalLink
-                    size="20"
-                    color="grey"
-                    cursor="pointer"
-                    onClick={() => {
-                      setClientDetailsOpened(true)
-                    }}
-                  />
-                ) : null
-              }
-            />
 
-            <TextInput
-              key={employeeDetails?.uuid}
-              required
-              label="Candidate"
-              type={'text'}
-              placeholder="Candidate"
-              onClick={() => {
-                employeeListIsOpened(true)
-              }}
-              value={employeeName || ''}
-              rightSection={
-                employeeDetails?.uuid ? (
-                  <IconExternalLink
-                    size="20"
-                    color="grey"
-                    cursor="pointer"
-                    onClick={() => {
-                      setEmployeeOpened(true)
-                      // setEmployeeDetails(employeeDetails)
-                    }}
-                  />
-                ) : null
-              }
-            />
-            {form.values.employment_type === 'ET_C2C' && (
-              <TextInput
-                required
-                label="Vendor"
-                type={'text'}
-                placeholder="Vendor"
-                onClick={() => {
-                  vendorListIsOpened(true)
-                }}
-                value={vendorName || ''}
-                rightSection={
-                  vendorDetails?.uuid ? (
-                    <IconExternalLink
-                      size="20"
-                      color="grey"
-                      cursor="pointer"
-                      onClick={() => {
-                        setVendorOpened(true)
-                        // setVendorDetails()
-                      }}
-                    />
-                  ) : null
-                }
-              />
-            )}
-          </Group>
           {/* ) : null} */}
           <Group grow align="center" mt="md">
             <Select
@@ -470,7 +503,12 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               label="Linkedin Url"
               type={'text'}
               placeholder="Linkedin Url"
-              {...form.getInputProps('linkedin_url')}
+              value={
+                employeeDetails?.linkedin_url
+                  ? employeeDetails?.linkedin_url
+                  : 'N/A'
+              }
+              // {...form.getInputProps('linkedin_url')}
             />
           </Group>
           <Group grow align="center" mt="md">
@@ -510,8 +548,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               label="Currently working with Employer"
               placeholder="Currently working with Employer"
               data={[
-                { value: true, label: 'Yes' },
-                { value: false, label: 'No' },
+                { value: 'Yes', label: 'Yes' },
+                { value: 'No', label: 'No' },
               ]}
               {...form.getInputProps('currently_working_with_employer')}
             />
@@ -556,7 +594,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
           {/* If the candidate is working with any employer or vendor company then fields from 30 to 34 should be displayed for further inputs */}
 
-          {employeeDetails?.uuid + vendorDetails?.uuid ? (
+          {form.values.currently_working_with_employer === 'Yes' && (
             <>
               <Divider
                 mb="20px"
@@ -566,8 +604,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   <>
                     <IconInfoCircle size={16} />
                     <Box ml={5} mt={1.5}>
-                      Candidate is working with employer and vendor, so you fill
-                      these fields
+                      Candidate is working with Employer, so you first fill
+                      these fields and continue
                     </Box>
                   </>
                 }
@@ -607,7 +645,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 />
               </Group>
             </>
-          ) : null}
+          )}
 
           <Button fullWidth type="submit" mt="xl" mb="xl">
             Submit Now

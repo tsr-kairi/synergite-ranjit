@@ -7,9 +7,13 @@ import {
   Accordion,
   TextInput,
   Textarea,
+  ActionIcon,
+  Tooltip,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { IconArrowBackUp } from '@tabler/icons'
+import { Link } from 'react-router-dom'
 const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
@@ -18,6 +22,13 @@ const useStyles = createStyles((theme) => ({
   },
   dividerText: {
     color: theme.colors?.blue?.[9],
+  },
+  userLink: {
+    textDecoration: 'none',
+    color: theme.colors.grey[9],
+    '&:hover': {
+      color: theme.colors.blue[9],
+    },
   },
 }))
 
@@ -46,8 +57,31 @@ export default function VendorDetailsForm(vendorDetailsData: TVendor) {
 
   return (
     <>
-      <div className={classes.paper}>
+      <div
+        className={classes.paper}
+        style={{
+          padding: '10px',
+          height: '90vh',
+          overflowY: 'auto',
+          scrollbarWidth: 'none',
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Group position="apart">
+            <Link to={`/vendor`} className={classes.userLink}>
+              <Tooltip
+                label="Back to Vendor List"
+                color="blue"
+                withArrow
+                transition="slide-left"
+                transitionDuration={500}
+              >
+                <ActionIcon variant="light" radius="xl" color={'blue'}>
+                  <IconArrowBackUp size={18} />
+                </ActionIcon>
+              </Tooltip>
+            </Link>
+          </Group>
           <Accordion defaultValue="vendor_details">
             <Accordion.Item
               value="vendor_details"
