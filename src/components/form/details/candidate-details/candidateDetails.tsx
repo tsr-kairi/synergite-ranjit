@@ -83,14 +83,14 @@ export default function CandidateDetails(candidateDetailsData: TCandidate) {
               value={candidateDetailsData.phone}
               style={{ minWidth: '200px' }}
             />
-            <TextInput
+            {/* <TextInput
               readOnly={true}
               label="SSN"
               type={'text'}
               placeholder="SSN"
               value={candidateDetailsData.ssn_no}
               style={{ minWidth: '200px' }}
-            />
+            /> */}
           </Group>
 
           <Group grow align="center" mb="lg">

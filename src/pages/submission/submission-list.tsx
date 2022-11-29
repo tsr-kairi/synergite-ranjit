@@ -375,7 +375,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
           </Badge>
         ) : null}
       </td>
-      <td>{row.client}</td>
+      {/* <td>{row.client}</td> */}
       <td>{row.job_id}</td>
       <td>{row.employment_type}</td>
       <td>{row.pay_rate}</td>
@@ -492,13 +492,13 @@ export function SubmissionList({ data }: ISubmissionProps) {
                 <b>Submission Status</b>
               </Th>
               {/* new field */}
-              <Th
-                sorted={sortBy === 'client'}
+              {/* <Th
+                sorted={sortBy === 'status'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('client')}
+                onSort={() => setSorting('status')}
               >
                 <b>Client</b>
-              </Th>
+              </Th> */}
               <Th
                 sorted={sortBy === 'job_id'}
                 reversed={reverseSortDirection}
