@@ -6,8 +6,13 @@ import {
   Group,
   Text,
   ActionIcon,
+  Button,
 } from '@mantine/core'
 import { IconLockSquare } from '@tabler/icons'
+import { TPermission, TPermissionCreate } from '@/types/permission-type'
+import useSavePermission from './hooks/useSavePermission'
+import { useParams } from 'react-router-dom'
+import { showNotification } from '@mantine/notifications'
 
 const useStyles = createStyles((theme) => ({
   main: {
@@ -30,28 +35,63 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-const initialValues: TransferListData = [
-  [
-    { value: 'react', label: 'React' },
-    { value: 'ng', label: 'Angular' },
-    { value: 'next', label: 'Next.js' },
-    { value: 'blitz', label: 'Blitz.js' },
-    { value: 'gatsby', label: 'Gatsby.js' },
-    { value: 'vue', label: 'Vue' },
-    { value: 'jq', label: 'jQuery' },
-  ],
-  [
-    { value: 'sv', label: 'Svelte' },
-    { value: 'rw', label: 'Redwood' },
-    { value: 'np', label: 'NumPy' },
-    { value: 'dj', label: 'Django' },
-    { value: 'fl', label: 'Flask' },
-  ],
-]
+interface IRolesPermissionProps {
+  data: TPermission
+}
 
-export default function RolesPermission() {
+export default function RolesPermission({ data }: IRolesPermissionProps) {
+  console.log('permissionDataNew', data)
+
+  const { rolesId } = useParams()
+  const { mutate: addPermission } = useSavePermission()
+
+  // console.log('PermissionData', data)
   const { classes } = useStyles()
-  const [data, setData] = useState<TransferListData>(initialValues)
+
+  // availablePermission map function
+  const availablePermission = data?.available_permissions.map(
+    (availPermission) => {
+      return {
+        value: availPermission?.uuid || '',
+        label: availPermission?.description || '',
+      }
+    }
+  )
+
+  // rolesPermission map function
+  const rolesPermission = data?.role_permission.map((rolesPermission) => {
+    return {
+      value: rolesPermission?.uuid || '',
+      label: rolesPermission?.description || '',
+    }
+  })
+
+  // permission initial data by TransferListData
+  const initialValues: TransferListData = [availablePermission, rolesPermission]
+
+  const [transferData, TransferSetData] =
+    useState<TransferListData>(initialValues)
+
+  // save initial object
+  const permissionCreateData: TPermissionCreate = {
+    newAvailablePermissions: transferData[0].map((ap) => ap.value),
+    newRolePermissions: transferData[1].map((np) => np.value),
+    roleUuid: String(rolesId),
+  }
+
+  //  save handler
+  const permissionUpdateHandler = () => {
+    addPermission(permissionCreateData, {
+      onSuccess: () => {
+        showNotification({
+          message: 'Permission updated successfully',
+          color: 'green',
+        })
+      },
+    })
+  }
+
+  //  returning area
   return (
     <div className={classes.main}>
       <Group position="apart" mb="xs" className={classes.align}>
@@ -64,8 +104,8 @@ export default function RolesPermission() {
       </Group>
       <div className={classes.transferList}>
         <TransferList
-          value={data}
-          onChange={setData}
+          value={transferData}
+          onChange={TransferSetData}
           searchPlaceholder="Search by any field..."
           nothingFound="No records found"
           titles={['Available roles permission', 'Chosen roles permission']}
@@ -73,6 +113,9 @@ export default function RolesPermission() {
           listHeight={250}
         />
       </div>
+      <Button mt={'md'} onClick={permissionUpdateHandler}>
+        Update
+      </Button>
     </div>
   )
 }

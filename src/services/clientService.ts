@@ -9,6 +9,7 @@ import {
   TJobCreate,
   TJobCreateResponse,
 } from '@/types'
+import { IFindPermissionByRoleId } from '@/types/permission-type'
 import { IFindSubmissionByJobId } from '@/types/submission-type'
 import axiosPrivate from './axiosPrivate'
 import apiClient from './base'
@@ -29,6 +30,16 @@ const findJobsByClientId = async (
   const { data } = await axiosPrivate.get<IFindJobsByClientId>(
     `/jobs/?client-uuid=${uuid}`
   )
+  return data
+}
+
+const findPermissionFindById = async (
+  rolesId: string
+): Promise<IFindPermissionByRoleId> => {
+  const { data } = await axiosPrivate.get<IFindPermissionByRoleId>(
+    `/permissions/?role-uuid=${rolesId}`
+  )
+  // console.log('permissionDataNew', data)
   return data
 }
 
@@ -79,6 +90,7 @@ const findClientById = async (id: number) => {
 const ClientService = {
   findContactsByClientId,
   findJobsByClientId,
+  findPermissionFindById,
   createClient,
   findClientById,
   createContact,
