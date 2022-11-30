@@ -31,6 +31,7 @@ import { useQuery } from 'react-query'
 import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import ClientDetailsForm from './details/clientDetailsForm'
 import { UsState } from '@/pages/data/usState'
+import useGetJobById from '@/pages/client/hooks/useGetJobById'
 
 // useStyles is used for entire components styles
 const useStyles = createStyles(() => ({
@@ -64,6 +65,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [vendorListOpened, vendorListIsOpened] = useState(false)
   const [employeeListOpened, employeeListIsOpened] = useState(false)
   const { data: clientData } = useGetClientById(String(clientUuid))
+  const { data: jobData } = useGetJobById(String(jobId))
 
   // const [rejected, setRejected] = useState(false)
 
@@ -363,7 +365,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               type={'text'}
               placeholder="Job Title"
               value={
-                employeeDetails?.job_title ? employeeDetails?.job_title : 'N/A'
+                jobData?.data?.job_title ? jobData?.data?.job_title : 'N/A'
               }
               // {...form.getInputProps('last_name')}
             />
@@ -459,17 +461,27 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               placeholder="Recruiters"
               {...form.getInputProps('recruiters')}
             />
-            <Select
-              clearable
-              label="Immigration Status"
-              placeholder="Immigration Status"
-              data={[
-                { value: 'IS_USC', label: 'USC' },
-                { value: 'IS_H1', label: 'H1' },
-                { value: 'IS_GREEN_CARD', label: 'Green Card' },
-              ]}
-              {...form.getInputProps('immigration_status')}
-            />
+            {form.values.employment_type === 'ET_C2C' ? (
+              <Select
+                clearable
+                label="Immigration Status"
+                placeholder="Immigration Status"
+                data={[{ value: 'N/A', label: 'N/A' }]}
+                {...form.getInputProps('immigration_status')}
+              />
+            ) : (
+              <Select
+                clearable
+                label="Immigration Status"
+                placeholder="Immigration Status"
+                data={[
+                  { value: 'IS_USC', label: 'USC' },
+                  { value: 'IS_H1', label: 'H1' },
+                  { value: 'IS_GREEN_CARD', label: 'Green Card' },
+                ]}
+                {...form.getInputProps('immigration_status')}
+              />
+            )}
             <Select
               clearable
               data={[

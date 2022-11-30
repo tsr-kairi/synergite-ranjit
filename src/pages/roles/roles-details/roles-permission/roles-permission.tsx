@@ -80,7 +80,7 @@ export default function RolesPermission({ data }: IRolesPermissionProps) {
   }
 
   //  save handler
-  const onClickHandler = () => {
+  const permissionUpdateHandler = () => {
     addPermission(permissionCreateData, {
       onSuccess: () => {
         showNotification({
@@ -113,7 +113,7 @@ export default function RolesPermission({ data }: IRolesPermissionProps) {
           listHeight={250}
         />
       </div>
-      <Button mt={'md'} onClick={onClickHandler}>
+      <Button mt={'md'} onClick={permissionUpdateHandler}>
         Update
       </Button>
     </div>

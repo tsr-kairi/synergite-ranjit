@@ -30,6 +30,7 @@ import { TPreonboard } from '@/types/prebonboard-type'
 import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import useGetCandidateById from '@/pages/candidate/hooks/useGetCandidateById'
 import { TCandidate } from '@/types/candidate-type'
+import useGetJobById from '@/pages/client/hooks/useGetJobById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -198,6 +199,7 @@ interface ISubmissionProps {
 
 // Exporting Default ClientTable Component
 export function SubmissionList({ data }: ISubmissionProps) {
+  const { jobId } = useParams()
   // const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
@@ -216,6 +218,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
   const params = new URLSearchParams(search_param)
   const clientUuid = params.get('client_id')
   const { data: clientData } = useGetClientById(String(clientUuid))
+  const { data: jobData } = useGetJobById(String(jobId))
 
   const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   // console.log('canId', employeeData)
@@ -314,7 +317,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
       <td>{`${row?.emp_first_name ? row?.emp_first_name : 'N/A'} ${
         row?.emp_last_name ? row?.emp_last_name : 'N/A'
       }`}</td>
-      <td>{employeeDetails?.job_title ? employeeDetails?.job_title : 'N/A'}</td>
+      <td>{jobData?.data?.job_title ? jobData?.data?.job_title : 'N/A'}</td>
       <td>{row.candidate_location ? row?.candidate_location : 'N/A'}</td>
       <td>{`${row?.vendor_first_name ? row?.vendor_first_name : 'N/A'} ${
         row?.vendor_last_name ? row?.vendor_last_name : 'N/A'
