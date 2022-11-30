@@ -1,6 +1,5 @@
 import { clientQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import apiClient from '@/services/base'
 import { TJobsFindById } from '@/types'
 import { useQuery } from 'react-query'
 

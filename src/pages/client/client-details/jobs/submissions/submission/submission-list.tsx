@@ -197,7 +197,7 @@ interface ISubmissionProps {
 }
 
 // Exporting Default ClientTable Component
-export function SubmissionList({ data }: ISubmissionProps, uuid: string) {
+export function SubmissionList({ data }: ISubmissionProps) {
   // const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
@@ -398,12 +398,8 @@ export function SubmissionList({ data }: ISubmissionProps, uuid: string) {
         ) : null}
       </td>
       <td>{clientName ? clientName : 'N/A'}</td>
-      <td>{row.job_id ? row?.job_id : 'N/A'}</td>
-      <td>
-        {employeeDetails?.employment_type
-          ? employeeDetails?.employment_type
-          : 'N/A'}
-      </td>
+      <td>{row?.job_id ? row?.job_id : 'N/A'}</td>
+      <td>{row?.employment_type ? row?.employment_type : 'N/A'}</td>
       <td>{row.pay_rate ? row?.pay_rate : 'N/A'}</td>
       <td>{row.pay_type ? row?.pay_type : 'N/A'}</td>
       <td>{row.rejection_reason ? row?.rejection_reason : 'N/A'}</td>

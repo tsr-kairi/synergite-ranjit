@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core'
 import Personal from './personal'
-import RolesPermission from './roles-permission/roles-permission'
+import PermissionManager from './roles-permission'
 
 const useStyles = createStyles(() => ({
   rolesDetails: {
@@ -25,7 +25,7 @@ export const RolesDetails = () => {
         <div className={classes.rolesDetails}>
           <Personal />
           <div className={classes.roles}>
-            <RolesPermission />
+            <PermissionManager />
           </div>
         </div>
       </div>

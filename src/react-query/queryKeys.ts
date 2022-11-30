@@ -46,9 +46,15 @@ const rolesQueryKeys = {
   allRoles: 'all-roles',
   rolesDetails: 'roles-details',
 }
+
 const departmentQueryKeys = {
   allDepartment: 'all-department',
   departmentDetails: 'department-details',
+}
+
+const permissionQueryKeys = {
+  allPermission: 'all-permission',
+  permissionByID: 'permission-by-id',
 }
 
 const jobQueryKeys = {
@@ -69,6 +75,7 @@ export {
   preonboardQueryKeys,
   defaultActivityQueryKeys,
   departmentQueryKeys,
+  permissionQueryKeys,
   rolesQueryKeys,
   jobQueryKeys,
   recruitersQueryKeys,

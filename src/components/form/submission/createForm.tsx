@@ -43,6 +43,8 @@ const useStyles = createStyles(() => ({
   },
 }))
 
+// export default function CreateForm() {
+
 const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const search = window.location.search
   const params = new URLSearchParams(search)
@@ -222,6 +224,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             />
 
             <Select
+              clearable
               label="Employment Type"
               placeholder="Employment Type"
               data={[
@@ -248,7 +251,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               // {...form.getInputProps('first_name')}
             /> */}
 
-            {employeeDetails?.employment_type === 'ET_C2C' && (
+            {form.values?.employment_type === 'ET_C2C' && (
               <TextInput
                 required
                 label="Vendor"
@@ -365,6 +368,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               // {...form.getInputProps('last_name')}
             />
             <Select
+              clearable
               label="Candidate Location"
               placeholder="Candidate Location"
               data={[{ value: 'USA', label: 'USA' }]}
@@ -409,6 +413,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('bill_rate')}
             />
             <Select
+              clearable
               label="Bill Type"
               placeholder="Bill Type"
               data={[
@@ -420,6 +425,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('bill_type')}
             />
             <Select
+              clearable
               label="Pay Rate"
               placeholder="Pay Rate"
               data={[
@@ -443,6 +449,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {/* ) : null} */}
           <Group grow align="center" mt="md">
             <Select
+              clearable
               data={
                 recruiter?.data.map((r) => {
                   return { value: r.uuid, label: r.fname }
@@ -453,6 +460,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('recruiters')}
             />
             <Select
+              clearable
               label="Immigration Status"
               placeholder="Immigration Status"
               data={[
@@ -463,6 +471,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('immigration_status')}
             />
             <Select
+              clearable
               data={[
                 { value: 'Selected', label: 'Selected' },
                 { value: 'Rejected', label: 'Rejected' },
@@ -474,6 +483,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             />
             {form.values.status === 'Rejected' && (
               <Select
+                clearable
                 data={[
                   { value: 'Client Rejected', label: 'Client Rejected' },
                   {
@@ -519,6 +529,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('job_id')}
             />
             <Select
+              clearable
               label="State"
               placeholder="State"
               searchable
@@ -531,6 +542,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('city')}
             />
             <Select
+              clearable
               data={[{ value: 'Come From Api', label: 'Come From Api' }]}
               label="Submitted By"
               placeholder="Submitted By"
@@ -545,6 +557,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </Group>
           <Group grow align="center" mt="md">
             <Select
+              clearable
               label="Currently working with Employer"
               placeholder="Currently working with Employer"
               data={[
@@ -554,6 +567,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('currently_working_with_employer')}
             />
             <Select
+              clearable
               label="Recruitment Manager"
               placeholder="Recruitment Manager"
               data={[
@@ -564,6 +578,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               {...form.getInputProps('recruitment_mgr_id')}
             />
             <Select
+              clearable
               label="Account Manager"
               placeholder="Account Manager"
               data={[
