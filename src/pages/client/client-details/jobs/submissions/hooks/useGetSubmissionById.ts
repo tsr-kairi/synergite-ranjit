@@ -1,5 +1,5 @@
 import { submissionQueryKeys } from '@/react-query/queryKeys'
-import apiClient from '@/services/base'
+import apiClient from '@/services/axiosLocation'
 import { TSubmissionFindById } from '@/types/submission-type'
 import { useQuery } from 'react-query'
 

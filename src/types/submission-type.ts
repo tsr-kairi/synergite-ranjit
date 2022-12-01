@@ -57,8 +57,14 @@ const zSubmissionCreate = z.object({
   last_name: z.string(),
 
   // new field Nov
-  job_title: z.string(),
-  candidate_location: z.string(),
+
+  // job_title: z.string(),
+  // candidate_location: z.string(),
+
+  // TODO country: z.string(),
+  // TODO state: z.string(),
+  // TODO city: z.string(),
+
   // client: z.string(),
   employment_type: z.string(),
   pay_rate: z.string(),
@@ -68,7 +74,7 @@ const zSubmissionCreate = z.object({
   submitted_by: z.string(),
   submitted_date: z.string(),
   ssn: z.string(),
-  dob: z.string(),
+  // dob: z.string(),
   passport_no: z.string(),
   linkedin_url: z.string(),
   currently_working_with_employer: z.string(),

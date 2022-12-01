@@ -5,7 +5,7 @@ import {
 } from '@/types'
 import { IFindTasksByActivityId } from '@/types/activity-type'
 import axiosPrivate from './axiosPrivate'
-import apiClient from './base'
+import apiClient from './axiosLocation'
 
 const findContactsByVendorId = async (
   id: string

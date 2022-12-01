@@ -57,6 +57,14 @@ const permissionQueryKeys = {
   permissionByID: 'permission-by-id',
 }
 
+const stateQueryKeys = {
+  allState: 'all-state',
+}
+
+const cityQueryKeys = {
+  allCity: 'all-city',
+}
+
 const jobQueryKeys = {
   jobs: 'jobs',
 }
@@ -76,6 +84,8 @@ export {
   defaultActivityQueryKeys,
   departmentQueryKeys,
   permissionQueryKeys,
+  stateQueryKeys,
+  cityQueryKeys,
   rolesQueryKeys,
   jobQueryKeys,
   recruitersQueryKeys,

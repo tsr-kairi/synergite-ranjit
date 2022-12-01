@@ -12,7 +12,7 @@ import {
 import { IFindPermissionByRoleId } from '@/types/permission-type'
 import { IFindSubmissionByJobId } from '@/types/submission-type'
 import axiosPrivate from './axiosPrivate'
-import apiClient from './base'
+import apiClient from './axiosLocation'
 
 // for client contact
 const findContactsByClientId = async (
