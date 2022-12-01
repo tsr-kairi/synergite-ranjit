@@ -47,5 +47,15 @@ export const getPermission = (pageName: string, permissions: string[]) => {
     }
   } // End of for loop
 
-  return permissionOptions
+  let isAllowed = true
+  if (
+    !permissionOptions.read &&
+    !permissionOptions.write &&
+    !permissionOptions.update &&
+    !permissionOptions.delete
+  ) {
+    isAllowed = false
+  }
+
+  return { permissionOptions, isAllowed }
 } // End of getPermission

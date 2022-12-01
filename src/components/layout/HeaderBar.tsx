@@ -126,7 +126,10 @@ export default function HeaderBar({
   const [userMenuOpened, setUserMenuOpened] = useState(false)
 
   const logout = useAuth((state) => state.logout)
+  const permissions = useAuth((state) => state.permissions)
   const navigate = useNavigate()
+
+  console.log(getPermission('vendor', permissions))
 
   void useCurrentUser()
 
