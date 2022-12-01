@@ -1,6 +1,6 @@
 import { vendorQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
-import apiClient from '@/services/base'
+import apiClient from '@/services/axiosLocation'
 import { TVendorFindById } from '@/types'
 import { useQuery } from 'react-query'
 

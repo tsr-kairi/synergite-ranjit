@@ -1,5 +1,5 @@
 import { TSubmissionCreate } from '@/types/submission-type'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Accordion,
   Box,
@@ -32,6 +32,8 @@ import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import ClientDetailsForm from './details/clientDetailsForm'
 import { UsState } from '@/pages/data/usState'
 import useGetJobById from '@/pages/client/hooks/useGetJobById'
+import useGetAllStateById from '@/services/countryStateCity/useGetAllStateByCountryId'
+import { TState } from '@/types/countryStateCityType/state-type'
 
 // useStyles is used for entire components styles
 const useStyles = createStyles(() => ({
@@ -45,6 +47,11 @@ const useStyles = createStyles(() => ({
 }))
 
 // export default function CreateForm() {
+
+interface IStateDataSelect {
+  value: string
+  label: string
+}
 
 const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const search = window.location.search
@@ -66,8 +73,27 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [employeeListOpened, employeeListIsOpened] = useState(false)
   const { data: clientData } = useGetClientById(String(clientUuid))
   const { data: jobData } = useGetJobById(String(jobId))
-
+  const { data: stateData } = useGetAllStateById()
   // const [rejected, setRejected] = useState(false)
+
+  const [stateDataSelect, setStateDataSelect] = useState(
+    [] as IStateDataSelect[]
+  )
+
+  useEffect(() => {
+    if (stateData?.data) {
+      setStateDataSelect(
+        stateData?.data?.map((s) => {
+          return {
+            value: s.name,
+            label: s.name,
+          }
+        })
+      )
+    }
+  }, [stateData?.data])
+
+  console.log('newData', stateDataSelect)
 
   const [searchValue, onSearchChange] = useState('')
 
@@ -78,8 +104,8 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       last_name: '',
 
       // new field Nov
-      job_title: '',
-      candidate_location: '',
+      // job_title: '',
+      // candidate_location: '',
       // client: '',
       employment_type: '',
       pay_rate: '',
@@ -89,7 +115,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       submitted_by: '',
       submitted_date: '',
       ssn: '',
-      dob: '',
+      // dob: '',
       passport_no: '',
       linkedin_url: '',
       currently_working_with_employer: '',
@@ -371,10 +397,10 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             />
             <Select
               clearable
-              label="Candidate Location"
-              placeholder="Candidate Location"
-              data={[{ value: 'USA', label: 'USA' }]}
-              {...form.getInputProps('candidate_location')}
+              searchable
+              label="State"
+              placeholder="State"
+              data={stateDataSelect}
             />
           </Group>
           <Group grow align="center" mt="md">
