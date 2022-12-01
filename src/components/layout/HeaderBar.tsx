@@ -16,6 +16,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import useCurrentUser from '@/pages/login/hooks/useCurrentUser'
 import { useAuth } from '@/store/auth.store'
 import AppBar from '../elements/app-bar'
+import { getPermission } from '@/utils/auth.utils'
 
 const useStyles = createStyles((theme) => ({
   header: {

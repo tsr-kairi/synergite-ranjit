@@ -3,19 +3,19 @@ import axiosPublic from '@/services/axiosPublic'
 import { setAuthDataInLocalStorage } from '@/utils/auth.utils'
 import { createContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { boolean } from 'zod'
 
 // Third party packages
 import create from 'zustand'
 
-type IToken = {
-  access_token: string
-  refresh_token: string
-}
-
 type ILoginResponse = {
   ok: boolean
   message: string
-  data: IToken
+  data: {
+    access_token: string
+    refresh_token: string
+    permissions: string[]
+  }
 }
 
 type ILoginRequest = {
@@ -38,12 +38,21 @@ export interface IUser {
   }
 }
 
+interface IPermissionOptions {
+  read: boolean
+  write: boolean
+  update: boolean
+  delete: boolean
+}
+
 interface IAuth {
   isAuth: boolean
   user: IUser
+  permissions: string[]
   login: (loginReqData: ILoginRequest) => Promise<void>
   logout: () => void
   autoLogin: () => Promise<void>
+  // getPermission: (pageName: string, permissions: string[]) => IPermissionOptions
 }
 
 const initialUserState = {
@@ -60,20 +69,27 @@ const initialUserState = {
     expireIn: '',
   },
 }
+
 export const useAuth = create<IAuth>((set) => ({
   isAuth: false,
   user: initialUserState,
+  permissions: ['timesheets:read'],
   login: async (loginReqData: ILoginRequest) => {
-    console.log('Login in user')
     try {
       const response = await axiosPublic.post<ILoginResponse>(
         '/user/login',
         loginReqData
       )
 
-      const accessToken = response.data?.data?.access_token || ''
-      const refreshToken = response.data?.data?.refresh_token || ''
+      const responseData = response.data?.data
+
+      const accessToken = responseData?.access_token || ''
+      const refreshToken = responseData?.refresh_token || ''
       setAuthDataInLocalStorage(accessToken, refreshToken)
+      const permissions = responseData?.permissions || []
+
+      // TODO: We have to use indexDB
+      localStorage.setItem('permissions', JSON.stringify(permissions))
 
       const rawUserData = await getUserData()
       const userData = {
@@ -92,6 +108,7 @@ export const useAuth = create<IAuth>((set) => ({
             expireIn: '',
           },
         },
+        permissions,
       }
 
       set(userData)
@@ -107,6 +124,9 @@ export const useAuth = create<IAuth>((set) => ({
     try {
       const accessToken = localStorage.getItem('access_token')
       const refreshToken = localStorage.getItem('refresh_token')
+      const permissions = (JSON.parse(
+        localStorage.getItem('permissions') || '[]'
+      ) || []) as string[]
 
       const rawUserData = await getUserData()
       const userData = {
@@ -125,6 +145,7 @@ export const useAuth = create<IAuth>((set) => ({
             expireIn: '',
           },
         },
+        permissions,
       }
       set(userData)
     } catch (error) {
@@ -146,6 +167,40 @@ export const useAuth = create<IAuth>((set) => ({
 
     return null
   }, // End of logout function
+
+  // getPermission: (pageName: string, permissions: string[]) => {
+  //   const permissionOptions: IPermissionOptions = {
+  //     read: false,
+  //     write: false,
+  //     update: false,
+  //     delete: false,
+  //   }
+
+  //   for (const permission of permissions) {
+  //     const [page, pagePermissionOption] = permission
+  //       .toLocaleLowerCase()
+  //       .split(':')
+
+  //     if (page === pageName.toLocaleLowerCase()) {
+  //       switch (pagePermissionOption) {
+  //         case 'read':
+  //           permissionOptions.read = true
+  //           break
+  //         case 'write':
+  //           permissionOptions.write = true
+  //           break
+  //         case 'update':
+  //           permissionOptions.update = true
+  //           break
+  //         case 'delete':
+  //           permissionOptions.delete = true
+  //           break
+  //       }
+  //     }
+  //   } // End of for loop
+
+  //   return permissionOptions
+  // }, // End of getPermission
 }))
 
 type GetUsersResponse = {
