@@ -37,6 +37,12 @@ export const getPermission = (pageName: string, permissions: string[]) => {
         case 'delete':
           permissionOptions.delete = true
           break
+        case '*':
+          permissionOptions.read = true
+          permissionOptions.write = true
+          permissionOptions.update = true
+          permissionOptions.delete = true
+          break
       }
     }
   } // End of for loop
