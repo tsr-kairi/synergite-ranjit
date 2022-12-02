@@ -10,10 +10,9 @@ import {
   Anchor,
   Menu,
   Tooltip,
-  Overlay,
 } from '@mantine/core'
 import { TablerIcon } from '@tabler/icons'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import theme from '@/theme/theme'
 import { useAuth } from '@/store/auth.store'
 import {
@@ -143,22 +142,155 @@ export default function LinksGroup({
   const [active, setActive] = useState('')
   const [activeSubMenu, setActiveSubMenu] = useState('')
 
-  const [isClickedOnMenu] = useState(false)
+  const [menuOpened, setMenuOpened] = useState(false)
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false)
+
+  // const items = (hasLinks ? links : []).map((link) => {
+  //   // if (!link.canIAccess) {
+  //   //   return null
+  //   // }
+
+  //   return link.subLinks ? (
+  //     <Menu
+  //       width={280}
+  //       position="right-start"
+  //       offset={12}
+  //       transition="pop-top-right"
+  //       // onOpen={() => setMenuOpened(true)}
+  //       // onClose={() => setMenuOpened(false)}
+  //       opened={isSubMenuOpen}
+  //       onOpen={() => setIsSubMenuOpen(true)}
+  //       onClose={() => setIsSubMenuOpen(false)}
+  //       openDelay={100}
+  //       closeDelay={400}
+  //       withArrow
+  //     >
+  //       <Menu.Target>
+  //         <Group
+  //           key={link.label}
+  //           className={cx(classes.linkGroup, {
+  //             [classes.linkActive]: link.label === activeSubMenu,
+  //           })}
+  //           onClick={onTopLinkClick}
+  //           onMouseLeave={() => setIsOnHoverOpen(false)}
+  //         >
+  //           <Icons size={20} />
+  //           <Text
+  //             onClick={() => {
+  //               setMenuOpened(true)
+  //             }}
+  //             className={classes.link}
+  //           >
+  //             {link.label}
+  //           </Text>
+  //         </Group>
+  //       </Menu.Target>
+  //       <Menu.Dropdown className={classes.menuDD}>
+  //         <Menu.Label
+  //           style={{
+  //             fontSize: '16px',
+  //             fontWeight: 'lighter',
+  //             display: 'flex',
+  //             alignItems: 'center',
+  //             justifyContent: 'space-between',
+  //             color: '#fff',
+  //           }}
+  //         >
+  //           {link.label}
+  //           <Icons size={20} />
+  //         </Menu.Label>
+  //         <Menu.Item style={{ padding: '5px', backgroundColor: 'transparent' }}>
+  //           {link.subLinks.map((subLinkM) => (
+  //             <p key={subLinkM.label}>{subLinkM.label}</p>
+  //           ))}
+
+  //           {/* {link.subLinks.map((subLinkM) => (
+  //             <Group
+  //               key={subLinkM.label}
+  //               className={cx(classes.linkGroup, {
+  //                 [classes.linkActive]: subLinkM.label === active,
+  //               })}
+  //             >
+  //               <Icons size={20} />
+  //               <Text
+  //                 component={Link}
+  //                 to={subLinkM.subLink}
+  //                 className={classes.link}
+  //                 onClick={() => {
+  //                   setActiveSubMenu(subLinkM.label)
+  //                 }}
+  //               >
+  //                 {subLinkM.label}
+  //               </Text>
+  //             </Group>
+  //           ))} */}
+
+  //           {/* {hasLinks ? (
+  //             <Collapse in={isActive || isOnHoverOpen}>
+  //               {link.subLinks.map((subLinkM) => (
+  //                 <Group
+  //                   key={subLinkM.label}
+  //                   className={cx(classes.linkGroup, {
+  //                     [classes.linkActive]: subLinkM.label === active,
+  //                   })}
+  //                 >
+  //                   <Icons size={20} />
+  //                   <Text
+  //                     component={Link}
+  //                     to={subLinkM.subLink}
+  //                     className={classes.link}
+  //                     onClick={() => {
+  //                       setActiveSubMenu(subLinkM.label)
+  //                     }}
+  //                   >
+  //                     {subLinkM.label}
+  //                   </Text>
+  //                 </Group>
+  //               ))}
+  //             </Collapse>
+  //           ) : null} */}
+  //         </Menu.Item>
+  //       </Menu.Dropdown>
+  //     </Menu>
+  //   ) : (
+  //     <Group
+  //       key={link.label}
+  //       className={cx(classes.linkGroup, {
+  //         [classes.linkActive]: link.label === active,
+  //       })}
+  //     >
+  //       {/* <span>{link.icon}</span> */}
+  //       <Icons size={20} />
+  //       {/* <span dangerouslySetInnerHTML={{ __html: link.icon }}></span> */}
+  //       <Text
+  //         component={Link}
+  //         to={link.link || ''}
+  //         className={classes.link}
+  //         onClick={() => {
+  //           setActive(link.label)
+  //         }}
+  //       >
+  //         {link.label}
+  //       </Text>
+  //     </Group>
+  //   )
+  // })
 
   const items = (hasLinks ? links : []).map((link) => {
-    if (!link.canIAccess) {
-      return null
-    }
+    // if (!link.canIAccess) {
+    //   return null
+    // }
 
     return (
-      <Group
+      <Menu.Item
         key={link.label}
+        icon={<Icons size={20} />}
         className={cx(classes.linkGroup, {
           [classes.linkActive]: link.label === active,
         })}
       >
-        <Icons size={20} />
-
         {!link.subLinks ? (
           <Text
             component={Link}
@@ -166,8 +298,12 @@ export default function LinksGroup({
             className={classes.link}
             onClick={() => {
               setActive(link.label)
-              onTopLinkClick()
-              console.log('link.label =', link.label)
+              // if (!link.subLinks) {
+              //   setIsMenuOpen(false)
+              // }
+              // if (link.subLinks && link?.subLinks.length <= 0) {
+              //   setIsMenuOpen(false)
+              // }
             }}
           >
             {link.label}
@@ -177,14 +313,17 @@ export default function LinksGroup({
           <Menu
             width={280}
             position="right-start"
-            offset={24}
+            offset={12}
             transition="pop-top-right"
             withArrow
           >
             <Menu.Target>
               <Text
                 className={classes.link}
-                onClick={() => setActive(link.label)}
+                onClick={() => {
+                  console.log('clicked')
+                  setActive(link.label)
+                }}
               >
                 {link.label}
               </Text>
@@ -201,36 +340,35 @@ export default function LinksGroup({
                   color: '#fff',
                 }}
               >
-                {link.label}
+                {label}
                 <Icons size={20} />
               </Menu.Label>
               {link?.subLinks?.map((subLink) => {
                 return (
-                  <Group
+                  <Text
                     key={subLink.label}
-                    className={cx(classes.linkGroup, {
-                      [classes.linkActive]: subLink.label === active,
-                    })}
-                    onClick={onTopLinkClick}
+                    component={Link}
+                    to={link.link || ''}
+                    className={classes.link}
+                    onClick={() => {
+                      setActive(link.label)
+                      if (!link.subLinks) {
+                        setIsMenuOpen(false)
+                      }
+
+                      if (link.subLinks && link?.subLinks.length <= 0) {
+                        setIsMenuOpen(false)
+                      }
+                    }}
                   >
-                    <Icons size={20} />
-                    <Text
-                      component={Link}
-                      to={subLink.subLink}
-                      className={classes.link}
-                      onClick={() => {
-                        setActiveSubMenu(subLink.label)
-                      }}
-                    >
-                      {subLink.label}
-                    </Text>
-                  </Group>
+                    {subLink.label}
+                  </Text>
                 )
               })}
             </Menu.Dropdown>
           </Menu>
         )}
-      </Group>
+      </Menu.Item>
     )
   })
 
@@ -240,20 +378,17 @@ export default function LinksGroup({
       position="right-start"
       offset={12}
       transition="pop-top-right"
-      opened={isActive}
-      onClose={isActive && !isClickedOnMenu ? onTopLinkClick : undefined}
+      opened={isMenuOpen}
+      onChange={setIsMenuOpen}
       withArrow
     >
       <Menu.Target>
         <UnstyledButton
           style={isActive ? parentBackgroundColor : {}}
           className={cx(classes.control, {
-            [classes.controlActive]: isActive,
+            [classes.controlActive]: isMenuOpen,
           })}
-          onClick={() => {
-            onTopLinkClick()
-            // console.log('clicked', isActive)
-          }}
+          onClick={onTopLinkClick}
           onMouseLeave={() => setIsOnHoverOpen(false)}
         >
           <Tooltip
