@@ -14,6 +14,12 @@ import {
 import { TablerIcon } from '@tabler/icons'
 import { Link } from 'react-router-dom'
 import theme from '@/theme/theme'
+import { useAuth } from '@/store/auth.store'
+import {
+  getPermission,
+  IAllPagePermissionOptionsWithAllowedCheck,
+  IPermissionOptions,
+} from '@/utils/permission.utils'
 
 const parentBackgroundColor = {
   backgroundColor:
@@ -108,10 +114,12 @@ interface LinksGroupProps {
     label: string
     link?: string
     icon: TablerIcon
+    canIAccess: boolean
     subLinks?: {
       label: string
       subLink: string
       icon: TablerIcon
+      canIAccess: boolean
     }[]
   }[]
   // url?: string
@@ -137,8 +145,12 @@ export default function LinksGroup({
   const [menuOpened, setMenuOpened] = useState(false)
   // const [subMenuOpened, setSubMenuOpened] = useState(false)
 
-  const items = (hasLinks ? links : []).map((link) =>
-    link.subLinks ? (
+  const items = (hasLinks ? links : []).map((link) => {
+    if (!link.canIAccess) {
+      return null
+    }
+
+    return link.subLinks ? (
       <Menu
         width={280}
         position="right-start"
@@ -234,7 +246,7 @@ export default function LinksGroup({
         </Text>
       </Group>
     )
-  )
+  })
 
   return (
     <div onClick={() => setMenuOpened(true)}>
@@ -296,7 +308,13 @@ export default function LinksGroup({
             {label}
             <Icons size={20} />
           </Menu.Label>
-          <Menu.Item style={{ padding: '5px', backgroundColor: 'transparent' }}>
+          <Menu.Item
+            style={{
+              padding: '5px',
+              backgroundColor: 'transparent',
+              display: 'block',
+            }}
+          >
             {menuOpened ? (
               <Collapse in={isActive || isOnHoverOpen}>{items}</Collapse>
             ) : null}
