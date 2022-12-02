@@ -40,7 +40,7 @@ interface IRolesPermissionProps {
 }
 
 export default function RolesPermission({ data }: IRolesPermissionProps) {
-  console.log('permissionDataNew', data)
+  // console.log('permissionDataNew', data)
 
   const { rolesId } = useParams()
   const { mutate: addPermission } = useSavePermission()
@@ -108,9 +108,9 @@ export default function RolesPermission({ data }: IRolesPermissionProps) {
           onChange={TransferSetData}
           searchPlaceholder="Search by any field..."
           nothingFound="No records found"
-          titles={['Available roles permission', 'Chosen roles permission']}
+          titles={['Available permission', 'Assigned permission']}
           breakpoint="sm"
-          listHeight={250}
+          listHeight={300}
         />
       </div>
       <Button mt={'md'} onClick={permissionUpdateHandler}>
