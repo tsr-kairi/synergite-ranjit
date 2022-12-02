@@ -1,5 +1,8 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { onboardingStatusList } from '@/data/onboarding-status.data'
+import useGetCandidateById from '@/pages/candidate/hooks/useGetCandidateById'
+import useGetClientById from '@/pages/client/hooks/useGetClientById'
+import useGetJobById from '@/pages/client/hooks/useGetJobById'
 import { Th } from '@/pages/employee/employee-list'
 import { getOnboardingList } from '@/services/onboarding.services'
 import theme from '@/theme/theme'
@@ -20,7 +23,7 @@ import {
 import { IconChevronRight, IconPlus } from '@tabler/icons'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import NoteList from './notes/note-list'
 import OnboardingActivitySidebar from './onboarding-activity'
 import OnboardingTasks from './onboarding-tasks'
@@ -57,6 +60,19 @@ const OnboardingList = () => {
     () => getOnboardingList(searchTerm)
   )
 
+  // const search = window.location.search
+  // const params = new URLSearchParams(search)
+  // const clientUuid = params.get('uuid')
+
+  const { jobId } = useParams()
+  const [searchParams] = useSearchParams()
+  const clientUUID = searchParams.get('client_uuid')
+  const employeeUUID = searchParams.get('employee_uuid')
+  const { data: candidateData } = useGetCandidateById(String(employeeUUID))
+  const { data: clientData } = useGetClientById(String(clientUUID))
+  const { data: jobData } = useGetJobById(String(jobId))
+  console.log('ID-New', jobId)
+
   return (
     <>
       <ListViewLayout
@@ -72,6 +88,24 @@ const OnboardingList = () => {
             <tr>
               <Th onSort={() => null}>
                 <b>Name</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Employment Type</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Immigration Status</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Client</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Account Manager</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Contact no</b>
+              </Th>
+              <Th onSort={() => null}>
+                <b>Job title</b>
               </Th>
               <Th onSort={() => null}>
                 <b>Percent</b>
@@ -135,6 +169,35 @@ const OnboardingList = () => {
                       candidateName
                     )}
                   </td>
+                  <td>
+                    {candidateData?.data.employment_type
+                      ? candidateData?.data.employment_type
+                      : 'N/A'}
+                  </td>
+                  <td>
+                    {candidateData?.data.immigration_status
+                      ? candidateData?.data.immigration_status
+                      : 'N/A'}
+                  </td>
+                  <td>{`${clientData?.data?.first_name || ''} ${
+                    clientData?.data?.last_name || ''
+                  }`}</td>
+                  <td>
+                    {jobData?.data.account_manager_uuid
+                      ? jobData?.data.account_manager_uuid
+                      : 'N/A'}
+                  </td>
+                  <td>
+                    {candidateData?.data.phone
+                      ? candidateData?.data.phone
+                      : 'N/A'}
+                  </td>
+                  <td>
+                    {jobData?.data?.job_title
+                      ? jobData?.data?.job_title
+                      : 'N/A'}
+                  </td>
+                  {/* <td>{candidateData?.data.employment_type}</td> */}
                   <td>
                     {onboarding.completion_percentage
                       ? `${onboarding.completion_percentage}%`

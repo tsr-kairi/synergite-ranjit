@@ -153,7 +153,7 @@ export default function Onboarding() {
   const { data: clientData } = useGetClientById(clientUUID || '')
   const { data: vendorData } = useGetVendorById(vendorUUID || '')
   const { data: employeeData } = useGetCandidateById(employeeUUID || '')
-  console.log('canId', employeeData)
+  // console.log('canId', employeeData)
 
   // const { onboarding_uuid } = useParams()
   const search = window.location.search

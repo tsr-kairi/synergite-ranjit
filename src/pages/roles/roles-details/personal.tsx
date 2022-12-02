@@ -85,7 +85,7 @@ const useStyles = createStyles((theme) => ({
 export default function Personal() {
   const { rolesId } = useParams()
   const { classes } = useStyles()
-  console.log('Personal', rolesId)
+  // console.log('Personal', rolesId)
 
   const { data, isError, error, isLoading } = useGetRolesById(String(rolesId))
 
