@@ -225,6 +225,7 @@ export function ClientTable({ data }: IClientTableProps) {
 
   const setClient = useOnboarding((state) => state.setClient)
 
+  //  client permission
   const permissions = useAuth((state) => state.permissions)
   const permissionOptions = getPermission({
     pageName: 'client',

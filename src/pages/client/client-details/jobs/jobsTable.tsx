@@ -27,6 +27,8 @@ import useDeleteJobById from '../../hooks/useDeleteJobById'
 import { Link, useParams } from 'react-router-dom'
 import { useOnboarding } from '@/store/onboarding.store'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 // import { useQuery } from 'react-query'
 
 // Style for the Page
@@ -219,13 +221,19 @@ export default function JobsTable({ data }: JobsProps) {
 
   const setJob = useOnboarding((state) => state.setJob)
 
+  //  client-details permission
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'client-details',
+    permissions,
+  }).permissionOptions as IPermissionOptions
+
   const setSorting = (field: keyof TJobs) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
-
   const handleSearchChange = (searchTerm: string) => {
     setSearch(searchTerm)
     setSortedData(
@@ -319,19 +327,23 @@ export default function JobsTable({ data }: JobsProps) {
 
       <td>
         <Group spacing="sm">
-          <IconEdit
-            className={classes.editIcon}
-            cursor="pointer"
-            onClick={() => {
-              setIsOpened(true)
-              setJobEditData(row)
-            }}
-          />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete(row)}
-          />
+          {permissionOptions.update && (
+            <IconEdit
+              className={classes.editIcon}
+              cursor="pointer"
+              onClick={() => {
+                setIsOpened(true)
+                setJobEditData(row)
+              }}
+            />
+          )}
+          {permissionOptions.delete && (
+            <IconTrash
+              className={classes.deleteIcon}
+              cursor="pointer"
+              onClick={() => openModalForDelete(row)}
+            />
+          )}
         </Group>
       </td>
     </tr>

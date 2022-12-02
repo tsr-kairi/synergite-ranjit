@@ -22,7 +22,7 @@ import {
   IconGripVertical,
 } from '@tabler/icons'
 import AdjustableColumn from '../adjustable-column/adjustable-column-list'
-import theme from '@/theme/theme'
+// import theme from '@/theme/theme'
 
 interface IListViewLayoutProps {
   title: string

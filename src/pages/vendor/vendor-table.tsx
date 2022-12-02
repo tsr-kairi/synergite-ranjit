@@ -34,6 +34,8 @@ import { showNotification } from '@mantine/notifications'
 import useDeleteVendorById from './hooks/useDeleteVendorById'
 import { Link } from 'react-router-dom'
 import Contacts from './vendor-details/contacts'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -208,6 +210,13 @@ export default function VendorTable({ data }: IVendorTableProps) {
   const { classes } = useStyles()
   const { mutate: deleteVendor } = useDeleteVendorById()
 
+  //  vendor permission
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'vendor',
+    permissions,
+  }).permissionOptions as IPermissionOptions
+
   const setSorting = (field: keyof TVendor) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
@@ -293,19 +302,23 @@ export default function VendorTable({ data }: IVendorTableProps) {
       </td>
       <td>
         <Group spacing="sm">
-          <IconEdit
-            className={classes.editIcon}
-            cursor="pointer"
-            onClick={() => {
-              setIsOpened(true)
-              setVendorEditData(row)
-            }}
-          />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete(row)}
-          />
+          {permissionOptions.update && (
+            <IconEdit
+              className={classes.editIcon}
+              cursor="pointer"
+              onClick={() => {
+                setIsOpened(true)
+                setVendorEditData(row)
+              }}
+            />
+          )}
+          {permissionOptions.delete && (
+            <IconTrash
+              className={classes.deleteIcon}
+              cursor="pointer"
+              onClick={() => openModalForDelete(row)}
+            />
+          )}
         </Group>
       </td>
     </tr>

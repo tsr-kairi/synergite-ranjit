@@ -8,6 +8,8 @@ import { Group, Loader, Paper, Switch, Text } from '@mantine/core'
 import { useQuery } from 'react-query'
 import { IconChevronsRight } from '@tabler/icons'
 import { openConfirmModal } from '@mantine/modals'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 
 interface OnboardingTasks {
   activityId: string
@@ -104,24 +106,33 @@ const OnboardingTaskTile: React.FC<OnboardingTaskTileProps> = (props) => {
     }
   }
 
+  //  onboarding permission
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'onboarding',
+    permissions,
+  }).permissionOptions as IPermissionOptions
+
   return (
     <Group key={id} style={{ borderBottom: '1px gray solid' }} position="apart">
       <Group>
         <IconChevronsRight />
         <p>{title}</p>
       </Group>
-      <Switch
-        checked={isActive}
-        // onChange={() => {
-        //   const updatedStatus = !isActive
-        //   setIsActive(updatedStatus)
-        //   onStatusChange(updatedStatus)
-        // }}
-        onChange={() => {
-          onConfirmToggle()
-        }}
-        style={{ cursor: 'pointer' }}
-      />
+      {permissionOptions.update && (
+        <Switch
+          checked={isActive}
+          // onChange={() => {
+          //   const updatedStatus = !isActive
+          //   setIsActive(updatedStatus)
+          //   onStatusChange(updatedStatus)
+          // }}
+          onChange={() => {
+            onConfirmToggle()
+          }}
+          style={{ cursor: 'pointer' }}
+        />
+      )}
     </Group>
   )
 } // End of OnboardingTaskTile

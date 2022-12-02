@@ -13,6 +13,8 @@ import { Th } from '../employee/employee-list'
 import React, { useState } from 'react'
 import { IconPlus, IconSubmarine, IconTrash } from '@tabler/icons'
 import { randomId } from '@mantine/hooks'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 
 interface WeeklyData {
   key: string
@@ -66,6 +68,13 @@ const TimesheetInputTile: React.FC<TimesheetInputTileProps> = (props) => {
     const updatedData = fields.filter((doc) => doc.key !== key)
     setFields(updatedData)
   } // End of deleteData
+
+  //  vendor permission
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'timesheets',
+    permissions,
+  }).permissionOptions as IPermissionOptions
 
   return (
     <>
@@ -126,22 +135,29 @@ const TimesheetInputTile: React.FC<TimesheetInputTileProps> = (props) => {
               />
             </td>
             <td className={classes.td}>
-              {isLastItem && (
-                <IconPlus
-                  size={24}
-                  color={'green'}
-                  style={{ marginRight: '8px', cursor: 'pointer' }}
-                  onClick={addNewData}
-                />
+              {permissionOptions.write && (
+                <>
+                  {isLastItem && (
+                    <IconPlus
+                      size={24}
+                      color={'green'}
+                      style={{ marginRight: '8px', cursor: 'pointer' }}
+                      onClick={addNewData}
+                    />
+                  )}
+                </>
               )}
-
-              {fields.length > 1 && (
-                <IconTrash
-                  size={24}
-                  color={'red'}
-                  style={{ marginRight: '8px', cursor: 'pointer' }}
-                  onClick={() => deleteData(field.key)}
-                />
+              {permissionOptions.delete && (
+                <>
+                  {fields.length > 1 && (
+                    <IconTrash
+                      size={24}
+                      color={'red'}
+                      style={{ marginRight: '8px', cursor: 'pointer' }}
+                      onClick={() => deleteData(field.key)}
+                    />
+                  )}
+                </>
               )}
             </td>
           </tr>
