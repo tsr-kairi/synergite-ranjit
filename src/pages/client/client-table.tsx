@@ -32,6 +32,8 @@ import { showNotification } from '@mantine/notifications'
 import EditClient from '@/components/form/client/editForm'
 import Contacts from './client-details/contacts'
 import { useOnboarding } from '@/store/onboarding.store'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -223,6 +225,12 @@ export function ClientTable({ data }: IClientTableProps) {
 
   const setClient = useOnboarding((state) => state.setClient)
 
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'client',
+    permissions,
+  }).permissionOptions as IPermissionOptions
+
   const setSorting = (field: keyof TClient) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
@@ -259,7 +267,7 @@ export function ClientTable({ data }: IClientTableProps) {
       },
     })
   }
-  // console.log('dataShorted', sortedData)
+
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
@@ -303,19 +311,23 @@ export function ClientTable({ data }: IClientTableProps) {
       </td>
       <td>
         <Group spacing="sm">
-          <IconEdit
-            className={classes.editIcon}
-            cursor="pointer"
-            onClick={() => {
-              setIsOpened(true)
-              setClientEditData(row)
-            }}
-          />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete(row)}
-          />
+          {permissionOptions.update && (
+            <IconEdit
+              className={classes.editIcon}
+              cursor="pointer"
+              onClick={() => {
+                setIsOpened(true)
+                setClientEditData(row)
+              }}
+            />
+          )}
+          {permissionOptions.delete && (
+            <IconTrash
+              className={classes.deleteIcon}
+              cursor="pointer"
+              onClick={() => openModalForDelete(row)}
+            />
+          )}
         </Group>
       </td>
       {/* contact -contact open drawer*/}
@@ -386,9 +398,11 @@ export function ClientTable({ data }: IClientTableProps) {
             <th className={classes.action}>
               <b>Contact</b>
             </th>
-            <th className={classes.action}>
-              <b>Action</b>
-            </th>
+            {(permissionOptions.update || permissionOptions.delete) && (
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
+            )}
           </tr>
         </thead>
 
