@@ -1,3 +1,9 @@
+import { useAuth } from '@/store/auth.store'
+import {
+  getPermission,
+  IAllPagePermissionOptionsWithAllowedCheck,
+  IPermissionOptions,
+} from '@/utils/permission.utils'
 import { createStyles } from '@mantine/core'
 import {
   IconLayoutDashboard,
@@ -23,146 +29,353 @@ import { useState } from 'react'
 
 import LinksGroup from './NavBarLinksGroup'
 
+// export const navLinks = [
+//   {
+//     id: '1',
+//     canIAccess: false,
+//     label: 'Dashboard',
+//     icons: IconLayoutDashboard,
+//     isActive: false,
+//     links: [{ label: 'Home', link: '/', canIAccess: false, icon: IconHome2 }],
+//   },
+//   {
+//     id: '2',
+//     canIAccess: false,
+//     label: 'General',
+//     // icons: IconWallet,
+//     icons: IconBulb,
+//     initiallyOpened: false,
+//     isActive: false,
+//     links: [
+//       { label: 'Clients', link: '/client', canIAccess: false, icon: IconHome2 },
+//       { label: 'Vendors', link: '/vendor', canIAccess: false, icon: IconHome2 },
+//       {
+//         label: 'Admin',
+//         canIAccess: false,
+//         icon: IconHome2,
+//         subLinks: [
+//           {
+//             label: 'Activity',
+//             subLink: '/activity',
+//             canIAccess: false,
+//             icon: IconActivity,
+//           },
+//           {
+//             label: 'Departments',
+//             subLink: '/department',
+//             canIAccess: false,
+//             icon: IconBuildingCommunity,
+//           },
+//           {
+//             label: 'Roles',
+//             subLink: '/roles',
+//             canIAccess: false,
+//             icon: IconDivide,
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     id: '3',
+//     canIAccess: false,
+//     label: 'Back Office',
+//     // icons: IconTableOptions,
+//     icons: IconDevicesPc,
+//     initiallyOpened: false,
+//     isActive: false,
+//     links: [
+//       // { label: 'Candidates', link: '/candidate', canIAccess: false, icon: IconUser },
+//       {
+//         label: 'Employees',
+//         link: '/employee',
+//         canIAccess: false,
+//         icon: IconUsers,
+//       },
+//       {
+//         label: 'Timesheet',
+//         link: '/timesheets',
+//         canIAccess: false,
+//         icon: IconFileAnalytics,
+//       },
+//       {
+//         label: 'Expenses',
+//         link: '/timesheets',
+//         canIAccess: false,
+//         icon: IconFileAnalytics,
+//       },
+//       {
+//         label: 'Onboarding',
+//         link: '/onboarding-list',
+//         canIAccess: false,
+//         icon: IconFileReport,
+//       },
+//     ],
+//   },
+
+//   // {
+//   //   id: '4',
+//   //   canIAccess: false,
+//   // label: 'TimeSheets',
+//   //   icons: IconFileAnalytics,
+//   //   isActive: false,
+//   //   links: [
+//   //     {
+//   //       label: 'Submit Timesheet',
+//   //       link: '/timesheets',
+//   //       canIAccess: false, icon: IconFileAnalytics,
+//   //     },
+//   //   ],
+//   // },
+
+//   // {
+//   //   id: '5',
+//   //   canIAccess: false,
+//   // label: 'On Boarding List',
+//   //   icons: IconFileReport,
+//   //   isActive: false,
+//   //   links: [
+//   //     {
+//   //       label: 'On Boarding List',
+//   //       link: '/onboarding-list',
+//   //       canIAccess: false, icon: IconFileReport,
+//   //     },
+//   //   ],
+//   // },
+//   {
+//     id: '6',
+//     canIAccess: false,
+//     label: 'ATS',
+//     // icons: IconBriefcase,
+//     icons: IconGps,
+//     isActive: false,
+//     links: [
+//       { label: 'Job', link: '/job', canIAccess: false, icon: IconBriefcase },
+//       {
+//         label: 'Candidates',
+//         link: '/candidate',
+//         canIAccess: false,
+//         icon: IconUser,
+//       },
+//       {
+//         label: 'Submission',
+//         link: '/submission',
+//         canIAccess: false,
+//         icon: IconBookUpload,
+//       },
+//     ],
+//   },
+//   // {
+//   //   id: '7',
+//   //   canIAccess: false,
+//   // label: 'Submission',
+//   //   icons: IconBookUpload,
+//   //   isActive: false,
+//   //   links: [{ label: 'Submission', link: '/submission', canIAccess: false, icon: IconBookUpload }],
+//   // },
+//   {
+//     id: '8',
+//     canIAccess: false,
+//     label: 'Activities',
+//     icons: IconActivity,
+//     isActive: false,
+//     links: [
+//       {
+//         label: 'All Activities',
+//         link: '/my-activities',
+//         canIAccess: false,
+//         icon: IconActivity,
+//       },
+//       {
+//         label: 'My Team Activities',
+//         link: '/my-team-activities',
+//         canIAccess: false,
+//         icon: IconActivity,
+//       },
+//       {
+//         label: 'My Team Delegated Activities',
+//         link: '/my-team-delegated-activities',
+//         canIAccess: false,
+//         icon: IconActivity,
+//       },
+//     ],
+//   },
+//   {
+//     id: '9',
+//     canIAccess: false,
+//     label: 'Admin',
+//     icons: IconUserCircle,
+//     initiallyOpened: false,
+//     isActive: false,
+//     links: [
+//       {
+//         label: 'Activities',
+//         link: '/activity',
+//         canIAccess: false,
+//         icon: IconActivity,
+//       },
+//       {
+//         label: 'Departments',
+//         link: '/department',
+//         canIAccess: false,
+//         icon: IconBuildingCommunity,
+//       },
+//       { label: 'Roles', link: '/roles', canIAccess: false, icon: IconDivide },
+//     ],
+//   },
+// ]
+
 export const navLinks = [
   {
     id: '1',
+    canIAccess: false,
     label: 'Dashboard',
     icons: IconLayoutDashboard,
     isActive: false,
-    links: [{ label: 'Home', link: '/', icon: IconHome2 }],
+    links: [{ label: 'Home', link: '/', canIAccess: false, icon: IconHome2 }],
   },
   {
     id: '2',
+    canIAccess: false,
     label: 'General',
-    // icons: IconWallet,
     icons: IconBulb,
     initiallyOpened: false,
     isActive: false,
     links: [
-      { label: 'Clients', link: '/client', icon: IconHome2 },
-      { label: 'Vendors', link: '/vendor', icon: IconHome2 },
+      { label: 'Clients', link: '/client', canIAccess: false, icon: IconHome2 },
+      { label: 'Vendors', link: '/vendor', canIAccess: false, icon: IconHome2 },
       {
         label: 'Admin',
+        canIAccess: false,
         icon: IconHome2,
         subLinks: [
-          { label: 'Activity', subLink: '/activity', icon: IconActivity },
+          {
+            label: 'Activity',
+            subLink: '/activity',
+            canIAccess: false,
+            icon: IconActivity,
+          },
           {
             label: 'Departments',
             subLink: '/department',
+            canIAccess: false,
             icon: IconBuildingCommunity,
           },
-          { label: 'Roles', subLink: '/roles', icon: IconDivide },
+          {
+            label: 'Roles',
+            subLink: '/roles',
+            canIAccess: false,
+            icon: IconDivide,
+          },
         ],
       },
     ],
   },
   {
     id: '3',
+    canIAccess: false,
     label: 'Back Office',
-    // icons: IconTableOptions,
     icons: IconDevicesPc,
     initiallyOpened: false,
     isActive: false,
     links: [
-      // { label: 'Candidates', link: '/candidate', icon: IconUser },
-      { label: 'Employees', link: '/employee', icon: IconUsers },
+      {
+        label: 'Employees',
+        link: '/employee',
+        canIAccess: false,
+        icon: IconUsers,
+      },
       {
         label: 'Timesheet',
         link: '/timesheets',
+        canIAccess: false,
         icon: IconFileAnalytics,
       },
       {
         label: 'Expenses',
         link: '/timesheets',
+        canIAccess: false,
         icon: IconFileAnalytics,
       },
       {
         label: 'Onboarding',
         link: '/onboarding-list',
+        canIAccess: false,
         icon: IconFileReport,
       },
     ],
   },
-
-  // {
-  //   id: '4',
-  //   label: 'TimeSheets',
-  //   icons: IconFileAnalytics,
-  //   isActive: false,
-  //   links: [
-  //     {
-  //       label: 'Submit Timesheet',
-  //       link: '/timesheets',
-  //       icon: IconFileAnalytics,
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   id: '5',
-  //   label: 'On Boarding List',
-  //   icons: IconFileReport,
-  //   isActive: false,
-  //   links: [
-  //     {
-  //       label: 'On Boarding List',
-  //       link: '/onboarding-list',
-  //       icon: IconFileReport,
-  //     },
-  //   ],
-  // },
   {
     id: '6',
+    canIAccess: false,
     label: 'ATS',
     // icons: IconBriefcase,
     icons: IconGps,
     isActive: false,
     links: [
-      { label: 'Job', link: '/job', icon: IconBriefcase },
-      { label: 'Candidates', link: '/candidate', icon: IconUser },
-      { label: 'Submission', link: '/submission', icon: IconBookUpload },
+      { label: 'Job', link: '/job', canIAccess: false, icon: IconBriefcase },
+      {
+        label: 'Candidates',
+        link: '/candidate',
+        canIAccess: false,
+        icon: IconUser,
+      },
+      {
+        label: 'Submission',
+        link: '/submission',
+        canIAccess: false,
+        icon: IconBookUpload,
+      },
     ],
   },
-  // {
-  //   id: '7',
-  //   label: 'Submission',
-  //   icons: IconBookUpload,
-  //   isActive: false,
-  //   links: [{ label: 'Submission', link: '/submission', icon: IconBookUpload }],
-  // },
   {
     id: '8',
+    canIAccess: false,
     label: 'Activities',
     icons: IconActivity,
     isActive: false,
     links: [
-      { label: 'All Activities', link: '/my-activities', icon: IconActivity },
+      {
+        label: 'All Activities',
+        link: '/my-activities',
+        canIAccess: false,
+        icon: IconActivity,
+      },
       {
         label: 'My Team Activities',
         link: '/my-team-activities',
+        canIAccess: false,
         icon: IconActivity,
       },
       {
         label: 'My Team Delegated Activities',
         link: '/my-team-delegated-activities',
+        canIAccess: false,
         icon: IconActivity,
       },
     ],
   },
   {
     id: '9',
+    canIAccess: false,
     label: 'Admin',
     icons: IconUserCircle,
     initiallyOpened: false,
     isActive: false,
     links: [
-      { label: 'Activities', link: '/activity', icon: IconActivity },
+      {
+        label: 'Activities',
+        link: '/activity',
+        canIAccess: false,
+        icon: IconActivity,
+      },
       {
         label: 'Departments',
         link: '/department',
+        canIAccess: false,
         icon: IconBuildingCommunity,
       },
-      { label: 'Roles', link: '/roles', icon: IconDivide },
+      { label: 'Roles', link: '/roles', canIAccess: false, icon: IconDivide },
     ],
   },
 ]
@@ -198,9 +411,45 @@ const NavBar: React.FC<NavBarProps> = ({
   const [navLinkList, setNavLinkList] = useState(navLinks)
   // const navigate = useNavigate()
 
+  const permissions = useAuth((state) => state.permissions)
+  const allPermissions = getPermission({
+    pageName: '',
+    permissions,
+    getAllPermissions: true,
+  }) as IAllPagePermissionOptionsWithAllowedCheck
+
   const { classes } = useStyles()
 
-  const links = navLinkList.map((item) => {
+  const allowedNavLikList = navLinkList.map((navLink) => {
+    const { links } = navLink
+    const hasLinks = Array.isArray(links)
+
+    if (hasLinks) {
+      navLink.links = navLink.links = links.map((link) => {
+        const linkName = (
+          link?.link?.replace('/', '') || ''
+        ).toLocaleLowerCase()
+
+        // Even if one link is available then I can show navLink
+        const allPermission = allPermissions[linkName]
+        if (allPermission) {
+          navLink.canIAccess = true
+          link.canIAccess = allPermission.amIEvenAllowedToNavigateToThisPage
+        }
+
+        return link
+      })
+    }
+
+    return navLink
+  })
+
+  // const links = navLinkList.map((item) => {
+  const links = allowedNavLikList.map((item) => {
+    if (!item.canIAccess) {
+      return null
+    }
+
     let isOpen = item.isActive
     if (item.isActive && isBurgerIconOpen) {
       isOpen = true
