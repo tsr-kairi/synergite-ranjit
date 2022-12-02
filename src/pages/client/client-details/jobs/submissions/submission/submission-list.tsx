@@ -31,6 +31,8 @@ import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import useGetCandidateById from '@/pages/candidate/hooks/useGetCandidateById'
 import { TCandidate } from '@/types/candidate-type'
 import useGetJobById from '@/pages/client/hooks/useGetJobById'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -220,13 +222,20 @@ export function SubmissionList({ data }: ISubmissionProps) {
   const { data: clientData } = useGetClientById(String(clientUuid))
   const { data: jobData } = useGetJobById(String(jobId))
 
-  const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
+  // const [employeeDetails, setEmployeeDetails] = useState({} as TCandidate)
   // console.log('canId', employeeData)
 
   // name addition
   const clientName = `${clientData?.data?.first_name || ''} ${
     clientData?.data?.last_name || ''
   }`
+
+  //  submissions permission
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'submissions',
+    permissions,
+  }).permissionOptions as IPermissionOptions
 
   const setSorting = (field: keyof TSubmission) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -427,19 +436,23 @@ export function SubmissionList({ data }: ISubmissionProps) {
           </Badge>
         ) : (
           <Group spacing="sm">
-            <IconEdit
-              className={classes.editIcon}
-              cursor="pointer"
-              onClick={() => {
-                setIsOpened(true)
-                setSubmissionEditData(row)
-              }}
-            />
-            <IconTrash
-              className={classes.deleteIcon}
-              cursor="pointer"
-              onClick={() => openModalForDelete(row)}
-            />
+            {permissionOptions.update && (
+              <IconEdit
+                className={classes.editIcon}
+                cursor="pointer"
+                onClick={() => {
+                  setIsOpened(true)
+                  setSubmissionEditData(row)
+                }}
+              />
+            )}
+            {permissionOptions.delete && (
+              <IconTrash
+                className={classes.deleteIcon}
+                cursor="pointer"
+                onClick={() => openModalForDelete(row)}
+              />
+            )}
           </Group>
         )}
       </td>

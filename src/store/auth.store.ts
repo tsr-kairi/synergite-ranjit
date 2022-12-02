@@ -1,9 +1,9 @@
 import axiosPrivate from '@/services/axiosPrivate'
 import axiosPublic from '@/services/axiosPublic'
 import { setAuthDataInLocalStorage } from '@/utils/auth.utils'
-import { createContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { boolean } from 'zod'
+// import { createContext, useEffect, useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
+// import { boolean } from 'zod'
 
 // Third party packages
 import create from 'zustand'
@@ -38,12 +38,12 @@ export interface IUser {
   }
 }
 
-interface IPermissionOptions {
-  read: boolean
-  write: boolean
-  update: boolean
-  delete: boolean
-}
+// interface IPermissionOptions {
+//   read: boolean
+//   write: boolean
+//   update: boolean
+//   delete: boolean
+// }
 
 interface IAuth {
   isAuth: boolean
