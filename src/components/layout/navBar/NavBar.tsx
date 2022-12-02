@@ -24,7 +24,7 @@ import {
   IconDevicesPc,
   IconGps,
 } from '@tabler/icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
 import LinksGroup from './NavBarLinksGroup'
@@ -409,7 +409,6 @@ const NavBar: React.FC<NavBarProps> = ({
   onNavbarSideIconClick,
 }) => {
   const [navLinkList, setNavLinkList] = useState(navLinks)
-  // const navigate = useNavigate()
 
   const permissions = useAuth((state) => state.permissions)
   const allPermissions = getPermission({
@@ -418,34 +417,41 @@ const NavBar: React.FC<NavBarProps> = ({
     getAllPermissions: true,
   }) as IAllPagePermissionOptionsWithAllowedCheck
 
-  const { classes } = useStyles()
-
-  const allowedNavLikList = navLinkList.map((navLink) => {
-    const { links } = navLink
-    const hasLinks = Array.isArray(links)
-
-    if (hasLinks) {
-      navLink.links = navLink.links = links.map((link) => {
-        const linkName = (
-          link?.link?.replace('/', '') || ''
-        ).toLocaleLowerCase()
-
-        // Even if one link is available then I can show navLink
-        const allPermission = allPermissions[linkName]
-        if (allPermission) {
-          navLink.canIAccess = true
-          link.canIAccess = allPermission.amIEvenAllowedToNavigateToThisPage
-        }
-
-        return link
-      })
+  useEffect(() => {
+    if (!permissions) {
+      return
     }
 
-    return navLink
-  })
+    const allowedNavLikList = navLinkList.map((navLink) => {
+      const { links } = navLink
+      const hasLinks = Array.isArray(links)
 
-  // const links = navLinkList.map((item) => {
-  const links = allowedNavLikList.map((item) => {
+      if (hasLinks) {
+        navLink.links = navLink.links = links.map((link) => {
+          const linkName = (
+            link?.link?.replace('/', '') || ''
+          ).toLocaleLowerCase()
+
+          // Even if one link is available then I can show navLink
+          const allPermission = allPermissions[linkName]
+          if (allPermission) {
+            navLink.canIAccess = true
+            link.canIAccess = allPermission.amIEvenAllowedToNavigateToThisPage
+          }
+
+          return link
+        })
+      }
+
+      return navLink
+    })
+
+    setNavLinkList(allowedNavLikList)
+  }, [permissions])
+
+  const { classes } = useStyles()
+
+  const links = navLinkList.map((item) => {
     if (!item.canIAccess) {
       return null
     }
@@ -477,9 +483,6 @@ const NavBar: React.FC<NavBarProps> = ({
           if (!isBurgerIconOpen && item.isActive) {
             onNavbarSideIconClick()
           }
-          // else if (item.links) {
-          //   navigate(item.links)
-          // }
         }}
       />
     )
