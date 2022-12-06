@@ -359,6 +359,7 @@ export default function JobsTable({ data }: JobsProps) {
         isLoading={false}
         createDrawerChildren={<CreateJob />}
         onSearchChange={handleSearchChange}
+        pageName="client-details"
       >
         <Table
           horizontalSpacing="md"

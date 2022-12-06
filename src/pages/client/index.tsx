@@ -14,6 +14,7 @@ export const Client = () => {
       createDrawerTitle="Add New Client"
       createDrawerChildren={<CreateClient />}
       createDrawerSize={'1200px'}
+      pageName="client"
     >
       <ClientTable data={data?.data || []} />
     </ListViewLayout>

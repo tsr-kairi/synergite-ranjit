@@ -14,6 +14,7 @@ export const Department = () => {
       isLoading={isLoading}
       createDrawerTitle="Add Department"
       createDrawerChildren={<CreateForm />}
+      pageName="department"
     >
       <DepartmentTable data={data?.data || []} />
     </ListViewLayout>

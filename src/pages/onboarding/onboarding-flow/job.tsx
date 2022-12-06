@@ -171,7 +171,7 @@ export default function Job({ form }: onboardingStepperProps) {
             {...form.getInputProps('others')}
             type={'text'}
           />
-          
+
           <Select
             label="Department"
             placeholder="Department"

@@ -13,6 +13,7 @@ export const Roles = () => {
       isLoading={isLoading}
       createDrawerTitle="Add Role"
       createDrawerChildren={<CreateForm />}
+      pageName="roles"
     >
       <RolesTable data={data?.data || []} />
     </ListViewLayout>
