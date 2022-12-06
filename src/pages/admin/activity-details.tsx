@@ -80,6 +80,7 @@ export const AdminActivityDetails = () => {
           createDrawerChildren={<TaskForm />}
           isError={false}
           isLoading={false}
+          pageName="admin-activity"
         >
           <Table
             horizontalSpacing="md"

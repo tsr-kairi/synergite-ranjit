@@ -51,6 +51,7 @@ const useStyles = createStyles((theme) => ({
     // fontSize: theme.fontSizes.sm,
     textDecoration: 'none',
     // padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
+    width: '200px',
   },
 
   linkActive: {
@@ -61,7 +62,9 @@ const useStyles = createStyles((theme) => ({
 
   linkGroup: {
     marginTop: '2px',
-    padding: `${theme.spacing.xs}px ${theme.spacing.xs}px`,
+    // paddingLeft: '2px !important',
+    // padding: '2px',
+    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     color:
       theme.colorScheme === 'dark'
         ? theme.colors.grey[0]
@@ -157,21 +160,22 @@ export default function LinksGroup({
           [classes.linkActive]: link.label === active,
         })}
       >
-        <Icons size={20} />
-
         {!link.subLinks ? (
-          <Text
-            component={Link}
-            to={link.link || ''}
-            className={classes.link}
-            onClick={() => {
-              setActive(link.label)
-              onTopLinkClick()
-              console.log('link.label =', link.label)
-            }}
-          >
-            {link.label}
-          </Text>
+          <>
+            <Icons size={20} />
+            <Text
+              component={Link}
+              to={link.link || ''}
+              className={classes.link}
+              onClick={() => {
+                setActive(link.label)
+                onTopLinkClick()
+                console.log('link.label =', link.label)
+              }}
+            >
+              {link.label}
+            </Text>
+          </>
         ) : (
           // Sub Menu
           <Menu

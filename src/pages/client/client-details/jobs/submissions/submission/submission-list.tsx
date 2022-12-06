@@ -470,6 +470,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         isLoading={false}
         createDrawerChildren={<CreateForm onClose={() => setIsOpened(false)} />}
         onSearchChange={handleSearchChange}
+        pageName="submissions"
       >
         <Table
           horizontalSpacing="md"

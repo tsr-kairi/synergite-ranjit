@@ -447,7 +447,7 @@ const NavBar: React.FC<NavBarProps> = ({
     })
 
     setNavLinkList(allowedNavLikList)
-  }, [permissions])
+  }, [allPermissions, navLinkList, permissions])
 
   const { classes } = useStyles()
 

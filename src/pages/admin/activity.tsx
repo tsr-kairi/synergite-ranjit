@@ -1,22 +1,15 @@
 import { useState } from 'react'
 import {
   createStyles,
-  
   UnstyledButton,
   Group,
   Text,
   Center,
   Avatar,
-  
   Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
-import {
-  IconSelector,
-  IconChevronDown,
-  IconChevronUp,
-  
-} from '@tabler/icons'
+import { IconSelector, IconChevronDown, IconChevronUp } from '@tabler/icons'
 import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
 import { Link } from 'react-router-dom'
@@ -195,6 +188,7 @@ export const AdminActivity: React.FC = () => {
       createDrawerChildren={<ActivityForm />}
       isError={false}
       isLoading={false}
+      pageName='admin-activity'
     >
       <thead>
         <tr>

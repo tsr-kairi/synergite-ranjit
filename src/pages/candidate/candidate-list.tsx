@@ -381,6 +381,7 @@ export function CandidateList({ data }: ICandidateProps) {
         createDrawerChildren={<CreateCandidate />}
         onFilterClick={openModalForFilter}
         onSearchChange={handleSearchChange}
+        pageName="candidate"
       >
         <Table
           horizontalSpacing="md"

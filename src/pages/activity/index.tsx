@@ -13,6 +13,7 @@ export const Activity = () => {
       isLoading={isLoading}
       createDrawerTitle="Add New Activity"
       createDrawerChildren={<CreateForm />}
+      pageName="activity"
     >
       <ActivityTable data={data?.data || []} />
     </ListViewLayout>

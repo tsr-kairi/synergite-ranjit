@@ -27,6 +27,8 @@ import useDeleteJobById from '../client/hooks/useDeleteJobById'
 import { TJobs } from '@/types'
 import EditForm from '@/components/form/client/job/editForm'
 import CreateForm from '@/components/form/client/job/createForm'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -111,6 +113,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: '10px',
     margin: '3px',
     minWidth: '190vw',
+    // overflowX: 'auto',
   },
   userLink: {
     textDecoration: 'none',
@@ -202,6 +205,13 @@ export function AllJobList({ data }: IJobsProps) {
   const { classes, cx } = useStyles()
   const { mutate: deleteJobs } = useDeleteJobById()
   const [jobsEditData, setJobsEditData] = useState({} as TJobs)
+
+  //  job permission
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'job',
+    permissions,
+  }).permissionOptions as IPermissionOptions
 
   const setSorting = (field: keyof TJobs) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -306,19 +316,23 @@ export function AllJobList({ data }: IJobsProps) {
 
       <td>
         <Group spacing="sm">
-          <IconEdit
-            className={classes.editIcon}
-            cursor="pointer"
-            onClick={() => {
-              setIsOpened(true)
-              setJobsEditData(row)
-            }}
-          />
-          <IconTrash
-            className={classes.deleteIcon}
-            cursor="pointer"
-            onClick={() => openModalForDelete(row)}
-          />
+          {permissionOptions.update && (
+            <IconEdit
+              className={classes.editIcon}
+              cursor="pointer"
+              onClick={() => {
+                setIsOpened(true)
+                setJobsEditData(row)
+              }}
+            />
+          )}
+          {permissionOptions.delete && (
+            <IconTrash
+              className={classes.deleteIcon}
+              cursor="pointer"
+              onClick={() => openModalForDelete(row)}
+            />
+          )}
         </Group>
       </td>
     </tr>
@@ -334,6 +348,7 @@ export function AllJobList({ data }: IJobsProps) {
         isLoading={false}
         createDrawerChildren={<CreateForm />}
         onSearchChange={handleSearchChange}
+        pageName="job"
       >
         <Table
           horizontalSpacing="md"

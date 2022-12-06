@@ -22,11 +22,14 @@ import {
   IconGripVertical,
 } from '@tabler/icons'
 import AdjustableColumn from '../adjustable-column/adjustable-column-list'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
 // import theme from '@/theme/theme'
 
 interface IListViewLayoutProps {
   title: string
   children?: React.ReactNode
+  pageName?: string
   createDrawerTitle?: string
   createDrawerChildren?: React.ReactNode
   createDrawerSize?: string | number
@@ -45,6 +48,7 @@ interface IListViewLayoutProps {
 export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
   const {
     title,
+    pageName,
     children,
     createDrawerTitle,
     createDrawerChildren,
@@ -60,6 +64,13 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     onAddNewClick,
     onPageChange,
   } = props
+
+  //  create permission all page
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: pageName || '',
+    permissions,
+  }).permissionOptions as IPermissionOptions
 
   const [isColumnSelectionDrawerOpen, setIsColumnSelectionDrawerOpen] =
     useState(false)
@@ -116,31 +127,40 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         )}
 
         {/* Add New - Button*/}
-        {!hideActionButton && (
-          <ActionIcon
-            variant="light"
-            radius="xl"
-            color={'blue'}
-            // className={classes.actionButton}
-            onClick={() => {
-              if (onAddNewClick) {
-                onAddNewClick()
-              } else {
-                setIsAddNewDrawerOpen(true)
-              }
-            }}
-          >
-            <IconPlus size={30} />
-          </ActionIcon>
+        {permissionOptions.write && (
+          <>
+            {!hideActionButton && (
+              <ActionIcon
+                variant="light"
+                radius="xl"
+                color={'blue'}
+                // className={classes.actionButton}
+                onClick={() => {
+                  if (onAddNewClick) {
+                    onAddNewClick()
+                  } else {
+                    setIsAddNewDrawerOpen(true)
+                  }
+                }}
+              >
+                <IconPlus size={30} />
+              </ActionIcon>
+            )}
+          </>
         )}
       </div>
 
       <ScrollArea
         // scroll area style
-        style={{ height: 600, width: 1805 }}
+        style={{
+          height: '75vh',
+          width: 1805,
+          minWidth: '100%',
+          maxWidth: '90vw',
+        }}
         type="always"
         offsetScrollbars
-        scrollbarSize={5}
+        scrollbarSize={10}
         styles={(theme) => ({
           scrollbar: {
             zIndex: 10,
@@ -152,11 +172,11 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
             },
 
             '&[data-orientation="vertical"] .mantine-ScrollArea-thumb': {
-              backgroundColor: theme.colors.blue[5],
+              backgroundColor: theme.colors.blue[9],
             },
 
             '&[data-orientation="horizontal"] .mantine-ScrollArea-thumb': {
-              backgroundColor: theme.colors.blue[6],
+              backgroundColor: theme.colors.blue[9],
             },
           },
 
@@ -258,7 +278,7 @@ export const listViewLayoutStyle = createStyles((theme) => ({
     borderRadius: 21,
   },
   tableHead: {
-    width: '100%',
+    // width: '100%',
     padding: '10px',
     display: 'flex',
     alignItems: 'center',
@@ -308,7 +328,7 @@ export const listViewLayoutStyle = createStyles((theme) => ({
     borderRadius: '10px',
     margin: '5px',
     // width: '100%',
-    // minWidth: '150%',
+    // minWidth: '190vw',
     // overflowX: 'auto',
     // scrollbarWidth: 'none',
 
@@ -326,3 +346,5 @@ export const listViewLayoutStyle = createStyles((theme) => ({
     },
   },
 }))
+
+// How to make a scrollable table in react js?

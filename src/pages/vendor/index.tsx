@@ -14,6 +14,7 @@ export const Vendor = () => {
       isError={isError}
       isLoading={isLoading}
       createDrawerSize={'1200px'}
+      pageName="vendor"
     >
       <VendorTable data={data?.data || []} />
     </ListViewLayout>
