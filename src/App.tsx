@@ -86,7 +86,7 @@ function App() {
             /> */}
 
             <Route
-              path="/onboarding-list"
+              path="/onboarding"
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <OnboardingList />

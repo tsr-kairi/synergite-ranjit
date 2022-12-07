@@ -135,7 +135,7 @@ const TimesheetInputTile: React.FC<TimesheetInputTileProps> = (props) => {
               />
             </td>
             <td className={classes.td}>
-              {permissionOptions.write && (
+              {permissionOptions.create && (
                 <>
                   {isLastItem && (
                     <IconPlus

@@ -233,7 +233,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
   //  submissions permission
   const permissions = useAuth((state) => state.permissions)
   const permissionOptions = getPermission({
-    pageName: 'submissions',
+    pageName: 'submission',
     permissions,
   }).permissionOptions as IPermissionOptions
 
@@ -470,7 +470,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
         isLoading={false}
         createDrawerChildren={<CreateForm onClose={() => setIsOpened(false)} />}
         onSearchChange={handleSearchChange}
-        pageName="submissions"
+        pageName="submission"
       >
         <Table
           horizontalSpacing="md"

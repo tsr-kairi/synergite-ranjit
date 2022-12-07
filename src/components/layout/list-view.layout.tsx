@@ -71,6 +71,9 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     pageName: pageName || '',
     permissions,
   }).permissionOptions as IPermissionOptions
+  console.log('permissionOptions', permissionOptions)
+  console.log('pageName', pageName)
+  console.log('permissions', permissions)
 
   const [isColumnSelectionDrawerOpen, setIsColumnSelectionDrawerOpen] =
     useState(false)
@@ -127,7 +130,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
         )}
 
         {/* Add New - Button*/}
-        {permissionOptions.write && (
+        {permissionOptions.create && (
           <>
             {!hideActionButton && (
               <ActionIcon
@@ -153,7 +156,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
       <ScrollArea
         // scroll area style
         style={{
-          height: '75vh',
+          height: 400,
           width: 1805,
           minWidth: '100%',
           maxWidth: '90vw',

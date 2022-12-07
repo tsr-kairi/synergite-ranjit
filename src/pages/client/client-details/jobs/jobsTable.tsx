@@ -221,10 +221,10 @@ export default function JobsTable({ data }: JobsProps) {
 
   const setJob = useOnboarding((state) => state.setJob)
 
-  //  client-details permission
+  //  job permission
   const permissions = useAuth((state) => state.permissions)
   const permissionOptions = getPermission({
-    pageName: 'client-details',
+    pageName: 'job',
     permissions,
   }).permissionOptions as IPermissionOptions
 
@@ -359,7 +359,7 @@ export default function JobsTable({ data }: JobsProps) {
         isLoading={false}
         createDrawerChildren={<CreateJob />}
         onSearchChange={handleSearchChange}
-        pageName="client-details"
+        pageName="job"
       >
         <Table
           horizontalSpacing="md"

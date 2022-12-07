@@ -76,7 +76,7 @@ const OnboardingList = () => {
   return (
     <>
       <ListViewLayout
-        title="Onboarding List"
+        title="Onboarding"
         hideActionButton={true}
         hideColumnButton={true}
         onSearchChange={setSearchTerm}

@@ -299,7 +299,7 @@ export const navLinks = [
       },
       {
         label: 'Onboarding',
-        link: '/onboarding-list',
+        link: '/onboarding',
         canIAccess: false,
         icon: IconFileReport,
       },

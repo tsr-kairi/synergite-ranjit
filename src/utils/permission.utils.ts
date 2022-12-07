@@ -1,11 +1,11 @@
 export interface IPermissionOptions {
   read: boolean
-  write: boolean
+  create: boolean
   update: boolean
   delete: boolean
 }
 
-type IPagePermissionOptions = 'read' | 'write' | 'update' | 'delete' | '*'
+type IPagePermissionOptions = 'read' | 'create' | 'update' | 'delete' | '*'
 
 export interface IAllPagePermissionOptions {
   [key: string]: IPermissionOptions
@@ -22,8 +22,8 @@ const parsePermission = (pagePermissionOption: IPagePermissionOptions) => {
   switch (pagePermissionOption) {
     case 'read':
       return { read: true }
-    case 'write':
-      return { write: true }
+    case 'create':
+      return { create: true }
     case 'update':
       return { update: true }
     case 'delete':
@@ -31,7 +31,7 @@ const parsePermission = (pagePermissionOption: IPagePermissionOptions) => {
     case '*':
       return {
         read: true,
-        write: true,
+        create: true,
         update: true,
         delete: true,
       }
@@ -47,7 +47,7 @@ export const getPermission = (payload: {
 
   let permissionOptions = {
     read: false,
-    write: false,
+    create: false,
     update: false,
     delete: false,
   }
@@ -77,7 +77,7 @@ export const getPermission = (payload: {
 
         allPagePermissionOptions[page] = {
           read: false,
-          write: false,
+          create: false,
           update: false,
           delete: false,
           ...parsedPermission,
@@ -100,7 +100,7 @@ export const getPermission = (payload: {
   ) => {
     if (
       !permissionOptions.read &&
-      !permissionOptions.write &&
+      !permissionOptions.create &&
       !permissionOptions.update &&
       !permissionOptions.delete
     ) {
