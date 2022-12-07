@@ -68,6 +68,14 @@ function App() {
           <Route element={<LazyAppShallMain />}>
             {/* Protected Routes */}
             {/* <Route element={<ProtectedRoute isAuth={isAuth} />}> */}
+            {/* <Route
+              path="/"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <DashBoard />
+                </ProtectedRoute>
+              }
+            /> */}
             <Route
               path="/"
               element={
@@ -76,14 +84,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute isAuth={isAuth}>
-                  <DashBoard />
-                </ProtectedRoute>
-              }
-            /> */}
 
             <Route
               path="/onboarding"

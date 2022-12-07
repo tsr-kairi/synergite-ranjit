@@ -10,6 +10,10 @@ import {
   Tooltip,
   Avatar,
   Checkbox,
+  ActionIcon,
+  HoverCard,
+  Button,
+  Modal,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -18,6 +22,8 @@ import {
   IconChevronUp,
   IconEdit,
   IconTrash,
+  IconBookUpload,
+  IconFileReport,
 } from '@tabler/icons'
 import { TCandidate } from '@/types/candidate-type'
 import { openConfirmModal } from '@mantine/modals'
@@ -29,6 +35,7 @@ import useDeleteCandidateById from './hooks/useDeleteCandidateById'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { useAuth } from '@/store/auth.store'
 import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
+import CandidateSubmission from './candidate-submission'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -124,6 +131,14 @@ const useStyles = createStyles((theme) => ({
       color: theme.colors.blue[9],
     },
   },
+
+  detailHead: {
+    // border: `1px solid ${theme.colors.blue[1]}`,
+    // padding: '10px',
+    // paddingLeft: '20px',
+    // paddingRight: '20px',
+    borderRadius: '5px',
+  },
 }))
 
 // Table Heading Props
@@ -200,6 +215,7 @@ interface ICandidateProps {
 // Exporting Default ClientTable Component
 export function CandidateList({ data }: ICandidateProps) {
   const [isOpened, setIsOpened] = useState(false)
+  const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
@@ -316,29 +332,62 @@ export function CandidateList({ data }: ICandidateProps) {
     <tr key={row?.uuid} className={classes.candidateRowData}>
       <td>{row?.candidate_id ? row?.candidate_id : 'N/A'}</td>
       <td>
-        <Link
-          to={`/candidate-details/${row?.uuid}`}
-          className={classes.userLink}
-        >
-          <Tooltip
-            label="Click to view"
-            color="blue"
-            withArrow
-            transition="pop-top-right"
-            transitionDuration={300}
-          >
-            <Group spacing="sm">
-              <Avatar color="cyan" size={26} radius={26}>
-                C
-              </Avatar>
+        <HoverCard width={170} withArrow>
+          <HoverCard.Target>
+            <Link
+              to={`/candidate-details/${row?.uuid}`}
+              className={classes.userLink}
+            >
+              <Tooltip
+                label="Click to view"
+                color="blue"
+                withArrow
+                transition="pop-top-right"
+                transitionDuration={300}
+              >
+                <Group spacing="sm">
+                  <Avatar color="cyan" size={26} radius={26}>
+                    C
+                  </Avatar>
 
-              <Text size="sm" weight={500}>
-                {row?.first_name ? row?.first_name : 'N/A'}{' '}
-                {row?.last_name ? row?.last_name : 'N/A'}
-              </Text>
+                  <Text size="sm" weight={500}>
+                    {row?.first_name ? row?.first_name : 'N/A'}{' '}
+                    {row?.last_name ? row?.last_name : 'N/A'}
+                  </Text>
+                </Group>
+              </Tooltip>
+            </Link>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Group spacing="xs">
+              <Button
+                className={classes.detailHead}
+                leftIcon={<IconBookUpload size={16} />}
+                variant="subtle"
+                size={'xs'}
+                onClick={() => setOpened(true)}
+              >
+                {/* {row?.first_name ? row?.first_name : 'N/A'}{' '}
+                {row?.last_name ? row?.last_name : 'N/A'} */}
+                Submission
+              </Button>
+              <Button
+                className={classes.detailHead}
+                leftIcon={<IconFileReport size={16} />}
+                variant="subtle"
+                size={'xs'}
+                onClick={() => setOpened(true)}
+              >
+                {/* {row?.first_name ? row?.first_name : 'N/A'}{' '}
+                {row?.last_name ? row?.last_name : 'N/A'} */}
+                Onboarding
+              </Button>
+              {/* <ActionIcon variant="subtle">
+                <IconFileReport size={16} />
+              </ActionIcon> */}
             </Group>
-          </Tooltip>
-        </Link>
+          </HoverCard.Dropdown>
+        </HoverCard>
       </td>
       <td>{row?.email ? row?.email : 'N/A'}</td>
       <td>{row?.phone ? row?.phone : 'N/A'}</td>
@@ -472,6 +521,16 @@ export function CandidateList({ data }: ICandidateProps) {
       >
         <EditCandidate {...candidateEditData} />
       </Drawer>
+
+      <Modal
+        size="calc(100vw - 5vw)"
+        // size="55%"
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Candidate Submission"
+      >
+        <CandidateSubmission client_id={''} job_id={''} />
+      </Modal>
     </>
   )
 }
