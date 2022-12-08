@@ -286,6 +286,7 @@ export function AllJobList({ data }: IJobsProps) {
           onClose={() => setUserMenuOpened(false)}
           onOpen={() => setUserMenuOpened(true)}
           exitTransitionDuration={200}
+          offset={14}
         >
           <Menu.Target>
             <UnstyledButton
@@ -305,7 +306,7 @@ export function AllJobList({ data }: IJobsProps) {
             </UnstyledButton>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Label>Take your action</Menu.Label>
+            <Menu.Label>Take your action carefully</Menu.Label>
             {permissionOptions.update && (
               <Menu.Item
                 icon={
@@ -415,6 +416,25 @@ export function AllJobList({ data }: IJobsProps) {
       <td>{row?.account_manager_uuid ? row?.account_manager_uuid : 'N/A'}</td>
       <td>{row?.recruiter_uuid ? row?.recruiter_uuid : 'N/A'}</td>
 
+      {/* Candidate List */}
+      <Drawer
+        opened={candidateListIsOpened}
+        onClose={() => setCandidateListIsOpened(false)}
+        title="Candidates"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <EmployeeIdList
+          // selectedEmployee={candidateDetails}
+          jobId={row?.uuid}
+          setEmployee={() => {
+            // setCandidateDetails(candidate)
+            setCandidateListIsOpened(false)
+          }}
+        />
+      </Drawer>
+
       {/* <td>
         <Group spacing="sm">
           {permissionOptions.update && (
@@ -460,7 +480,7 @@ export function AllJobList({ data }: IJobsProps) {
             <tr>
               <th className={classes.action}>
                 {/* <IconChevronsRight size={12} stroke={1.5} /> */}
-                {/* Action */}
+                Action
               </th>
               <Th
                 sorted={sortBy === 'uuid'}
@@ -612,23 +632,6 @@ export function AllJobList({ data }: IJobsProps) {
         position="right"
       >
         <EditForm {...jobsEditData} />
-      </Drawer>
-      {/* Candidate List */}
-      <Drawer
-        opened={candidateListIsOpened}
-        onClose={() => setCandidateListIsOpened(false)}
-        title="Candidates"
-        padding="xl"
-        size="xl"
-        position="right"
-      >
-        <EmployeeIdList
-          // selectedEmployee={candidateDetails}
-          setEmployee={() => {
-            // setCandidateDetails(candidate)
-            setCandidateListIsOpened(false)
-          }}
-        />
       </Drawer>
     </>
   )

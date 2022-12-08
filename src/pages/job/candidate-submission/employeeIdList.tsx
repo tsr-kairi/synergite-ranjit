@@ -24,6 +24,7 @@ import {
 import { TCandidate } from '@/types/candidate-type'
 import CreateForm from '@/components/form/candidate/createForm'
 import EditForm from '@/components/form/candidate/editForm'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -183,6 +184,7 @@ interface IEmployeeProps {
   selectedEmployee?: TCandidate
   data: TCandidate[]
   setEmployee: (value: TCandidate) => void
+  jobId: string
 }
 
 // Exporting Default ClientTable Component
@@ -190,6 +192,7 @@ export function EmployeeId({
   selectedEmployee,
   data,
   setEmployee,
+  jobId,
 }: IEmployeeProps) {
   const { classes } = useStyles()
   const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
@@ -199,6 +202,9 @@ export function EmployeeId({
   const [empData, setEmpDataMain] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
+
+  const navigate = useNavigate()
+  const { clientId } = useParams()
 
   const setSorting = (field: keyof TCandidate) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -217,7 +223,6 @@ export function EmployeeId({
 
   // Create Rows
   const rows = empData?.map((item) => {
-    console.log(' ')
     // console.log(
     //   'selectedEmployee?.uuid === item.uuid =',
     //   selectedEmployee?.uuid === item.uuid
@@ -229,10 +234,18 @@ export function EmployeeId({
       <tr key={item.uuid}>
         <td>
           <Radio
-            onClick={() => setEmployee(item)}
+            onClick={() => {
+              setEmployee(item)
+              navigate(
+                `/submissions/client_id=${String(clientId)}?job_id=${String(
+                  jobId
+                )}`
+              )
+            }}
             checked={selectedEmployee?.uuid === item.uuid}
             value={item.uuid}
             label={`${item?.first_name || ''} ${item?.last_name || ''}`}
+            style={{ cursor: 'pointer' }}
           />
         </td>
         {/* <td>

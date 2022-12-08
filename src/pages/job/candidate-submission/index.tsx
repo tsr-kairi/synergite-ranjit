@@ -6,11 +6,13 @@ import { EmployeeId } from './employeeIdList'
 interface EmployeeIdListProps {
   selectedEmployee?: TCandidate
   setEmployee: (value: TCandidate) => void
+  jobId: string
 }
 
 export const EmployeeIdList = ({
   selectedEmployee,
   setEmployee,
+  jobId,
 }: EmployeeIdListProps) => {
   const { data, isError, error, isLoading } = useGetAllCandidate()
 
@@ -31,6 +33,7 @@ export const EmployeeIdList = ({
           selectedEmployee={selectedEmployee}
           data={data?.data ? data?.data : []}
           setEmployee={setEmployee}
+          jobId={jobId}
         />
       </Paper>
     )

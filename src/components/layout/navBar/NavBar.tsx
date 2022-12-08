@@ -475,12 +475,6 @@ export const navLinks = [
     isActive: false,
     links: [
       {
-        label: 'Timesheet',
-        link: '/timesheets',
-        canIAccess: false,
-        icon: IconFileAnalytics,
-      },
-      {
         label: 'Activities',
         link: '/activity',
         canIAccess: false,
@@ -499,6 +493,26 @@ export const navLinks = [
         icon: IconBuildingCommunity,
       },
       { label: 'Roles', link: '/roles', canIAccess: false, icon: IconDivide },
+      {
+        label: 'Timesheet',
+        link: '/timesheets',
+        canIAccess: false,
+        icon: IconFileAnalytics,
+        subLinks: [
+          {
+            label: 'My Timesheet',
+            subLink: '/timesheets',
+            canIAccess: false,
+            icon: IconActivity,
+          },
+          {
+            label: 'My Team Timesheet',
+            subLink: '/timesheets',
+            canIAccess: false,
+            icon: IconActivity,
+          },
+        ],
+      },
     ],
   },
   {
