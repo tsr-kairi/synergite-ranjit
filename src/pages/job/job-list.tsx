@@ -10,6 +10,7 @@ import {
   Tooltip,
   Avatar,
   Checkbox,
+  Menu,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -18,6 +19,12 @@ import {
   IconChevronUp,
   IconEdit,
   IconTrash,
+  IconDotsVertical,
+  IconGridDots,
+  IconDotsCircleHorizontal,
+  IconGripHorizontal,
+  IconChevronsRight,
+  IconUserPlus,
 } from '@tabler/icons'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
@@ -29,6 +36,7 @@ import EditForm from '@/components/form/client/job/editForm'
 import CreateForm from '@/components/form/client/job/createForm'
 import { useAuth } from '@/store/auth.store'
 import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
+import EmployeeIdList from './candidate-submission'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -96,6 +104,11 @@ const useStyles = createStyles((theme) => ({
       color: '#04334c',
     },
   },
+  menuItem: {
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
   deleteIcon: {
     color: '#FF7676',
     '&:hover': {
@@ -103,11 +116,13 @@ const useStyles = createStyles((theme) => ({
     },
   },
   action: {
-    cursor: 'pointer',
+    // cursor: 'pointer',
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
     },
   },
+  user: {},
+  userActive: {},
   childTable: {
     backgroundColor: 'white',
     borderRadius: '10px',
@@ -198,6 +213,11 @@ interface IJobsProps {
 // Exporting Default ClientTable Component
 export function AllJobList({ data }: IJobsProps) {
   const [isOpened, setIsOpened] = useState(false)
+
+  // list open state
+  const [candidateListIsOpened, setCandidateListIsOpened] = useState(false)
+  const [userMenuOpened, setUserMenuOpened] = useState(false)
+
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TJobs | null>(null)
@@ -258,6 +278,85 @@ export function AllJobList({ data }: IJobsProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row.uuid} className={classes.trList}>
+      <td>
+        <Menu
+          width={200}
+          // trigger="click"
+          // closeOnClickOutside={true}
+          onClose={() => setUserMenuOpened(false)}
+          onOpen={() => setUserMenuOpened(true)}
+          exitTransitionDuration={200}
+        >
+          <Menu.Target>
+            <UnstyledButton
+              className={cx(classes.user, {
+                [classes.userActive]: userMenuOpened,
+              })}
+            >
+              <Tooltip
+                label="Action"
+                color="blue"
+                withArrow
+                transition="pop-top-right"
+                transitionDuration={300}
+              >
+                <IconDotsVertical size={16} cursor="pointer" />
+              </Tooltip>
+            </UnstyledButton>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>Take your action</Menu.Label>
+            {permissionOptions.update && (
+              <Menu.Item
+                icon={
+                  <IconEdit
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.editIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => {
+                  setIsOpened(true)
+                  setJobsEditData(row)
+                }}
+              >
+                Edit Job
+              </Menu.Item>
+            )}
+            {permissionOptions.delete && (
+              <Menu.Item
+                icon={
+                  <IconTrash
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.deleteIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => openModalForDelete(row)}
+              >
+                Delete Job
+              </Menu.Item>
+            )}
+            <Menu.Item
+              icon={
+                <IconUserPlus
+                  size={14}
+                  // stroke={1.5}
+                  className={classes.editIcon}
+                />
+              }
+              className={classes.menuItem}
+              onClick={() => {
+                setCandidateListIsOpened(true)
+              }}
+            >
+              Candidate Submit
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </td>
       <td
         style={{
           textOverflow: 'ellipsis',
@@ -276,15 +375,17 @@ export function AllJobList({ data }: IJobsProps) {
           className={classes.userLink}
           onClick={() => setJob(row)}
         > */}
-        <Tooltip
-          label="Click to view"
-          color="blue"
-          withArrow
-          transition="pop-top-right"
-          transitionDuration={300}
-        >
-          <div>{row?.job_title ? row?.job_title : 'N/A'}</div>
-        </Tooltip>
+        <Link to={`/job-details/${row?.uuid}`} className={classes.userLink}>
+          <Tooltip
+            label="Click to view"
+            color="blue"
+            withArrow
+            transition="pop-top-right"
+            transitionDuration={300}
+          >
+            <div>{row?.job_title ? row?.job_title : 'N/A'}</div>
+          </Tooltip>
+        </Link>
         {/* </Link> */}
       </td>
       <td>{row?.city ? row?.city : 'N/A'}</td>
@@ -314,7 +415,7 @@ export function AllJobList({ data }: IJobsProps) {
       <td>{row?.account_manager_uuid ? row?.account_manager_uuid : 'N/A'}</td>
       <td>{row?.recruiter_uuid ? row?.recruiter_uuid : 'N/A'}</td>
 
-      <td>
+      {/* <td>
         <Group spacing="sm">
           {permissionOptions.update && (
             <IconEdit
@@ -334,7 +435,7 @@ export function AllJobList({ data }: IJobsProps) {
             />
           )}
         </Group>
-      </td>
+      </td> */}
     </tr>
   ))
 
@@ -357,6 +458,10 @@ export function AllJobList({ data }: IJobsProps) {
         >
           <thead className={cx(classes.header)}>
             <tr>
+              <th className={classes.action}>
+                {/* <IconChevronsRight size={12} stroke={1.5} /> */}
+                {/* Action */}
+              </th>
               <Th
                 sorted={sortBy === 'uuid'}
                 reversed={reverseSortDirection}
@@ -477,9 +582,6 @@ export function AllJobList({ data }: IJobsProps) {
               >
                 <b>Recruiter</b>
               </Th>
-              <th className={classes.action}>
-                <b>Action</b>
-              </th>
             </tr>
           </thead>
 
@@ -510,6 +612,23 @@ export function AllJobList({ data }: IJobsProps) {
         position="right"
       >
         <EditForm {...jobsEditData} />
+      </Drawer>
+      {/* Candidate List */}
+      <Drawer
+        opened={candidateListIsOpened}
+        onClose={() => setCandidateListIsOpened(false)}
+        title="Candidates"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        <EmployeeIdList
+          // selectedEmployee={candidateDetails}
+          setEmployee={() => {
+            // setCandidateDetails(candidate)
+            setCandidateListIsOpened(false)
+          }}
+        />
       </Drawer>
     </>
   )
