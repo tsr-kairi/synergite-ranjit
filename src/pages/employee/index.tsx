@@ -4,15 +4,14 @@ import useGetAllEmployees from './hooks/useGetAllEmployees'
 // import useGetAllClients from './hooks/useGetAllClients'
 
 export const Employee = () => {
-  const { data, isError, error } = useGetAllEmployees()
+  const { data, isError, error, isLoading } = useGetAllEmployees()
 
   if (isError) {
-    console.log(error)
     return <h1>An Error Occurred</h1>
   }
-
-  if (data?.data?.length) {
-    return <EmployeeList data={data.data || []} />
+  
+  if (!isLoading) {
+    return <EmployeeList data={data?.data || []} />
   } else {
     return <Loader variant="dots" />
   }
