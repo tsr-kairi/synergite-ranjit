@@ -33,13 +33,14 @@ import Roles from './pages/roles'
 import DepartmentDetails from './pages/department/department-details'
 import RolesDetails from './pages/roles/roles-details'
 import CreateJobForm from './pages/job/create-job-form'
-import Timesheets from './pages/timesheets/timesheets'
+import Timesheets from './pages/timesheets/my-timesheet/timesheets'
 import Submission from './pages/submission'
 import AllActivities from './pages/activities/all-activities'
 import DelegatesActivities from './pages/activities/delegates-activities'
 import TeamActivities from './pages/activities/team-activities'
 import AllJobs from './pages/job'
 import JobDetails from './pages/job/job-details'
+import MyTeamTimesheet from './pages/timesheets/my-team-timesheet/timesheets'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -107,7 +108,7 @@ function App() {
               path="/job-details/:jobId"
               element={
                 <ProtectedRoute isAuth={isAuth}>
-                  <JobDetails />
+                  <JobDetails jobId={[]} />
                 </ProtectedRoute>
               }
             />
@@ -133,6 +134,14 @@ function App() {
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <Timesheets />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-team-timesheet"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <MyTeamTimesheet />
                 </ProtectedRoute>
               }
             />

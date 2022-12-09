@@ -181,7 +181,7 @@ export default function LinksGroup({
           <Menu
             width={280}
             position="right-start"
-            offset={24}
+            offset={58}
             transition="pop-top-right"
             withArrow
           >
