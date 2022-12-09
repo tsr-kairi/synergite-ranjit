@@ -39,6 +39,7 @@ import AllActivities from './pages/activities/all-activities'
 import DelegatesActivities from './pages/activities/delegates-activities'
 import TeamActivities from './pages/activities/team-activities'
 import AllJobs from './pages/job'
+import JobDetails from './pages/job/job-details'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -99,6 +100,14 @@ function App() {
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <AllJobs />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/job-details/:jobId"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <JobDetails />
                 </ProtectedRoute>
               }
             />

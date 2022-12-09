@@ -94,27 +94,52 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     <>
       <div className={classes.tableHead}>
         <Group spacing="sm">
-          <Text size={'xl'} weight="600" className={classes.text}>
-            {title}
-          </Text>
-          <IconFilter
-            className={classes.filterIcon}
-            onClick={onFilterClick}
-            style={{ cursor: onFilterClick ? 'pointer' : 'default' }}
+          <Group spacing="sm">
+            <Text size={'xl'} weight="600" className={classes.text}>
+              {title}
+            </Text>
+            <IconFilter
+              className={classes.filterIcon}
+              onClick={onFilterClick}
+              style={{ cursor: onFilterClick ? 'pointer' : 'default' }}
+            />
+          </Group>
+
+          {/* Add New - Button*/}
+          {permissionOptions.create && (
+            <>
+              {!hideActionButton && (
+                <ActionIcon
+                  variant="light"
+                  radius="xl"
+                  color={'blue'}
+                  // className={classes.actionButton}
+                  onClick={() => {
+                    if (onAddNewClick) {
+                      onAddNewClick()
+                    } else {
+                      setIsAddNewDrawerOpen(true)
+                    }
+                  }}
+                >
+                  <IconPlus size={30} />
+                </ActionIcon>
+              )}
+            </>
+          )}
+
+          <TextInput
+            placeholder="Search by any field"
+            icon={<IconSearch size={14} stroke={1.5} />}
+            onChange={({ target }) => {
+              if (onSearchChange) {
+                onSearchChange(target.value)
+              }
+            }}
+            radius="xl"
+            className={classes.searchField}
           />
         </Group>
-
-        <TextInput
-          placeholder="Search by any field"
-          icon={<IconSearch size={14} stroke={1.5} />}
-          onChange={({ target }) => {
-            if (onSearchChange) {
-              onSearchChange(target.value)
-            }
-          }}
-          radius="xl"
-          className={classes.searchField}
-        />
 
         {!hideColumnButton && (
           <Popover width={200} position="bottom" withArrow shadow="md">
@@ -127,29 +152,6 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
               <AdjustableColumn />
             </Popover.Dropdown>
           </Popover>
-        )}
-
-        {/* Add New - Button*/}
-        {permissionOptions.create && (
-          <>
-            {!hideActionButton && (
-              <ActionIcon
-                variant="light"
-                radius="xl"
-                color={'blue'}
-                // className={classes.actionButton}
-                onClick={() => {
-                  if (onAddNewClick) {
-                    onAddNewClick()
-                  } else {
-                    setIsAddNewDrawerOpen(true)
-                  }
-                }}
-              >
-                <IconPlus size={30} />
-              </ActionIcon>
-            )}
-          </>
         )}
       </div>
 
