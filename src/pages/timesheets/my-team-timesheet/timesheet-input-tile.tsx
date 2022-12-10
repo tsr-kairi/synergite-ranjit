@@ -9,7 +9,7 @@ import {
   Textarea,
   TextInput,
 } from '@mantine/core'
-import { Th } from '../employee/employee-list'
+// import { Th } from '../employee/employee-list'
 import React, { useState } from 'react'
 import { IconPlus, IconSubmarine, IconTrash } from '@tabler/icons'
 import { randomId } from '@mantine/hooks'

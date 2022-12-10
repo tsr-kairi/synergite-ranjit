@@ -1,10 +1,10 @@
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { createStyles, Group, Table, Text, Tooltip } from '@mantine/core'
-import { Th } from '../employee/employee-list'
 import { useState } from 'react'
 import { SheetData } from './data'
 import CreateTimeSheet from './createTimeSheet'
 import { Badge } from '@mantine/core'
+import { Th } from '@/pages/employee/employee-list'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -24,7 +24,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }))
-const Timesheet = () => {
+const MyTeamTimesheet = () => {
   const [createSheet, setCreateSheet] = useState<boolean>(false)
   const [selectedTimesheet, setSelectedTimesheet] = useState('')
   const { classes, cx } = useStyles()
@@ -155,4 +155,4 @@ const Timesheet = () => {
   )
 }
 
-export default Timesheet
+export default MyTeamTimesheet
