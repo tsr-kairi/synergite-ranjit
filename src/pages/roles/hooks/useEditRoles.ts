@@ -17,4 +17,21 @@ const useEditRoles = () => {
   })
 }
 
+export const updateRoleById = async (roleUUID: string, userUUID: string) => {
+  return await axiosPrivate.post('/attach', {
+    roleUuid: roleUUID,
+    userUuid: userUUID,
+  })
+} // End of updateRoleById
+
+// export const useUpdateRoleById = () => {
+//   const queryClient = useQueryClient()
+
+//   return useMutation(updateRoleById, {
+//     onSuccess: () => {
+//       void queryClient.resetQueries(rolesQueryKeys.allRoles)
+//     },
+//   })
+// }
+
 export default useEditRoles

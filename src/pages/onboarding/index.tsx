@@ -460,7 +460,7 @@ export default function Onboarding() {
                       readOnly={true}
                       label="Candidate Name"
                       type={'text'}
-                      placeholder="Candidate Name"
+                      placeholder="Candidate Names"
                       value={canName}
                       // onClick={() => setCandidateListIsOpened(true)}
                       style={{ minWidth: '200px' }}
