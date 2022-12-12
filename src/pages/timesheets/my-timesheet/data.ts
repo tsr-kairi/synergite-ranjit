@@ -1,6 +1,6 @@
 export const SheetData = [
   {
-    Name: 'Harish',
+    // Name: 'Harish',
     Week: '10/17 - 10/23',
     Project: 'Synergite',
     Billable: true,

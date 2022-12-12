@@ -49,9 +49,9 @@ const Timesheet = () => {
             <Table horizontalSpacing="md" verticalSpacing="xs">
               <thead className={cx(classes.header)}>
                 <tr>
-                  <Th onSort={() => null}>
+                  {/* <Th onSort={() => null}>
                     <b>Name</b>
-                  </Th>
+                  </Th> */}
                   <Th onSort={() => null}>
                     <b>Week</b>
                   </Th>
@@ -72,8 +72,8 @@ const Timesheet = () => {
               <tbody>
                 {SheetData.map((sheetValue) => {
                   return (
-                    <tr key={sheetValue.Name}>
-                      <td>{sheetValue.Name}</td>
+                    <tr key={sheetValue.Week}>
+                      {/* <td>{sheetValue.Week}</td> */}
                       <td>
                         <Tooltip
                           label="Click to view"
