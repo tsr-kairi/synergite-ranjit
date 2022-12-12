@@ -608,10 +608,9 @@ const NavBar: React.FC<NavBarProps> = ({
       }
 
       return navLink
-    })
-
-    setNavLinkList(allowedNavLikList)
-  }, [allPermissions, navLinkList, permissions])
+    });
+    setNavLinkList(allowedNavLikList);
+}, [permissions])
 
   const { classes } = useStyles()
 

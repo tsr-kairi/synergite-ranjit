@@ -34,6 +34,15 @@ import CreateEmployee from '@/components/form/employee/createForm'
 import useDeleteEmployeeById from './hooks/useDeleteEmployeeById'
 import { Link } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
+import RoleEditForm from '@/components/form/roles/editForm'
+
+import { useAuth } from '@/store/auth.store'
+import {
+  getPermission,
+  IAllPagePermissionOptions,
+  IAllPagePermissionOptionsWithAllowedCheck,
+} from '@/utils/permission.utils'
+import Roles from '../roles'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -199,6 +208,7 @@ interface IEmployeeProps {
 export function EmployeeList({ data }: IEmployeeProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
+  const [isRoleModalOpen, setIsRoleModalOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TAEmployee | null>(null)
@@ -206,6 +216,19 @@ export function EmployeeList({ data }: IEmployeeProps) {
   const { classes } = useStyles()
   const { mutate: deleteEmployee } = useDeleteEmployeeById()
   const [employeeEditData, setEmployeeEditData] = useState({} as TAEmployee)
+
+  const permissions = useAuth((state) => state.permissions)
+  const {
+    employee: employeePermission,
+    roles: { permission: rolesPermission },
+  } = getPermission({
+    pageName: '',
+    permissions,
+    getAllPermissions: true,
+  }) as IAllPagePermissionOptionsWithAllowedCheck
+
+  console.log('employeePermission =', employeePermission)
+  console.log('rolesPermission =', rolesPermission)
 
   const setSorting = (field: keyof TAEmployee) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -343,6 +366,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
       <td>{row?.city}</td>
       <td>{row?.state}</td>
       <td>{row?.country}</td>
+      <td style={{ cursor: 'pointer' }}>{row?.role}</td>
       <td>
         <Group spacing="sm">
           <IconEdit
@@ -446,23 +470,44 @@ export function EmployeeList({ data }: IEmployeeProps) {
               >
                 Country
               </Th>
-              <th className={classes.action}>Action</th>
+              <Th onSort={console.log}>Role</Th>
+              {(employeePermission.permission.update ||
+                employeePermission.permission.delete) && (
+                <th className={classes.action}>Action</th>
+              )}
             </tr>
           </thead>
 
           <tbody>
-            {rows.length > 0 ? (
-              rows
-            ) : (
-              <tr>
-                <td colSpan={Object.keys(data[0]).length}>
-                  <Text weight={500} align="center">
-                    No records found
-                  </Text>
-                </td>
-              </tr>
-            )}
+            <tr>
+              <td>Developer</td>
+              <td>Developer</td>
+              <td>Developer</td>
+              <td>Developer</td>
+              <td>Developer</td>
+              <td>Developer</td>
+              <td>Developer</td>
+              <td
+                style={{
+                  cursor: rolesPermission.update ? 'pointer' : 'text',
+                }}
+                onClick={
+                  rolesPermission.update ? () => setIsRoleModalOpen(true) : undefined
+                }
+              >
+                Role-Developer
+              </td>
+              <td>Developer</td>
+            </tr>
           </tbody>
+
+          {rows.length > 0 ? (
+            <tbody>{rows}</tbody>
+          ) : (
+            <Text weight={500} align="center" p={8}>
+              No records found
+            </Text>
+          )}
         </Table>
       </ListViewLayout>
 
@@ -476,6 +521,18 @@ export function EmployeeList({ data }: IEmployeeProps) {
         position="right"
       >
         <EditEmployee {...employeeEditData} />
+      </Drawer>
+
+      {/* Update Employee Role */}
+      <Drawer
+        opened={isRoleModalOpen}
+        onClose={() => setIsRoleModalOpen(false)}
+        title="Edit Employee Role"
+        padding="xl"
+        size="xl"
+        position="right"
+      >
+        {/* <RoleEditForm department_uuid='123' name='Name'  /> */}
       </Drawer>
     </>
   )
