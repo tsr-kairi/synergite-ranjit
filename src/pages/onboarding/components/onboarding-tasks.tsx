@@ -109,7 +109,7 @@ const OnboardingTaskTile: React.FC<OnboardingTaskTileProps> = (props) => {
   //  onboarding permission
   const permissions = useAuth((state) => state.permissions)
   const permissionOptions = getPermission({
-    pageName: 'onboarding',
+    pageName: 'onboarding-list',
     permissions,
   }).permissionOptions as IPermissionOptions
 

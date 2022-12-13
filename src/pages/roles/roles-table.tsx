@@ -266,7 +266,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
               <Avatar color="cyan" radius={26} size={26}>
                 R
               </Avatar>
-              <Text size="sm" weight={500}>
+              <Text size="sm" weight={500} color="blue">
                 {row?.name}
               </Text>
             </Group>

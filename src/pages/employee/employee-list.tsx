@@ -352,7 +352,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
               <Avatar color="cyan" size={26} radius={26}>
                 E
               </Avatar>
-              <Text size="sm" weight={500}>
+              <Text size="sm" weight={500} color="blue">
                 {row?.fname} {row?.lname}
               </Text>
             </Group>
@@ -492,7 +492,9 @@ export function EmployeeList({ data }: IEmployeeProps) {
                   cursor: rolesPermission.update ? 'pointer' : 'text',
                 }}
                 onClick={
-                  rolesPermission.update ? () => setIsRoleModalOpen(true) : undefined
+                  rolesPermission.update
+                    ? () => setIsRoleModalOpen(true)
+                    : undefined
                 }
               >
                 Role-Developer

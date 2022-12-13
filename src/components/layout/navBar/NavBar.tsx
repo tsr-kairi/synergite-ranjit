@@ -460,7 +460,7 @@ export const navLinks = [
       },
       {
         label: 'Onboarding',
-        link: '/onboarding',
+        link: '/onboarding-list',
         canIAccess: false,
         icon: IconFileReport,
       },
@@ -511,7 +511,19 @@ export const navLinks = [
             canIAccess: false,
             icon: IconFileAnalytics,
           },
+          {
+            label: 'Project',
+            subLink: '/project',
+            canIAccess: false,
+            icon: IconFileAnalytics,
+          },
         ],
+      },
+      {
+        label: 'Project',
+        link: '/project',
+        canIAccess: false,
+        icon: IconFileAnalytics,
       },
     ],
   },
@@ -608,9 +620,9 @@ const NavBar: React.FC<NavBarProps> = ({
       }
 
       return navLink
-    });
-    setNavLinkList(allowedNavLikList);
-}, [permissions])
+    })
+    setNavLinkList(allowedNavLikList)
+  }, [permissions])
 
   const { classes } = useStyles()
 

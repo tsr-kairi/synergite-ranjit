@@ -8,6 +8,7 @@ import {
   Center,
   Drawer,
   Tooltip,
+  Menu,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -16,6 +17,7 @@ import {
   IconChevronUp,
   IconEdit,
   IconTrash,
+  IconDotsVertical,
 } from '@tabler/icons'
 import { TJobs } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
@@ -109,6 +111,13 @@ const useStyles = createStyles((theme) => ({
     borderRadius: '10px',
     margin: '3px',
     minWidth: '190vw',
+  },
+  user: {},
+  userActive: {},
+  menuItem: {
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
   },
   header: {
     position: 'sticky',
@@ -219,6 +228,8 @@ export default function JobsTable({ data }: JobsProps) {
   const { mutate: deleteJob } = useDeleteJobById()
   const { clientId } = useParams()
 
+  const [userMenuOpened, setUserMenuOpened] = useState(false)
+
   const setJob = useOnboarding((state) => state.setJob)
 
   //  job permission
@@ -269,6 +280,71 @@ export default function JobsTable({ data }: JobsProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row.uuid} className={classes.companyDetails}>
+      <td>
+        <Menu
+          width={200}
+          // trigger="click"
+          // closeOnClickOutside={true}
+          onClose={() => setUserMenuOpened(false)}
+          onOpen={() => setUserMenuOpened(true)}
+          exitTransitionDuration={200}
+          offset={14}
+        >
+          <Menu.Target>
+            <UnstyledButton
+              className={cx(classes.user, {
+                [classes.userActive]: userMenuOpened,
+              })}
+            >
+              <Tooltip
+                label="Action"
+                color="blue"
+                withArrow
+                transition="pop-top-right"
+                transitionDuration={300}
+              >
+                <IconDotsVertical size={16} cursor="pointer" />
+              </Tooltip>
+            </UnstyledButton>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>Take your action carefully</Menu.Label>
+            {permissionOptions.update && (
+              <Menu.Item
+                icon={
+                  <IconEdit
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.editIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => {
+                  setIsOpened(true)
+                  setJobEditData(row)
+                }}
+              >
+                Edit Job
+              </Menu.Item>
+            )}
+            {permissionOptions.delete && (
+              <Menu.Item
+                icon={
+                  <IconTrash
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.deleteIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => openModalForDelete(row)}
+              >
+                Delete Job
+              </Menu.Item>
+            )}
+          </Menu.Dropdown>
+        </Menu>
+      </td>
       <td
         style={{
           textOverflow: 'ellipsis',
@@ -294,7 +370,9 @@ export default function JobsTable({ data }: JobsProps) {
             transition="pop-top-right"
             transitionDuration={300}
           >
-            <div>{row?.job_title ? row?.job_title : 'N/A'}</div>
+            <Text color="blue" size="sm" weight={500}>
+              {row?.job_title ? row?.job_title : 'N/A'}
+            </Text>
           </Tooltip>
         </Link>
       </td>
@@ -325,7 +403,7 @@ export default function JobsTable({ data }: JobsProps) {
       <td>{row?.account_manager_uuid ? row?.account_manager_uuid : 'N/A'}</td>
       <td>{row?.recruiter_uuid ? row?.recruiter_uuid : 'N/A'}</td>
 
-      <td>
+      {/* <td>
         <Group spacing="sm">
           {permissionOptions.update && (
             <IconEdit
@@ -345,7 +423,7 @@ export default function JobsTable({ data }: JobsProps) {
             />
           )}
         </Group>
-      </td>
+      </td> */}
     </tr>
   ))
 
@@ -368,6 +446,11 @@ export default function JobsTable({ data }: JobsProps) {
         >
           <thead className={cx(classes.header)}>
             <tr>
+              {(permissionOptions.update || permissionOptions.delete) && (
+                <th className={classes.action}>
+                  <b>Action</b>
+                </th>
+              )}
               <Th
                 sorted={sortBy === 'uuid'}
                 reversed={reverseSortDirection}
@@ -488,9 +571,9 @@ export default function JobsTable({ data }: JobsProps) {
               >
                 <b>Recruiter</b>
               </Th>
-              <th className={classes.action}>
+              {/* <th className={classes.action}>
                 <b>Action</b>
-              </th>
+              </th> */}
             </tr>
           </thead>
 
