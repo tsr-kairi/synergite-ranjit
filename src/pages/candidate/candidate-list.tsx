@@ -332,32 +332,32 @@ export function CandidateList({ data }: ICandidateProps) {
     <tr key={row?.uuid} className={classes.candidateRowData}>
       <td>{row?.candidate_id ? row?.candidate_id : 'N/A'}</td>
       <td>
-        <HoverCard width={170} withArrow>
-          <HoverCard.Target>
-            <Link
-              to={`/candidate-details/${row?.uuid}`}
-              className={classes.userLink}
-            >
-              <Tooltip
-                label="Click to view"
-                color="blue"
-                withArrow
-                transition="pop-top-right"
-                transitionDuration={300}
-              >
-                <Group spacing="sm">
-                  <Avatar color="cyan" size={26} radius={26}>
-                    C
-                  </Avatar>
+        {/* <HoverCard width={170} withArrow>
+          <HoverCard.Target> */}
+        <Link
+          to={`/candidate-details/${row?.uuid}`}
+          className={classes.userLink}
+        >
+          <Tooltip
+            label="Click to view"
+            color="blue"
+            withArrow
+            transition="pop-top-right"
+            transitionDuration={300}
+          >
+            <Group spacing="sm">
+              <Avatar color="cyan" size={26} radius={26}>
+                C
+              </Avatar>
 
-                  <Text size="sm" weight={500}>
-                    {row?.first_name ? row?.first_name : 'N/A'}{' '}
-                    {row?.last_name ? row?.last_name : 'N/A'}
-                  </Text>
-                </Group>
-              </Tooltip>
-            </Link>
-          </HoverCard.Target>
+              <Text size="sm" weight={500} color="blue">
+                {row?.first_name ? row?.first_name : 'N/A'}{' '}
+                {row?.last_name ? row?.last_name : 'N/A'}
+              </Text>
+            </Group>
+          </Tooltip>
+        </Link>
+        {/* </HoverCard.Target>
           <HoverCard.Dropdown>
             <Group spacing="xs">
               <Button
@@ -367,8 +367,7 @@ export function CandidateList({ data }: ICandidateProps) {
                 size={'xs'}
                 onClick={() => setOpened(true)}
               >
-                {/* {row?.first_name ? row?.first_name : 'N/A'}{' '}
-                {row?.last_name ? row?.last_name : 'N/A'} */}
+                
                 Submission
               </Button>
               <Button
@@ -378,16 +377,12 @@ export function CandidateList({ data }: ICandidateProps) {
                 size={'xs'}
                 onClick={() => setOpened(true)}
               >
-                {/* {row?.first_name ? row?.first_name : 'N/A'}{' '}
-                {row?.last_name ? row?.last_name : 'N/A'} */}
+               
                 Onboarding
               </Button>
-              {/* <ActionIcon variant="subtle">
-                <IconFileReport size={16} />
-              </ActionIcon> */}
             </Group>
           </HoverCard.Dropdown>
-        </HoverCard>
+        </HoverCard> */}
       </td>
       <td>{row?.email ? row?.email : 'N/A'}</td>
       <td>{row?.phone ? row?.phone : 'N/A'}</td>

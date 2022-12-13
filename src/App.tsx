@@ -20,7 +20,6 @@ import SubmissionMain from './pages/client/client-details/jobs/submissions'
 import ProtectedRoute from './components/routes/protected-route'
 import PublicRoute from './components/routes/public-route'
 import ForgotPasswordSuccess from './pages/forgot-password/forgotPasswordSuccess'
-import OnboardingList from './pages/onboarding/components/onboarding-list'
 import { AdminActivity } from './pages/admin/activity'
 import AdminActivityDetails from './pages/admin/activity-details'
 import Onboarding from './pages/onboarding'
@@ -43,6 +42,7 @@ import JobDetails from './pages/job/job-details'
 import MyTeamTimesheet from './pages/timesheets/my-team-timesheet/timesheets'
 import Project from './pages/timesheets/project/project-addition'
 import { ProjectTable } from './pages/timesheets/project/project-addition/project-table'
+import OnboardingList from './pages/onboarding/components/onboarding-list'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -90,7 +90,7 @@ function App() {
             />
 
             <Route
-              path="/onboarding"
+              path="/onboarding-list"
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <OnboardingList />

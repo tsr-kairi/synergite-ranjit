@@ -8,6 +8,8 @@ import {
   Center,
   Drawer,
   Badge,
+  Menu,
+  Tooltip,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -16,6 +18,7 @@ import {
   IconChevronUp,
   IconEdit,
   IconTrash,
+  IconDotsVertical,
 } from '@tabler/icons'
 import { TSubmission } from '@/types/submission-type'
 import { openConfirmModal } from '@mantine/modals'
@@ -113,6 +116,13 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colors.blue[0],
     },
   },
+  user: {},
+  userActive: {},
+  menuItem: {
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
   childTable: {
     backgroundColor: 'white',
     borderRadius: '10px',
@@ -202,7 +212,7 @@ interface ISubmissionProps {
 // Exporting Default ClientTable Component
 export function SubmissionList({ data }: ISubmissionProps) {
   const { jobId } = useParams()
-  // const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
@@ -213,6 +223,8 @@ export function SubmissionList({ data }: ISubmissionProps) {
   const [submissionEditData, setSubmissionEditData] = useState(
     {} as TSubmission
   )
+  const [userMenuOpened, setUserMenuOpened] = useState(false)
+
   const navigate = useNavigate()
 
   // candidate uuid
@@ -322,6 +334,85 @@ export function SubmissionList({ data }: ISubmissionProps) {
   // Create Rows
   const rows = sortedData?.map((row) => (
     <tr key={row?.uuid} className={classes.submissionRowData}>
+      <td>
+        {row.status === 'Rejected' ? (
+          <Badge color="red">Rejected</Badge>
+        ) : row.status === 'On Hold' ? (
+          <Badge color="yellow">On Hold</Badge>
+        ) : row.status === 'Selected' || row.status === null ? (
+          <Badge
+            color="blue"
+            onClick={() => void handlePreOnboarding(row)}
+            style={{ cursor: 'pointer' }}
+          >
+            Onboard Now
+          </Badge>
+        ) : (
+          <Menu
+            width={200}
+            // trigger="click"
+            // closeOnClickOutside={true}
+            onClose={() => setUserMenuOpened(false)}
+            onOpen={() => setUserMenuOpened(true)}
+            exitTransitionDuration={200}
+            offset={14}
+          >
+            <Menu.Target>
+              <UnstyledButton
+                className={cx(classes.user, {
+                  [classes.userActive]: userMenuOpened,
+                })}
+              >
+                <Tooltip
+                  label="Action"
+                  color="blue"
+                  withArrow
+                  transition="pop-top-right"
+                  transitionDuration={300}
+                >
+                  <IconDotsVertical size={16} cursor="pointer" />
+                </Tooltip>
+              </UnstyledButton>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>Take your action carefully</Menu.Label>
+              {permissionOptions.update && (
+                <Menu.Item
+                  icon={
+                    <IconEdit
+                      size={14}
+                      // stroke={1.5}
+                      className={classes.editIcon}
+                    />
+                  }
+                  className={classes.menuItem}
+                  onClick={() => {
+                    setIsOpened(true)
+                    setSubmissionEditData(row)
+                  }}
+                >
+                  Edit Job
+                </Menu.Item>
+              )}
+              {permissionOptions.delete && (
+                <Menu.Item
+                  icon={
+                    <IconTrash
+                      size={14}
+                      // stroke={1.5}
+                      className={classes.deleteIcon}
+                    />
+                  }
+                  className={classes.menuItem}
+                  onClick={() => openModalForDelete(row)}
+                >
+                  Delete Job
+                </Menu.Item>
+              )}
+            </Menu.Dropdown>
+          </Menu>
+        )}
+      </td>
       <td>{row.submission_id ? row?.submission_id : 'N/A'}</td>
       <td>{`${row?.emp_first_name ? row?.emp_first_name : 'N/A'} ${
         row?.emp_last_name ? row?.emp_last_name : 'N/A'
@@ -407,7 +498,18 @@ export function SubmissionList({ data }: ISubmissionProps) {
           >
             CANCELLED
           </Badge>
-        ) : null}
+        ) : (
+          null || (
+            <Badge
+              color="pink"
+              style={{
+                border: `0.5px solid pink`,
+              }}
+            >
+              OnBoarding Not INITIATED
+            </Badge>
+          )
+        )}
       </td>
       <td>{clientName ? clientName : 'N/A'}</td>
       <td>{row?.job_id ? row?.job_id : 'N/A'}</td>
@@ -421,7 +523,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
       <td>{row.recruiters ? row?.recruiters : 'N/A'}</td>
       <td>{row.recruitment_mgr_id ? row?.recruitment_mgr_id : 'N/A'}</td>
       <td>{row.acct_mgr_id ? row?.acct_mgr_id : 'N/A'}</td>
-      <td>
+      {/* <td>
         {row.status === 'Rejected' ? (
           <Badge color="red">Rejected</Badge>
         ) : row.status === 'On Hold' ? (
@@ -455,7 +557,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
             )}
           </Group>
         )}
-      </td>
+      </td> */}
     </tr>
   ))
 
@@ -468,7 +570,15 @@ export function SubmissionList({ data }: ISubmissionProps) {
         createDrawerTitle="Add New Submission"
         isError={false}
         isLoading={false}
-        createDrawerChildren={<CreateForm onClose={() => setIsOpened(false)} />}
+        isAddNewDrawerModalOpen={opened}
+        onAddNewClick={() => setOpened(true)}
+        createDrawerChildren={
+          <CreateForm
+            onClose={() => {
+              setOpened(false)
+            }}
+          />
+        }
         onSearchChange={handleSearchChange}
         pageName="submission"
       >
@@ -480,6 +590,11 @@ export function SubmissionList({ data }: ISubmissionProps) {
           <thead className={cx(classes.header)}>
             <tr>
               {/* new field */}
+              {(permissionOptions.update || permissionOptions.delete) && (
+                <th className={classes.action}>
+                  <b>Action</b>
+                </th>
+              )}
               <Th
                 sorted={sortBy === 'submission_id'}
                 reversed={reverseSortDirection}
@@ -615,9 +730,9 @@ export function SubmissionList({ data }: ISubmissionProps) {
               >
                 <b>Account Manager</b>
               </Th>
-              <th className={classes.action}>
+              {/* <th className={classes.action}>
                 <b>Action</b>
-              </th>
+              </th> */}
             </tr>
           </thead>
 

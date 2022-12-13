@@ -83,7 +83,7 @@ const MyTeamTimesheet = () => {
                           transitionDuration={300}
                         >
                           <Group spacing="sm">
-                            <Text size="sm" weight={500}>
+                            <Text size="sm" weight={500} color="blue">
                               <div
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {

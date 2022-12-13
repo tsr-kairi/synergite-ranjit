@@ -280,7 +280,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
               <Avatar color="cyan" radius={26} size={26}>
                 V
               </Avatar>
-              <Text size="sm" weight={500}>
+              <Text size="sm" weight={500} color="blue">
                 {row?.first_name ? row?.first_name : 'N/A'}
                 {row.last_name ? row?.last_name : 'N/A'}
               </Text>

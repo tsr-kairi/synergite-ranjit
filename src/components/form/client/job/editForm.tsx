@@ -141,10 +141,70 @@ export default function EditForm(jobData: TJobs) {
                   />
                 </Group>
                 <Group grow align="center" mt="md">
-                  <TextInput
+                  {/* <TextInput
                     label="Job Title"
                     type={'text'}
                     placeholder="Job Title"
+                    {...form.getInputProps('job_title')}
+                  /> */}
+                  <Select
+                    data={[
+                      { value: 'None Selected', label: 'None Selected' },
+                      {
+                        value: 'Application Packaging Engineer',
+                        label: 'Application Packaging Engineer',
+                      },
+                      {
+                        value: 'Architect',
+                        label: 'Architect',
+                      },
+                      {
+                        value: 'Assoc Business Analyst',
+                        label: 'Assoc Business Analyst',
+                      },
+                      {
+                        value: 'Assoc Developer',
+                        label: 'Assoc Developer',
+                      },
+                      {
+                        value: 'Assoc QA Analyst',
+                        label: 'Assoc QA Analyst',
+                      },
+                      {
+                        value: 'Associate Java Developer',
+                        label: 'Associate Java Developer',
+                      },
+                      {
+                        value: 'BI Developer',
+                        label: 'BI Developer',
+                      },
+                      {
+                        value: 'Business Intelligence Analyst',
+                        label: 'Business Intelligence Analyst',
+                      },
+                      {
+                        value: 'Business Systems Analyst',
+                        label: 'Business Systems Analyst',
+                      },
+                      {
+                        value: 'Chief Strategy Officer',
+                        label: 'Chief Strategy Officer',
+                      },
+                      {
+                        value: 'Client Relations Director',
+                        label: 'Client Relations Director',
+                      },
+                      {
+                        value: 'Cloud Data Solutions Developer',
+                        label: 'Cloud Data Solutions Developer',
+                      },
+                      {
+                        value: 'Cloud Data Solutions Developer',
+                        label: 'Cloud Data Solutions Developer',
+                      },
+                    ]}
+                    placeholder="Job Title"
+                    label="Job Title"
                     {...form.getInputProps('job_title')}
                   />
                   <TextInput

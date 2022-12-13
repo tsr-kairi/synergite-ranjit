@@ -13,6 +13,8 @@ import {
   Pagination,
   Tooltip,
   ActionIcon,
+  Highlight,
+  Menu,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -22,6 +24,7 @@ import {
   IconEdit,
   IconTrash,
   IconAddressBook,
+  IconDotsVertical,
 } from '@tabler/icons'
 import { TClient } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
@@ -103,6 +106,14 @@ const useStyles = createStyles((theme) => ({
   },
   action: {
     cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
+
+  user: {},
+  userActive: {},
+  menuItem: {
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
     },
@@ -223,6 +234,8 @@ export function ClientTable({ data }: IClientTableProps) {
   const { mutate: deleteClient } = useDeleteClientById()
   const [clientEditData, setClientEditData] = useState({} as TClient)
 
+  const [userMenuOpened, setUserMenuOpened] = useState(false)
+
   const setClient = useOnboarding((state) => state.setClient)
 
   //  client permission
@@ -273,6 +286,71 @@ export function ClientTable({ data }: IClientTableProps) {
   const rows = sortedData?.map((row) => (
     <tr key={row?.id} className={classes.companyDetails}>
       <td>
+        <Menu
+          width={200}
+          // trigger="click"
+          // closeOnClickOutside={true}
+          onClose={() => setUserMenuOpened(false)}
+          onOpen={() => setUserMenuOpened(true)}
+          exitTransitionDuration={200}
+          offset={14}
+        >
+          <Menu.Target>
+            <UnstyledButton
+              className={cx(classes.user, {
+                [classes.userActive]: userMenuOpened,
+              })}
+            >
+              <Tooltip
+                label="Action"
+                color="blue"
+                withArrow
+                transition="pop-top-right"
+                transitionDuration={300}
+              >
+                <IconDotsVertical size={16} cursor="pointer" />
+              </Tooltip>
+            </UnstyledButton>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>Take your action carefully</Menu.Label>
+            {permissionOptions.update && (
+              <Menu.Item
+                icon={
+                  <IconEdit
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.editIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => {
+                  setIsOpened(true)
+                  setClientEditData(row)
+                }}
+              >
+                Edit Job
+              </Menu.Item>
+            )}
+            {permissionOptions.delete && (
+              <Menu.Item
+                icon={
+                  <IconTrash
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.deleteIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => openModalForDelete(row)}
+              >
+                Delete Job
+              </Menu.Item>
+            )}
+          </Menu.Dropdown>
+        </Menu>
+      </td>
+      <td>
         <Link
           to={`/client-details/${row?.uuid}`}
           // state={{ user: row }}
@@ -290,7 +368,12 @@ export function ClientTable({ data }: IClientTableProps) {
               <Avatar color="cyan" size={26} radius={26}>
                 C
               </Avatar>
-              <Text size="sm" weight={500}>
+              <Text
+                size="sm"
+                weight={500}
+                // style={{ backgroundColor: 'yellow' }}
+                color="blue"
+              >
                 {row?.first_name ? row?.first_name : 'N/A'}{' '}
                 {row?.last_name ? row?.last_name : 'N/A'}
               </Text>
@@ -310,7 +393,7 @@ export function ClientTable({ data }: IClientTableProps) {
           className={classes.editIcon}
         />
       </td>
-      <td>
+      {/* <td>
         <Group spacing="sm">
           {permissionOptions.update && (
             <IconEdit
@@ -330,7 +413,7 @@ export function ClientTable({ data }: IClientTableProps) {
             />
           )}
         </Group>
-      </td>
+      </td> */}
       {/* contact -contact open drawer*/}
       <Drawer
         opened={opened}
@@ -354,6 +437,11 @@ export function ClientTable({ data }: IClientTableProps) {
       >
         <thead className={cx(classes.header)}>
           <tr>
+            {(permissionOptions.update || permissionOptions.delete) && (
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
+            )}
             <Th
               sorted={sortBy === 'first_name'}
               reversed={reverseSortDirection}
@@ -399,11 +487,11 @@ export function ClientTable({ data }: IClientTableProps) {
             <th className={classes.action}>
               <b>Contact</b>
             </th>
-            {(permissionOptions.update || permissionOptions.delete) && (
+            {/* {(permissionOptions.update || permissionOptions.delete) && (
               <th className={classes.action}>
                 <b>Action</b>
               </th>
-            )}
+            )} */}
           </tr>
         </thead>
 
