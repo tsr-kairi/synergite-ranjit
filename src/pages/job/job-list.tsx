@@ -340,7 +340,7 @@ export function AllJobList({ data }: IJobsProps) {
                 Delete Job
               </Menu.Item>
             )}
-            <Menu.Item
+            {/* <Menu.Item
               icon={
                 <IconUserPlus
                   size={14}
@@ -354,7 +354,7 @@ export function AllJobList({ data }: IJobsProps) {
               }}
             >
               Candidate Submit
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu.Dropdown>
         </Menu>
       </td>
@@ -384,7 +384,9 @@ export function AllJobList({ data }: IJobsProps) {
             transition="pop-top-right"
             transitionDuration={300}
           >
-            <div>{row?.job_title ? row?.job_title : 'N/A'}</div>
+            <Text size="sm" weight={500} color="blue">
+              {row?.job_title ? row?.job_title : 'N/A'}
+            </Text>
           </Tooltip>
         </Link>
         {/* </Link> */}
@@ -478,10 +480,13 @@ export function AllJobList({ data }: IJobsProps) {
         >
           <thead className={cx(classes.header)}>
             <tr>
-              <th className={classes.action}>
-                {/* <IconChevronsRight size={12} stroke={1.5} /> */}
-                Action
-              </th>
+              {(permissionOptions.update || permissionOptions.delete) && (
+                <th className={classes.action}>
+                  {/* <IconChevronsRight size={12} stroke={1.5} /> */}
+                  Action
+                </th>
+              )}
+
               <Th
                 sorted={sortBy === 'uuid'}
                 reversed={reverseSortDirection}

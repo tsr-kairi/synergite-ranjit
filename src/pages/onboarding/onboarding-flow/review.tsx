@@ -147,7 +147,7 @@ const Review: React.FC<ReviewProps> = ({
                   label="Role"
                   type={'text'}
                   placeholder="Role"
-                  // value={onboardingData.role}
+                  value={onboardingData.role}
                   style={{ minWidth: '100px' }}
                 />
                 <TextInput

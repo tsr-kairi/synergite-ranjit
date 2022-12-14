@@ -178,7 +178,10 @@ export default function CreateForm() {
                   />
                   <Select
                     data={[
-                      { value: 'Available', label: 'All Members of SYnergy' },
+                      {
+                        value: 'All Members of SYnergy',
+                        label: 'All Members of SYnergy',
+                      },
                     ]}
                     placeholder="Candidate ownership"
                     label="Candidate ownership"
@@ -187,7 +190,6 @@ export default function CreateForm() {
                 </Group>
                 <Group grow align="center" mt="md">
                   <Select
-                    required
                     data={[
                       { value: 'None Selected', label: 'None Selected' },
                       {

@@ -57,6 +57,11 @@ const permissionQueryKeys = {
   permissionByID: 'permission-by-id',
 }
 
+const projectQueryKeys = {
+  allProject: 'all-project',
+  projectDetails: 'project-details',
+}
+
 const stateQueryKeys = {
   allState: 'all-state',
 }
@@ -84,6 +89,7 @@ export {
   defaultActivityQueryKeys,
   departmentQueryKeys,
   permissionQueryKeys,
+  projectQueryKeys,
   stateQueryKeys,
   cityQueryKeys,
   rolesQueryKeys,

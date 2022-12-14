@@ -45,6 +45,7 @@ const zOnboarding = z.object({
   client_location: z.string(), // Dropdown
   experience: z.string(),
   department: z.string(), // Dropdown
+  role: z.string(),
   reporting_to: z.string(), //.min(0, { message: 'This is required' }), // Dropdown
   designation: z.string(),
   overtime_exemption: z.string(), // Dropdown

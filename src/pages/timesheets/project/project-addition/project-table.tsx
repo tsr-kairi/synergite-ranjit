@@ -9,11 +9,6 @@ import {
   Drawer,
   Tooltip,
   Avatar,
-  Checkbox,
-  ActionIcon,
-  HoverCard,
-  Button,
-  Modal,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -22,20 +17,17 @@ import {
   IconChevronUp,
   IconEdit,
   IconTrash,
-  IconBookUpload,
-  IconFileReport,
 } from '@tabler/icons'
-import { TCandidate } from '@/types/candidate-type'
+import { TProject } from '@/types/project-type'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
-import EditCandidate from '@/components/form/candidate/editForm'
-import CreateCandidate from '@/components/form/candidate/createForm'
 import { Link } from 'react-router-dom'
-import useDeleteCandidateById from './hooks/useDeleteCandidateById'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { useAuth } from '@/store/auth.store'
 import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
-import CandidateSubmission from './candidate-submission'
+import useDeleteProjectById from './hooks/useDeleteProjectById'
+import CreateForm from '@/components/form/project/projectAddition/createForm'
+import EditForm from '@/components/form/project/projectAddition/editForm'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -52,7 +44,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  candidateRowData: {
+  projectRowData: {
     border: 'none',
     '&:hover': {
       backgroundColor: theme.colors.blue[1],
@@ -173,7 +165,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TCandidate[], search: string) {
+function filterData(data: TProject[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -182,9 +174,9 @@ function filterData(data: TCandidate[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TCandidate[],
+  data: TProject[],
   payload: {
-    sortBy: keyof TCandidate | null
+    sortBy: keyof TProject | null
     reversed: boolean
     search: string
   }
@@ -208,30 +200,29 @@ function sortData(
   )
 }
 
-interface ICandidateProps {
-  data: TCandidate[]
+interface IProjectProps {
+  data: TProject[]
 }
 
 // Exporting Default ClientTable Component
-export function CandidateList({ data }: ICandidateProps) {
+export function ProjectTable({ data }: IProjectProps) {
   const [isOpened, setIsOpened] = useState(false)
-  const [opened, setOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TCandidate | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TProject | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes, cx } = useStyles()
-  const { mutate: deleteCandidate } = useDeleteCandidateById()
-  const [candidateEditData, setCandidateEditData] = useState({} as TCandidate)
+  const { mutate: deleteProject } = useDeleteProjectById()
+  const [projectEditData, setProjectEditData] = useState({} as TProject)
 
-  //  candidate permission
+  //  project permission
   const permissions = useAuth((state) => state.permissions)
   const permissionOptions = getPermission({
-    pageName: 'candidate',
+    pageName: 'project',
     permissions,
   }).permissionOptions as IPermissionOptions
 
-  const setSorting = (field: keyof TCandidate) => {
+  const setSorting = (field: keyof TProject) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -249,79 +240,25 @@ export function CandidateList({ data }: ICandidateProps) {
     )
   }
 
-  // candidate data Delete handler
-  const openModalForDelete = (Candidate: TCandidate) => {
+  // project data Delete handler
+  const openModalForDelete = (Project: TProject) => {
     openConfirmModal({
-      title: 'Do You want to delete this Employee?',
+      title: 'Do You want to delete this Project?',
       children: (
         <Text size="sm">
-          After deleting an active candidate, You cannot recover them back. So,
+          After deleting an active project, You cannot recover them back. So,
           please choose your action carefully.
         </Text>
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteCandidate(Candidate.uuid)
+        deleteProject(Project.uuid)
         console.log('delete')
         showNotification({
-          title: 'Candidate Deleted !!',
+          title: 'Project Deleted !!',
           // message: `${Employee.fname} has been deleted successfully.`,
-          message: `Candidate has been deleted successfully.`,
-        })
-      },
-    })
-  }
-
-  // candidate data filter handler
-  const openModalForFilter = () => {
-    openConfirmModal({
-      title: 'Select Filter?',
-      children: (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            marginBottom: '30px',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <Text size="sm" color="blue">
-              Payment Type
-            </Text>
-            <Checkbox size="xs" label="Billable" />
-            <Checkbox size="xs" label="Non Billable" />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <Text size="sm" color="blue">
-              Employee Type
-            </Text>
-            <Checkbox size="xs" label="W2" />
-            <Checkbox size="xs" label="C2C" />
-            <Checkbox size="xs" label="1099" />
-            <Checkbox size="xs" label="Internal" />
-          </div>
-        </div>
-      ),
-      labels: { confirm: 'Submit', cancel: 'Cancel' },
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () => {
-        console.log('Filtered')
-        showNotification({
-          title: 'EmployeeType Filtered !!',
-          message: 'EmployeeType has been filtered successfully.',
+          message: `Project has been deleted successfully.`,
         })
       },
     })
@@ -329,15 +266,10 @@ export function CandidateList({ data }: ICandidateProps) {
 
   // Create Rows
   const rows = sortedData?.map((row) => (
-    <tr key={row?.uuid} className={classes.candidateRowData}>
-      <td>{row?.candidate_id ? row?.candidate_id : 'N/A'}</td>
+    <tr key={row?.uuid} className={classes.projectRowData}>
+      <td>{row?.uuid ? row?.uuid : 'N/A'}</td>
       <td>
-        {/* <HoverCard width={170} withArrow>
-          <HoverCard.Target> */}
-        <Link
-          to={`/candidate-details/${row?.uuid}`}
-          className={classes.userLink}
-        >
+        <Link to={`/project-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
             color="blue"
@@ -347,67 +279,38 @@ export function CandidateList({ data }: ICandidateProps) {
           >
             <Group spacing="sm">
               <Avatar color="cyan" size={26} radius={26}>
-                C
+                P
               </Avatar>
 
-              <Text size="sm" weight={500} color="blue">
-                {row?.first_name ? row?.first_name : 'N/A'}{' '}
-                {row?.last_name ? row?.last_name : 'N/A'}
+              <Text size="sm" weight={500}>
+                {row?.project_name ? row?.project_name : 'N/A'}{' '}
               </Text>
             </Group>
           </Tooltip>
         </Link>
-        {/* </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Group spacing="xs">
-              <Button
-                className={classes.detailHead}
-                leftIcon={<IconBookUpload size={16} />}
-                variant="subtle"
-                size={'xs'}
-                onClick={() => setOpened(true)}
-              >
-                
-                Submission
-              </Button>
-              <Button
-                className={classes.detailHead}
-                leftIcon={<IconFileReport size={16} />}
-                variant="subtle"
-                size={'xs'}
-                onClick={() => setOpened(true)}
-              >
-               
-                Onboarding
-              </Button>
-            </Group>
-          </HoverCard.Dropdown>
-        </HoverCard> */}
       </td>
-      <td>{row?.email ? row?.email : 'N/A'}</td>
-      <td>{row?.phone ? row?.phone : 'N/A'}</td>
-      <td>{row?.job_title ? row?.job_title : 'N/A'}</td>
-      <td>{row?.work_experience ? row?.work_experience : 'N/A'}</td>
-      <td>{row?.created_date ? row?.created_date : 'N/A'}</td>
+      <td>{row?.project_id ? row?.project_id : 'N/A'}</td>
+      <td>{row?.is_active_status ? row?.is_active_status : 'N/A'}</td>
+      <td>{row?.project_mgr ? row?.project_mgr : 'N/A'}</td>
       <td>
         <Group spacing="sm">
-          {permissionOptions.update && (
-            <IconEdit
-              className={classes.editIcon}
-              cursor="pointer"
-              onClick={() => {
-                setIsOpened(true)
-                setCandidateEditData(row)
-              }}
-            />
-          )}
-          {permissionOptions.delete && (
-            <IconTrash
-              className={classes.deleteIcon}
-              cursor="pointer"
-              onClick={() => openModalForDelete(row)}
-            />
-          )}
+          {/* {permissionOptions.update && ( */}
+          <IconEdit
+            className={classes.editIcon}
+            cursor="pointer"
+            onClick={() => {
+              setIsOpened(true)
+              setProjectEditData(row)
+            }}
+          />
+          {/* )} */}
+          {/* {permissionOptions.delete && ( */}
+          <IconTrash
+            className={classes.deleteIcon}
+            cursor="pointer"
+            onClick={() => openModalForDelete(row)}
+          />
+          {/* )} */}
         </Group>
       </td>
     </tr>
@@ -417,15 +320,14 @@ export function CandidateList({ data }: ICandidateProps) {
   return (
     <>
       <ListViewLayout
-        title="Candidates"
+        title="Project"
         createDrawerSize={1200}
-        createDrawerTitle="Add New Candidate"
+        createDrawerTitle="Add New Project"
         isError={false}
         isLoading={false}
-        createDrawerChildren={<CreateCandidate />}
-        onFilterClick={openModalForFilter}
+        createDrawerChildren={<CreateForm />}
         onSearchChange={handleSearchChange}
-        pageName="candidate"
+        // pageName="project"
       >
         <Table
           horizontalSpacing="md"
@@ -435,53 +337,32 @@ export function CandidateList({ data }: ICandidateProps) {
           <thead className={cx(classes.header)}>
             <tr>
               <Th
-                sorted={sortBy === 'candidate_id'}
+                sorted={sortBy === 'uuid'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('candidate_id')}
+                onSort={() => setSorting('uuid')}
               >
-                <b>Candidate ID</b>
+                <b>Uuid</b>
               </Th>
               <Th
-                sorted={sortBy === 'first_name'}
+                sorted={sortBy === 'project_name'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('first_name')}
+                onSort={() => setSorting('project_name')}
               >
-                <b>Name</b>
+                <b>Project Name</b>
               </Th>
               <Th
-                sorted={sortBy === 'email'}
+                sorted={sortBy === 'project_id'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('email')}
+                onSort={() => setSorting('project_id')}
               >
-                <b>Email</b>
+                <b>Project Id</b>
               </Th>
               <Th
-                sorted={sortBy === 'phone'}
+                sorted={sortBy === 'project_mgr'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('phone')}
+                onSort={() => setSorting('project_mgr')}
               >
-                <b>Phone</b>
-              </Th>
-              <Th
-                sorted={sortBy === 'job_title'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('job_title')}
-              >
-                <b>Job Title</b>
-              </Th>
-              <Th
-                sorted={sortBy === 'work_experience'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('work_experience')}
-              >
-                <b>Work Experience</b>
-              </Th>
-              <Th
-                sorted={sortBy === 'created_date'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('created_date')}
-              >
-                <b>Created Date</b>
+                <b>Project Mgr</b>
               </Th>
               <th className={classes.action}>
                 <b>Action</b>
@@ -494,7 +375,7 @@ export function CandidateList({ data }: ICandidateProps) {
               rows
             ) : (
               <tr>
-                <td colSpan={Object.keys(data[0]).length}>
+                <td colSpan={Object.keys(data || []).length}>
                   <Text weight={500} align="center">
                     No records found
                   </Text>
@@ -509,23 +390,13 @@ export function CandidateList({ data }: ICandidateProps) {
       <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
-        title="Edit Candidate"
+        title="Edit Project"
         padding="xl"
         size="1200px"
         position="right"
       >
-        <EditCandidate {...candidateEditData} />
+        <EditForm {...projectEditData} />
       </Drawer>
-
-      <Modal
-        size="calc(100vw - 5vw)"
-        // size="55%"
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Candidate Submission"
-      >
-        <CandidateSubmission client_id={''} job_id={''} />
-      </Modal>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   createStyles,
   Table,
@@ -32,6 +32,7 @@ interface IListViewLayoutProps {
   pageName?: string
   createDrawerTitle?: string
   createDrawerChildren?: React.ReactNode
+  isAddNewDrawerModalOpen?: boolean
   createDrawerSize?: string | number
   editDrawerChildren?: React.ReactNode
   hideActionButton?: boolean
@@ -54,6 +55,7 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     createDrawerChildren,
     createDrawerSize,
     editDrawerChildren,
+    isAddNewDrawerModalOpen = false,
     hideActionButton,
     hideColumnButton,
     isError,
@@ -77,9 +79,17 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
 
   const [isColumnSelectionDrawerOpen, setIsColumnSelectionDrawerOpen] =
     useState(false)
-  const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(false)
+  const [isAddNewDrawerOpen, setIsAddNewDrawerOpen] = useState(
+    isAddNewDrawerModalOpen
+  )
   const [isEditDrawerOpen, setIsEditNewDrawerOpen] = useState(false)
   const { classes } = listViewLayoutStyle()
+
+  useEffect(() => {
+    setIsAddNewDrawerOpen(isAddNewDrawerModalOpen)
+  }, [isAddNewDrawerModalOpen])
+
+  console.log('isAddNewDrawerModalOpen', isAddNewDrawerModalOpen)
 
   if (isError) {
     return <h1>An Error Occurred</h1>

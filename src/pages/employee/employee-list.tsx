@@ -46,6 +46,7 @@ import {
 } from '@/utils/permission.utils'
 import Roles from '../roles'
 import { updateRoleById } from '../roles/hooks/useEditRoles'
+import RoleList from '@/components/form/roles/role-list'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -360,7 +361,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
               <Avatar color="cyan" size={26} radius={26}>
                 E
               </Avatar>
-              <Text size="sm" weight={500}>
+              <Text size="sm" weight={500} color="blue">
                 {row?.fname} {row?.lname}
               </Text>
             </Group>
@@ -376,10 +377,10 @@ export function EmployeeList({ data }: IEmployeeProps) {
       <td>{row?.country}</td>
       <td
         style={{
-          cursor: rolesPermission.update ? 'pointer' : 'text',
+          cursor: !rolesPermission.update ? 'pointer' : 'text',
         }}
         onClick={
-          rolesPermission.update
+          !rolesPermission.update
             ? () => {
                 setIsRoleModalOpen(true)
                 setSelectedEmployeeUUID(row.uuid)
@@ -387,7 +388,7 @@ export function EmployeeList({ data }: IEmployeeProps) {
             : undefined
         }
       >
-        {row?.role}
+        {row?.role?.name}
       </td>
       <td>
         <Group spacing="sm">
@@ -500,26 +501,6 @@ export function EmployeeList({ data }: IEmployeeProps) {
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td
-                style={{
-                  cursor: !rolesPermission.update ? 'pointer' : 'text',
-                }}
-                onClick={
-                  !rolesPermission.update
-                    ? () => {
-                        setIsRoleModalOpen(true)
-                        setSelectedEmployeeUUID('')
-                      }
-                    : undefined
-                }
-              >
-                Role-Developer
-              </td>
-            </tr>
-          </tbody>
-
           {rows.length > 0 ? (
             <tbody>{rows}</tbody>
           ) : (
@@ -551,20 +532,13 @@ export function EmployeeList({ data }: IEmployeeProps) {
         size="xl"
         position="right"
       >
-        <Radio.Group
-          orientation="vertical"
-          style={{ height: '100vh', overflowY: 'auto', padding: '4px' }}
-          onChange={(roleUUID) => {
-            //  Update role
-            updateRoleById(roleUUID, selectedEmployeeUUID).catch((error) =>
+        <RoleList
+          onRoleChange={(role) => {
+            updateRoleById(role.uuid, selectedEmployeeUUID).catch((error) =>
               console.log(error)
             )
           }}
-        >
-          {roleList?.data?.map((role) => {
-            return <Radio key={role.uuid} value={role.uuid} label={role.name} />
-          })}
-        </Radio.Group>
+        />
       </Drawer>
     </>
   )

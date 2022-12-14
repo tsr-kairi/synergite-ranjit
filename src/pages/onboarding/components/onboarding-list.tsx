@@ -160,7 +160,7 @@ const OnboardingList = () => {
                           transition="pop-top-right"
                           transitionDuration={300}
                         >
-                          <Text size="sm" weight={500}>
+                          <Text size="sm" weight={500} color="blue">
                             {candidateName}
                           </Text>
                         </Tooltip>

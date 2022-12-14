@@ -18,7 +18,7 @@ const useEditRoles = () => {
 }
 
 export const updateRoleById = async (roleUUID: string, userUUID: string) => {
-  return await axiosPrivate.post('/attach', {
+  return await axiosPrivate.post('/user/attach-role', {
     roleUuid: roleUUID,
     userUuid: userUUID,
   })

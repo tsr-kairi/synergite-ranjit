@@ -414,6 +414,8 @@ export default function Onboarding() {
     setActiveStepNumber((current) => (current > 0 ? current - 1 : current))
   }
 
+  console.log('onboardingStepperData =', onboardingStepperData);
+
   return (
     <>
       <div className={classes.onboarding}>

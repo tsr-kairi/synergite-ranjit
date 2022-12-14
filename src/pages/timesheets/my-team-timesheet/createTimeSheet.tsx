@@ -149,6 +149,12 @@ const CreateTimeSheet: React.FC<{ week: string; onBackClick?: () => void }> = ({
           <Button ml={80} onClick={onSubmitHandler}>
             Submit
           </Button>
+          <Button ml={80} color="green">
+            Approve
+          </Button>
+          <Button ml={80} color="red">
+            Reject
+          </Button>
         </div>
       </div>
     </div>
