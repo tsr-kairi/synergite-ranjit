@@ -224,8 +224,6 @@ export function EmployeeList({ data }: IEmployeeProps) {
   const { classes } = useStyles()
   const { mutate: deleteEmployee } = useDeleteEmployeeById()
 
-  const { data: roleList } = useGetAllRoles()
-
   const permissions = useAuth((state) => state.permissions)
   const {
     employee: employeePermission,
@@ -377,13 +375,13 @@ export function EmployeeList({ data }: IEmployeeProps) {
       <td>{row?.country}</td>
       <td
         style={{
-          cursor: !rolesPermission.update ? 'pointer' : 'text',
+          cursor: rolesPermission.update ? 'pointer' : 'text',
         }}
         onClick={
-          !rolesPermission.update
+          rolesPermission.update
             ? () => {
                 setIsRoleModalOpen(true)
-                setSelectedEmployeeUUID(row.uuid)
+                setSelectedEmployeeUUID(row.user_uuid)
               }
             : undefined
         }

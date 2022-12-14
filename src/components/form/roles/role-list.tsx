@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useGetAllCandidate from '@/pages/candidate/hooks/useGetAllCandidate'
 import useGetAllRoles from '@/pages/roles/hooks/useGetAllRoles'
 import { TRoles } from '@/types/roles-type'
@@ -118,6 +118,12 @@ const RoleList: React.FC<RoleListProps> = ({ onRoleChange }) => {
 
   const [search, setSearch] = useState('')
   const [roles, setRoles] = useState(roleList?.data || [])
+
+  useEffect(() => {
+    if (roles.length <= 0) {
+      setRoles(roleList?.data || [])
+    }
+  }, [roleList?.data])
 
   const { classes } = useStyles()
 
