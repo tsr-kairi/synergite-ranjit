@@ -4,9 +4,9 @@ import { TProjectCreate, TProjectFindById } from '@/types/project-type'
 import { useMutation, useQueryClient } from 'react-query'
 
 const createProject = async (
-  employee: TProjectCreate
+  project: TProjectCreate
 ): Promise<TProjectFindById> => {
-  return await axiosPrivate.post('/project', employee)
+  return await axiosPrivate.post('/project', project)
 }
 
 const useCreateProject = () => {

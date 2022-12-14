@@ -61,6 +61,10 @@ const projectQueryKeys = {
   allProject: 'all-project',
   projectDetails: 'project-details',
 }
+const projectAllocationKeys = {
+  allProjectAllocation: 'all-project-allocation',
+  projectAllocationDetails: 'project-allocation-details',
+}
 
 const stateQueryKeys = {
   allState: 'all-state',
@@ -90,6 +94,7 @@ export {
   departmentQueryKeys,
   permissionQueryKeys,
   projectQueryKeys,
+  projectAllocationKeys,
   stateQueryKeys,
   cityQueryKeys,
   rolesQueryKeys,

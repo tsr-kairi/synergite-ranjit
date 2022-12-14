@@ -2,33 +2,27 @@ import { useState } from 'react'
 import {
   createStyles,
   Table,
-  ScrollArea,
   UnstyledButton,
   Group,
   Text,
   Center,
-  TextInput,
   Avatar,
-  Button,
   Drawer,
-  Pagination,
   Tooltip,
+  Menu,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
   IconSelector,
   IconChevronDown,
   IconChevronUp,
-  IconSearch,
   IconEdit,
   IconTrash,
-  IconPlus,
-  IconFilter,
   IconAddressBook,
+  IconDotsVertical,
 } from '@tabler/icons'
 import { TVendor } from '@/types'
 import { openConfirmModal } from '@mantine/modals'
-import CreateForm from '@/components/form/vendor/createForm'
 import EditVendor from '@/components/form/vendor/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteVendorById from './hooks/useDeleteVendorById'
@@ -105,6 +99,13 @@ const useStyles = createStyles((theme) => ({
   },
   action: {
     cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
+  user: {},
+  userActive: {},
+  menuItem: {
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
     },
@@ -207,7 +208,9 @@ export default function VendorTable({ data }: IVendorTableProps) {
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TVendor | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
-  const { classes } = useStyles()
+  const [userMenuOpened, setUserMenuOpened] = useState(false)
+
+  const { classes, cx } = useStyles()
   const { mutate: deleteVendor } = useDeleteVendorById()
 
   //  vendor permission
@@ -263,6 +266,71 @@ export default function VendorTable({ data }: IVendorTableProps) {
     <tr key={row?.id} className={classes.companyDetails}>
       {/* <td>{row?.id}</td> */}
       <td>
+        <Menu
+          width={200}
+          // trigger="click"
+          // closeOnClickOutside={true}
+          onClose={() => setUserMenuOpened(false)}
+          onOpen={() => setUserMenuOpened(true)}
+          exitTransitionDuration={200}
+          offset={14}
+        >
+          <Menu.Target>
+            <UnstyledButton
+              className={cx(classes.user, {
+                [classes.userActive]: userMenuOpened,
+              })}
+            >
+              <Tooltip
+                label="Action"
+                color="blue"
+                withArrow
+                transition="pop-top-right"
+                transitionDuration={300}
+              >
+                <IconDotsVertical size={16} cursor="pointer" />
+              </Tooltip>
+            </UnstyledButton>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>Take your action carefully</Menu.Label>
+            {permissionOptions.update && (
+              <Menu.Item
+                icon={
+                  <IconEdit
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.editIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => {
+                  setIsOpened(true)
+                  setVendorEditData(row)
+                }}
+              >
+                Edit Vendor
+              </Menu.Item>
+            )}
+            {permissionOptions.delete && (
+              <Menu.Item
+                icon={
+                  <IconTrash
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.deleteIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => openModalForDelete(row)}
+              >
+                Delete Vendor
+              </Menu.Item>
+            )}
+          </Menu.Dropdown>
+        </Menu>
+      </td>
+      <td>
         <Link to={`/vendor-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
@@ -300,7 +368,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
           className={classes.editIcon}
         />
       </td>
-      <td>
+      {/* <td>
         <Group spacing="sm">
           {permissionOptions.update && (
             <IconEdit
@@ -320,7 +388,7 @@ export default function VendorTable({ data }: IVendorTableProps) {
             />
           )}
         </Group>
-      </td>
+      </td> */}
     </tr>
   ))
 
@@ -334,6 +402,11 @@ export default function VendorTable({ data }: IVendorTableProps) {
       >
         <thead>
           <tr>
+            {(permissionOptions.update || permissionOptions.delete) && (
+              <th className={classes.action}>
+                <b>Action</b>
+              </th>
+            )}
             <Th
               sorted={sortBy === 'first_name'}
               reversed={reverseSortDirection}
@@ -378,9 +451,6 @@ export default function VendorTable({ data }: IVendorTableProps) {
             </Th>
             <th className={classes.action}>
               <b>Contact</b>
-            </th>
-            <th className={classes.action}>
-              <b>Action</b>
             </th>
           </tr>
         </thead>

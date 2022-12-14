@@ -1,8 +1,12 @@
 import useEditRoles from '@/pages/roles/hooks/useEditRoles'
+import { departmentQueryKeys } from '@/react-query/queryKeys'
+import axiosPrivate from '@/services/axiosPrivate'
+import { TDepartmentFindAll } from '@/types/department-type'
 import { TRoles } from '@/types/roles-type'
 import { TextInput, Button, createStyles, Paper, Select } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
+import { useQuery } from 'react-query'
 const useStyles = createStyles(() => ({
   paper: {
     boxShadow: '1px 1px 12px rgba(152, 195, 255, 0.55)',
@@ -19,6 +23,16 @@ export default function EditForm(rolesData: TRoles) {
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
+
+  // get department api function
+  const finAlDepartment = async () => {
+    const response = await axiosPrivate.get<TDepartmentFindAll>(`/department`)
+    return response.data
+  }
+  const { data: department } = useQuery<TDepartmentFindAll, Error>(
+    departmentQueryKeys.allDepartment,
+    finAlDepartment
+  )
 
   const handleSubmit = (values: TRoles) => {
     const rolesCreateData = {
@@ -39,62 +53,20 @@ export default function EditForm(rolesData: TRoles) {
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Select
             mb={16}
-            label="Immigration Status*"
-            placeholder="Immigration Status"
-            data={[
-              { label: 'H1', value: 'h1' },
-              { label: 'Green Card/Citizen', value: 'Green Card/Citizen' },
-              { label: 'Green Card/USC', value: 'Green Card/USC' },
-              { label: 'NA', value: 'na' },
-            ]}
-            {...form.getInputProps('immigration_status')}
-          />
-          <Select
-            mb={16}
-            label="Type of Employee*"
-            placeholder="Type of Employee"
-            data={[
-              { label: 'W2', value: 'W2' },
-              { label: 'C2C', value: 'C2C' },
-              { label: 'Green Card/USC', value: 'Green Card/USC' },
-              { label: '1099', value: '1099' },
-              { label: 'Internal Employee', value: 'Internal Employee' },
-            ]}
-            {...form.getInputProps('employee_type')}
-          />
-          <Select
-            mb={16}
-            label="New Client*"
-            placeholder="New Client"
-            data={[
-              { label: 'Yes', value: 'Yes' },
-              { label: 'NO', value: 'NO' },
-              { label: 'NA', value: 'NA' },
-            ]}
-            {...form.getInputProps('new_client')}
-          />
-          <Select
-            mb={16}
-            label="New Sub Activity*"
-            placeholder="New Sub Activity"
-            data={[
-              { label: 'Yes', value: 'Yes' },
-              { label: 'NO', value: 'NO' },
-              { label: 'NA', value: 'NA' },
-            ]}
-            {...form.getInputProps('new_subvendor')}
-          />
-          <TextInput
-            mb={16}
-            label="Default Activity"
-            placeholder="Default Activity"
-            {...form.getInputProps('default_activity')}
-          />
-          <TextInput
-            mb={16}
             label="Department"
             placeholder="Department"
+            data={
+              department?.data.map((dept) => {
+                return { value: dept.uuid, label: dept.name }
+              }) || []
+            }
             {...form.getInputProps('department_uuid')}
+          />
+          <TextInput
+            mb={16}
+            label="Role Name"
+            placeholder="Role Name"
+            {...form.getInputProps('name')}
           />
           {/* <Select
             mb={16}
@@ -108,7 +80,7 @@ export default function EditForm(rolesData: TRoles) {
             {...form.getInputProps('assigneeRole')}
           /> */}
           <Button fullWidth type="submit" mt="md" mb="lg">
-            Edit New
+            Edit Now
           </Button>
         </form>
       </Paper>

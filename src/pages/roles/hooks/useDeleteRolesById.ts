@@ -2,16 +2,16 @@ import { rolesQueryKeys } from '@/react-query/queryKeys'
 import axiosPrivate from '@/services/axiosPrivate'
 import { useMutation, useQueryClient } from 'react-query'
 
-const deleteRolesById = async (rolesId: string): Promise<void> => {
-  await axiosPrivate.delete(`/role/${rolesId}`)
+const deleteRolesById = async (uuid: string): Promise<void> => {
+  await axiosPrivate.delete(`/role/${uuid}`)
 }
 
 const useDeleteRolesById = () => {
   const queryClient = useQueryClient()
 
-  return useMutation(async (rolesId: string) => deleteRolesById(rolesId), {
+  return useMutation(async (uuid: string) => deleteRolesById(uuid), {
     onSuccess: () => {
-      void queryClient.resetQueries(rolesQueryKeys.allRoles)
+      void queryClient.resetQueries(rolesQueryKeys.rolesDetails)
       console.log('Delete Roles Called')
     },
   })

@@ -18,16 +18,16 @@ import {
   IconEdit,
   IconTrash,
 } from '@tabler/icons'
-import { TProject } from '@/types/project-type'
+import { TProjectAllocation } from '@/types/project-allocation-type'
 import { openConfirmModal } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 import { Link } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import { useAuth } from '@/store/auth.store'
 import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
-import useDeleteProjectById from './hooks/useDeleteProjectById'
-import CreateForm from '@/components/form/project/projectAddition/createForm'
-import EditForm from '@/components/form/project/projectAddition/editForm'
+import CreateForm from '@/components/form/project/projectAllocation/createForm'
+import EditForm from '@/components/form/project/projectAllocation/editForm'
+import useDeleteProjectAllocationById from './hooks/useDeleteProjectById'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -165,7 +165,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 }
 
 // Utility Function - filterData
-function filterData(data: TProject[], search: string) {
+function filterData(data: TProjectAllocation[], search: string) {
   const query = search.toLowerCase().trim()
   return data.filter((item) =>
     keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
@@ -174,9 +174,9 @@ function filterData(data: TProject[], search: string) {
 
 // Utility Function - sortData
 function sortData(
-  data: TProject[],
+  data: TProjectAllocation[],
   payload: {
-    sortBy: keyof TProject | null
+    sortBy: keyof TProjectAllocation | null
     reversed: boolean
     search: string
   }
@@ -200,20 +200,22 @@ function sortData(
   )
 }
 
-interface IProjectProps {
-  data: TProject[]
+interface IProjectAllocationProps {
+  data: TProjectAllocation[]
 }
 
 // Exporting Default ClientTable Component
-export function ProjectTable({ data }: IProjectProps) {
+export function ProjectAllocationTable({ data }: IProjectAllocationProps) {
   const [isOpened, setIsOpened] = useState(false)
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
-  const [sortBy, setSortBy] = useState<keyof TProject | null>(null)
+  const [sortBy, setSortBy] = useState<keyof TProjectAllocation | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
   const { classes, cx } = useStyles()
-  const { mutate: deleteProject } = useDeleteProjectById()
-  const [projectEditData, setProjectEditData] = useState({} as TProject)
+  const { mutate: deleteProjectAllocation } = useDeleteProjectAllocationById()
+  const [projectAllocationEditData, setProjectAllocationEditData] = useState(
+    {} as TProjectAllocation
+  )
 
   //  project permission
   const permissions = useAuth((state) => state.permissions)
@@ -222,7 +224,7 @@ export function ProjectTable({ data }: IProjectProps) {
     permissions,
   }).permissionOptions as IPermissionOptions
 
-  const setSorting = (field: keyof TProject) => {
+  const setSorting = (field: keyof TProjectAllocation) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
     setReverseSortDirection(reversed)
     setSortBy(field)
@@ -241,9 +243,9 @@ export function ProjectTable({ data }: IProjectProps) {
   }
 
   // project data Delete handler
-  const openModalForDelete = (Project: TProject) => {
+  const openModalForDelete = (ProjectAllocation: TProjectAllocation) => {
     openConfirmModal({
-      title: 'Do You want to delete this Project?',
+      title: 'Do You want to delete this ProjectAllocation?',
       children: (
         <Text size="sm">
           After deleting an active project, You cannot recover them back. So,
@@ -253,12 +255,12 @@ export function ProjectTable({ data }: IProjectProps) {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        deleteProject(Project.uuid)
+        deleteProjectAllocation(ProjectAllocation.uuid)
         console.log('delete')
         showNotification({
-          title: 'Project Deleted !!',
+          title: 'ProjectAllocation Deleted !!',
           // message: `${Employee.fname} has been deleted successfully.`,
-          message: `Project has been deleted successfully.`,
+          message: `ProjectAllocation has been deleted successfully.`,
         })
       },
     })
@@ -283,7 +285,7 @@ export function ProjectTable({ data }: IProjectProps) {
               </Avatar>
 
               <Text size="sm" weight={500}>
-                {row?.project_name ? row?.project_name : 'N/A'}{' '}
+                {row?.user_id ? row?.user_id : 'N/A'}{' '}
               </Text>
             </Group>
           </Tooltip>
@@ -291,6 +293,8 @@ export function ProjectTable({ data }: IProjectProps) {
       </td>
       <td>{row?.project_id ? row?.project_id : 'N/A'}</td>
       <td>{row?.is_active_status ? row?.is_active_status : 'N/A'}</td>
+      <td>{row?.start_date ? row?.start_date : 'N/A'}</td>
+      <td>{row?.end_date ? row?.end_date : 'N/A'}</td>
       <td>{row?.project_mgr ? row?.project_mgr : 'N/A'}</td>
       <td>
         <Group spacing="sm">
@@ -300,7 +304,7 @@ export function ProjectTable({ data }: IProjectProps) {
             cursor="pointer"
             onClick={() => {
               setIsOpened(true)
-              setProjectEditData(row)
+              setProjectAllocationEditData(row)
             }}
           />
           {/* )} */}
@@ -320,9 +324,9 @@ export function ProjectTable({ data }: IProjectProps) {
   return (
     <>
       <ListViewLayout
-        title="Project"
+        title="Project Allocation"
         createDrawerSize={'xl'}
-        createDrawerTitle="Add New Project"
+        createDrawerTitle="Add New Project Allocation"
         isError={false}
         isLoading={false}
         createDrawerChildren={<CreateForm />}
@@ -344,11 +348,11 @@ export function ProjectTable({ data }: IProjectProps) {
                 <b>Uuid</b>
               </Th>
               <Th
-                sorted={sortBy === 'project_name'}
+                sorted={sortBy === 'user_id'}
                 reversed={reverseSortDirection}
-                onSort={() => setSorting('project_name')}
+                onSort={() => setSorting('user_id')}
               >
-                <b>Project Name</b>
+                <b>User Id</b>
               </Th>
               <Th
                 sorted={sortBy === 'project_id'}
@@ -356,6 +360,20 @@ export function ProjectTable({ data }: IProjectProps) {
                 onSort={() => setSorting('project_id')}
               >
                 <b>Project Id</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'start_date'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('start_date')}
+              >
+                <b>Start Date</b>
+              </Th>
+              <Th
+                sorted={sortBy === 'end_date'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('end_date')}
+              >
+                <b>End Date</b>
               </Th>
               <Th
                 sorted={sortBy === 'project_mgr'}
@@ -390,12 +408,12 @@ export function ProjectTable({ data }: IProjectProps) {
       <Drawer
         opened={isOpened}
         onClose={() => setIsOpened(false)}
-        title="Edit Project"
+        title="Edit ProjectAllocation"
         padding="xl"
         size="1200px"
         position="right"
       >
-        <EditForm {...projectEditData} />
+        <EditForm {...projectAllocationEditData} />
       </Drawer>
     </>
   )
