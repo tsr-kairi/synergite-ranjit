@@ -391,7 +391,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
                     setSubmissionEditData(row)
                   }}
                 >
-                  Edit Job
+                  Edit Submission
                 </Menu.Item>
               )}
               {permissionOptions.delete && (
@@ -406,7 +406,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
                   className={classes.menuItem}
                   onClick={() => openModalForDelete(row)}
                 >
-                  Delete Job
+                  Delete Submission
                 </Menu.Item>
               )}
             </Menu.Dropdown>

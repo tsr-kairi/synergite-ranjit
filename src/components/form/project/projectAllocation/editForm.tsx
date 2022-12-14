@@ -1,6 +1,14 @@
-import useEditRoles from '@/pages/roles/hooks/useEditRoles'
-import { TRoles } from '@/types/roles-type'
-import { TextInput, Button, createStyles, Paper, Select } from '@mantine/core'
+import useEditProject from '@/pages/timesheets/project/project-addition/hooks/useEditProject'
+import useEditProjectAllocation from '@/pages/timesheets/project/project-allocation/hooks/useEditProject'
+import { TProjectAllocation } from '@/types/project-allocation-type'
+import {
+  TextInput,
+  Button,
+  createStyles,
+  Paper,
+  Select,
+  Group,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 const useStyles = createStyles(() => ({
@@ -9,27 +17,27 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-export default function EditForm(rolesData: TRoles) {
+export default function EditForm(projectAllocationData: TProjectAllocation) {
   const { classes } = useStyles()
-  const { mutate: editRoles } = useEditRoles()
+  const { mutate: editProjectAllocation } = useEditProjectAllocation()
 
-  const form = useForm<TRoles>({
-    // validate: zodResolver(zRolesEdit),
-    initialValues: rolesData,
+  const form = useForm<TProjectAllocation>({
+    // validate: zodResolver(zProjectEdit),
+    initialValues: projectAllocationData,
     validateInputOnChange: true,
     clearInputErrorOnChange: true,
   })
 
-  const handleSubmit = (values: TRoles) => {
-    const rolesCreateData = {
+  const handleSubmit = (values: TProjectAllocation) => {
+    const projectAllocationCreateData = {
       ...values,
     }
 
-    editRoles(rolesCreateData)
+    editProjectAllocation(projectAllocationCreateData)
 
     showNotification({
       title: 'Success!!',
-      message: 'Roles Edited successfully.',
+      message: 'Project Allocation Edited successfully.',
     })
   }
 
@@ -37,79 +45,64 @@ export default function EditForm(rolesData: TRoles) {
     <>
       <Paper p={20} mt={30} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Select
-            mb={16}
-            label="Immigration Status*"
-            placeholder="Immigration Status"
-            data={[
-              { label: 'H1', value: 'h1' },
-              { label: 'Green Card/Citizen', value: 'Green Card/Citizen' },
-              { label: 'Green Card/USC', value: 'Green Card/USC' },
-              { label: 'NA', value: 'na' },
-            ]}
-            {...form.getInputProps('immigration_status')}
-          />
-          <Select
-            mb={16}
-            label="Type of Employee*"
-            placeholder="Type of Employee"
-            data={[
-              { label: 'W2', value: 'W2' },
-              { label: 'C2C', value: 'C2C' },
-              { label: 'Green Card/USC', value: 'Green Card/USC' },
-              { label: '1099', value: '1099' },
-              { label: 'Internal Employee', value: 'Internal Employee' },
-            ]}
-            {...form.getInputProps('employee_type')}
-          />
-          <Select
-            mb={16}
-            label="New Client*"
-            placeholder="New Client"
-            data={[
-              { label: 'Yes', value: 'Yes' },
-              { label: 'NO', value: 'NO' },
-              { label: 'NA', value: 'NA' },
-            ]}
-            {...form.getInputProps('new_client')}
-          />
-          <Select
-            mb={16}
-            label="New Sub Activity*"
-            placeholder="New Sub Activity"
-            data={[
-              { label: 'Yes', value: 'Yes' },
-              { label: 'NO', value: 'NO' },
-              { label: 'NA', value: 'NA' },
-            ]}
-            {...form.getInputProps('new_subvendor')}
-          />
-          <TextInput
-            mb={16}
-            label="Default Activity"
-            placeholder="Default Activity"
-            {...form.getInputProps('default_activity')}
-          />
-          <TextInput
-            mb={16}
-            label="Department"
-            placeholder="Department"
-            {...form.getInputProps('department_uuid')}
-          />
-          {/* <Select
-            mb={16}
-            label="Assignee Role"
-            placeholder="Assignee Role"
-            data={[
-              { label: 'Supervisor', value: 'Supervisor' },
-              { label: 'Department', value: 'Department' },
-              { label: 'Contracts', value: 'Contracts' },
-            ]}
-            {...form.getInputProps('assigneeRole')}
-          /> */}
-          <Button fullWidth type="submit" mt="md" mb="lg">
-            Edit New
-          </Button>
+          <Group grow align="center" mt="md">
+            <TextInput
+              mb={16}
+              label="Uuid"
+              placeholder="Uuid"
+              {...form.getInputProps('uuid')}
+            />
+            <TextInput
+              mb={16}
+              label="User Id"
+              placeholder="User Id"
+              {...form.getInputProps('user_id')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              mb={16}
+              label="Project Id"
+              placeholder="Project Id"
+              {...form.getInputProps('project_id')}
+            />
+            <TextInput
+              mb={16}
+              label="Is Active Status"
+              placeholder="Is Active Status"
+              {...form.getInputProps('is_active_status')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <TextInput
+              mb={16}
+              label="Start Date"
+              placeholder="Start Date"
+              {...form.getInputProps('start_date')}
+            />
+            <TextInput
+              mb={16}
+              label="End Date"
+              placeholder="End Date"
+              {...form.getInputProps('end_date')}
+            />
+          </Group>
+          <Group grow align="center" mt="md">
+            <Select
+              mb={16}
+              label="Project Mgr"
+              placeholder="Project Mgr"
+              data={[
+                { label: 'Pradeep', value: 'Pradeep' },
+                { label: 'Rohit', value: 'Rohit' },
+                { label: 'Vishal', value: 'Vishal' },
+              ]}
+              {...form.getInputProps('assigneeRole')}
+            />
+            <Button fullWidth type="submit" mt="md" mb="lg">
+              Add New
+            </Button>
+          </Group>
         </form>
       </Paper>
     </>

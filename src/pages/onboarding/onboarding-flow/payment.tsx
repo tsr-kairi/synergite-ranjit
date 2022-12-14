@@ -1,15 +1,9 @@
+import useGetCandidateById from '@/pages/candidate/hooks/useGetCandidateById'
+import { TCandidate } from '@/types/candidate-type'
 import { TOnboarding } from '@/types/onboarding-flow-type'
-import {
-  TextInput,
-  Group,
-  createStyles,
-  Divider,
-  Box,
-  Select,
-  Autocomplete,
-} from '@mantine/core'
+import { TextInput, Group, createStyles, Select } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
-import { IconChevronsRight } from '@tabler/icons'
+import { useSearchParams } from 'react-router-dom'
 const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: 'transparent',
@@ -25,25 +19,32 @@ type onboardingStepperProps = {
 
 export default function Payment({ form }: onboardingStepperProps) {
   const { classes } = useStyles()
+  const [searchParams] = useSearchParams()
+  const employeeUUID = searchParams.get('employee_uuid')
+  const { data: employeeData } = useGetCandidateById(employeeUUID || '')
 
   return (
     <>
       <div className={classes.paper}>
         <Group grow align="center" mt="lg">
-          <TextInput
-            required
-            label="Bill rate"
-            type={'text'}
-            placeholder="Bill rate"
-            {...form.getInputProps('bill_rate')}
-          />
-          <TextInput
-            required
-            label="Pay rate"
-            type={'text'}
-            placeholder="Pay rate"
-            {...form.getInputProps('pay_rate')}
-          />
+          {employeeData?.data.employment_type === 'Internal' ? null : (
+            <>
+              <TextInput
+                required
+                label="Bill rate"
+                type={'text'}
+                placeholder="Bill rate"
+                {...form.getInputProps('bill_rate')}
+              />
+              <TextInput
+                required
+                label="Pay rate"
+                type={'text'}
+                placeholder="Pay rate"
+                {...form.getInputProps('pay_rate')}
+              />
+            </>
+          )}
           <Select
             required
             label="Payment frequency"

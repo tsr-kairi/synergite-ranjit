@@ -329,7 +329,7 @@ export function ClientTable({ data }: IClientTableProps) {
                   setClientEditData(row)
                 }}
               >
-                Edit Job
+                Edit Client
               </Menu.Item>
             )}
             {permissionOptions.delete && (
@@ -344,7 +344,7 @@ export function ClientTable({ data }: IClientTableProps) {
                 className={classes.menuItem}
                 onClick={() => openModalForDelete(row)}
               >
-                Delete Job
+                Delete Client
               </Menu.Item>
             )}
           </Menu.Dropdown>
