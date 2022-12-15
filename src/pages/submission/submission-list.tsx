@@ -25,7 +25,7 @@ import EditForm from '@/components/form/submission/editForm'
 import { useNavigate } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TPreonboard } from '@/types/prebonboard-type'
+import { TPreonboard } from '@/types/preonboard-type'
 import useDeleteSubmissionById from '../client/client-details/jobs/submissions/hooks/useDeleteSubmissionById'
 
 // Style for the Page

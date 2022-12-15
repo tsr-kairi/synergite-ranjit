@@ -27,8 +27,9 @@ const submissionQueryKeys = {
   submissionDetails: 'submission-details',
   getAllSubmissionByClientIdJobId: 'get-all-submission-by-client_id_job-id',
 }
-const preonboardQueryKeys = {
-  createSub: 'create-sub',
+
+const directOnboardQueryKeys = {
+  directOnboard: 'direct-onboard',
 }
 
 const onboardingQueryKeys = {
@@ -89,7 +90,7 @@ export {
   candidateQueryKeys,
   submissionQueryKeys,
   onboardingQueryKeys,
-  preonboardQueryKeys,
+  directOnboardQueryKeys,
   defaultActivityQueryKeys,
   departmentQueryKeys,
   permissionQueryKeys,
