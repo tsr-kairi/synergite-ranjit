@@ -24,7 +24,13 @@ const zAEmployee = z.object({
   // date_created: z.string(),
   // date_updated: z.string().optional(),
   uuid: z.string(),
-  role: z.string().optional(),
+  user_uuid: z.string(),
+  role: z
+    .object({
+      uuid: z.string(),
+      name: z.string(),
+    })
+    .optional(),
 })
 
 // new Active Employees add and validation

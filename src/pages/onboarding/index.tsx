@@ -414,6 +414,8 @@ export default function Onboarding() {
     setActiveStepNumber((current) => (current > 0 ? current - 1 : current))
   }
 
+  console.log('onboardingStepperData =', onboardingStepperData);
+
   return (
     <>
       <div className={classes.onboarding}>
@@ -460,7 +462,7 @@ export default function Onboarding() {
                       readOnly={true}
                       label="Candidate Name"
                       type={'text'}
-                      placeholder="Candidate Name"
+                      placeholder="Candidate Names"
                       value={canName}
                       // onClick={() => setCandidateListIsOpened(true)}
                       style={{ minWidth: '200px' }}

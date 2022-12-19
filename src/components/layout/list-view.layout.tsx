@@ -73,9 +73,9 @@ export const ListViewLayout: React.FC<IListViewLayoutProps> = (props) => {
     pageName: pageName || '',
     permissions,
   }).permissionOptions as IPermissionOptions
-  console.log('permissionOptions', permissionOptions)
-  console.log('pageName', pageName)
-  console.log('permissions', permissions)
+  // console.log('permissionOptions', permissionOptions)
+  // console.log('pageName', pageName)
+  // console.log('permissions', permissions)
 
   const [isColumnSelectionDrawerOpen, setIsColumnSelectionDrawerOpen] =
     useState(false)

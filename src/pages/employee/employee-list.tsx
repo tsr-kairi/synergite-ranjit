@@ -14,6 +14,7 @@ import {
   Tooltip,
   Checkbox,
   Avatar,
+  Radio,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -35,6 +36,7 @@ import useDeleteEmployeeById from './hooks/useDeleteEmployeeById'
 import { Link } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import RoleEditForm from '@/components/form/roles/editForm'
+import useGetAllRoles from '../roles/hooks/useGetAllRoles'
 
 import { useAuth } from '@/store/auth.store'
 import {
@@ -43,6 +45,8 @@ import {
   IAllPagePermissionOptionsWithAllowedCheck,
 } from '@/utils/permission.utils'
 import Roles from '../roles'
+import { updateRoleById } from '../roles/hooks/useEditRoles'
+import RoleList from '@/components/form/roles/role-list'
 
 // Style for the Page
 const useStyles = createStyles((theme) => ({
@@ -209,13 +213,16 @@ export function EmployeeList({ data }: IEmployeeProps) {
   const [opened, setOpened] = useState(false)
   const [isOpened, setIsOpened] = useState(false)
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false)
+  const [selectedEmployeeUUID, setSelectedEmployeeUUID] = useState('')
+
   const [search, setSearch] = useState('')
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TAEmployee | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
+  const [employeeEditData, setEmployeeEditData] = useState({} as TAEmployee)
+
   const { classes } = useStyles()
   const { mutate: deleteEmployee } = useDeleteEmployeeById()
-  const [employeeEditData, setEmployeeEditData] = useState({} as TAEmployee)
 
   const permissions = useAuth((state) => state.permissions)
   const {
@@ -227,8 +234,8 @@ export function EmployeeList({ data }: IEmployeeProps) {
     getAllPermissions: true,
   }) as IAllPagePermissionOptionsWithAllowedCheck
 
-  console.log('employeePermission =', employeePermission)
-  console.log('rolesPermission =', rolesPermission)
+  // console.log('employeePermission =', employeePermission)
+  // console.log('rolesPermission =', rolesPermission)
 
   const setSorting = (field: keyof TAEmployee) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -366,7 +373,21 @@ export function EmployeeList({ data }: IEmployeeProps) {
       <td>{row?.city}</td>
       <td>{row?.state}</td>
       <td>{row?.country}</td>
-      <td style={{ cursor: 'pointer' }}>{row?.role}</td>
+      <td
+        style={{
+          cursor: rolesPermission.update ? 'pointer' : 'text',
+        }}
+        onClick={
+          rolesPermission.update
+            ? () => {
+                setIsRoleModalOpen(true)
+                setSelectedEmployeeUUID(row.user_uuid)
+              }
+            : undefined
+        }
+      >
+        {row?.role?.name}
+      </td>
       <td>
         <Group spacing="sm">
           <IconEdit
@@ -478,31 +499,6 @@ export function EmployeeList({ data }: IEmployeeProps) {
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td>Developer</td>
-              <td>Developer</td>
-              <td>Developer</td>
-              <td>Developer</td>
-              <td>Developer</td>
-              <td>Developer</td>
-              <td>Developer</td>
-              <td
-                style={{
-                  cursor: rolesPermission.update ? 'pointer' : 'text',
-                }}
-                onClick={
-                  rolesPermission.update
-                    ? () => setIsRoleModalOpen(true)
-                    : undefined
-                }
-              >
-                Role-Developer
-              </td>
-              <td>Developer</td>
-            </tr>
-          </tbody>
-
           {rows.length > 0 ? (
             <tbody>{rows}</tbody>
           ) : (
@@ -534,7 +530,13 @@ export function EmployeeList({ data }: IEmployeeProps) {
         size="xl"
         position="right"
       >
-        {/* <RoleEditForm department_uuid='123' name='Name'  /> */}
+        <RoleList
+          onRoleChange={(role) => {
+            updateRoleById(role.uuid, selectedEmployeeUUID).catch((error) =>
+              console.log(error)
+            )
+          }}
+        />
       </Drawer>
     </>
   )
