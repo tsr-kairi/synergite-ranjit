@@ -40,9 +40,11 @@ import TeamActivities from './pages/activities/team-activities'
 import AllJobs from './pages/job'
 import JobDetails from './pages/job/job-details'
 import MyTeamTimesheet from './pages/timesheets/my-team-timesheet/timesheets'
-import Project from './pages/timesheets/project/project-addition'
-import { ProjectTable } from './pages/timesheets/project/project-addition/project-table'
+// import Project from './pages/timesheets/project/project-addition'
 import OnboardingList from './pages/onboarding/components/onboarding-list'
+// import ProjectAllocation from './pages/timesheets/project/project-allocation'
+import { ProjectTable } from './pages/timesheets/project/project-addition/project-table'
+import { ProjectAllocationTable } from './pages/timesheets/project/project-allocation/project-allocation-table'
 const LazyAppShallMain = React.lazy(() => import('./components/layout'))
 
 function App() {
@@ -147,6 +149,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Main */}
             {/* <Route
               path="/project"
               element={
@@ -154,12 +157,29 @@ function App() {
                   <Project />
                 </ProtectedRoute>
               }
+            />
+            <Route
+              path="/project-allocation"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <ProjectAllocation />
+                </ProtectedRoute>
+              }
             /> */}
+
             <Route
               path="/project"
               element={
                 <ProtectedRoute isAuth={isAuth}>
                   <ProjectTable data={[]} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/project-allocation"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <ProjectAllocationTable data={[]} />
                 </ProtectedRoute>
               }
             />

@@ -235,11 +235,7 @@ export function EmployeeId({
             label={`${item?.first_name || ''} ${item?.last_name || ''}`}
           />
         </td>
-        {/* <td>
-        <Text size="sm" weight={500} onClick={() => setEmployee(item)}>
-          {item.first_name} {item.last_name}
-        </Text>
-      </td> */}
+        <td>{item.employment_type ? item.employment_type : 'N/A'}</td>
         <td>
           <IconEdit
             className={classes.editIcon}
@@ -300,6 +296,13 @@ export function EmployeeId({
                   onSort={() => setSorting('uuid')}
                 >
                   <b>Candidate Name</b>
+                </Th>
+                <Th
+                  sorted={sortBy === 'employment_type'}
+                  reversed={reverseSortDirection}
+                  onSort={() => setSorting('employment_type')}
+                >
+                  <b>Employment Type</b>
                 </Th>
                 <th className={classes.action}>
                   <b>Action</b>

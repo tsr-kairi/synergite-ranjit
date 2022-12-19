@@ -49,7 +49,7 @@ export default function RolesPermission({ data }: IRolesPermissionProps) {
   const { classes } = useStyles()
 
   // availablePermission map function
-  const availablePermission = data?.available_permissions.map(
+  const availablePermission = data?.available_permissions?.map(
     (availPermission) => {
       return {
         value: availPermission?.uuid || '',
@@ -59,10 +59,10 @@ export default function RolesPermission({ data }: IRolesPermissionProps) {
   )
 
   // rolesPermission map function
-  const rolesPermission = data?.role_permission.map((rolesPermission) => {
+  const rolesPermission = data?.role_permission?.map((rolePermission) => {
     return {
-      value: rolesPermission?.uuid || '',
-      label: rolesPermission?.description || '',
+      value: rolePermission?.uuid || '',
+      label: rolePermission?.description || '',
     }
   })
 
@@ -74,8 +74,8 @@ export default function RolesPermission({ data }: IRolesPermissionProps) {
 
   // save initial object
   const permissionCreateData: TPermissionCreate = {
-    newAvailablePermissions: transferData[0].map((ap) => ap.value),
-    newRolePermissions: transferData[1].map((np) => np.value),
+    newAvailablePermissions: transferData[0]?.map((ap) => ap.value),
+    newRolePermissions: transferData[1]?.map((np) => np.value),
     roleUuid: String(rolesId),
   }
 
@@ -111,6 +111,10 @@ export default function RolesPermission({ data }: IRolesPermissionProps) {
           titles={['Available permission', 'Assigned permission']}
           breakpoint="sm"
           listHeight={300}
+          filter={(query, item) =>
+            item.label.toLowerCase().includes(query.toLowerCase().trim()) ||
+            item.value.toLowerCase().includes(query.toLowerCase().trim())
+          }
         />
       </div>
       <Button mt={'md'} onClick={permissionUpdateHandler}>

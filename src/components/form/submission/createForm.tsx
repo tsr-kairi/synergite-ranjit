@@ -738,7 +738,7 @@ const CreateForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose={() => employeeListIsOpened(false)}
           title="Candidate"
           padding="xl"
-          size="xl"
+          size="650px"
           position="right"
         >
           <EmployeeIdList

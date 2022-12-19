@@ -29,7 +29,7 @@ import useDeleteSubmissionById from '../hooks/useDeleteSubmissionById'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { ListViewLayout } from '@/components/layout/list-view.layout'
 import axiosPrivate from '@/services/axiosPrivate'
-import { TPreonboard } from '@/types/prebonboard-type'
+import { TPreonboard } from '@/types/preonboard-type'
 import useGetClientById from '@/pages/client/hooks/useGetClientById'
 import useGetCandidateById from '@/pages/candidate/hooks/useGetCandidateById'
 import { TCandidate } from '@/types/candidate-type'
@@ -391,7 +391,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
                     setSubmissionEditData(row)
                   }}
                 >
-                  Edit Job
+                  Edit Submission
                 </Menu.Item>
               )}
               {permissionOptions.delete && (
@@ -406,7 +406,7 @@ export function SubmissionList({ data }: ISubmissionProps) {
                   className={classes.menuItem}
                   onClick={() => openModalForDelete(row)}
                 >
-                  Delete Job
+                  Delete Submission
                 </Menu.Item>
               )}
             </Menu.Dropdown>

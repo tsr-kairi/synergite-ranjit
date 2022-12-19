@@ -4,7 +4,7 @@ import { TRoles, TRolesFindById } from '@/types/roles-type'
 import { useMutation, useQueryClient } from 'react-query'
 
 const editRoles = async (data: TRoles): Promise<TRolesFindById> => {
-  return await axiosPrivate.post(`/default/activity`, data)
+  return await axiosPrivate.post(`/role`, data)
 }
 
 const useEditRoles = () => {

@@ -50,7 +50,7 @@ export default function CreateForm() {
     <>
       <Paper p={20} mt={30} radius="sm" className={classes.paper}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Group grow align="center" mt="md">
+          <Group grow align="center">
             <TextInput
               mb={16}
               label="Uuid"
@@ -64,23 +64,20 @@ export default function CreateForm() {
               {...form.getInputProps('project_name')}
             />
           </Group>
-          <Group grow align="center" mt="md">
+          <Group grow align="center" my="md">
             <TextInput
-              mb={16}
               label="Project Id"
               placeholder="Project Id"
               {...form.getInputProps('project_id')}
             />
             <TextInput
-              mb={16}
               label="Is Active Status"
               placeholder="Is Active Status"
               {...form.getInputProps('is_active_status')}
             />
           </Group>
-          <Group grow align="center" mt="md">
+          <Group grow align="center" mt={'md'}>
             <Select
-              mb={16}
               label="Project Mgr"
               placeholder="Project Mgr"
               data={[
@@ -90,7 +87,7 @@ export default function CreateForm() {
               ]}
               {...form.getInputProps('assigneeRole')}
             />
-            <Button fullWidth type="submit" mt="md" mb="lg">
+            <Button fullWidth type="submit" mt={'xl'}>
               Add New
             </Button>
           </Group>

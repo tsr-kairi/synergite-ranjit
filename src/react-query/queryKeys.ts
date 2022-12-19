@@ -27,8 +27,9 @@ const submissionQueryKeys = {
   submissionDetails: 'submission-details',
   getAllSubmissionByClientIdJobId: 'get-all-submission-by-client_id_job-id',
 }
-const preonboardQueryKeys = {
-  createSub: 'create-sub',
+
+const directOnboardQueryKeys = {
+  directOnboard: 'direct-onboard',
 }
 
 const onboardingQueryKeys = {
@@ -61,6 +62,10 @@ const projectQueryKeys = {
   allProject: 'all-project',
   projectDetails: 'project-details',
 }
+const projectAllocationKeys = {
+  allProjectAllocation: 'all-project-allocation',
+  projectAllocationDetails: 'project-allocation-details',
+}
 
 const stateQueryKeys = {
   allState: 'all-state',
@@ -85,11 +90,12 @@ export {
   candidateQueryKeys,
   submissionQueryKeys,
   onboardingQueryKeys,
-  preonboardQueryKeys,
+  directOnboardQueryKeys,
   defaultActivityQueryKeys,
   departmentQueryKeys,
   permissionQueryKeys,
   projectQueryKeys,
+  projectAllocationKeys,
   stateQueryKeys,
   cityQueryKeys,
   rolesQueryKeys,

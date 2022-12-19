@@ -326,7 +326,15 @@ export default function CreateForm() {
                         value: 'ET_INTERNAL',
                         label: 'Internal Employees',
                       },
-                    ]}
+                    ].map((option) => {
+                      return {
+                        value: option.value
+                          .toString()
+                          .replace('ET_', '')
+                          .toUpperCase(),
+                        label: option.label,
+                      }
+                    })}
                     placeholder="Employment Type"
                     label="Employment Type"
                     {...form.getInputProps('employment_type')}

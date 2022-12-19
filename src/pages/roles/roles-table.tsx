@@ -9,6 +9,7 @@ import {
   Avatar,
   Drawer,
   Tooltip,
+  Menu,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -16,6 +17,8 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconTrash,
+  IconDotsVertical,
+  IconEdit,
 } from '@tabler/icons'
 import { TRoles } from '@/types/roles-type'
 import { openConfirmModal } from '@mantine/modals'
@@ -23,6 +26,10 @@ import EditForm from '@/components/form/roles/editForm'
 import { showNotification } from '@mantine/notifications'
 import useDeleteRolesById from './hooks/useDeleteRolesById'
 import { Link } from 'react-router-dom'
+import { useAuth } from '@/store/auth.store'
+import { getPermission, IPermissionOptions } from '@/utils/permission.utils'
+import { ListViewLayout } from '@/components/layout/list-view.layout'
+import CreateForm from '@/components/form/roles/createForm'
 
 // Style for the activity Page
 const useStyles = createStyles((theme) => ({
@@ -92,6 +99,13 @@ const useStyles = createStyles((theme) => ({
   },
   action: {
     cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.colors.blue[0],
+    },
+  },
+  user: {},
+  userActive: {},
+  menuItem: {
     '&:hover': {
       backgroundColor: theme.colors.blue[0],
     },
@@ -209,8 +223,16 @@ export default function RolesTable({ data }: IRolesTableProps) {
   const [sortedData, setSortedData] = useState(data)
   const [sortBy, setSortBy] = useState<keyof TRoles | null>(null)
   const [reverseSortDirection, setReverseSortDirection] = useState(false)
+  const [userMenuOpened, setUserMenuOpened] = useState(false)
   const { classes, cx } = useStyles()
   const { mutate: deleteRoles } = useDeleteRolesById()
+
+  //  client permission
+  const permissions = useAuth((state) => state.permissions)
+  const permissionOptions = getPermission({
+    pageName: 'roles',
+    permissions,
+  }).permissionOptions as IPermissionOptions
 
   const setSorting = (field: keyof TRoles) => {
     const reversed = field === sortBy ? !reverseSortDirection : false
@@ -219,11 +241,14 @@ export default function RolesTable({ data }: IRolesTableProps) {
     setSortedData(sortData(data, { sortBy: field, reversed, search }))
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget
-    setSearch(value)
+  const handleSearchChange = (searchTerm: string) => {
+    setSearch(searchTerm)
     setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+      sortData(data, {
+        sortBy,
+        reversed: reverseSortDirection,
+        search: searchTerm,
+      })
     )
   }
 
@@ -254,6 +279,71 @@ export default function RolesTable({ data }: IRolesTableProps) {
     <tr key={row?.uuid} className={classes.rolesDetails}>
       {/* <td>{row?.role_uuid}</td> */}
       <td>
+        <Menu
+          width={200}
+          // trigger="click"
+          // closeOnClickOutside={true}
+          onClose={() => setUserMenuOpened(false)}
+          onOpen={() => setUserMenuOpened(true)}
+          exitTransitionDuration={200}
+          offset={14}
+        >
+          <Menu.Target>
+            <UnstyledButton
+              className={cx(classes.user, {
+                [classes.userActive]: userMenuOpened,
+              })}
+            >
+              <Tooltip
+                label="Action"
+                color="blue"
+                withArrow
+                transition="pop-top-right"
+                transitionDuration={300}
+              >
+                <IconDotsVertical size={16} cursor="pointer" />
+              </Tooltip>
+            </UnstyledButton>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>Take your action carefully</Menu.Label>
+            {permissionOptions.update && (
+              <Menu.Item
+                icon={
+                  <IconEdit
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.editIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => {
+                  setIsOpened(true)
+                  setRolesEditData(row)
+                }}
+              >
+                Edit Role
+              </Menu.Item>
+            )}
+            {permissionOptions.delete && (
+              <Menu.Item
+                icon={
+                  <IconTrash
+                    size={14}
+                    // stroke={1.5}
+                    className={classes.deleteIcon}
+                  />
+                }
+                className={classes.menuItem}
+                onClick={() => openModalForDelete(row)}
+              >
+                Delete Role
+              </Menu.Item>
+            )}
+          </Menu.Dropdown>
+        </Menu>
+      </td>
+      <td>
         <Link to={`/roles-details/${row?.uuid}`} className={classes.userLink}>
           <Tooltip
             label="Click to view"
@@ -274,7 +364,7 @@ export default function RolesTable({ data }: IRolesTableProps) {
         </Link>
       </td>
       <td>{row?.department?.name}</td>
-      <td>
+      {/* <td>
         <Group spacing="sm">
           <IconTrash
             className={classes.deleteIcon}
@@ -282,57 +372,67 @@ export default function RolesTable({ data }: IRolesTableProps) {
             onClick={() => openModalForDelete(row)}
           />
         </Group>
-      </td>
+      </td> */}
     </tr>
   ))
 
   // Returning the Scroll Area of Table
   return (
     <>
-      <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        // className={classes.childTable}
+      <ListViewLayout
+        title="Roles"
+        isError={false}
+        isLoading={false}
+        createDrawerTitle="Add Role"
+        createDrawerChildren={<CreateForm />}
+        onSearchChange={handleSearchChange}
+        pageName="roles"
       >
-        <thead className={cx(classes.header)}>
-          <tr>
-            <Th
-              sorted={sortBy === 'name'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('name')}
-            >
-              <b>Role Name</b>
-            </Th>
-
-            <Th
-              sorted={sortBy === 'department_uuid'}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting('department_uuid')}
-            >
-              <b>Department</b>
-            </Th>
-
-            <th className={classes.action}>
-              <b>Action</b>
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {rows.length > 0 ? (
-            rows
-          ) : (
+        <Table
+          horizontalSpacing="md"
+          verticalSpacing="xs"
+          // className={classes.childTable}
+        >
+          <thead className={cx(classes.header)}>
             <tr>
-              <td colSpan={Object.keys(data[0]).length}>
-                <Text weight={500} align="center">
-                  No records found
-                </Text>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
+              {(permissionOptions.update || permissionOptions.delete) && (
+                <th className={classes.action}>
+                  <b>Action</b>
+                </th>
+              )}
+              <Th
+                sorted={sortBy === 'name'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('name')}
+              >
+                <b>Role Name</b>
+              </Th>
 
+              <Th
+                sorted={sortBy === 'department_uuid'}
+                reversed={reverseSortDirection}
+                onSort={() => setSorting('department_uuid')}
+              >
+                <b>Department</b>
+              </Th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {rows.length > 0 ? (
+              rows
+            ) : (
+              <tr>
+                <td colSpan={Object.keys(data[0]).length}>
+                  <Text weight={500} align="center">
+                    No records found
+                  </Text>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </ListViewLayout>
       {/* Edit Vendor - Vendor Edit Form Drawer*/}
       <Drawer
         opened={isOpened}

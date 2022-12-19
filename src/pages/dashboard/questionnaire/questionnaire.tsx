@@ -4,13 +4,10 @@ import EmployeeDetailsForm from '@/components/form/submission/details/employeeDe
 import VendorDetailsForm from '@/components/form/submission/details/vendorDetailsForm'
 import EmployeeIdList from '@/components/form/submission/employeeIdList'
 import VendorIdList from '@/components/form/submission/vendorIdList'
-import axiosPrivate from '@/services/axiosPrivate'
 import { TClient, TVendor } from '@/types'
 import { TCandidate } from '@/types/candidate-type'
-import { TPreonboard } from '@/types/prebonboard-type'
-import { TSubmission } from '@/types/submission-type'
+import { TDirectOnboard } from '@/types/direct-onboard-type'
 import {
-  Badge,
   Button,
   createStyles,
   Drawer,
@@ -25,8 +22,8 @@ import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { IconExternalLink } from '@tabler/icons'
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import useCreatePreonboard from './createPreonboarding'
+import { useNavigate } from 'react-router-dom'
+import useCreateDirectOnboard from './createDirectOnboarding'
 
 const useStyles = createStyles((theme) => ({
   formMain: {
@@ -54,7 +51,7 @@ const Questionnaire = () => {
   const { classes } = useStyles()
   // Initiate Onboarding state
   const [isInitiating, setIsInitiating] = useState(false)
-  const { mutate: createPreonboard } = useCreatePreonboard()
+  const { mutate: createDirectOnboard } = useCreateDirectOnboard()
 
   // Candidate, Client and Vendor : Details state
   const [candidateDetails, setCandidateDetails] = useState({} as TCandidate)
@@ -125,19 +122,18 @@ const Questionnaire = () => {
     vendorDetails?.last_name || ''
   }`
 
-  // hook preonboard
-
   //  Initiate onboarding handler function
-  const handleInitiate = () => {
-    const preOnboardingPayload: TPreonboard = {
+  const handleDirectOnboarding = () => {
+    const preDirectOnboardPayload: TDirectOnboard = {
       client_uuid: clientDetails?.uuid,
       employee_uuid: candidateDetails?.uuid,
       vendor_uuid: vendorDetails?.uuid,
+      employment_type: candidateDetails?.employment_type,
     }
     try {
       form.reset()
       // delete submissionData.uuid
-      createPreonboard(preOnboardingPayload, {
+      createDirectOnboard(preDirectOnboardPayload, {
         onSuccess(data) {
           setTimeout(() => {
             navigate(
@@ -169,10 +165,40 @@ const Questionnaire = () => {
       )}
       {!isInitiating && (
         <form
-          onSubmit={form.onSubmit(handleInitiate, handleError)}
+          onSubmit={form.onSubmit(handleDirectOnboarding, handleError)}
           className={classes.formMain}
         >
           <Group grow spacing={'xs'}>
+            <Text
+              style={{
+                maxWidth: '30px',
+                marginBottom: '35px',
+                fontSize: '18px',
+              }}
+            >
+              Q.
+            </Text>
+            <Select
+              style={{
+                maxWidth: '16000px',
+              }}
+              data={[
+                { value: 'ET_W2', label: 'W2' },
+                { value: 'ET_C2C', label: 'C2C' },
+                { value: 'ET_1099', label: '1099' },
+                {
+                  value: 'ET_INTERNAL',
+                  label: 'Internal Employees',
+                },
+              ]}
+              clearable
+              label="Select a Employment Type"
+              placeholder="Select a Employment Type"
+              required
+              {...form.getInputProps('employment_type')}
+            />
+          </Group>
+          <Group grow spacing={'xs'} mt={'md'}>
             <Text
               style={{
                 maxWidth: '30px',
@@ -227,38 +253,10 @@ const Questionnaire = () => {
                 { value: 'BILLABLE', label: 'Billable' },
                 { value: 'NON_BILLABLE', label: 'Non Billable' },
               ]}
+              clearable
               placeholder="Select a Payment Type"
               label="Select a Payment Type"
               {...form.getInputProps('payment_type')}
-            />
-          </Group>
-          <Group mt={'md'} grow spacing={'xs'}>
-            <Text
-              style={{
-                maxWidth: '30px',
-                marginBottom: '35px',
-                fontSize: '18px',
-              }}
-            >
-              Q.
-            </Text>
-            <Select
-              style={{
-                maxWidth: '16000px',
-              }}
-              data={[
-                { value: 'ET_W2', label: 'W2' },
-                { value: 'ET_C2C', label: 'C2C' },
-                { value: 'ET_1099', label: '1099' },
-                {
-                  value: 'ET_INTERNAL',
-                  label: 'Internal Employees',
-                },
-              ]}
-              label="Select a Employment Type"
-              placeholder="Select a Employment Type"
-              required
-              {...form.getInputProps('employment_type')}
             />
           </Group>
           {form.values.employment_type === 'ET_W2' ||
@@ -375,7 +373,7 @@ const Questionnaire = () => {
         onClose={() => setCandidateListIsOpened(false)}
         title="Candidates"
         padding="xl"
-        size="xl"
+        size="650px"
         position="right"
       >
         <EmployeeIdList
